@@ -28,6 +28,9 @@ Nodig van de gebruiker:
 1. Het HTML-prototype (als bestand of geplakte code).
 2. De Usersnap code snippet — of alleen de API-key — van het Usersnap-project
    dat voor dit prototype is aangemaakt (Usersnap: project → *Install* → *Code snippet*).
+3. **De naam van het Usersnap-project waar de feedback moet binnenkomen.**
+   Vraag hier altijd expliciet naar, ook als de snippet al is aangeleverd.
+   Zonder die naam kun je stap 5 niet uitvoeren en weet je niet of de key klopt.
 
 Stappen:
 
@@ -57,13 +60,43 @@ Stappen:
    Wil de gebruiker toch alvast livezetten zonder key, plaats dan tussen de
    markers `<!-- TODO: Usersnap-snippet toevoegen -->` en meld expliciet dat
    er nog geen feedback verzameld wordt.
-5. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
+5. **Controleer de key vóórdat je commit.** Draai:
+
+   ```bash
+   grep -rn "widget.usersnap.com" prototypes/ archief/
+   ```
+
+   Komt de key die je net hebt geplaatst al voor bij een ánder prototype, dan
+   is het vrijwel zeker de verkeerde: een aangeleverde snippet komt in de
+   praktijk regelmatig uit het verkeerde Usersnap-project. **Stop dan, plaats
+   niets, en vraag de gebruiker de snippet opnieuw op te halen** — met de
+   projectnaam uit stap 3 zichtbaar in beeld. Werk de sleutelregistratie
+   hieronder bij zodra de juiste key bekend is.
+
+   Let bij het vergelijken op de héle URL, niet alleen de UUID: het pad­deel
+   vóór `/load/` is de Usersnap-space en kan per project verschillen.
+6. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
    tussen de markers `<!-- PROTOTYPES-START -->` en `<!-- PROTOTYPES-END -->`
    (kopieer het kaart-template uit de comment ter plekke; vul titel, slug,
    een korte omschrijving voor de tester en de datum van vandaag in).
-6. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
-7. Meld de live URL aan de gebruiker:
+7. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
+8. Meld de live URL aan de gebruiker:
    `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
+9. **Vraag om een routeringstest vóórdat testers worden uitgenodigd.** Laat de
+   gebruiker één testfeedback insturen en bevestigen dat die binnenkomt in het
+   project uit stap 3. Een zichtbare widget bewijst alleen dat de key geldig
+   is — niet dat hij bij het juiste project hoort. Deze fout blijft anders
+   onopgemerkt tot de feedback al vervuild is.
+
+## Sleutelregistratie
+
+Houd per prototype bij welke widget-key erbij hoort, zodat verwisselingen
+direct opvallen. Vul deze tabel bij elke go-live aan.
+
+| Slug | Usersnap-project | Widget-key |
+| --- | --- | --- |
+| `casar-dashboard` | Casar 2.0 | *nog niet bekend — key ontbreekt* |
+| — | Mast Monitor | `c4f048c1-ba97-4344-8bc6-a7afcbec2233` |
 
 ## Prototype offline halen
 
@@ -102,6 +135,14 @@ snippetvarianten en de geplakte versie is leidend.
 
 - Eén prototype = één Usersnap-project. Hergebruik geen API-keys tussen
   prototypes, anders komt feedback van verschillende prototypes door elkaar.
+- Neem nooit aan dat een aangeleverde snippet bij het juiste project hoort.
+  Controleer hem altijd tegen de sleutelregistratie hierboven en tegen de
+  projectnaam die de gebruiker noemde. Twee snippets die identiek zijn, horen
+  per definitie bij hetzelfde project — vervangen heeft dan geen effect.
+- Verwissel je toch een key, dan landt de feedback in het verkeerde project.
+  Laat de bestaande widget in dat geval staan tot de juiste key bekend is:
+  verkeerd gearchiveerde feedback kun je in Usersnap verplaatsen of
+  exporteren, maar feedback die een tester niet kón geven is definitief weg.
 - De repository is publiek en de pagina's zijn bereikbaar voor iedereen met de
   link. Zet er dus nooit vertrouwelijke data, echte klantgegevens of secrets in
   (de Usersnap-key is een publieke widget-key en mag er wél in).
