@@ -1,0 +1,54 @@
+/* ============================================================
+   Global — base element styling & helpers
+   Light, optional resets that consumers inherit. Keeps the
+   geometric-friendly Montserrat voice consistent.
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-weight: var(--body-weight);
+  font-size: var(--text-base);
+  line-height: var(--lh-normal);
+  color: var(--text-body);
+  background: var(--surface-page);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+h1, h2, h3, h4 {
+  font-family: var(--heading-family);
+  color: var(--text-strong);
+  line-height: var(--lh-snug);
+  margin: 0 0 0.5em;
+  text-wrap: balance;
+}
+h1 { font-size: var(--text-h1); font-weight: var(--fw-extrabold); letter-spacing: var(--ls-tight); line-height: var(--lh-tight); }
+h2 { font-size: var(--text-h2); font-weight: var(--fw-extrabold); letter-spacing: var(--ls-tight); }
+h3 { font-size: var(--text-h3); font-weight: var(--fw-bold); }
+h4 { font-size: var(--text-h4); font-weight: var(--fw-bold); }
+
+p { margin: 0 0 1em; text-wrap: pretty; }
+
+a { color: var(--text-link); font-weight: var(--fw-bold); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+/* The signature tracked-out uppercase kicker from the deck template */
+.gl-kicker {
+  font-family: var(--font-sans);
+  font-weight: var(--fw-bold);
+  font-size: var(--text-xs);
+  letter-spacing: var(--ls-kicker);
+  text-transform: uppercase;
+  color: var(--brand-link);
+}
+
+/* Focus visibility */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: var(--focus-ring-width) solid var(--focus-ring);
+  outline-offset: var(--focus-ring-offset);
+  border-radius: var(--radius-xs);
+}
+
+::selection { background: var(--global-bright-blue); color: var(--global-dark-blue); }

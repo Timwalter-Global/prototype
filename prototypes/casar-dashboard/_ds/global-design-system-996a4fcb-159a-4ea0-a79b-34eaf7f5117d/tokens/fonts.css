@@ -1,0 +1,12 @@
+/* ============================================================
+   Global — Webfonts
+   The brandbook designates MONTSERRAT as Global's official web
+   font ("Montserrat is een webveilig lettertype ... Dit lettertype
+   moet altijd worden gebruikt in webtoepassingen").
+   - Montserrat ExtraBold (800)  -> headings
+   - Montserrat Bold (700)       -> subheads / emphasis / links
+   - Montserrat Regular (400)    -> body
+   Design/print uses ITC Avant Garde Gothic Pro (not web-licensed);
+   Montserrat is the brand-sanctioned web equivalent — no substitution.
+   ============================================================ */
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,700&display=swap');

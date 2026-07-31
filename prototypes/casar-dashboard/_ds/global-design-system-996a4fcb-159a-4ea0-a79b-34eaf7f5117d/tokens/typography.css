@@ -1,0 +1,48 @@
+/* ============================================================
+   Global — Typography tokens
+   Web font: Montserrat (brand-official). ExtraBold for headings,
+   Bold for subheads/links, Regular for body. Geometric, friendly,
+   echoes the rounded "global" wordmark.
+   ============================================================ */
+:root {
+  /* Families */
+  --font-sans: 'Montserrat', 'Century Gothic', 'Avant Garde', system-ui, -apple-system, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-display: var(--font-sans);   /* same family, heavier weight */
+  --font-mono: 'SFMono-Regular', ui-monospace, Menlo, Consolas, monospace;
+
+  /* Weights */
+  --fw-regular: 400; /* @kind font */
+  --fw-medium:  500; /* @kind font */
+  --fw-semibold:600; /* @kind font */
+  --fw-bold:    700; /* @kind font */
+  --fw-extrabold:800; /* @kind font */
+
+  /* Type scale (1.25 major-third-ish, tuned) */
+  --text-display: 3.5rem;   /* 56 */
+  --text-h1: 2.5rem;        /* 40 */
+  --text-h2: 2rem;          /* 32 */
+  --text-h3: 1.5rem;        /* 24 */
+  --text-h4: 1.25rem;       /* 20 */
+  --text-lg: 1.125rem;      /* 18 */
+  --text-base: 1rem;        /* 16 */
+  --text-sm: 0.875rem;      /* 14 */
+  --text-xs: 0.75rem;       /* 12 */
+
+  /* Line heights */
+  --lh-tight: 1.05; /* @kind other */
+  --lh-snug: 1.2; /* @kind other */
+  --lh-normal: 1.5; /* @kind other */
+  --lh-relaxed: 1.65; /* @kind other */
+
+  /* Letter spacing — geometric sans wants air, esp. uppercase kickers */
+  --ls-tight: -0.02em; /* @kind other */
+  --ls-normal: 0; /* @kind other */
+  --ls-kicker: 0.22em; /* @kind other */
+  --ls-wide: 0.06em; /* @kind other */
+
+  /* Semantic roles */
+  --heading-weight: var(--fw-extrabold); /* @kind font */
+  --heading-family: var(--font-display); /* @kind font */
+  --subhead-weight: var(--fw-bold); /* @kind font */
+  --body-weight: var(--fw-regular); /* @kind font */
+}

@@ -1,0 +1,84 @@
+/* ============================================================
+   Global — Color tokens
+   Source: Brandbook 2026, "Kleurgebruik". The five brand colors
+   (Main / Mid / Dark / Bright Blue + Grey) lead all external comms.
+   Tints/shades below are harmonious extensions for UI surfaces,
+   borders and states — derived from the five, not new brand colors.
+   ============================================================ */
+:root {
+  /* ---- Brand core (verbatim from brandbook) ---- */
+  --global-main-blue:   #195AA6;  /* primary brand blue */
+  --global-mid-blue:    #0B78BE;  /* link / interactive blue */
+  --global-dark-blue:   #1B4B89;  /* deep / pressed / headers */
+  --global-bright-blue: #5BC4E8;  /* accent / highlight / data */
+  --global-grey:        #575756;  /* brand grey — logo tagline, body text */
+
+  /* ---- Blue tint ladder (Main Blue based) ---- */
+  --blue-900: #12386A;
+  --blue-800: #1B4B89;  /* = Dark Blue */
+  --blue-700: #195AA6;  /* = Main Blue */
+  --blue-600: #1E69C0;
+  --blue-500: #0B78BE;  /* = Mid Blue */
+  --blue-400: #3E9AD6;
+  --blue-300: #5BC4E8;  /* = Bright Blue */
+  --blue-200: #A7DDF2;
+  --blue-100: #D6EEF9;
+  --blue-50:  #EEF7FC;
+
+  /* ---- Neutral ladder (warm-cool grey, brand-grey anchored) ---- */
+  --grey-900: #1D1D1B;
+  --grey-800: #2E2E2D;
+  --grey-700: #424241;
+  --grey-600: #575756;  /* = brand Grey */
+  --grey-500: #767675;
+  --grey-400: #9A9A99;
+  --grey-300: #C2C2C1;
+  --grey-200: #E2E2E1;
+  --grey-150: #ECECEB;
+  --grey-100: #F4F4F3;
+  --grey-50:  #FAFAFA;
+  --white:    #FFFFFF;
+  --black:    #111110;
+
+  /* ---- Semantic status (kept tonally close to brand) ---- */
+  --status-success: #1F9D6B;
+  --status-success-bg: #E5F5EE;
+  --status-warning: #E5A100;
+  --status-warning-bg: #FCF2D9;
+  --status-error:   #D23B3B;
+  --status-error-bg: #FBE7E7;
+  --status-info:    var(--global-mid-blue);
+  --status-info-bg: var(--blue-50);
+
+  /* ============= Semantic aliases ============= */
+  /* Brand */
+  --brand-primary:      var(--global-main-blue);
+  --brand-primary-hover:#1E69C0;
+  --brand-primary-press:var(--global-dark-blue);
+  --brand-link:         var(--global-mid-blue);
+  --brand-accent:       var(--global-bright-blue);
+
+  /* Text */
+  --text-strong:  var(--grey-900);
+  --text-body:    var(--grey-700);
+  --text-muted:   var(--grey-500);
+  --text-on-brand:var(--white);
+  --text-link:    var(--global-mid-blue);
+
+  /* Surfaces */
+  --surface-page:    var(--white);
+  --surface-card:    var(--white);
+  --surface-sunken:  var(--grey-100);
+  --surface-brand:   var(--global-main-blue);
+  --surface-brand-deep: var(--global-dark-blue);
+  --surface-inverse: var(--grey-900);
+
+  /* Borders */
+  --border-subtle: var(--grey-200);
+  --border-default:var(--grey-300);
+  --border-strong: var(--grey-400);
+  --border-brand:  var(--global-main-blue);
+
+  /* Focus */
+  --focus-ring: var(--global-bright-blue);
+}

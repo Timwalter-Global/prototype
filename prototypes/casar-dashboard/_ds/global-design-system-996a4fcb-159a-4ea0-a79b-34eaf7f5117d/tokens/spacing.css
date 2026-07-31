@@ -1,0 +1,54 @@
+/* ============================================================
+   Global — Spacing, radius, shadow, motion tokens
+   Radius: generous & soft — echoes the rounded geometric "global"
+   wordmark and the rounded-square "g" app tile.
+   ============================================================ */
+:root {
+  /* Spacing scale (4px base) */
+  --space-0: 0;
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+  --space-12: 48px;
+  --space-16: 64px;
+  --space-20: 80px;
+  --space-24: 96px;
+
+  /* Radii — soft, friendly, brand-rounded */
+  --radius-xs: 4px;
+  --radius-sm: 8px;
+  --radius-md: 12px;
+  --radius-lg: 16px;
+  --radius-xl: 24px;
+  --radius-2xl: 32px;
+  --radius-pill: 999px;
+  --radius-tile: 22%;   /* the "g" app-icon tile corner ratio */
+
+  /* Shadows — soft, cool-blue tinted, never harsh */
+  --shadow-xs: 0 1px 2px rgba(27, 75, 137, 0.06);
+  --shadow-sm: 0 2px 6px rgba(27, 75, 137, 0.08);
+  --shadow-md: 0 6px 18px rgba(27, 75, 137, 0.10);
+  --shadow-lg: 0 14px 38px rgba(27, 75, 137, 0.14);
+  --shadow-brand: 0 10px 30px rgba(25, 90, 166, 0.28);
+
+  /* Focus ring */
+  --focus-ring-width: 3px;
+  --focus-ring-offset: 2px;
+
+  /* Motion — energetic but smooth; gentle overshoot for a friendly feel */
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1); /* @kind other */
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1); /* @kind other */
+  --ease-bounce: cubic-bezier(0.34, 1.56, 0.64, 1); /* @kind other */
+  --dur-fast: 120ms; /* @kind other */
+  --dur-base: 200ms; /* @kind other */
+  --dur-slow: 360ms; /* @kind other */
+
+  /* Layout */
+  --container-max: 1200px;
+  --container-narrow: 760px;
+}
