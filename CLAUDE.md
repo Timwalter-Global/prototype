@@ -9,10 +9,17 @@ Live basis-URL: `https://timwalter-global.github.io/prototype/`
 ## Structuur
 
 ```
-index.html                    Overzichtspagina met alle live prototypes
+index.html                    Landingspagina in Global-huisstijl met alle live prototypes
+assets/                       Global-logo's voor de landingspagina
 prototypes/<slug>/index.html  Eén map per live prototype
 archief/<slug>/index.html     Offline gehaalde prototypes (optioneel bewaard)
 ```
+
+De landingspagina volgt de huisstijl van Global Media & Entertainment
+(Century Gothic; kleuren #195AA6 dominant, #0B78BE, #1B4B89, #5BC4E8, #575756;
+toon: Nederlands, "je", energiek en informeel). Behoud die stijl bij
+aanpassingen aan de landingspagina. Prototypes zelf vallen hier nadrukkelijk
+**niet** onder — die blijven exact zoals aangeleverd.
 
 ## Prototype livezetten
 
@@ -41,10 +48,10 @@ Stappen:
    Wil de gebruiker toch alvast livezetten zonder key, plaats dan tussen de
    markers `<!-- TODO: Usersnap-snippet toevoegen -->` en meld expliciet dat
    er nog geen feedback verzameld wordt.
-4. Voeg op de overzichtspagina `index.html` een kaart voor het prototype toe
+4. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
    tussen de markers `<!-- PROTOTYPES-START -->` en `<!-- PROTOTYPES-END -->`
-   (kopieer het kaart-template uit de comment ter plekke; vul titel, slug en
-   datum van vandaag in).
+   (kopieer het kaart-template uit de comment ter plekke; vul titel, slug,
+   een korte omschrijving voor de tester en de datum van vandaag in).
 5. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
 6. Meld de live URL aan de gebruiker:
    `https://timwalter-global.github.io/prototype/prototypes/<slug>/`

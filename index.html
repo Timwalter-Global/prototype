@@ -3,88 +3,237 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Feedback verzamelen · Prototypes</title>
+  <title>Global · Prototype testen &amp; feedback geven</title>
+  <link rel="icon" type="image/png" href="assets/global-icon.png" />
   <style>
     :root {
-      --bg: #f4f5f7;
-      --card: #ffffff;
-      --ink: #1a1d24;
-      --muted: #6b7280;
-      --accent: #2563eb;
-      --border: #e5e7eb;
+      --main-blue: #195AA6;
+      --mid-blue: #0B78BE;
+      --dark-blue: #1B4B89;
+      --bright-blue: #5BC4E8;
+      --grey: #575756;
+      --light-grey: #E7E8ED;
+      --panel-grey: #CBCED9;
+      --white: #FFFFFF;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
-      font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
-      background: var(--bg);
-      color: var(--ink);
-      min-height: 100vh;
+      font-family: "Century Gothic", CenturyGothic, "Avant Garde", Futura, "Trebuchet MS", sans-serif;
+      background: var(--white);
+      color: var(--grey);
+      line-height: 1.6;
     }
-    header {
-      background: var(--card);
-      border-bottom: 1px solid var(--border);
-      padding: 2.5rem 1.5rem 2rem;
+    /* ---------- topbar ---------- */
+    .topbar {
+      background: var(--white);
+      display: flex;
+      align-items: center;
+      gap: 0.9rem;
+      padding: 0.9rem 1.5rem;
+      border-bottom: 1px solid var(--light-grey);
+    }
+    .topbar img { height: 1.7rem; display: block; }
+    .topbar span {
+      font-size: 0.85rem;
+      color: var(--grey);
+      border-left: 2px solid var(--light-grey);
+      padding-left: 0.9rem;
+      letter-spacing: 0.02em;
+    }
+    /* ---------- hero ---------- */
+    .hero {
+      background: var(--main-blue);
+      color: var(--white);
       text-align: center;
+      padding: 3.5rem 1.5rem 4.5rem;
     }
-    header h1 { font-size: 1.6rem; margin-bottom: 0.5rem; }
-    header p { color: var(--muted); max-width: 34rem; margin: 0 auto; line-height: 1.5; }
-    main { max-width: 60rem; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+    .hero h1 {
+      font-size: clamp(1.8rem, 5vw, 3rem);
+      font-weight: 700;
+      letter-spacing: 0.04em;
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      max-width: 36rem;
+      margin: 0 auto;
+      font-size: clamp(1rem, 2.5vw, 1.15rem);
+    }
+    .hero p strong { color: var(--bright-blue); font-weight: 700; }
+    /* ---------- steps ---------- */
+    .steps {
+      max-width: 60rem;
+      margin: -2.5rem auto 0;
+      padding: 0 1.5rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+      gap: 1rem;
+    }
+    .step {
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-radius: 0.9rem;
+      box-shadow: 0 6px 18px rgba(27, 75, 137, 0.12);
+      padding: 1.4rem 1.3rem;
+      display: flex;
+      gap: 1rem;
+      align-items: flex-start;
+    }
+    .step .num {
+      flex: none;
+      width: 2.2rem;
+      height: 2.2rem;
+      border-radius: 50%;
+      background: var(--main-blue);
+      color: var(--white);
+      font-weight: 700;
+      font-size: 1.05rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .step h2 { font-size: 1rem; color: var(--dark-blue); margin-bottom: 0.2rem; }
+    .step p { font-size: 0.9rem; }
+    /* ---------- prototypes ---------- */
+    .prototypes {
+      max-width: 60rem;
+      margin: 0 auto;
+      padding: 3rem 1.5rem 4rem;
+    }
+    .prototypes > h2 {
+      color: var(--dark-blue);
+      font-size: 1.5rem;
+      margin-bottom: 0.4rem;
+    }
+    .prototypes > p { margin-bottom: 1.6rem; font-size: 0.95rem; }
     .grid {
       display: grid;
       grid-template-columns: repeat(auto-fill, minmax(16rem, 1fr));
       gap: 1.25rem;
     }
     .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      padding: 1.25rem;
+      background: var(--white);
+      border: 1px solid var(--light-grey);
+      border-top: 5px solid var(--main-blue);
+      border-radius: 0.9rem;
+      padding: 1.4rem 1.3rem 1.2rem;
       display: flex;
       flex-direction: column;
-      gap: 0.5rem;
+      gap: 0.45rem;
       text-decoration: none;
       color: inherit;
       transition: box-shadow 0.15s ease, transform 0.15s ease;
     }
-    .card:hover { box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08); transform: translateY(-2px); }
-    .card h2 { font-size: 1.05rem; }
-    .card .meta { color: var(--muted); font-size: 0.85rem; }
-    .card .cta { color: var(--accent); font-size: 0.9rem; font-weight: 600; margin-top: auto; }
-    .empty {
-      text-align: center;
-      color: var(--muted);
-      padding: 3rem 1rem;
-      border: 1px dashed var(--border);
-      border-radius: 0.75rem;
-      line-height: 1.6;
+    .card:hover, .card:focus-visible {
+      box-shadow: 0 8px 22px rgba(27, 75, 137, 0.18);
+      transform: translateY(-3px);
+      outline: none;
     }
+    .card .tag {
+      align-self: flex-start;
+      background: var(--bright-blue);
+      color: var(--dark-blue);
+      font-size: 0.7rem;
+      font-weight: 700;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      border-radius: 99px;
+      padding: 0.15rem 0.7rem;
+    }
+    .card h3 { color: var(--dark-blue); font-size: 1.1rem; }
+    .card .desc { font-size: 0.9rem; }
+    .card .meta { font-size: 0.8rem; color: var(--grey); opacity: 0.75; }
+    .card .cta {
+      margin-top: auto;
+      padding-top: 0.6rem;
+      color: var(--mid-blue);
+      font-weight: 700;
+      font-size: 0.95rem;
+    }
+    .empty {
+      border: 2px dashed var(--panel-grey);
+      border-radius: 0.9rem;
+      padding: 3rem 1.5rem;
+      text-align: center;
+      color: var(--grey);
+    }
+    /* ---------- footer ---------- */
+    footer {
+      background: var(--light-grey);
+      padding: 1.6rem 1.5rem;
+      text-align: center;
+      font-size: 0.85rem;
+      color: var(--grey);
+    }
+    footer img { height: 1.2rem; vertical-align: middle; margin-right: 0.5rem; opacity: 0.9; }
   </style>
 </head>
 <body>
-  <header>
-    <h1>Feedback verzamelen</h1>
+  <div class="topbar">
+    <img src="assets/global-logo.png" alt="Global" />
+    <span>Prototype testen &amp; feedback geven</span>
+  </div>
+
+  <section class="hero">
+    <h1>HELP ONZE PROTOTYPES BETER MAKEN</h1>
     <p>
-      Hieronder staan de prototypes die nu live zijn. Open een prototype en
-      gebruik de feedbackknop (Usersnap) om je opmerkingen achter te laten.
+      Leuk dat je meedoet! Hieronder staan de prototypes die we nu testen.
+      <strong>Kies eerst het prototype</strong> waar jij feedback op komt geven
+      en tik erop &mdash; daarna kun je het gewoon uitproberen.
     </p>
-  </header>
-  <main>
+  </section>
+
+  <section class="steps" aria-label="Zo werkt het">
+    <div class="step">
+      <div class="num">1</div>
+      <div>
+        <h2>Kies je prototype</h2>
+        <p>Selecteer hieronder het prototype dat je gevraagd bent te testen.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">2</div>
+      <div>
+        <h2>Probeer het uit</h2>
+        <p>Klik rond zoals je normaal zou doen. Het is een prototype, dus niet alles hoeft al te werken.</p>
+      </div>
+    </div>
+    <div class="step">
+      <div class="num">3</div>
+      <div>
+        <h2>Geef je feedback</h2>
+        <p>Gebruik de feedbackknop in het prototype om je opmerkingen direct achter te laten.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="prototypes">
+    <h2>Kies een prototype</h2>
+    <p>Tik op een kaart om het prototype te openen.</p>
     <div class="grid">
       <!-- PROTOTYPES-START -->
-      <!-- Kaart-template (kopieer, vul in, plaats binnen de markers):
+      <!-- Kaart-template (kopieer, vul TITEL/SLUG/OMSCHRIJVING/datum in, plaats binnen de markers):
       <a class="card" href="prototypes/SLUG/">
-        <h2>TITEL</h2>
-        <div class="meta">Live sinds DD-MM-JJJJ</div>
-        <div class="cta">Bekijk &amp; geef feedback &rarr;</div>
+        <span class="tag">Live</span>
+        <h3>TITEL</h3>
+        <p class="desc">OMSCHRIJVING &mdash; wat gaat de tester zien of doen?</p>
+        <p class="meta">Live sinds DD-MM-JJJJ</p>
+        <span class="cta">Start met testen &rarr;</span>
       </a>
       -->
       <a class="card" href="prototypes/voorbeeld/">
-        <h2>Voorbeeldprototype</h2>
-        <div class="meta">Testpagina voor de werkwijze</div>
-        <div class="cta">Bekijk &amp; geef feedback &rarr;</div>
+        <span class="tag">Live</span>
+        <h3>Voorbeeldprototype</h3>
+        <p class="desc">Testpagina om de werkwijze en de feedbackknop te controleren.</p>
+        <p class="meta">Live sinds 31-07-2026</p>
+        <span class="cta">Start met testen &rarr;</span>
       </a>
       <!-- PROTOTYPES-END -->
     </div>
-  </main>
+  </section>
+
+  <footer>
+    <img src="assets/global-logo.png" alt="Global" />
+    Testomgeving voor prototypes &middot; alleen bedoeld voor feedbackdoeleinden
+  </footer>
 </body>
 </html>
