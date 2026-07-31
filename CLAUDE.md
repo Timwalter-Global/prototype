@@ -34,8 +34,17 @@ Stappen:
 1. Kies een korte slug in kebab-case, bijv. `homepage-v2`. Bestaat de slug al,
    nummer dan door (`homepage-v3`) — hergebruik nooit een oude slug.
 2. Zet het prototype **ongewijzigd** neer als `prototypes/<slug>/index.html`.
-   Pas niets aan de inhoud of styling van het prototype aan.
-3. Voeg vlak vóór `</body>` de Usersnap-snippet toe, tussen markers:
+   Pas niets aan de inhoud of styling van het prototype aan. De enige twee
+   toegestane technische toevoegingen zijn de noindex-tag (stap 3) en de
+   Usersnap-snippet (stap 4).
+3. Voeg in de `<head>` de noindex-tag toe, zodat prototypes niet in
+   zoekmachines belanden:
+
+   ```html
+   <meta name="robots" content="noindex, nofollow" />
+   ```
+
+4. Voeg vlak vóór `</body>` de Usersnap-snippet toe, tussen markers:
 
    ```html
    <!-- USERSNAP-START -->
@@ -48,12 +57,12 @@ Stappen:
    Wil de gebruiker toch alvast livezetten zonder key, plaats dan tussen de
    markers `<!-- TODO: Usersnap-snippet toevoegen -->` en meld expliciet dat
    er nog geen feedback verzameld wordt.
-4. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
+5. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
    tussen de markers `<!-- PROTOTYPES-START -->` en `<!-- PROTOTYPES-END -->`
    (kopieer het kaart-template uit de comment ter plekke; vul titel, slug,
    een korte omschrijving voor de tester en de datum van vandaag in).
-5. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
-6. Meld de live URL aan de gebruiker:
+6. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
+7. Meld de live URL aan de gebruiker:
    `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
 
 ## Prototype offline halen
