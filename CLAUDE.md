@@ -94,10 +94,14 @@ Stappen:
    Dat de key gelijk is aan die van andere prototypes is **normaal en goed** —
    zie "Hoe Usersnap hier werkt". Behandel dat niet als fout en blokkeer de
    go-live er niet op.
-6. Voeg op de landingspagina `index.html` een kaart voor het prototype toe
-   tussen de markers `<!-- PROTOTYPES-START -->` en `<!-- PROTOTYPES-END -->`
-   (kopieer het kaart-template uit de comment ter plekke; vul titel, slug,
-   een korte omschrijving voor de tester en de datum van vandaag in).
+6. Voeg op de landingspagina `index.html` een entry toe aan de
+   `PROTOTYPES`-array tussen de markers `// PROTOTYPES-CONFIG-START` en
+   `// PROTOTYPES-CONFIG-END`: titel, categorie, beschrijving (één zin met
+   testscenario voor de tester), testtijd, type, url en thumb. Voor `thumb`
+   verwijs je naar een template in het `THUMBS`-object; maak zo nodig een
+   nieuw, herkenbaar miniatuurtemplate — geen generieke afbeelding of icoon.
+   Geen LIVE-badges of livegang-datums op de kaarten; de contactkaart staat
+   automatisch altijd achteraan.
 7. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
 8. Meld de live URL aan de gebruiker:
    `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
