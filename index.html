@@ -320,7 +320,14 @@
   });
   document.getElementById('ob-start').addEventListener('click', () => {
     closeOnboard();
-    if (pendingUrl) window.open(pendingUrl, '_blank', 'noopener');
+    if (pendingUrl) {
+      /* Markeer als gezien voor de prototypepagina zelf (zie
+         assets/feedback-onboarding.js), zodat de uitleg daar niet
+         direct nóg een keer verschijnt. */
+      const m = pendingUrl.match(/\/prototypes\/([^\/]+)\//);
+      if (m) { try { localStorage.setItem('feedbackOnboardingGezien:' + m[1], '1'); } catch (e) {} }
+      window.open(pendingUrl, '_blank', 'noopener');
+    }
     pendingUrl = null;
   });
   document.getElementById('ob-close').addEventListener('click', closeOnboard);

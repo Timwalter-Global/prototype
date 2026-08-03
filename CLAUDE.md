@@ -54,16 +54,16 @@ Nodig van de gebruiker:
    ook daaruit overnemen.
 3. **De naam van het Usersnap-project waar de feedback moet binnenkomen.**
    Vraag hier altijd expliciet naar. Je hebt die naam nodig om de gebruiker
-   in stap 9 naar de juiste target-configuratie te sturen.
+   in stap 10 naar de juiste target-configuratie te sturen.
 
 Stappen:
 
 1. Kies een korte slug in kebab-case, bijv. `homepage-v2`. Bestaat de slug al,
    nummer dan door (`homepage-v3`) — hergebruik nooit een oude slug.
 2. Zet het prototype **ongewijzigd** neer als `prototypes/<slug>/index.html`.
-   Pas niets aan de inhoud of styling van het prototype aan. De enige twee
-   toegestane technische toevoegingen zijn de noindex-tag (stap 3) en de
-   Usersnap-snippet (stap 4).
+   Pas niets aan de inhoud of styling van het prototype aan. De enige drie
+   toegestane technische toevoegingen zijn de noindex-tag (stap 3), de
+   Usersnap-snippet (stap 4) en het feedback-onboarding-script (stap 5).
 3. Voeg in de `<head>` de noindex-tag toe, zodat prototypes niet in
    zoekmachines belanden:
 
@@ -84,17 +84,32 @@ Stappen:
    Wil de gebruiker toch alvast livezetten zonder key, plaats dan tussen de
    markers `<!-- TODO: Usersnap-snippet toevoegen -->` en meld expliciet dat
    er nog geen feedback verzameld wordt.
-5. Controleer met een grep dat de snippet correct staat en dat je hem niet
-   per ongeluk buiten de markers hebt gezet:
+5. Voeg direct ná de Usersnap-snippet, óók vlak vóór `</body>`, het
+   feedback-onboarding-script toe, tussen markers:
+
+   ```html
+   <!-- FEEDBACK-ONBOARDING-START -->
+   <script src="../../assets/feedback-onboarding.js"></script>
+   <!-- FEEDBACK-ONBOARDING-END -->
+   ```
+
+   Dit gedeelde script (`assets/feedback-onboarding.js`) toont bij het eerste
+   bezoek een pop-up in de huisstijl die uitlegt dat feedback via de
+   Feedback-knop gaat — eenmalig per browser per prototype (localStorage,
+   gedeeld tussen alle pagina's van dezelfde slug). Heeft een prototype
+   meerdere pagina's met de widget, zet het script dan op elk van die
+   pagina's.
+6. Controleer met een grep dat snippet en onboarding-script correct staan en
+   dat je ze niet per ongeluk buiten de markers hebt gezet:
 
    ```bash
-   grep -rn "widget.usersnap.com" prototypes/
+   grep -rn "widget.usersnap.com\|feedback-onboarding.js" prototypes/
    ```
 
    Dat de key gelijk is aan die van andere prototypes is **normaal en goed** —
    zie "Hoe Usersnap hier werkt". Behandel dat niet als fout en blokkeer de
    go-live er niet op.
-6. Voeg op de landingspagina `index.html` een entry toe aan de
+7. Voeg op de landingspagina `index.html` een entry toe aan de
    `PROTOTYPES`-array tussen de markers `// PROTOTYPES-CONFIG-START` en
    `// PROTOTYPES-CONFIG-END`: titel, categorie, beschrijving (één zin met
    testscenario voor de tester), testtijd, type, url en thumb. Voor `thumb`
@@ -102,10 +117,10 @@ Stappen:
    nieuw, herkenbaar miniatuurtemplate — geen generieke afbeelding of icoon.
    Geen LIVE-badges of livegang-datums op de kaarten; de contactkaart staat
    automatisch altijd achteraan.
-7. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
-8. Meld de live URL aan de gebruiker:
+8. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
+9. Meld de live URL aan de gebruiker:
    `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
-9. **Draag de target-configuratie expliciet over aan de gebruiker.** Dit is de
+10. **Draag de target-configuratie expliciet over aan de gebruiker.** Dit is de
    stap die het vaakst wordt vergeten en die je zelf niet kunt uitvoeren.
    Meld letterlijk:
 
@@ -114,7 +129,7 @@ Stappen:
 
    Zonder die stap verschijnt de widget wel, maar komt de feedback in het
    verkeerde project of nergens binnen.
-10. **Vraag om een routeringstest vóórdat testers worden uitgenodigd.** Laat de
+11. **Vraag om een routeringstest vóórdat testers worden uitgenodigd.** Laat de
     gebruiker één testfeedback insturen en bevestigen dat die binnenkomt in
     het project uit stap 3. Een zichtbare widget bewijst alleen dat de snippet
     laadt — niet dat de target goed staat. Deze fout blijft anders onopgemerkt
