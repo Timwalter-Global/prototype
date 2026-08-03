@@ -1,0 +1,1333 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow" />
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/fonts.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/colors.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/typography.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/spacing.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/base.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/tokens/components.css" />
+  <link rel="stylesheet" href="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/styles.css" />
+  <script src="_ds/global-design-system-2a2a1715-77d3-4e90-9a2f-03104eab90bd/_ds_bundle.js"></script>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; }
+    html, body { margin: 0; padding: 0; }
+    body { background: #F5F7FA; }
+    a { color: #0B78BE; }
+    a:hover { color: #195AA6; }
+    button { font: inherit; }
+    input[type="file"] { display: none; }
+    @keyframes advKen { 0% { transform: scale(1.02) translateY(0); } 45% { transform: scale(1.1) translateY(-2%); } 60% { transform: scale(1.1) translateY(-2%); } 100% { transform: scale(1.02) translateY(0); } }
+    @keyframes advSheen { 0%, 55% { transform: translateX(-160%) skewX(-18deg); } 80% { transform: translateX(220%) skewX(-18deg); } 100% { transform: translateX(220%) skewX(-18deg); } }
+    @keyframes advProg { 0% { width: 0%; } 100% { width: 100%; } }
+    @keyframes adSpin { to { transform: rotate(360deg); } }
+    @keyframes adShimmer { 0% { background-position: -200% 0; } 100% { background-position: 200% 0; } }
+    @keyframes adPopIn { 0% { transform: scale(0.55); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+    @keyframes adFadeUp { 0% { transform: translate(-50%, 14px); opacity: 0; } 100% { transform: translate(-50%, 0); opacity: 1; } }
+  </style>
+</helmet>
+<div style="min-height:100vh;background:var(--surface-page);font-family:var(--font-body);color:var(--text-body);font-size:15px;line-height:1.55">
+
+  <input type="file" accept="image/png,image/jpeg" ref="{{ fileRef }}" onChange="{{ onFile }}" />
+  <input type="file" accept="image/png,image/jpeg" ref="{{ file2Ref }}" onChange="{{ onFile2 }}" />
+
+  <!-- ============ STICKY TOPBAR (grid + detail) ============ -->
+  <sc-if value="{{ showTopbar }}" hint-placeholder-val="{{ false }}">
+    <div style="position:sticky;top:0;z-index:60;background:var(--surface-card);border-bottom:1px solid var(--border-subtle);box-shadow:var(--shadow-xs)">
+      <div style="max-width:1280px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+        <div style="display:flex;align-items:center;gap:10px;min-width:0">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Logo" variant="icon" height="{{ logoH }}" base="assets" hint-size="34px,34px"></x-import>
+          <span style="font-family:var(--font-display);font-weight:800;font-size:17px;color:var(--global-main-blue);letter-spacing:0.01em">AdViewer</span>
+        </div>
+        <div style="width:1px;height:28px;background:var(--border-subtle)"></div>
+        <div style="display:flex;align-items:center;gap:10px;min-width:0;flex:1">
+          <img src="{{ thumbSrc }}" alt="Jouw uiting" style="height:40px;width:40px;object-fit:cover;border-radius:6px;border:1px solid var(--border-default);background:var(--grey-100)" />
+          <div style="min-width:0;line-height:1.25">
+            <div style="font-weight:600;font-size:13px;color:var(--text-strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:220px">{{ thumbName }}</div>
+            <div style="font-size:12px;color:var(--text-muted)">{{ thumbDims }}</div>
+          </div>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="secondary" size="sm" on-click="{{ goLanding }}" hint-size="auto,34px">Andere uiting uploaden</x-import>
+        </div>
+        <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ false }}">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="success" hint-size="auto,24px">Premium ontgrendeld</x-import>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ 1. LANDING / UPLOAD ============ -->
+  <sc-if value="{{ isLanding }}" hint-placeholder-val="{{ true }}">
+    <section data-screen-label="01 Landing en upload">
+      <div style="background:var(--surface-card);border-bottom:1px solid var(--border-subtle)">
+        <div style="max-width:1280px;margin:0 auto;padding:14px 24px;display:flex;align-items:center;gap:14px">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Logo" variant="lockup-blue" height="{{ lockupH }}" base="assets" hint-size="150px,44px"></x-import>
+          <div style="flex:1"></div>
+          <span style="font-size:13px;color:var(--text-muted)">De previewtool voor buitenreclame</span>
+        </div>
+      </div>
+
+      <div style="position:relative;background:var(--global-dark-blue);overflow:hidden">
+        <img src="assets/slide-title-bg.jpg" alt="" style="position:absolute;right:-8%;top:0;height:120%;width:62%;object-fit:cover;opacity:0.20;filter:saturate(1.1)" />
+        <div style="position:absolute;inset:0;background:linear-gradient(94deg, #1B4B89 42%, rgba(27,75,137,0.55) 72%, rgba(27,75,137,0.25) 100%)"></div>
+        <div style="position:relative;max-width:1280px;margin:0 auto;padding:64px 24px 56px;display:grid;grid-template-columns:repeat(auto-fit,minmax(330px,1fr));gap:44px;align-items:center">
+          <div>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:13px;letter-spacing:0.08em;color:var(--global-bright-blue);text-transform:uppercase;margin-bottom:14px">Global AdViewer</div>
+            <h1 style="font-family:var(--font-display);font-weight:800;font-size:clamp(30px,3.6vw,46px);line-height:1.08;color:#fff;margin:0 0 18px;text-transform:uppercase;letter-spacing:0.01em;text-wrap:balance">Zie jouw campagne in het straatbeeld</h1>
+            <p style="color:rgba(255,255,255,0.85);font-size:16.5px;max-width:520px;margin:0 0 22px">Upload je uiting en zie direct hoe die eruitziet op abri's, digitale schermen en snelwegmasten door heel Nederland. Geen account nodig, gewoon uploaden.</p>
+            <div style="display:grid;gap:10px">
+              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.92);font-size:14.5px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BC4E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg><span>Direct previews op 10 locaties, zonder inlog</span></div>
+              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.92);font-size:14.5px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BC4E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg><span>Stills downloaden is gratis</span></div>
+              <div style="display:flex;align-items:center;gap:10px;color:rgba(255,255,255,0.92);font-size:14.5px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#5BC4E8" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg><span>Van abri tot snelwegmast in één overzicht</span></div>
+            </div>
+          </div>
+
+          <div style="justify-self:stretch">
+            <div style="background:var(--surface-card);border-radius:24px;box-shadow:var(--shadow-xl);padding:26px">
+              <sc-if value="{{ noCreative }}" hint-placeholder-val="{{ true }}">
+                <div onClick="{{ openFile }}" onDragOver="{{ dzOver }}" onDragEnter="{{ dzOver }}" onDragLeave="{{ dzLeave }}" onDrop="{{ dzDrop }}" style="{{ dzStyle }}">
+                  <div style="width:58px;height:58px;border-radius:50%;background:var(--blue-50);display:flex;align-items:center;justify-content:center;margin:0 auto 14px"><svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="#195AA6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"></path><path d="M7 9l5-5 5 5"></path><path d="M4 20h16"></path></svg></div>
+                  <div style="font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--text-strong);margin-bottom:6px">Sleep je uiting hierheen</div>
+                  <div style="font-size:13.5px;color:var(--text-muted);margin-bottom:16px">of kies een bestand vanaf je computer</div>
+                  <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" hint-size="auto,42px">Kies een bestand</x-import>
+                  <div style="font-size:12.5px;color:var(--text-faint);margin-top:14px">JPG of PNG, tot 10 MB</div>
+                </div>
+                <sc-if value="{{ uploadErr }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:12px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Alert" variant="error" hint-size="100%,56px">{{ uploadErr }}</x-import></div>
+                </sc-if>
+              </sc-if>
+
+              <sc-if value="{{ hasCreative }}" hint-placeholder-val="{{ false }}">
+                <div style="display:flex;gap:18px;align-items:flex-start">
+                  <img src="{{ anThumb }}" alt="Jouw uiting" style="width:118px;max-height:170px;object-fit:contain;border-radius:8px;border:1px solid var(--border-subtle);background:var(--grey-100);flex-shrink:0" />
+                  <div style="min-width:0;flex:1">
+                    <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1E8A5B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg><span style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--text-strong)">Je uiting is geladen</span></div>
+                    <div style="font-size:13.5px;color:var(--text-muted);margin-bottom:12px">{{ anDims }}</div>
+                    <div style="font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px">Past direct op</div>
+                    <div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:12px">
+                      <sc-for list="{{ anFits }}" as="ft" hint-placeholder-count="1">
+                        <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--success);background:var(--success-bg);border-radius:999px;padding:4px 11px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg>{{ ft.label }}</span>
+                      </sc-for>
+                    </div>
+                    <sc-if value="{{ anMismatch }}" hint-placeholder-val="{{ false }}">
+                      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:var(--text-faint);margin-bottom:6px">Past met bijsnijden op</div>
+                      <div style="display:flex;flex-wrap:wrap;gap:6px">
+                        <sc-for list="{{ anNeeds }}" as="nd" hint-placeholder-count="1">
+                          <span style="display:inline-flex;align-items:center;gap:6px;font-size:12.5px;font-weight:600;color:var(--warning);background:var(--warning-bg);border-radius:999px;padding:4px 11px"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>{{ nd.label }}</span>
+                        </sc-for>
+                      </div>
+                    </sc-if>
+                  </div>
+                </div>
+                <sc-if value="{{ anMismatch }}" hint-placeholder-val="{{ false }}">
+                  <div style="margin-top:16px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Alert" variant="info" hint-size="100%,64px">Je uiting heeft een andere verhouding dan sommige objecten. Daar tonen we automatisch een gecentreerde uitsnede, die je zelf kunt aanpassen.</x-import></div>
+                </sc-if>
+                <div style="display:flex;flex-wrap:wrap;gap:10px;margin-top:18px;align-items:center">
+                  <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" on-click="{{ goGrid }}" hint-size="auto,44px">Bekijk jouw campagne op 10 objecten</x-import>
+                  <sc-if value="{{ anMismatch }}" hint-placeholder-val="{{ false }}">
+                    <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="secondary" size="md" on-click="{{ openCrop }}" hint-size="auto,44px">Uitsnede aanpassen</x-import>
+                  </sc-if>
+                  <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="ghost" size="md" on-click="{{ clearCreative }}" hint-size="auto,44px">Andere uiting kiezen</x-import>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:1280px;margin:0 auto;padding:52px 24px 26px">
+        <h2 style="font-family:var(--font-display);font-weight:800;font-size:22px;color:var(--text-strong);text-transform:uppercase;letter-spacing:0.02em;margin:0 0 6px">Zo ziet het eruit</h2>
+        <p style="margin:0 0 22px;color:var(--text-muted);font-size:14.5px">Drie previews met een demo uiting. Klik op een voorbeeld om de tool meteen te proberen.</p>
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px">
+          <sc-for list="{{ examples }}" as="ex" hint-placeholder-count="3">
+            <div onClick="{{ ex.pick }}" style="cursor:pointer;background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-3px);box-shadow:var(--shadow-lg)">
+              <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#1c2733">
+                <div style="{{ ex.m.planeStyle }}">
+                  <img src="{{ ex.m.photoSrc }}" alt="" style="{{ ex.m.photoStyle }}" />
+                  <sc-for list="{{ ex.m.planeLayers }}" as="ly" hint-placeholder-count="0">
+                    <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                    <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                  </sc-for>
+                </div>
+                <div style="{{ ex.m.overlayStyle }}">
+                  <sc-for list="{{ ex.m.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                    <div style="{{ fs.wrapStyle }}">
+                      <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                      <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                      <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+                <div style="position:absolute;left:10px;bottom:10px;background:rgba(11,13,16,0.55);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 11px;border-radius:999px">Voorbeeld</div>
+              </div>
+              <div style="padding:12px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px">
+                <span style="font-family:var(--font-display);font-weight:700;font-size:14px;color:var(--text-strong)">{{ ex.label }}</span>
+                <span style="font-size:13px;font-weight:600;color:var(--text-link)">Probeer dit voorbeeld</span>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="max-width:1280px;margin:0 auto;padding:14px 24px 56px">
+        <div style="background:var(--global-dark-blue);border-radius:24px;padding:34px 38px;display:flex;flex-wrap:wrap;gap:34px;align-items:center;justify-content:space-between">
+          <div style="display:flex;flex-wrap:wrap;gap:44px">
+            <div><div style="font-family:var(--font-display);font-weight:800;font-size:30px;color:#fff">12.000+</div><div style="font-size:13px;color:var(--global-bright-blue);font-weight:600;letter-spacing:0.05em;text-transform:uppercase">Objecten</div></div>
+            <div><div style="font-family:var(--font-display);font-weight:800;font-size:30px;color:#fff">3.300+</div><div style="font-size:13px;color:var(--global-bright-blue);font-weight:600;letter-spacing:0.05em;text-transform:uppercase">Digitale schermen</div></div>
+            <div><div style="font-family:var(--font-display);font-weight:800;font-size:30px;color:#fff">60%</div><div style="font-size:13px;color:var(--global-bright-blue);font-weight:600;letter-spacing:0.05em;text-transform:uppercase">Weekbereik in NL</div></div>
+          </div>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Logo" variant="lockup" height="{{ lockupH }}" base="assets" hint-size="150px,44px"></x-import>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- ============ 2. RESULTAAT GRID ============ -->
+  <sc-if value="{{ isGrid }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="02 Resultaatgrid" style="max-width:1280px;margin:0 auto;padding:30px 24px 64px">
+      <h1 style="font-family:var(--font-display);font-weight:800;font-size:clamp(22px,2.6vw,30px);color:var(--text-strong);text-transform:uppercase;letter-spacing:0.02em;margin:0 0 6px">Jouw campagne op onze objecten</h1>
+      <p style="margin:0 0 20px;color:var(--text-muted);font-size:14.5px">Alle previews zijn gesimuleerd. Klik op een locatie voor afstanden, downloads en meer.</p>
+
+      <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;padding:16px 18px;display:flex;flex-wrap:wrap;gap:14px;align-items:flex-end;box-shadow:var(--shadow-xs)">
+        <div style="flex:1 1 190px;max-width:260px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Input" label="Zoeken" placeholder="Zoek op locatie of plaats" value="{{ q }}" on-change="{{ setQ }}" hint-size="100%,68px"></x-import></div>
+        <div style="flex:0 1 175px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Select" label="Assettype" value="{{ fType }}" on-change="{{ setFType }}" hint-size="100%,68px">
+          <option value="alle">Alle types</option><option value="abri">Abri</option><option value="digitaal">Digitaal scherm</option><option value="mast">Snelwegmast</option><option value="station">Station</option>
+        </x-import></div>
+        <div style="flex:0 1 175px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Select" label="Netwerk" value="{{ fNet }}" on-change="{{ setFNet }}" hint-size="100%,68px">
+          <option value="alle">Alle netwerken</option><option value="Winkelstraten">Winkelstraten</option><option value="Winkelcentra">Winkelcentra</option><option value="Snelwegmasten">Snelwegmasten</option><option value="Treinstations">Treinstations</option>
+        </x-import></div>
+        <div style="flex:0 1 175px"><x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Select" label="Regio" value="{{ fReg }}" on-change="{{ setFReg }}" hint-size="100%,68px">
+          <option value="alle">Alle regio's</option><option value="Noord-Holland">Noord-Holland</option><option value="Zuid-Holland">Zuid-Holland</option><option value="Utrecht">Utrecht</option><option value="Noord-Brabant">Noord-Brabant</option>
+        </x-import></div>
+        <div style="flex:1 1 auto"></div>
+        <div>
+          <div style="font-size:13px;font-weight:600;color:var(--text-strong);margin-bottom:6px">Seizoen</div>
+          <div style="display:inline-flex;background:var(--grey-100);border-radius:999px;padding:3px;gap:2px">
+            <sc-for list="{{ seasons }}" as="sz" hint-placeholder-count="4">
+              <button onClick="{{ sz.pick }}" style="{{ sz.style }}">{{ sz.label }}</button>
+            </sc-for>
+          </div>
+          <div style="font-size:11.5px;color:var(--text-faint);margin-top:5px;text-align:right">Seizoensbeelden zijn indicatief</div>
+        </div>
+      </div>
+
+      <div style="display:flex;align-items:center;gap:12px;margin:18px 2px 14px;flex-wrap:wrap">
+        <span style="font-size:13.5px;color:var(--text-muted);font-weight:600">{{ countLabel }}</span>
+        <div style="flex:1"></div>
+        <sc-if value="{{ cropAvailable }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ openCrop }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:var(--text-link);font-weight:600;font-size:13.5px;padding:4px 6px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 2v14a2 2 0 0 0 2 2h14"></path><path d="M18 22V8a2 2 0 0 0-2-2H2"></path></svg>Uitsnede aanpassen</button>
+        </sc-if>
+        <sc-if value="{{ hasFilter }}" hint-placeholder-val="{{ false }}">
+          <button onClick="{{ clearFilters }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:var(--text-muted);font-weight:600;font-size:13.5px;padding:4px 6px"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg>Wis filters</button>
+        </sc-if>
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(295px,1fr));gap:20px">
+        <sc-for list="{{ cards }}" as="c" hint-placeholder-count="6">
+          <div onClick="{{ c.open }}" style="cursor:pointer;background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm);transition:transform 0.22s cubic-bezier(0.4,0,0.2,1), box-shadow 0.22s cubic-bezier(0.4,0,0.2,1)" style-hover="transform:translateY(-3px);box-shadow:var(--shadow-lg)">
+            <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#1c2733">
+              <div style="{{ c.m.planeStyle }}">
+                <img src="{{ c.m.photoSrc }}" alt="" style="{{ c.m.photoStyle }}" />
+                <sc-for list="{{ c.m.planeLayers }}" as="ly" hint-placeholder-count="0">
+                  <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                  <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                </sc-for>
+              </div>
+              <div style="{{ c.m.overlayStyle }}">
+                <sc-for list="{{ c.m.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                  <div style="{{ fs.wrapStyle }}">
+                    <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                    <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                    <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:absolute;left:10px;bottom:10px;background:rgba(11,13,16,0.55);backdrop-filter:blur(4px);color:#fff;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:4px 11px;border-radius:999px">{{ c.chip }}</div>
+              <sc-if value="{{ c.twins }}" hint-placeholder-val="{{ false }}">
+                <div style="position:absolute;right:10px;top:10px;background:var(--global-bright-blue);color:var(--global-dark-blue);font-size:11px;font-weight:700;letter-spacing:0.04em;padding:4px 11px;border-radius:999px">2 schermen</div>
+              </sc-if>
+            </div>
+            <div style="padding:13px 15px 15px">
+              <div style="font-family:var(--font-display);font-weight:700;font-size:15px;color:var(--text-strong);white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ c.naam }}</div>
+              <div style="display:flex;align-items:center;gap:9px;margin-top:9px;flex-wrap:wrap">
+                <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="{{ c.badgeVariant }}" hint-size="auto,22px">{{ c.typeLabel }}</x-import>
+                <span style="font-size:12.5px;color:var(--text-muted)">{{ c.sub }}</span>
+              </div>
+            </div>
+          </div>
+        </sc-for>
+      </div>
+
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:70px 20px;color:var(--text-muted)">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:17px;color:var(--text-strong);margin-bottom:6px">Geen locaties gevonden</div>
+          <div style="font-size:14px;margin-bottom:18px">Pas je filters aan en probeer het opnieuw.</div>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="secondary" size="sm" on-click="{{ clearFilters }}" hint-size="auto,36px">Wis filters</x-import>
+        </div>
+      </sc-if>
+    </section>
+  </sc-if>
+
+  <!-- ============ 3. LOCATIE DETAIL ============ -->
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="03 Locatiedetail" style="max-width:1280px;margin:0 auto;padding:22px 24px 64px">
+      <button onClick="{{ goBack }}" style="display:inline-flex;align-items:center;gap:8px;background:none;border:none;cursor:pointer;color:var(--text-link);font-weight:600;font-size:14px;padding:6px 4px;margin-bottom:10px"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg>Alle locaties</button>
+
+      <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:18px">
+        <h1 style="font-family:var(--font-display);font-weight:800;font-size:clamp(22px,2.4vw,28px);color:var(--text-strong);margin:0">{{ det.naam }}</h1>
+        <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="{{ det.badgeVariant }}" hint-size="auto,22px">{{ det.typeLabel }}</x-import>
+        <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="neutral" hint-size="auto,22px">{{ det.netwerk }}</x-import>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:22px;align-items:flex-start">
+        <div style="flex:1 1 560px;min-width:0">
+          <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm)">
+            <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:13px 16px;border-bottom:1px solid var(--border-subtle)">
+              <div style="display:inline-flex;background:var(--grey-100);border-radius:999px;padding:3px;gap:2px">
+                <sc-for list="{{ det.distances }}" as="ds" hint-placeholder-count="3">
+                  <button onClick="{{ ds.pick }}" style="{{ ds.style }}">{{ ds.label }}</button>
+                </sc-for>
+              </div>
+              <div style="flex:1"></div>
+              <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Switch" label="Reflectie en schaduw" checked="{{ det.realisme }}" on-change="{{ det.toggleRealisme }}" hint-size="auto,26px"></x-import>
+            </div>
+            <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#1c2733">
+              <div style="{{ det.m.planeStyle }}">
+                <img src="{{ det.m.photoSrc }}" alt="" style="{{ det.m.photoStyle }}" />
+                <sc-for list="{{ det.m.planeLayers }}" as="ly" hint-placeholder-count="0">
+                  <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                  <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                </sc-for>
+              </div>
+              <div style="{{ det.m.overlayStyle }}">
+                <sc-for list="{{ det.m.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                  <div style="{{ fs.wrapStyle }}">
+                    <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                    <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                    <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <div style="position:absolute;left:12px;bottom:12px;background:rgba(11,13,16,0.55);backdrop-filter:blur(4px);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:0.05em;padding:5px 12px;border-radius:999px">{{ det.chip }}</div>
+            </div>
+            <div style="padding:11px 16px;font-size:12.5px;color:var(--text-faint)">Gesimuleerde weergave, geen exacte maatvoering.</div>
+          </div>
+        </div>
+
+        <div style="flex:1 1 300px;max-width:420px;display:grid;gap:16px">
+          <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm)">
+            <div style="font-size:12.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-faint);margin-bottom:12px">Locatie</div>
+            <div style="display:grid;gap:9px;font-size:14px">
+              <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:var(--text-muted)">Assettype</span><span style="font-weight:600;color:var(--text-strong)">{{ det.typeLabel }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:var(--text-muted)">Netwerk</span><span style="font-weight:600;color:var(--text-strong)">{{ det.netwerk }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:var(--text-muted)">Regio</span><span style="font-weight:600;color:var(--text-strong)">{{ det.regio }}</span></div>
+              <div style="display:flex;justify-content:space-between;gap:12px"><span style="color:var(--text-muted)">Formaat</span><span style="font-weight:600;color:var(--text-strong)">{{ det.formaatLabel }}</span></div>
+            </div>
+            <div style="height:1px;background:var(--divider);margin:16px 0 14px"></div>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Stat" label="Indicatief bereik" value="{{ det.bereik }}" sub="{{ det.bereikSub }}" hint-size="100%,84px"></x-import>
+          </div>
+
+          <sc-if value="{{ det.isTwins }}" hint-placeholder-val="{{ false }}">
+            <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm)">
+              <div style="font-size:12.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-faint);margin-bottom:8px">Twee schermen naast elkaar</div>
+              <p style="margin:0 0 12px;font-size:13.5px;color:var(--text-muted)">Dit object heeft twee schermen. Kies wat je op het rechterscherm toont.</p>
+              <div style="display:grid;gap:8px">
+                <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Checkbox" radio="{{ isTrue }}" name="twins" label="Dezelfde uiting op beide schermen" checked="{{ det.twSame }}" on-change="{{ det.pickTwSame }}" hint-size="100%,24px"></x-import>
+                <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Checkbox" radio="{{ isTrue }}" name="twins" label="Een tweede uiting rechts" checked="{{ det.twSecond }}" on-change="{{ det.pickTwSecond }}" hint-size="100%,24px"></x-import>
+              </div>
+              <sc-if value="{{ det.twSecond }}" hint-placeholder-val="{{ false }}">
+                <sc-if value="{{ det.c2Thumb }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:center;gap:12px;margin-top:14px">
+                    <img src="{{ det.c2Thumb }}" alt="Tweede uiting" style="height:52px;width:52px;object-fit:cover;border-radius:6px;border:1px solid var(--border-default)" />
+                    <div style="flex:1;font-size:13px;color:var(--text-muted)">Tweede uiting geladen</div>
+                    <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="ghost" size="sm" on-click="{{ openFile2 }}" hint-size="auto,32px">Vervang</x-import>
+                  </div>
+                </sc-if>
+                <sc-if value="{{ det.noC2 }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ openFile2 }}" style="margin-top:14px;border:1.5px dashed var(--border-default);border-radius:10px;padding:14px;text-align:center;cursor:pointer;color:var(--text-muted);font-size:13.5px;transition:border-color 0.2s, background 0.2s" style-hover="border-color:var(--global-main-blue);background:var(--blue-50)">
+                    <span style="font-weight:600;color:var(--text-link)">Upload een tweede uiting</span> (JPG of PNG)
+                  </div>
+                </sc-if>
+              </sc-if>
+            </div>
+          </sc-if>
+
+          <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;padding:20px;box-shadow:var(--shadow-sm)">
+            <div style="font-size:12.5px;font-weight:700;letter-spacing:0.07em;text-transform:uppercase;color:var(--text-faint);margin-bottom:14px">Acties</div>
+            <div style="display:grid;gap:10px">
+              <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="secondary" size="md" full-width="{{ isTrue }}" on-click="{{ det.download }}" icon-left="{{ icDownload }}" hint-size="100%,44px">Download still (JPG)</x-import>
+              <div style="font-size:12px;color:var(--text-faint);margin-top:-4px;text-align:center">Gratis, zonder registratie</div>
+              <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" full-width="{{ isTrue }}" on-click="{{ det.share }}" icon-left="{{ icLink }}" icon-right="{{ icPremRight }}" hint-size="100%,44px">Deel als link</x-import>
+              <div style="position:relative">
+                <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="accent" size="md" full-width="{{ isTrue }}" on-click="{{ det.ai }}" icon-left="{{ icSparkles }}" icon-right="{{ icPremRight }}" hint-size="100%,44px">AI render</x-import>
+                <span style="position:absolute;top:-9px;right:-6px;background:var(--global-main-blue);color:#fff;font-size:10.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;padding:3px 9px;border-radius:999px;box-shadow:var(--shadow-sm)">Nieuw</span>
+              </div>
+              <sc-if value="{{ det.showVideo }}" hint-placeholder-val="{{ false }}">
+                <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="secondary" size="md" full-width="{{ isTrue }}" on-click="{{ det.video }}" icon-left="{{ icFilm }}" icon-right="{{ icPremRight }}" hint-size="100%,44px">Video-export</x-import>
+              </sc-if>
+            </div>
+            <div style="font-size:12.5px;color:var(--text-muted);margin-top:14px;display:flex;align-items:center;gap:7px">
+              <sc-if value="{{ unlocked }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#1E8A5B" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg><span>Premium acties zijn ontgrendeld voor deze sessie.</span></sc-if>
+              <sc-if value="{{ locked }}" hint-placeholder-val="{{ false }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 11V8a6 6 0 0 1 12 0v3"></path><path d="M5 11h14v9H5z"></path></svg><span>Premium acties zijn gratis na een korte kennismaking.</span></sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- ============ 5a. SHARE PAGINA ============ -->
+  <sc-if value="{{ isShare }}" hint-placeholder-val="{{ false }}">
+    <section data-screen-label="05 Deelbare pagina">
+      <div style="background:var(--surface-card);border-bottom:1px solid var(--border-subtle)">
+        <div style="max-width:1280px;margin:0 auto;padding:12px 24px;display:flex;align-items:center;gap:14px;flex-wrap:wrap">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Logo" variant="lockup-blue" height="{{ lockupHsm }}" base="assets" hint-size="130px,38px"></x-import>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="neutral" hint-size="auto,22px">Gedeelde preview</x-import>
+          <div style="flex:1"></div>
+          <button onClick="{{ backTool }}" style="display:inline-flex;align-items:center;gap:7px;background:none;border:none;cursor:pointer;color:var(--text-link);font-weight:600;font-size:13.5px"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"></path><path d="M11 6l-6 6 6 6"></path></svg>Terug naar AdViewer</button>
+        </div>
+      </div>
+
+      <div style="background:var(--global-dark-blue)">
+        <div style="max-width:1280px;margin:0 auto;padding:44px 24px 40px">
+          <div style="font-family:var(--font-display);font-weight:700;font-size:12.5px;letter-spacing:0.08em;color:var(--global-bright-blue);text-transform:uppercase;margin-bottom:10px">Campagnepreview</div>
+          <h1 style="font-family:var(--font-display);font-weight:800;font-size:clamp(24px,3vw,36px);line-height:1.12;color:#fff;margin:0 0 10px;text-transform:uppercase;letter-spacing:0.01em">{{ shareTitle }}</h1>
+          <p style="color:rgba(255,255,255,0.8);margin:0 0 20px;font-size:15px">Gemaakt met AdViewer, de previewtool van Global.</p>
+          <div style="display:inline-flex;align-items:center;gap:10px;background:rgba(255,255,255,0.10);border:1px solid rgba(255,255,255,0.22);border-radius:999px;padding:8px 10px 8px 18px;max-width:100%">
+            <span style="font-family:var(--font-mono);font-size:13px;color:#fff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ shareLink }}</span>
+            <button onClick="{{ copyLink }}" style="display:inline-flex;align-items:center;gap:6px;background:#fff;color:var(--global-main-blue);border:none;border-radius:999px;padding:7px 14px;font-weight:700;font-size:12.5px;cursor:pointer">Kopieer link</button>
+          </div>
+        </div>
+      </div>
+
+      <div style="max-width:1280px;margin:0 auto;padding:34px 24px 10px">
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:20px">
+          <sc-for list="{{ shareCards }}" as="c" hint-placeholder-count="6">
+            <div style="background:var(--surface-card);border:1px solid var(--border-subtle);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-sm)">
+              <div style="position:relative;aspect-ratio:4/3;overflow:hidden;background:#1c2733">
+                <div style="{{ c.m.planeStyle }}">
+                  <img src="{{ c.m.photoSrc }}" alt="" style="{{ c.m.photoStyle }}" />
+                  <sc-for list="{{ c.m.planeLayers }}" as="ly" hint-placeholder-count="0">
+                    <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                    <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                  </sc-for>
+                </div>
+                <div style="{{ c.m.overlayStyle }}">
+                  <sc-for list="{{ c.m.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                    <div style="{{ fs.wrapStyle }}">
+                      <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                      <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                      <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                    </div>
+                  </sc-for>
+                </div>
+              </div>
+              <div style="padding:12px 15px 14px">
+                <div style="font-family:var(--font-display);font-weight:700;font-size:14.5px;color:var(--text-strong)">{{ c.naam }}</div>
+                <div style="font-size:12.5px;color:var(--text-muted);margin-top:4px">{{ c.typeLabel }} · {{ c.sub }}</div>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="max-width:1280px;margin:0 auto;padding:30px 24px 56px">
+        <div style="background:var(--global-main-blue);border-radius:24px;padding:38px 40px;display:flex;flex-wrap:wrap;gap:24px;align-items:center;justify-content:space-between">
+          <div style="max-width:560px">
+            <h2 style="font-family:var(--font-display);font-weight:800;font-size:clamp(20px,2.4vw,26px);color:#fff;margin:0 0 8px;text-transform:uppercase;letter-spacing:0.01em">Benieuwd naar tarieven en bereik?</h2>
+            <p style="color:rgba(255,255,255,0.85);margin:0;font-size:14.5px">Plan een vrijblijvend gesprek met een specialist van Global. We denken graag mee over de beste plekken voor jouw campagne.</p>
+          </div>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="inverse" size="lg" on-click="{{ planCall }}" hint-size="auto,50px">Plan een gesprek</x-import>
+        </div>
+        <div style="display:flex;align-items:center;gap:14px;justify-content:center;margin-top:34px;opacity:0.85">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Logo" variant="lockup-blue" height="{{ lockupHxs }}" base="assets" hint-size="100px,30px"></x-import>
+          <span style="font-size:12.5px;color:var(--text-faint)">Making everyone's day brighter.</span>
+        </div>
+      </div>
+    </section>
+  </sc-if>
+
+  <!-- ============ 4. LEADGATE MODAL ============ -->
+  <sc-if value="{{ gateOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="04 Leadgate" onClick="{{ gateBackdrop }}" style="position:fixed;inset:0;z-index:120;background:rgba(11,13,16,0.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto">
+      <div style="background:var(--surface-card);border-radius:24px;box-shadow:var(--shadow-xl);width:480px;max-width:100%;margin:auto;padding:28px;position:relative;animation:adPopIn 0.28s cubic-bezier(0.16,1,0.3,1)">
+        <button onClick="{{ closeGate }}" aria-label="Sluiten" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:var(--grey-100);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+
+        <sc-if value="{{ gateForm }}" hint-placeholder-val="{{ true }}">
+          <div style="width:52px;height:52px;border-radius:50%;background:var(--blue-50);display:flex;align-items:center;justify-content:center;color:var(--global-main-blue);margin-bottom:14px">{{ gateIconNode }}</div>
+          <h2 style="font-family:var(--font-display);font-weight:800;font-size:21px;color:var(--text-strong);margin:0 0 6px">{{ gateTitle }}</h2>
+          <p style="margin:0 0 18px;font-size:14px;color:var(--text-muted)">{{ gateText }}</p>
+          <div style="display:grid;gap:12px">
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Input" label="Naam" placeholder="Voor en achternaam" value="{{ gNaam }}" on-change="{{ setGNaam }}" error="{{ eNaam }}" hint-size="100%,68px"></x-import>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Input" label="Zakelijk e-mailadres" type="email" placeholder="jij@bedrijf.nl" value="{{ gEmail }}" on-change="{{ setGEmail }}" error="{{ eEmail }}" hint-size="100%,68px"></x-import>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Input" label="Bedrijfsnaam" placeholder="Bijv. Bloom B.V." value="{{ gBedrijf }}" on-change="{{ setGBedrijf }}" error="{{ eBedrijf }}" hint-size="100%,68px"></x-import>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Select" label="Ik ben (optioneel)" value="{{ gRol }}" on-change="{{ setGRol }}" hint-size="100%,68px">
+              <option value="">Maak een keuze</option><option value="Adverteerder">Adverteerder</option><option value="Mediabureau">Mediabureau</option><option value="Anders">Anders</option>
+            </x-import>
+            <div>
+              <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Checkbox" label="{{ privacyLabel }}" checked="{{ gAkkoord }}" on-change="{{ toggleAkkoord }}" hint-size="100%,24px"></x-import>
+              <sc-if value="{{ eAkkoord }}" hint-placeholder-val="{{ false }}"><div style="font-size:12.5px;color:var(--error);margin-top:5px">{{ eAkkoord }}</div></sc-if>
+            </div>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" full-width="{{ isTrue }}" on-click="{{ submitGate }}" hint-size="100%,44px">Ontgrendel premium acties</x-import>
+            <div style="font-size:12px;color:var(--text-faint);text-align:center">Geen account of wachtwoord nodig. We gebruiken je gegevens alleen voor contact over jouw campagne.</div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ gateSuccess }}" hint-placeholder-val="{{ false }}">
+          <div style="text-align:center;padding:16px 4px 4px">
+            <div style="width:68px;height:68px;border-radius:50%;background:var(--success-bg);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;animation:adPopIn 0.35s cubic-bezier(0.16,1,0.3,1)"><svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="#1E8A5B" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 12.5l5 5 10-11"></path></svg></div>
+            <h2 style="font-family:var(--font-display);font-weight:800;font-size:21px;color:var(--text-strong);margin:0 0 8px">Gelukt, alles staat voor je klaar!</h2>
+            <p style="margin:0 0 6px;font-size:14px;color:var(--text-muted)">Deel als link, AI renders en video-export zijn nu ontgrendeld voor deze sessie.</p>
+            <p style="margin:0 0 20px;font-size:12.5px;color:var(--text-faint)">Een van onze specialisten kan contact opnemen over de mogelijkheden.</p>
+            <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" on-click="{{ goOn }}" hint-size="auto,44px">{{ goOnLabel }}</x-import>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ CROP MODAL ============ -->
+  <sc-if value="{{ cropOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Bijsnijden" onClick="{{ cropBackdrop }}" style="position:fixed;inset:0;z-index:120;background:rgba(11,13,16,0.55);backdrop-filter:blur(3px);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto">
+      <div style="background:var(--surface-card);border-radius:24px;box-shadow:var(--shadow-xl);width:600px;max-width:100%;margin:auto;padding:26px;position:relative;animation:adPopIn 0.28s cubic-bezier(0.16,1,0.3,1)">
+        <button onClick="{{ closeCrop }}" aria-label="Sluiten" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:var(--grey-100);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600)"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+        <h2 style="font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--text-strong);margin:0 0 4px">Pas de uitsnede aan</h2>
+        <p style="margin:0 0 14px;font-size:13.5px;color:var(--text-muted)">Versleep het kader. We gebruiken deze uitsnede op alle objecten met dit formaat.</p>
+        <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:14px">
+          <sc-for list="{{ cropTabs }}" as="ct" hint-placeholder-count="2">
+            <button onClick="{{ ct.pick }}" style="{{ ct.style }}">{{ ct.label }}</button>
+          </sc-for>
+        </div>
+        <div onPointerMove="{{ cropMove }}" onPointerUp="{{ cropUp }}" style="position:relative;width:544px;max-width:100%;height:340px;margin:0 auto;background:var(--grey-800);border-radius:12px;overflow:hidden;touch-action:none">
+          <img src="{{ cropSrc }}" alt="" style="{{ cropImgStyle }}" />
+          <div onPointerDown="{{ cropDown }}" style="{{ cropFrameStyle }}">
+            <div style="position:absolute;left:33.33%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.35)"></div>
+            <div style="position:absolute;left:66.66%;top:0;bottom:0;width:1px;background:rgba(255,255,255,0.35)"></div>
+            <div style="position:absolute;top:33.33%;left:0;right:0;height:1px;background:rgba(255,255,255,0.35)"></div>
+            <div style="position:absolute;top:66.66%;left:0;right:0;height:1px;background:rgba(255,255,255,0.35)"></div>
+          </div>
+        </div>
+        <div style="display:flex;gap:10px;justify-content:flex-end;margin-top:18px">
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="ghost" size="md" on-click="{{ cropReset }}" hint-size="auto,42px">Herstel</x-import>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Button" variant="primary" size="md" on-click="{{ closeCrop }}" hint-size="auto,42px">Klaar</x-import>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ 5b. AI RENDER OVERLAY ============ -->
+  <sc-if value="{{ aiOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="AI render" onClick="{{ aiBackdrop }}" style="position:fixed;inset:0;z-index:120;background:rgba(11,13,16,0.62);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto">
+      <div style="background:var(--surface-card);border-radius:24px;box-shadow:var(--shadow-xl);width:920px;max-width:100%;margin:auto;padding:26px;position:relative;animation:adPopIn 0.28s cubic-bezier(0.16,1,0.3,1)">
+        <button onClick="{{ closeAi }}" aria-label="Sluiten" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:var(--grey-100);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600);z-index:5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+        <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px">
+          <h2 style="font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--text-strong);margin:0">AI render</h2>
+          <x-import component-from-global-scope="GlobalDesignSystem_2a2a17.Badge" variant="brand" hint-size="auto,22px">Nieuw</x-import>
+        </div>
+
+        <sc-if value="{{ aiLoading }}" hint-placeholder-val="{{ true }}">
+          <div style="aspect-ratio:16/10;border-radius:16px;background:var(--grey-100);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center">
+            <div style="width:44px;height:44px;border-radius:50%;border:3.5px solid var(--blue-100);border-top-color:var(--global-main-blue);animation:adSpin 0.9s linear infinite"></div>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--text-strong);max-width:420px">Onze AI plaatst jouw campagne in een fotorealistische setting…</div>
+            <div style="font-size:13px;color:var(--text-muted)">Dit duurt een paar seconden.</div>
+            <div style="width:260px;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--blue-100),var(--global-bright-blue),var(--blue-100));background-size:200% 100%;animation:adShimmer 1.4s linear infinite"></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ aiReady }}" hint-placeholder-val="{{ false }}">
+          <div onPointerDown="{{ aiDown }}" onPointerMove="{{ aiMove }}" onPointerUp="{{ aiUp }}" style="position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;touch-action:none;cursor:ew-resize;background:#1c2733">
+            <div style="position:absolute;inset:0">
+              <div style="{{ aiBefore.planeStyle }}">
+                <img src="{{ aiBefore.photoSrc }}" alt="" style="{{ aiBefore.photoStyle }}" />
+                <sc-for list="{{ aiBefore.planeLayers }}" as="ly" hint-placeholder-count="0">
+                  <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                  <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                </sc-for>
+              </div>
+              <div style="{{ aiBefore.overlayStyle }}">
+                <sc-for list="{{ aiBefore.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                  <div style="{{ fs.wrapStyle }}">
+                    <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                    <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                    <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+            </div>
+            <div style="{{ aiClipStyle }}">
+              <div style="{{ aiAfter.planeStyle }}">
+                <img src="{{ aiAfter.photoSrc }}" alt="" style="{{ aiAfter.photoStyle }}" />
+                <sc-for list="{{ aiAfter.planeLayers }}" as="ly" hint-placeholder-count="0">
+                  <sc-if value="{{ ly.src }}" hint-placeholder-val="{{ false }}"><img src="{{ ly.src }}" alt="" style="{{ ly.style }}" /></sc-if>
+                  <sc-if value="{{ ly.isDiv }}" hint-placeholder-val="{{ false }}"><div style="{{ ly.style }}"></div></sc-if>
+                </sc-for>
+              </div>
+              <div style="{{ aiAfter.overlayStyle }}">
+                <sc-for list="{{ aiAfter.frameSurfs }}" as="fs" hint-placeholder-count="0">
+                  <div style="{{ fs.wrapStyle }}">
+                    <img src="{{ fs.frameSrc }}" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+                    <sc-if value="{{ fs.creSrc }}" hint-placeholder-val="{{ false }}"><img src="{{ fs.creSrc }}" alt="" style="{{ fs.creStyle }}" /></sc-if>
+                    <sc-if value="{{ fs.glossStyle }}" hint-placeholder-val="{{ false }}"><div style="{{ fs.glossStyle }}"></div></sc-if>
+                  </div>
+                </sc-for>
+              </div>
+              <sc-for list="{{ aiTops }}" as="tp" hint-placeholder-count="0"><div style="{{ tp.style }}"></div></sc-for>
+            </div>
+            <div style="position:absolute;left:14px;top:14px;background:rgba(11,13,16,0.6);color:#fff;font-size:11.5px;font-weight:600;letter-spacing:0.05em;padding:5px 12px;border-radius:999px;pointer-events:none">Standaard preview</div>
+            <div style="position:absolute;right:14px;top:14px;background:var(--global-main-blue);color:#fff;font-size:11.5px;font-weight:700;letter-spacing:0.05em;padding:5px 12px;border-radius:999px;pointer-events:none">AI render</div>
+            <div style="{{ aiHandleStyle }}">
+              <div style="position:absolute;top:0;bottom:0;left:50%;width:2px;transform:translateX(-50%);background:#fff;box-shadow:0 0 12px rgba(0,0,0,0.4)"></div>
+              <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:42px;height:42px;border-radius:50%;background:#fff;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;color:var(--global-main-blue)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M8 8l-4 4 4 4"></path><path d="M16 8l4 4-4 4"></path></svg></div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:14px;color:var(--text-muted);font-size:13.5px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect><path d="M4 7l8 6 8-6"></path></svg>
+            <span>Je ontvangt de render in hoge resolutie ook per e-mail.</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ 5c. VIDEO EXPORT OVERLAY ============ -->
+  <sc-if value="{{ vidOpen }}" hint-placeholder-val="{{ false }}">
+    <div data-screen-label="Video-export" onClick="{{ vidBackdrop }}" style="position:fixed;inset:0;z-index:120;background:rgba(11,13,16,0.62);backdrop-filter:blur(4px);display:flex;align-items:center;justify-content:center;padding:20px;overflow:auto">
+      <div style="background:var(--surface-card);border-radius:24px;box-shadow:var(--shadow-xl);width:780px;max-width:100%;margin:auto;padding:26px;position:relative;animation:adPopIn 0.28s cubic-bezier(0.16,1,0.3,1)">
+        <button onClick="{{ closeVid }}" aria-label="Sluiten" style="position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:50%;border:none;background:var(--grey-100);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--grey-600);z-index:5"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12"></path><path d="M18 6L6 18"></path></svg></button>
+        <h2 style="font-family:var(--font-display);font-weight:800;font-size:20px;color:var(--text-strong);margin:0 0 14px">Video-export</h2>
+
+        <sc-if value="{{ vidLoading }}" hint-placeholder-val="{{ true }}">
+          <div style="aspect-ratio:16/10;border-radius:16px;background:var(--grey-100);display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px;padding:30px;text-align:center">
+            <div style="width:44px;height:44px;border-radius:50%;border:3.5px solid var(--blue-100);border-top-color:var(--global-main-blue);animation:adSpin 0.9s linear infinite"></div>
+            <div style="font-family:var(--font-display);font-weight:700;font-size:16px;color:var(--text-strong);max-width:420px">We zetten jouw uiting om naar een video voor digitale schermen…</div>
+            <div style="width:260px;height:6px;border-radius:999px;background:linear-gradient(90deg,var(--blue-100),var(--global-bright-blue),var(--blue-100));background-size:200% 100%;animation:adShimmer 1.4s linear infinite"></div>
+          </div>
+        </sc-if>
+
+        <sc-if value="{{ vidReady }}" hint-placeholder-val="{{ false }}">
+          <div style="position:relative;aspect-ratio:16/10;border-radius:16px;overflow:hidden;background:#0d141d">
+            <img src="assets/photo-netwerk.jpg" alt="" style="position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:brightness(0.32) blur(6px) saturate(0.8);transform:scale(1.12)" />
+            <div style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);height:88%;aspect-ratio:207/335;filter:drop-shadow(0 22px 40px rgba(0,0,0,0.5))">
+              <img src="assets/format-screen-portrait.png" alt="" style="position:absolute;inset:0;width:100%;height:100%" />
+              <div style="position:absolute;left:8.2%;top:5.8%;width:83.6%;height:86.4%;overflow:hidden;background:#000">
+                <img src="{{ vidCreSrc }}" alt="" style="{{ vidCreStyle }}" />
+                <div style="position:absolute;inset:0;overflow:hidden;pointer-events:none"><div style="{{ vidSheenStyle }}"></div></div>
+                <div style="position:absolute;inset:0;box-shadow:inset 0 0 44px rgba(0,0,0,0.35);pointer-events:none"></div>
+              </div>
+            </div>
+            <sc-if value="{{ vidPaused }}" hint-placeholder-val="{{ false }}">
+              <button onClick="{{ toggleVid }}" aria-label="Afspelen" style="position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);width:74px;height:74px;border-radius:50%;border:none;background:rgba(255,255,255,0.94);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--global-main-blue);box-shadow:var(--shadow-xl)"><svg width="28" height="28" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M8 5.5l11 6.5-11 6.5V5.5z"></path></svg></button>
+            </sc-if>
+            <div style="position:absolute;left:0;right:0;bottom:0;background:linear-gradient(180deg,transparent,rgba(11,13,16,0.72));padding:26px 16px 12px;display:flex;align-items:center;gap:12px">
+              <button onClick="{{ toggleVid }}" aria-label="Afspelen of pauzeren" style="width:38px;height:38px;border-radius:50%;border:none;background:rgba(255,255,255,0.92);cursor:pointer;display:flex;align-items:center;justify-content:center;color:var(--global-main-blue);flex-shrink:0">{{ vidBtnIcon }}</button>
+              <div style="flex:1;height:5px;border-radius:999px;background:rgba(255,255,255,0.25);overflow:hidden"><div style="{{ vidProgStyle }}"></div></div>
+              <span style="font-family:var(--font-mono);font-size:12px;color:rgba(255,255,255,0.85)">0:08 loop</span>
+              <span style="background:rgba(255,255,255,0.16);border:1px solid rgba(255,255,255,0.3);color:#fff;font-size:11px;font-weight:600;letter-spacing:0.05em;padding:3px 10px;border-radius:999px">Voorbeeldweergave</span>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:9px;margin-top:14px;color:var(--text-muted);font-size:13.5px">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="5.5" width="17" height="13" rx="2"></rect><path d="M4 7l8 6 8-6"></path></svg>
+            <span>De definitieve video ontvang je als MP4 per e-mail.</span>
+          </div>
+        </sc-if>
+      </div>
+    </div>
+  </sc-if>
+
+  <!-- ============ TOAST ============ -->
+  <sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+    <div style="position:fixed;bottom:26px;left:50%;transform:translateX(-50%);z-index:200;background:var(--grey-900);color:#fff;font-size:13.5px;font-weight:600;padding:11px 20px;border-radius:999px;box-shadow:var(--shadow-lg);display:flex;align-items:center;gap:9px;animation:adFadeUp 0.25s cubic-bezier(0.16,1,0.3,1);max-width:90vw">
+      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#5BC4E8" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" style="flex-shrink:0"><path d="M4.5 12.5l5 5 10-11"></path></svg>
+      <span>{{ toast }}</span>
+    </div>
+  </sc-if>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{
+  &quot;$preview&quot;: { &quot;width&quot;: 1440, &quot;height&quot;: 960 },
+  &quot;gateActief&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: true, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Gedrag&quot;, &quot;description&quot;: &quot;Toon het leadformulier voor premium acties&quot; },
+  &quot;startMetVoorbeeld&quot;: { &quot;editor&quot;: &quot;boolean&quot;, &quot;default&quot;: false, &quot;tsType&quot;: &quot;boolean&quot;, &quot;section&quot;: &quot;Gedrag&quot;, &quot;description&quot;: &quot;Open de tool direct met de demo uiting&quot; },
+  &quot;standaardSeizoen&quot;: { &quot;editor&quot;: &quot;enum&quot;, &quot;options&quot;: [&quot;lente&quot;, &quot;zomer&quot;, &quot;herfst&quot;, &quot;winter&quot;], &quot;default&quot;: &quot;zomer&quot;, &quot;tsType&quot;: &quot;string&quot;, &quot;section&quot;: &quot;Weergave&quot; }
+}">
+class Component extends DCLogic {
+  state = {
+    screen: 'landing',
+    creative: null, creative2: null,
+    crops: { p23: { x: 50, y: 50 }, p916: { x: 50, y: 50 }, l169: { x: 50, y: 50 } },
+    season: null,
+    fType: 'alle', fNet: 'alle', fReg: 'alle', q: '',
+    selId: null, distance: 'veraf', realisme: true, twinsMode: 'same',
+    gateOpen: false, gateAction: null, gateStep: 'form',
+    gNaam: '', gEmail: '', gBedrijf: '', gRol: '', gAkkoord: false, gateErrors: {},
+    unlocked: false, lead: null,
+    aiOpen: false, aiReady: false, aiPos: 50, aiDragging: false,
+    vidOpen: false, vidReady: false, vidPlaying: true,
+    cropOpen: false, cropClass: null, cropDrag: null,
+    dragOver: false, uploadErr: null, toast: null,
+  };
+
+  // ---------- static data ----------
+  get PHOTOS() {
+    return {
+      street: { src: 'assets/slide-section-bg.jpg', r: 2000 / 1184 },
+      perron: { src: 'assets/photo-locatie.jpg', r: 1048 / 810 },
+      mall: { src: 'assets/photo-winkelcentrum.jpg', r: 1045 / 809 },
+      hal: { src: 'assets/photo-netwerk.jpg', r: 999 / 717 },
+      moz: { src: 'assets/slide-title-bg.jpg', r: 16 / 9 },
+    };
+  }
+  get FRAMES() {
+    return {
+      abri: { src: 'assets/format-abri.png', r: 154 / 274, box: { l: 4.6, t: 2.2, w: 90.8, h: 88.2 } },
+      scrP: { src: 'assets/format-screen-portrait.png', r: 207 / 335, box: { l: 8.2, t: 5.8, w: 83.6, h: 86.4 } },
+      mast: { src: 'assets/format-snelwegmast.png', r: 318 / 467, box: { l: 2.4, t: 1.8, w: 95.2, h: 34.6 } },
+    };
+  }
+  get SEASONS() {
+    return [
+      { id: 'lente', label: 'Lente', f: 'saturate(1.12) brightness(1.06) hue-rotate(-6deg)' },
+      { id: 'zomer', label: 'Zomer', f: 'saturate(1.28) contrast(1.04) brightness(1.05) sepia(0.06)' },
+      { id: 'herfst', label: 'Herfst', f: 'sepia(0.32) saturate(1.35) hue-rotate(-12deg) brightness(0.99)' },
+      { id: 'winter', label: 'Winter', f: 'grayscale(0.45) sepia(0.14) hue-rotate(150deg) saturate(0.75) brightness(1.1)' },
+    ];
+  }
+  get FORMATS() {
+    return [
+      { cls: 'p23', label: 'Abri en Europanel', short: '2:3 staand', r: 2 / 3 },
+      { cls: 'p916', label: 'Digitale schermen', short: '9:16 staand', r: 9 / 16 },
+      { cls: 'l169', label: 'Snelwegmasten', short: '16:9 liggend', r: 16 / 9 },
+    ];
+  }
+  get GLOSS() {
+    return {
+      abri: { background: 'linear-gradient(112deg, rgba(255,255,255,0) 38%, rgba(255,255,255,0.20) 45%, rgba(255,255,255,0.05) 52%, rgba(255,255,255,0) 58%), linear-gradient(215deg, rgba(255,255,255,0.14), rgba(255,255,255,0) 30%)', boxShadow: 'inset 0 0 34px rgba(10,16,24,0.28)', borderRadius: '2px' },
+      screen: { background: 'linear-gradient(180deg, rgba(255,255,255,0.13), rgba(255,255,255,0) 22%), linear-gradient(115deg, rgba(255,255,255,0) 55%, rgba(255,255,255,0.09) 62%, rgba(255,255,255,0) 70%)', boxShadow: 'inset 0 0 40px rgba(8,12,20,0.30)', borderRadius: '3px' },
+      mast: { background: 'linear-gradient(180deg, rgba(255,255,255,0.10), rgba(255,255,255,0) 30%)', boxShadow: 'inset 0 0 30px rgba(8,12,20,0.22)' },
+    };
+  }
+  get LOCS() {
+    if (this._locs) return this._locs;
+    const fw = (frame, h) => h * this.FRAMES[frame].r * 0.75; // width % in a 4:3 wrapper
+    const L = [
+      { id: 'dh', naam: 'Den Haag, Buitenhof', type: 'abri', typeLabel: 'Abri', netwerk: 'Winkelstraten', regio: 'Zuid-Holland', fmt: 'p23', digital: false, bereik: '± 190.000', bereikSub: 'passanten per week',
+        scene: { photo: 'street', zoom: 1.14, bgFocus: { x: 44.5, y: 55 }, surfs: [{ box: { l: 35.9, t: 34.8, w: 17.2, h: 43.6 }, tf: 'perspective(1400px) rotateY(1.5deg)', gloss: 'abri' }] } },
+      { id: 'vanwou', naam: 'Amsterdam, Van Woustraat', type: 'abri', typeLabel: 'Abri', netwerk: 'Winkelstraten', regio: 'Noord-Holland', fmt: 'p23', digital: false, bereik: '± 160.000', bereikSub: 'passanten per week',
+        scene: { photo: 'street', zoom: 1.55, bgFocus: { x: 78, y: 38 }, blur: 3.5, dim: 0.12, frames: [{ frame: 'abri', box: { l: 37, t: 16, h: 66 }, tf: 'perspective(1100px) rotateY(-5deg)', gloss: 'abri' }] } },
+      { id: 'lijnbaan', naam: 'Rotterdam, Lijnbaan', type: 'abri', typeLabel: 'Abri', netwerk: 'Winkelstraten', regio: 'Zuid-Holland', fmt: 'p23', digital: false, bereik: '± 210.000', bereikSub: 'passanten per week',
+        scene: { photo: 'street', zoom: 1.75, bgFocus: { x: 16, y: 52 }, blur: 4, dim: 0.14, frames: [{ frame: 'abri', box: { l: 39, t: 20, h: 62 }, tf: 'perspective(1100px) rotateY(4deg)', gloss: 'abri' }] } },
+      { id: 'piazza', naam: 'Eindhoven, Piazza', type: 'abri', typeLabel: 'Abri', netwerk: 'Winkelcentra', regio: 'Noord-Brabant', fmt: 'p23', digital: false, bereik: '± 140.000', bereikSub: 'bezoekers per week',
+        scene: { photo: 'mall', zoom: 1.55, bgFocus: { x: 30, y: 42 }, blur: 3.5, dim: 0.10, frames: [{ frame: 'abri', box: { l: 37.5, t: 19, h: 63 }, tf: 'perspective(1100px) rotateY(-3deg)', gloss: 'abri' }] } },
+      { id: 'hc', naam: 'Utrecht, Hoog Catharijne', type: 'digitaal', typeLabel: 'Digitaal scherm', netwerk: 'Winkelcentra', regio: 'Utrecht', fmt: 'p916', digital: true, bereik: '± 250.000', bereikSub: 'bezoekers per week',
+        scene: { photo: 'mall', zoom: 1.7, bgFocus: { x: 74.5, y: 58 }, surfs: [{ box: { l: 75.55, t: 54.6, w: 6.95, h: 15.3 }, tf: 'perspective(700px) rotateY(-8deg)', gloss: 'screen' }] } },
+      { id: 'westfield', naam: 'Leidschendam, Westfield Mall', type: 'digitaal', typeLabel: 'Digitaal scherm', netwerk: 'Winkelcentra', regio: 'Zuid-Holland', fmt: 'p916', digital: true, bereik: '± 230.000', bereikSub: 'bezoekers per week',
+        scene: { photo: 'mall', zoom: 1.9, bgFocus: { x: 52, y: 36 }, blur: 4, dim: 0.18, frames: [{ frame: 'scrP', box: { l: 37, t: 15, h: 64 }, tf: 'perspective(1000px) rotateY(6deg)', gloss: 'screen' }] } },
+      { id: 'a2', naam: 'A2 Amsterdam, knooppunt Amstel', type: 'mast', typeLabel: 'Snelwegmast', netwerk: 'Snelwegmasten', regio: 'Noord-Holland', fmt: 'l169', digital: true, bereik: '± 1.100.000', bereikSub: 'passages per week',
+        scene: { photo: 'street', zoom: 2.1, bgFocus: { x: 52, y: 11 }, blur: 2.5, dim: 0.05, frames: [{ frame: 'mast', box: { l: 28, t: 7, h: 88 }, tf: 'perspective(1600px) rotateY(-4deg)', gloss: 'mast' }] } },
+      { id: 'a12', naam: 'A12 Utrecht, Oudenrijn', type: 'mast', typeLabel: 'Snelwegmast', netwerk: 'Snelwegmasten', regio: 'Utrecht', fmt: 'l169', digital: true, bereik: '± 950.000', bereikSub: 'passages per week',
+        scene: { photo: 'moz', zoom: 2.4, bgFocus: { x: 86, y: 12 }, blur: 2.5, dim: 0.08, frames: [{ frame: 'mast', box: { l: 30, t: 8, h: 86 }, tf: 'perspective(1600px) rotateY(4deg)', gloss: 'mast' }] } },
+      { id: 'uc', naam: 'Utrecht Centraal, perron 5', type: 'station', typeLabel: 'Stationsscherm', netwerk: 'Treinstations', regio: 'Utrecht', fmt: 'p916', digital: true, bereik: '± 320.000', bereikSub: 'reizigers per week',
+        scene: { photo: 'perron', zoom: 1.08, bgFocus: { x: 47, y: 43 }, surfs: [{ box: { l: 41.3, t: 23.4, w: 12.1, h: 36 }, tf: 'perspective(900px) rotateY(-2deg)', gloss: 'screen' }] } },
+      { id: 'schiphol', naam: 'Schiphol Plaza, aankomsthal', type: 'station', typeLabel: 'Stationsscherm', netwerk: 'Treinstations', regio: 'Noord-Holland', fmt: 'p916', digital: true, twins: true, bereik: '± 480.000', bereikSub: 'reizigers per week',
+        scene: { photo: 'hal', zoom: 1.4, bgFocus: { x: 50, y: 40 }, blur: 3, dim: 0.30, frames: [
+          { frame: 'scrP', box: { l: 22.5, t: 22, h: 56 }, tf: 'perspective(1200px) rotateY(4deg)', gloss: 'screen' },
+          { frame: 'scrP', box: { l: 51.5, t: 22, h: 56 }, tf: 'perspective(1200px) rotateY(-4deg)', gloss: 'screen', second: true },
+        ] } },
+    ];
+    L.forEach(loc => {
+      (loc.scene.frames || []).forEach(fr => { fr.box.w = fw(fr.frame, fr.box.h); });
+      const f0 = (loc.scene.frames || [])[0];
+      loc.scene.ovFocus = f0 ? { x: f0.box.l + f0.box.w / 2, y: f0.box.t + f0.box.h / 2 } : { x: 50, y: 50 };
+      if (loc.twins) loc.scene.ovFocus = { x: 50, y: 50 };
+    });
+    this._locs = L;
+    return L;
+  }
+
+  // ---------- helpers ----------
+  prop(k, d) { const v = this.props ? this.props[k] : undefined; return v === undefined || v === null ? d : v; }
+  season() { return this.state.season || this.prop('standaardSeizoen', 'zomer'); }
+  seasonLabel() { const s = this.SEASONS.find(x => x.id === this.season()); return s ? s.label : 'Zomer'; }
+  cropPos(fmt) { const c = this.state.crops[fmt] || { x: 50, y: 50 }; return c.x.toFixed(1) + '% ' + c.y.toFixed(1) + '%'; }
+  fmtOf(loc) { return this.FORMATS.find(f => f.cls === loc.fmt); }
+
+  ic(paths, size) {
+    const kids = paths.map((d, i) => React.createElement('path', { d, key: i }));
+    return React.createElement('svg', { width: size || 16, height: size || 16, viewBox: '0 0 24 24', fill: 'none', stroke: 'currentColor', strokeWidth: 2, strokeLinecap: 'round', strokeLinejoin: 'round', style: { flexShrink: 0 } }, kids);
+  }
+
+  sceneModel(loc, o) {
+    o = o || {};
+    const st = this.state, sc = loc.scene, ph = this.PHOTOS[sc.photo], R = ph.r;
+    const sf = this.SEASONS.find(s => s.id === (o.season || this.season()));
+    const cre = o.creative || st.creative;
+    const cre2 = (loc.twins && st.twinsMode === 'second' && st.creative2) ? st.creative2 : null;
+    const Zb = (sc.zoom || 1) * (o.bg || 1);
+    const planeW = Math.max(1, 0.75 * R) * Zb;
+    const Zh = planeW, Zv = (planeW / R) / 0.75;
+    const foc = sc.bgFocus || { x: 50, y: 50 };
+    const cl = (v, z) => z <= 1.001 ? 50 : Math.min(100 - 50 / z, Math.max(50 / z, v));
+    const fx = cl(foc.x, Zh), fy = cl(foc.y, Zv);
+    const blur = o.noBlur ? 0 : (sc.blur || 0);
+    const filter = sf.f + (blur ? ' blur(' + blur + 'px)' : '') + (o.cinematic ? ' saturate(1.22) contrast(1.12) brightness(1.02)' : '');
+    const trans = 'transform 0.6s cubic-bezier(0.4,0,0.2,1), width 0.6s cubic-bezier(0.4,0,0.2,1)';
+    const layers = [];
+    if (sc.dim) layers.push({ isDiv: true, style: { position: 'absolute', inset: '0', background: 'rgba(10,16,24,' + sc.dim + ')' } });
+    (sc.surfs || []).forEach((s, i) => {
+      if (!cre) return;
+      const b = s.box;
+      const base = { position: 'absolute', left: b.l + '%', top: b.t + '%', width: b.w + '%', height: b.h + '%', transform: s.tf || 'none' };
+      layers.push({ src: cre.src, style: Object.assign({}, base, { objectFit: 'cover', objectPosition: o.centerCrop ? '50% 50%' : this.cropPos(loc.fmt), borderRadius: '2px', filter: loc.digital ? 'brightness(1.07) saturate(1.05)' : 'none', boxShadow: loc.digital ? '0 0 26px rgba(120,190,255,0.22)' : 'none' }) });
+      if (o.realisme !== false && s.gloss) layers.push({ isDiv: true, style: Object.assign({}, base, this.GLOSS[s.gloss]) });
+    });
+    if (o.cinematic) {
+      layers.push({ isDiv: true, style: { position: 'absolute', inset: '0', background: 'radial-gradient(115% 90% at 50% 42%, rgba(0,0,0,0) 52%, rgba(8,12,20,0.5) 100%)' } });
+      layers.push({ isDiv: true, style: { position: 'absolute', inset: '0', background: 'linear-gradient(105deg, rgba(255,196,130,0.12), rgba(255,196,130,0) 42%)' } });
+    }
+    const frameSurfs = [];
+    (sc.frames || []).forEach((fr, i) => {
+      const FR = this.FRAMES[fr.frame], b = fr.box;
+      const src = cre ? ((fr.second && cre2) ? cre2.src : cre.src) : null;
+      frameSurfs.push({
+        key: loc.id + '-f' + i,
+        wrapStyle: { position: 'absolute', left: b.l + '%', top: b.t + '%', width: b.w + '%', height: b.h + '%', transform: fr.tf || 'none', filter: 'drop-shadow(0 14px 24px rgba(11,13,16,0.35))' },
+        frameSrc: FR.src,
+        creSrc: src,
+        creStyle: { position: 'absolute', left: FR.box.l + '%', top: FR.box.t + '%', width: FR.box.w + '%', height: FR.box.h + '%', objectFit: 'cover', objectPosition: (fr.second && cre2) ? '50% 50%' : (o.centerCrop ? '50% 50%' : this.cropPos(loc.fmt)), filter: loc.digital ? 'brightness(1.07) saturate(1.05)' : 'none' },
+        glossStyle: (o.realisme !== false && fr.gloss) ? Object.assign({ position: 'absolute', left: FR.box.l + '%', top: FR.box.t + '%', width: FR.box.w + '%', height: FR.box.h + '%' }, this.GLOSS[fr.gloss]) : null,
+      });
+    });
+    const ovS = o.ov || 1;
+    return {
+      photoSrc: ph.src,
+      photoStyle: { width: '100%', height: '100%', objectFit: 'cover', display: 'block', filter, transform: blur ? 'scale(1.07)' : 'none' },
+      planeStyle: { position: 'absolute', left: '50%', top: '50%', width: (planeW * 100) + '%', aspectRatio: String(R), transform: 'translate(-' + fx + '%, -' + fy + '%)', transition: trans },
+      planeLayers: layers,
+      overlayStyle: { position: 'absolute', inset: '0', transform: 'scale(' + ovS + ')', transformOrigin: sc.ovFocus.x + '% ' + sc.ovFocus.y + '%', transition: 'transform 0.6s cubic-bezier(0.4,0,0.2,1)' },
+      frameSurfs,
+    };
+  }
+
+  // ---------- lifecycle ----------
+  componentDidMount() {
+    try {
+      const raw = localStorage.getItem('adviewer2_v1');
+      if (raw) {
+        const d = JSON.parse(raw);
+        const patch = {};
+        if (d.creative && d.creative.src) { patch.creative = d.creative; patch.screen = 'grid'; }
+        if (d.creative2) patch.creative2 = d.creative2;
+        if (d.crops) patch.crops = d.crops;
+        if (d.unlocked) patch.unlocked = true;
+        if (d.lead) patch.lead = d.lead;
+        if (d.season) patch.season = d.season;
+        this.setState(patch);
+      } else if (this.prop('startMetVoorbeeld', false)) {
+        this.loadDemo(true);
+      }
+    } catch (e) { /* storage unavailable */ }
+    this._esc = (e) => { if (e.key === 'Escape') this.closeTopModal(); };
+    window.addEventListener('keydown', this._esc);
+  }
+  componentWillUnmount() {
+    window.removeEventListener('keydown', this._esc);
+    clearTimeout(this._toastT); clearTimeout(this._aiT); clearTimeout(this._vidT);
+  }
+  closeTopModal() {
+    const s = this.state;
+    if (s.cropOpen) return this.setState({ cropOpen: false });
+    if (s.gateOpen) return this.setState({ gateOpen: false });
+    if (s.aiOpen) return this.setState({ aiOpen: false });
+    if (s.vidOpen) return this.setState({ vidOpen: false });
+  }
+
+  persist() {
+    try {
+      const s = this.state;
+      const small = (c) => (c && c.src && c.src.length < 1500000) ? c : null;
+      localStorage.setItem('adviewer2_v1', JSON.stringify({
+        creative: small(s.creative), creative2: small(s.creative2),
+        crops: s.crops, unlocked: s.unlocked, lead: s.lead, season: s.season,
+      }));
+    } catch (e) { /* quota */ }
+  }
+  showToast(msg) {
+    clearTimeout(this._toastT);
+    this.setState({ toast: msg });
+    this._toastT = setTimeout(() => this.setState({ toast: null }), 2800);
+  }
+  setScreen(sc) { this.setState({ screen: sc }); window.scrollTo({ top: 0 }); }
+
+  // ---------- upload ----------
+  acceptFile(f, slot) {
+    if (!f) return;
+    if (!/^image\/(png|jpeg)$/.test(f.type)) { this.setState({ uploadErr: 'Dat bestandstype ondersteunen we nog niet. Upload een JPG of PNG.' }); return; }
+    if (f.size > 10 * 1024 * 1024) { this.setState({ uploadErr: 'Dit bestand is groter dan 10 MB. Verklein het en probeer het opnieuw.' }); return; }
+    const rd = new FileReader();
+    rd.onload = () => {
+      const img = new Image();
+      img.onload = () => {
+        const c = { src: rd.result, w: img.naturalWidth, h: img.naturalHeight, name: f.name };
+        if (slot === 2) {
+          this.setState({ creative2: c }, () => this.persist());
+          this.showToast('Tweede uiting geladen');
+        } else {
+          this.setState({ creative: c, creative2: null, crops: { p23: { x: 50, y: 50 }, p916: { x: 50, y: 50 }, l169: { x: 50, y: 50 } }, uploadErr: null, dragOver: false }, () => this.persist());
+          if (this.state.screen !== 'landing') this.showToast('Nieuwe uiting geladen');
+        }
+      };
+      img.src = rd.result;
+    };
+    rd.readAsDataURL(f);
+  }
+  loadDemo(toGrid) {
+    this.setState({
+      creative: { src: 'assets/demo-uiting-a.png', w: 800, h: 1200, name: 'bloom voorbeeld.png' },
+      creative2: { src: 'assets/demo-uiting-b.png', w: 800, h: 1200, name: 'bloom voorbeeld 2.png' },
+      crops: { p23: { x: 50, y: 50 }, p916: { x: 50, y: 50 }, l169: { x: 50, y: 50 } },
+      uploadErr: null,
+    }, () => this.persist());
+    if (toGrid) this.setScreen('grid');
+  }
+
+  // ---------- analysis ----------
+  analysis() {
+    const c = this.state.creative;
+    if (!c) return null;
+    const ar = c.w / c.h;
+    const fits = [], needs = [];
+    this.FORMATS.forEach(f => { (Math.abs(ar - f.r) / f.r <= 0.08 ? fits : needs).push({ label: f.label, cls: f.cls }); });
+    const g = (a, b) => b ? g(b, a % b) : a;
+    const d = g(c.w, c.h); let rw = c.w / d, rh = c.h / d;
+    const ratio = (rw <= 32 && rh <= 32) ? rw + ':' + rh : '1 : ' + (c.h / c.w).toFixed(2).replace('.', ',');
+    return { ar, fits, needs, mismatch: needs.length > 0, dims: c.w + ' × ' + c.h + ' pixels, verhouding ' + ratio };
+  }
+
+  // ---------- gate ----------
+  openGate(action) {
+    if (!this.prop('gateActief', true) || this.state.unlocked) { this.runAction(action); return; }
+    this.setState({ gateOpen: true, gateAction: action, gateStep: 'form', gateErrors: {} });
+  }
+  submitGate() {
+    const s = this.state, errs = {};
+    if (!s.gNaam.trim()) errs.naam = 'Vul je naam in';
+    if (!/.+@.+\..+/.test(s.gEmail)) errs.email = 'Vul een geldig e-mailadres in';
+    if (!s.gBedrijf.trim()) errs.bedrijf = 'Vul je bedrijfsnaam in';
+    if (!s.gAkkoord) errs.akkoord = 'Vink het privacy akkoord aan om verder te gaan';
+    if (Object.keys(errs).length) { this.setState({ gateErrors: errs }); return; }
+    this.setState({ gateStep: 'success', unlocked: true, lead: { naam: s.gNaam, email: s.gEmail, bedrijf: s.gBedrijf, rol: s.gRol } }, () => this.persist());
+  }
+  runAction(a) {
+    if (a === 'share') { this.setScreen('share'); this.showToast('Deelbare pagina aangemaakt'); }
+    if (a === 'ai') {
+      clearTimeout(this._aiT);
+      this.setState({ aiOpen: true, aiReady: false, aiPos: 50 });
+      this._aiT = setTimeout(() => this.setState({ aiReady: true }), 2600);
+    }
+    if (a === 'video') {
+      clearTimeout(this._vidT);
+      this.setState({ vidOpen: true, vidReady: false, vidPlaying: true });
+      this._vidT = setTimeout(() => this.setState({ vidReady: true }), 2100);
+    }
+  }
+
+  // ---------- download still ----------
+  loadImg(src) {
+    this._imgCache = this._imgCache || {};
+    if (this._imgCache[src]) return this._imgCache[src];
+    this._imgCache[src] = new Promise((res, rej) => { const i = new Image(); i.onload = () => res(i); i.onerror = rej; i.src = src; });
+    return this._imgCache[src];
+  }
+  async downloadStill(loc) {
+    try {
+      const st = this.state, sc = loc.scene, ph = this.PHOTOS[sc.photo];
+      const W = 1600, H = 1200;
+      const cv = document.createElement('canvas'); cv.width = W; cv.height = H;
+      const x = cv.getContext('2d');
+      const sf = this.SEASONS.find(s => s.id === this.season());
+      const factors = { dichtbij: { bg: 1.85, ov: 1.6 }, veraf: { bg: 1.25, ov: 1.18 }, verderweg: { bg: 1, ov: 0.92 } };
+      const fac = (st.screen === 'detail' && st.selId === loc.id) ? factors[st.distance] : { bg: 1.06, ov: 1 };
+      const R = ph.r, Zb = (sc.zoom || 1) * fac.bg;
+      const planeW = Math.max(W, H * R) * Zb, planeH = planeW / R;
+      const Zh = planeW / W, Zv = planeH / H;
+      const clm = (v, z) => z <= 1.001 ? 50 : Math.min(100 - 50 / z, Math.max(50 / z, v));
+      const foc = sc.bgFocus || { x: 50, y: 50 };
+      const fx = clm(foc.x, Zh), fy = clm(foc.y, Zv);
+      const px = W / 2 - fx / 100 * planeW, py = H / 2 - fy / 100 * planeH;
+      const photo = await this.loadImg(ph.src);
+      x.filter = sf.f + (sc.blur ? ' blur(' + sc.blur * 2 + 'px)' : '');
+      x.drawImage(photo, px, py, planeW, planeH);
+      x.filter = 'none';
+      if (sc.dim) { x.fillStyle = 'rgba(10,16,24,' + sc.dim + ')'; x.fillRect(0, 0, W, H); }
+      const cre = st.creative;
+      const drawCover = (img, bx, by, bw, bh, cropPct) => {
+        const br = bw / bh, ir = img.naturalWidth / img.naturalHeight;
+        let sw, sh, sx, sy;
+        if (ir > br) { sh = img.naturalHeight; sw = sh * br; sx = (img.naturalWidth - sw) * cropPct.x / 100; sy = 0; }
+        else { sw = img.naturalWidth; sh = sw / br; sx = 0; sy = (img.naturalHeight - sh) * cropPct.y / 100; }
+        x.drawImage(img, sx, sy, sw, sh, bx, by, bw, bh);
+      };
+      const gloss = (bx, by, bw, bh) => {
+        if (!st.realisme && st.screen === 'detail') return;
+        const gr = x.createLinearGradient(bx, by, bx + bw, by + bh);
+        gr.addColorStop(0.38, 'rgba(255,255,255,0)'); gr.addColorStop(0.45, 'rgba(255,255,255,0.18)'); gr.addColorStop(0.55, 'rgba(255,255,255,0)');
+        x.fillStyle = gr; x.fillRect(bx, by, bw, bh);
+      };
+      if (cre) {
+        const cimg = await this.loadImg(cre.src);
+        const crop = st.crops[loc.fmt] || { x: 50, y: 50 };
+        for (const s of (sc.surfs || [])) {
+          const bx = px + s.box.l / 100 * planeW, by = py + s.box.t / 100 * planeH;
+          const bw = s.box.w / 100 * planeW, bh = s.box.h / 100 * planeH;
+          drawCover(cimg, bx, by, bw, bh, crop); gloss(bx, by, bw, bh);
+        }
+        for (const fr of (sc.frames || [])) {
+          const FR = this.FRAMES[fr.frame];
+          const fimg = await this.loadImg(FR.src);
+          const ov = fac.ov, of_ = sc.ovFocus;
+          const scl = (v, o, dim) => o / 100 * dim + (v - o / 100 * dim) * ov;
+          const bx = scl(fr.box.l / 100 * W, of_.x, W), by = scl(fr.box.t / 100 * H, of_.y, H);
+          const bw = fr.box.w / 100 * W * ov, bh = fr.box.h / 100 * H * ov;
+          x.drawImage(fimg, bx, by, bw, bh);
+          const c2 = (fr.second && st.twinsMode === 'second' && st.creative2) ? await this.loadImg(st.creative2.src) : cimg;
+          const cbx = bx + FR.box.l / 100 * bw, cby = by + FR.box.t / 100 * bh;
+          const cbw = FR.box.w / 100 * bw, cbh = FR.box.h / 100 * bh;
+          drawCover(c2, cbx, cby, cbw, cbh, (fr.second && st.creative2 && st.twinsMode === 'second') ? { x: 50, y: 50 } : crop);
+          gloss(cbx, cby, cbw, cbh);
+        }
+      }
+      x.fillStyle = 'rgba(11,13,16,0.55)';
+      const wm = 'Gesimuleerde preview via Global AdViewer';
+      x.font = '600 26px Montserrat, sans-serif';
+      const tw = x.measureText(wm).width;
+      const rx = W - tw - 70, ry = H - 74;
+      x.beginPath(); x.roundRect(rx, ry, tw + 44, 46, 23); x.fill();
+      x.fillStyle = '#fff'; x.fillText(wm, rx + 22, ry + 32);
+      cv.toBlob((b) => {
+        const a = document.createElement('a');
+        a.href = URL.createObjectURL(b);
+        a.download = 'adviewer-' + loc.id + '.jpg';
+        a.click();
+        setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+        this.showToast('Still gedownload');
+      }, 'image/jpeg', 0.92);
+    } catch (e) { this.showToast('Downloaden lukte even niet, probeer opnieuw'); }
+  }
+
+  // ---------- crop ----------
+  cropClasses() { const a = this.analysis(); return a ? a.needs : []; }
+  cropGeom() {
+    const c = this.state.creative;
+    const cls = this.state.cropClass || (this.cropClasses()[0] || {}).cls;
+    if (!c || !cls) return null;
+    const F = this.FORMATS.find(f => f.cls === cls);
+    const SW = 544, SH = 340;
+    const s = Math.min(SW / c.w, SH / c.h);
+    const dw = c.w * s, dh = c.h * s;
+    const ix = (SW - dw) / 2, iy = (SH - dh) / 2;
+    let fw = Math.min(dw, dh * F.r), fh = fw / F.r;
+    if (fh > dh) { fh = dh; fw = fh * F.r; }
+    const freeX = dw - fw, freeY = dh - fh;
+    const crop = this.state.crops[cls];
+    return { cls, F, SW, SH, dw, dh, ix, iy, fw, fh, freeX, freeY, fx: ix + crop.x / 100 * freeX, fy: iy + crop.y / 100 * freeY };
+  }
+
+  // ---------- renderVals ----------
+  renderVals() {
+    const st = this.state;
+    const screen = st.screen;
+    const season = this.season();
+    const seasonLb = this.seasonLabel();
+    const an = this.analysis();
+    const demoCre = { src: 'assets/demo-uiting-a.png', w: 800, h: 1200, name: 'demo' };
+    const locs = this.LOCS;
+    const segBtn = (active) => ({
+      border: 'none', cursor: 'pointer', borderRadius: '999px', padding: '7px 14px',
+      fontSize: '13px', fontWeight: 600, fontFamily: 'inherit', transition: 'background 0.18s, color 0.18s',
+      background: active ? 'var(--global-main-blue)' : 'transparent',
+      color: active ? '#fff' : 'var(--grey-600)',
+      boxShadow: active ? 'var(--shadow-sm)' : 'none',
+    });
+
+    // filters
+    const filtered = locs.filter(l =>
+      (st.fType === 'alle' || l.type === st.fType) &&
+      (st.fNet === 'alle' || l.netwerk === st.fNet) &&
+      (st.fReg === 'alle' || l.regio === st.fReg) &&
+      (!st.q.trim() || l.naam.toLowerCase().includes(st.q.trim().toLowerCase()))
+    );
+    const badgeVar = { abri: 'neutral', digitaal: 'accent', mast: 'brand', station: 'solid' };
+    const mkCard = (l, share) => ({
+      key: l.id, naam: l.naam, typeLabel: l.typeLabel, badgeVariant: badgeVar[l.type],
+      sub: l.netwerk + ' · ' + l.regio, chip: seasonLb, twins: !!l.twins,
+      open: share ? null : () => { this.setState({ selId: l.id, distance: 'veraf', twinsMode: 'same' }); this.setScreen('detail'); },
+      m: this.sceneModel(l, { bg: 1.06, ov: 1 }),
+    });
+    const cards = st.creative ? filtered.map(l => mkCard(l, false)) : [];
+    const shareCards = st.creative ? locs.map(l => mkCard(l, true)) : [];
+
+    // detail
+    const sel = locs.find(l => l.id === st.selId) || locs[0];
+    const factors = { dichtbij: { bg: 1.85, ov: 1.6 }, veraf: { bg: 1.25, ov: 1.18 }, verderweg: { bg: 1, ov: 0.92 } };
+    const fac = factors[st.distance] || factors.veraf;
+    const det = {
+      naam: sel.naam, typeLabel: sel.typeLabel, badgeVariant: badgeVar[sel.type],
+      netwerk: sel.netwerk, regio: sel.regio, formaatLabel: this.fmtOf(sel).short,
+      bereik: sel.bereik, bereikSub: sel.bereikSub, chip: seasonLb + ' · ' + ({ dichtbij: 'Dichtbij', veraf: 'Veraf', verderweg: 'Verder weg' }[st.distance]),
+      isTwins: !!sel.twins, twSame: st.twinsMode === 'same', twSecond: st.twinsMode === 'second',
+      pickTwSame: () => this.setState({ twinsMode: 'same' }),
+      pickTwSecond: () => this.setState({ twinsMode: 'second' }),
+      c2Thumb: st.creative2 ? st.creative2.src : null, noC2: !st.creative2,
+      realisme: st.realisme,
+      toggleRealisme: (e) => this.setState({ realisme: e.target.checked }),
+      showVideo: sel.digital,
+      distances: [['dichtbij', 'Dichtbij'], ['veraf', 'Veraf'], ['verderweg', 'Verder weg']].map(([id, label]) => ({
+        label, style: segBtn(st.distance === id), pick: () => this.setState({ distance: id }),
+      })),
+      m: this.sceneModel(sel, { bg: fac.bg, ov: fac.ov, realisme: st.realisme }),
+      download: () => this.downloadStill(sel),
+      share: () => this.openGate('share'),
+      ai: () => this.openGate('ai'),
+      video: () => this.openGate('video'),
+    };
+
+    // AI models
+    let aiBefore = null, aiAfter = null, aiTops = [];
+    if (st.aiOpen && st.aiReady && st.creative) {
+      let afterLoc;
+      if (sel.type === 'mast') afterLoc = sel;
+      else if (sel.fmt === 'p23') afterLoc = locs.find(l => l.id === 'dh');
+      else afterLoc = sel.id === 'uc' ? locs.find(l => l.id === 'hc') : locs.find(l => l.id === 'uc');
+      aiBefore = this.sceneModel(sel, { bg: 1.2, ov: 1.12, realisme: true });
+      aiAfter = this.sceneModel(afterLoc, { bg: 1.55, ov: 1.35, realisme: true, cinematic: true, noBlur: true });
+      aiTops = [];
+    }
+    const aiPos = Math.max(4, Math.min(96, st.aiPos));
+
+    // gate copy
+    const gateCopy = {
+      share: { t: 'Ontvang een deelbare pagina', s: 'Je krijgt een unieke link met jouw campagne op al onze objecten. Handig om te delen met je team of klant.', ic: this.ic(['M10 14a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1.5 1.5', 'M14 10a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1.5-1.5'], 22) },
+      ai: { t: 'Ontvang een fotorealistische AI render', s: 'Onze AI plaatst jouw uiting in een fotorealistische straatsetting, in hoge resolutie.', ic: this.ic(['M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z', 'M19 15l0.9 2.1L22 18l-2.1 0.9L19 21l-0.9-2.1L16 18l2.1-0.9L19 15z'], 22) },
+      video: { t: 'Ontvang een video-export', s: 'Bekijk jouw uiting in beweging op een digitaal scherm en ontvang de video als MP4.', ic: this.ic(['M8 5.5l11 6.5-11 6.5V5.5z'], 22) },
+    };
+    const gc = gateCopy[st.gateAction] || gateCopy.share;
+    const goOnLabels = { share: 'Open de deelbare pagina', ai: 'Start de AI render', video: 'Start de video-export' };
+
+    const privacyLabel = React.createElement('span', null, 'Ik ga akkoord met de ',
+      React.createElement('a', { href: 'https://global.com/nl/', target: '_blank', rel: 'noreferrer', style: { color: 'var(--text-link)', fontWeight: 600 } }, 'privacyverklaring'),
+      ' van Global');
+
+    // crop
+    const cg = st.cropOpen ? this.cropGeom() : null;
+    const cropTabs = this.cropClasses().map(n => {
+      const active = cg && cg.cls === n.cls;
+      const F = this.FORMATS.find(f => f.cls === n.cls);
+      return {
+        label: F.label + ' (' + F.short.split(' ')[0] + ')',
+        style: {
+          border: '1.5px solid ' + (active ? 'var(--global-main-blue)' : 'var(--border-default)'),
+          background: active ? 'var(--blue-50)' : 'var(--surface-card)',
+          color: active ? 'var(--global-main-blue)' : 'var(--grey-600)',
+          borderRadius: '999px', padding: '6px 14px', fontSize: '13px', fontWeight: 600, cursor: 'pointer', fontFamily: 'inherit',
+        },
+        pick: () => this.setState({ cropClass: n.cls }),
+      };
+    });
+
+    const eff = (e, fn) => (ev) => fn(ev);
+
+    return {
+      // globals
+      isTrue: true,
+      isLanding: screen === 'landing', isGrid: screen === 'grid', isDetail: screen === 'detail', isShare: screen === 'share',
+      showTopbar: (screen === 'grid' || screen === 'detail') && !!st.creative,
+      logoH: 34, lockupH: 46, lockupHsm: 38, lockupHxs: 30,
+      unlocked: st.unlocked, locked: !st.unlocked,
+      toast: st.toast,
+
+      // file handling
+      fileRef: (this._fileRef = this._fileRef || React.createRef()),
+      file2Ref: (this._file2Ref = this._file2Ref || React.createRef()),
+      onFile: (e) => { this.acceptFile(e.target.files && e.target.files[0], 1); e.target.value = ''; },
+      onFile2: (e) => { this.acceptFile(e.target.files && e.target.files[0], 2); e.target.value = ''; },
+      openFile: () => { if (this._fileRef.current) this._fileRef.current.click(); },
+      openFile2: () => { if (this._file2Ref.current) this._file2Ref.current.click(); },
+
+      // topbar
+      thumbSrc: st.creative ? st.creative.src : '',
+      thumbName: st.creative ? st.creative.name : '',
+      thumbDims: st.creative ? st.creative.w + ' × ' + st.creative.h + ' px' : '',
+      goLanding: () => this.setScreen('landing'),
+
+      // landing
+      noCreative: !st.creative, hasCreative: !!st.creative,
+      dzStyle: {
+        border: '2px dashed ' + (st.dragOver ? 'var(--global-main-blue)' : 'var(--border-default)'),
+        background: st.dragOver ? 'var(--blue-50)' : 'var(--surface-card)',
+        borderRadius: '16px', padding: '34px 24px', textAlign: 'center', cursor: 'pointer',
+        transition: 'border-color 0.2s, background 0.2s',
+      },
+      dzOver: (e) => { e.preventDefault(); if (!st.dragOver) this.setState({ dragOver: true }); },
+      dzLeave: (e) => { e.preventDefault(); this.setState({ dragOver: false }); },
+      dzDrop: (e) => { e.preventDefault(); this.acceptFile(e.dataTransfer.files && e.dataTransfer.files[0], 1); },
+      uploadErr: st.uploadErr,
+      anThumb: st.creative ? st.creative.src : '',
+      anDims: an ? an.dims : '',
+      anFits: an ? an.fits : [],
+      anNeeds: an ? an.needs : [],
+      anMismatch: an ? an.mismatch : false,
+      goGrid: () => this.setScreen('grid'),
+      clearCreative: () => { this.setState({ creative: null, creative2: null, uploadErr: null }, () => this.persist()); },
+      examples: [
+        { label: 'Abri, winkelstraat', loc: 'dh' },
+        { label: 'Digitaal, station', loc: 'uc' },
+        { label: 'Snelwegmast', loc: 'a2' },
+      ].map(x => ({
+        label: x.label,
+        pick: () => this.loadDemo(true),
+        m: this.sceneModel(locs.find(l => l.id === x.loc), { bg: 1.06, ov: 1, creative: demoCre, centerCrop: true }),
+      })),
+
+      // grid
+      q: st.q, setQ: (e) => this.setState({ q: e.target.value }),
+      fType: st.fType, setFType: (e) => this.setState({ fType: e.target.value }),
+      fNet: st.fNet, setFNet: (e) => this.setState({ fNet: e.target.value }),
+      fReg: st.fReg, setFReg: (e) => this.setState({ fReg: e.target.value }),
+      seasons: this.SEASONS.map(s => ({
+        label: s.label, style: segBtn(season === s.id),
+        pick: () => this.setState({ season: s.id }, () => this.persist()),
+      })),
+      cards,
+      countLabel: filtered.length === locs.length ? locs.length + ' locaties' : filtered.length + ' van ' + locs.length + ' locaties',
+      noResults: st.creative && filtered.length === 0,
+      hasFilter: st.fType !== 'alle' || st.fNet !== 'alle' || st.fReg !== 'alle' || !!st.q.trim(),
+      clearFilters: () => this.setState({ fType: 'alle', fNet: 'alle', fReg: 'alle', q: '' }),
+      cropAvailable: an ? an.mismatch : false,
+      openCrop: () => this.setState({ cropOpen: true, cropClass: (this.cropClasses()[0] || {}).cls || null }),
+
+      // detail
+      det,
+      goBack: () => this.setScreen('grid'),
+      icDownload: this.ic(['M12 3v12', 'M7 10l5 5 5-5', 'M4 21h16']),
+      icLink: this.ic(['M10 14a3.5 3.5 0 0 0 5 0l3-3a3.5 3.5 0 0 0-5-5l-1.5 1.5', 'M14 10a3.5 3.5 0 0 0-5 0l-3 3a3.5 3.5 0 0 0 5 5l1.5-1.5']),
+      icSparkles: this.ic(['M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9L12 3z', 'M19 15l0.9 2.1L22 18l-2.1 0.9L19 21l-0.9-2.1L16 18l2.1-0.9L19 15z']),
+      icFilm: this.ic(['M8 5.5l11 6.5-11 6.5V5.5z']),
+      icPremRight: st.unlocked
+        ? this.ic(['M4.5 12.5l5 5 10-11'], 14)
+        : this.ic(['M6 11V8a6 6 0 0 1 12 0v3', 'M5 11h14v9H5z'], 14),
+
+      // gate
+      gateOpen: st.gateOpen,
+      gateForm: st.gateStep === 'form', gateSuccess: st.gateStep === 'success',
+      gateTitle: gc.t, gateText: gc.s, gateIconNode: gc.ic,
+      gNaam: st.gNaam, setGNaam: (e) => this.setState({ gNaam: e.target.value }),
+      gEmail: st.gEmail, setGEmail: (e) => this.setState({ gEmail: e.target.value }),
+      gBedrijf: st.gBedrijf, setGBedrijf: (e) => this.setState({ gBedrijf: e.target.value }),
+      gRol: st.gRol, setGRol: (e) => this.setState({ gRol: e.target.value }),
+      gAkkoord: st.gAkkoord, toggleAkkoord: (e) => this.setState({ gAkkoord: e.target.checked }),
+      eNaam: st.gateErrors.naam, eEmail: st.gateErrors.email, eBedrijf: st.gateErrors.bedrijf, eAkkoord: st.gateErrors.akkoord,
+      privacyLabel,
+      submitGate: () => this.submitGate(),
+      closeGate: () => this.setState({ gateOpen: false }),
+      gateBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ gateOpen: false }); },
+      goOn: () => { const a = st.gateAction; this.setState({ gateOpen: false }); this.runAction(a); },
+      goOnLabel: goOnLabels[st.gateAction] || 'Ga verder',
+
+      // share
+      shareCards,
+      shareTitle: (st.lead && st.lead.bedrijf ? 'De campagne van ' + st.lead.bedrijf : 'Jouw campagne') + ' in het straatbeeld',
+      shareLink: 'global.com/nl/adviewer/p/8kf3-' + (st.lead && st.lead.bedrijf ? st.lead.bedrijf.toLowerCase().replace(/[^a-z0-9]+/g, '').slice(0, 10) || 'preview' : 'preview'),
+      copyLink: () => {
+        const url = 'https://global.com/nl/adviewer/p/8kf3';
+        try { navigator.clipboard.writeText(url); } catch (e) { /* mock */ }
+        this.showToast('Link gekopieerd');
+      },
+      planCall: () => this.showToast('Bedankt! Een specialist neemt contact met je op.'),
+      backTool: () => this.setScreen('detail'),
+
+      // ai
+      aiOpen: st.aiOpen, aiLoading: st.aiOpen && !st.aiReady, aiReady: st.aiOpen && st.aiReady,
+      aiBefore, aiAfter, aiTops,
+      aiClipStyle: { position: 'absolute', inset: '0', clipPath: 'inset(0 0 0 ' + aiPos + '%)' },
+      aiHandleStyle: { position: 'absolute', top: '0', bottom: '0', left: aiPos + '%', width: '0', pointerEvents: 'none' },
+      aiDown: (e) => {
+        e.currentTarget.setPointerCapture(e.pointerId);
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ aiDragging: true, aiPos: (e.clientX - r.left) / r.width * 100 });
+      },
+      aiMove: (e) => {
+        if (!this.state.aiDragging) return;
+        const r = e.currentTarget.getBoundingClientRect();
+        this.setState({ aiPos: Math.max(0, Math.min(100, (e.clientX - r.left) / r.width * 100)) });
+      },
+      aiUp: () => this.setState({ aiDragging: false }),
+      closeAi: () => { clearTimeout(this._aiT); this.setState({ aiOpen: false }); },
+      aiBackdrop: (e) => { if (e.target === e.currentTarget) { clearTimeout(this._aiT); this.setState({ aiOpen: false }); } },
+
+      // video
+      vidOpen: st.vidOpen, vidLoading: st.vidOpen && !st.vidReady, vidReady: st.vidOpen && st.vidReady,
+      vidPaused: st.vidReady && !st.vidPlaying,
+      vidCreSrc: st.creative ? st.creative.src : '',
+      vidCreStyle: { width: '100%', height: '100%', objectFit: 'cover', objectPosition: this.cropPos('p916'), filter: 'brightness(1.08) saturate(1.05)', animation: 'advKen 8s ease-in-out infinite', animationPlayState: st.vidPlaying ? 'running' : 'paused' },
+      vidSheenStyle: { position: 'absolute', top: '-30%', bottom: '-30%', left: '0', width: '55%', background: 'linear-gradient(90deg, rgba(255,255,255,0), rgba(255,255,255,0.30), rgba(255,255,255,0))', animation: 'advSheen 8s ease-in-out infinite', animationPlayState: st.vidPlaying ? 'running' : 'paused' },
+      vidProgStyle: { height: '100%', background: 'var(--global-bright-blue)', borderRadius: '999px', animation: 'advProg 8s linear infinite', animationPlayState: st.vidPlaying ? 'running' : 'paused', width: '0%' },
+      vidBtnIcon: st.vidPlaying ? this.ic(['M9 5v14', 'M15 5v14'], 16) : React.createElement('svg', { width: 16, height: 16, viewBox: '0 0 24 24', fill: 'currentColor' }, React.createElement('path', { d: 'M8 5.5l11 6.5-11 6.5V5.5z' })),
+      toggleVid: () => this.setState({ vidPlaying: !st.vidPlaying }),
+      closeVid: () => { clearTimeout(this._vidT); this.setState({ vidOpen: false }); },
+      vidBackdrop: (e) => { if (e.target === e.currentTarget) { clearTimeout(this._vidT); this.setState({ vidOpen: false }); } },
+
+      // crop modal
+      cropOpen: st.cropOpen,
+      closeCrop: () => this.setState({ cropOpen: false }),
+      cropBackdrop: (e) => { if (e.target === e.currentTarget) this.setState({ cropOpen: false }); },
+      cropTabs,
+      cropSrc: st.creative ? st.creative.src : '',
+      cropImgStyle: cg ? { position: 'absolute', left: cg.ix + 'px', top: cg.iy + 'px', width: cg.dw + 'px', height: cg.dh + 'px', userSelect: 'none', pointerEvents: 'none' } : { display: 'none' },
+      cropFrameStyle: cg ? { position: 'absolute', left: cg.fx + 'px', top: cg.fy + 'px', width: cg.fw + 'px', height: cg.fh + 'px', border: '2px solid var(--global-bright-blue)', borderRadius: '3px', boxShadow: '0 0 0 9999px rgba(11,13,16,0.55)', cursor: 'grab', touchAction: 'none' } : { display: 'none' },
+      cropDown: (e) => {
+        if (!cg) return;
+        e.currentTarget.setPointerCapture(e.pointerId);
+        this.setState({ cropDrag: { sx: e.clientX, sy: e.clientY, ox: this.state.crops[cg.cls].x, oy: this.state.crops[cg.cls].y } });
+      },
+      cropMove: (e) => {
+        const d = this.state.cropDrag, g = this.cropGeom();
+        if (!d || !g) return;
+        const nx = g.freeX > 0 ? Math.max(0, Math.min(100, d.ox + (e.clientX - d.sx) / g.freeX * 100)) : 50;
+        const ny = g.freeY > 0 ? Math.max(0, Math.min(100, d.oy + (e.clientY - d.sy) / g.freeY * 100)) : 50;
+        const crops = Object.assign({}, this.state.crops);
+        crops[g.cls] = { x: nx, y: ny };
+        this.setState({ crops });
+      },
+      cropUp: () => { if (this.state.cropDrag) { this.setState({ cropDrag: null }); this.persist(); } },
+      cropReset: () => {
+        if (!cg) return;
+        const crops = Object.assign({}, this.state.crops);
+        crops[cg.cls] = { x: 50, y: 50 };
+        this.setState({ crops }, () => this.persist());
+      },
+    };
+  }
+}
+</script>
+<!-- USERSNAP-START -->
+<script>
+  window.onUsersnapLoad = function (api) {
+    api.init();
+  };
+  var usersnapScript = document.createElement("script");
+  usersnapScript.defer = 1;
+  usersnapScript.src =
+    "https://widget.usersnap.com/global/load/c4f048c1-ba97-4344-8bc6-a7afcbec2233?onload=onUsersnapLoad";
+  document.getElementsByTagName("head")[0].appendChild(usersnapScript);
+</script>
+<!-- USERSNAP-END -->
+</body>
+</html>

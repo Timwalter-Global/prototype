@@ -1,0 +1,97 @@
+/* ============================================================
+   GLOBAL — COLOR TOKENS
+   Source: Brandbook 2026 "Kleurgebruik"
+   The five brand colours (Main / Mid / Dark / Bright Blue + Grey)
+   are the preferred palette for all external communication.
+   Tints & shades below are derived harmonically for UI use.
+   ============================================================ */
+
+:root {
+  /* ---- Brand core (verbatim from brandbook) ---- */
+  --global-main-blue:   #195AA6; /* GLOBAL MAIN BLUE  — primary */
+  --global-mid-blue:    #0B78BE; /* GLOBAL MID BLUE   — links / secondary */
+  --global-dark-blue:   #1B4B89; /* GLOBAL DARK BLUE  — depth / headers */
+  --global-bright-blue: #5BC4E8; /* GLOBAL BRIGHT BLUE— accent / highlight */
+  --global-grey:        #575756; /* GLOBAL GREY       — body text on light */
+
+  /* ---- Blue scale (derived around Main Blue) ---- */
+  --blue-50:  #EAF2FB;
+  --blue-100: #CFE2F6;
+  --blue-200: #A6C8EC;
+  --blue-300: #6FA6DD;
+  --blue-400: #3D81C7;
+  --blue-500: #195AA6; /* = Main Blue */
+  --blue-600: #154E91;
+  --blue-700: #1B4B89; /* = Dark Blue */
+  --blue-800: #133A6B;
+  --blue-900: #0E2A4E;
+
+  /* ---- Bright / cyan scale (around Bright Blue) ---- */
+  --cyan-50:  #ECF9FE;
+  --cyan-100: #D2F0FB;
+  --cyan-200: #A8E3F6;
+  --cyan-300: #5BC4E8; /* = Bright Blue */
+  --cyan-400: #38A9D2;
+  --cyan-500: #1E8AB4;
+
+  /* ---- Neutral / grey scale (cool, tuned to brand grey) ---- */
+  --white:    #FFFFFF;
+  --grey-50:  #F5F7FA;
+  --grey-100: #ECEFF3;
+  --grey-200: #DCE1E8;
+  --grey-300: #C2C9D2;
+  --grey-400: #9AA3AE;
+  --grey-500: #6B7480;
+  --grey-600: #575756; /* = Brand Grey */
+  --grey-700: #3D3F42;
+  --grey-800: #26282B;
+  --grey-900: #14161A;
+  --black:    #0B0D10;
+
+  /* ---- Semantic status (kept restrained, brand-leaning) ---- */
+  --success:    #1E8A5B;
+  --success-bg: #E6F4EC;
+  --warning:    #C9821A;
+  --warning-bg: #FBF0DD;
+  --error:      #C0392B;
+  --error-bg:   #FBEAE8;
+  --info:       var(--global-mid-blue);
+  --info-bg:    var(--blue-50);
+
+  /* ============================================================
+     SEMANTIC ALIASES — reach for these in components
+     ============================================================ */
+
+  /* Surfaces */
+  --surface-page:     var(--grey-50);
+  --surface-card:     var(--white);
+  --surface-raised:   var(--white);
+  --surface-sunken:   var(--grey-100);
+  --surface-inverse:  var(--global-dark-blue);
+  --surface-brand:    var(--global-main-blue);
+  --surface-accent:   var(--global-bright-blue);
+
+  /* Text */
+  --text-strong:    var(--grey-900);
+  --text-body:      var(--grey-600);
+  --text-muted:     var(--grey-500);
+  --text-faint:     var(--grey-400);
+  --text-on-brand:  var(--white);
+  --text-on-accent: var(--global-dark-blue);
+  --text-brand:     var(--global-main-blue);
+  --text-link:      var(--global-mid-blue);
+
+  /* Borders & lines */
+  --border-subtle:  var(--grey-200);
+  --border-default: var(--grey-300);
+  --border-strong:  var(--grey-400);
+  --border-brand:   var(--global-main-blue);
+  --divider:        var(--grey-200);
+
+  /* Interactive */
+  --action-primary:        var(--global-main-blue);
+  --action-primary-hover:  var(--blue-600);
+  --action-primary-active: var(--blue-700);
+  --action-accent:         var(--global-bright-blue);
+  --focus-ring:            var(--global-bright-blue);
+}

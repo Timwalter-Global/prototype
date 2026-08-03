@@ -127,6 +127,7 @@ De widget-key is voor de hele space gelijk:
 | Slug | Usersnap-project | Target-URL |
 | --- | --- | --- |
 | `casar-dashboard` | Casar 2.0 | `…/prototypes/casar-dashboard/` |
+| `adviewer2` | *(nog niet doorgegeven — gebruiker stelt target zelf in)* | `…/prototypes/adviewer2/` |
 | — | Mast Monitor | eigen pagina, buiten deze repository |
 
 ## Prototype offline halen
