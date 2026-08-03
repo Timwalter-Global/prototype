@@ -1,0 +1,755 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow" />
+<title>Mast Monitor — Global Media &amp; Entertainment</title>
+<meta name="description" content="Werkend prototype van het Mast Monitor-dashboard: actiewachtrij, creative-check, archief en instellingen — met gesimuleerde data.">
+<meta name="theme-color" content="#195AA6">
+<meta property="og:title" content="Mast Monitor — dashboardprototype">
+<meta property="og:description" content="Meldinggedreven dashboard voor de snelwegmastschermen van Global. Interactieve demo met gesimuleerde data.">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="nl_NL">
+<link rel="icon" href="data:image/svg+xml,%3Csvg%20xmlns='http://www.w3.org/2000/svg'%20viewBox='0%200%2064%2064'%3E%3Crect%20width='64'%20height='64'%20rx='14'%20fill='%23195AA6'/%3E%3Ctext%20x='32'%20y='45'%20font-family='Verdana,sans-serif'%20font-size='38'%20font-weight='700'%20fill='%23fff'%20text-anchor='middle'%3Eg%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --main:#195AA6; --mid:#0B78BE; --dark:#1B4B89; --bright:#5BC4E8; --grey:#575756;
+  --line:#CBCED9; --canvas:#E9EBF1; --card:#FFFFFF; --tint:#EEF7FC;
+  --ok:#1E9E6A; --warn:#E8930C; --bad:#D6453D; --off:#8A8A89;
+  --sh:0 1px 2px rgba(27,75,137,.05),0 6px 18px rgba(27,75,137,.07);
+  --r:14px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:"Century Gothic","CenturyGothic",Poppins,sans-serif;background:var(--canvas);color:var(--grey);font-size:14px}
+a{color:var(--main);text-decoration:none}
+.app{display:grid;grid-template-columns:230px 1fr;min-height:100vh}
+
+/* ---------- sidebar ---------- */
+.side{background:#fff;border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
+.side .logo{font-size:34px;font-weight:700;color:var(--main);letter-spacing:-1.5px;margin:0 6px 2px;line-height:1}
+.side .prod{font-size:11px;font-weight:700;letter-spacing:2px;color:var(--dark);margin:0 8px 14px;text-transform:uppercase}
+.side .backdoc{display:block;background:var(--tint);border:1px solid var(--bright);border-radius:9px;padding:9px 12px;margin:0 0 14px;font-size:12px;font-weight:700;color:var(--main);text-decoration:none;text-align:center}
+.side .backdoc:hover{background:var(--bright);color:var(--dark)}
+.nav{display:flex;flex-direction:column;gap:4px}
+.nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:10px;color:var(--grey);font-weight:500;cursor:pointer}
+.nav a svg{width:17px;height:17px;stroke:currentColor;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.nav a.on{background:var(--main);color:#fff}
+.nav a:not(.on):hover{background:var(--tint);color:var(--dark)}
+.side .foot{margin-top:auto;font-size:11.5px;color:var(--off);padding:0 8px;line-height:1.5}
+.pulse-dot{display:inline-block;width:8px;height:8px;border-radius:50%;background:var(--ok);margin-right:6px;animation:pl 2s infinite}
+@keyframes pl{0%,100%{opacity:1}50%{opacity:.35}}
+
+/* ---------- main ---------- */
+.main{padding:22px 26px 40px;max-width:1460px}
+.topbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:18px;gap:14px;flex-wrap:wrap}
+.topbar h1{font-size:21px;color:var(--dark);font-weight:700}
+.topbar .sub{font-size:12.5px;margin-top:3px}
+.checkpill{background:#fff;border:1px solid var(--line);border-radius:999px;padding:8px 16px;font-size:12.5px;display:flex;align-items:center;box-shadow:var(--sh)}
+.checkpill b{color:var(--dark);margin:0 4px}
+
+/* KPI */
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-bottom:16px}
+.kpi{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px 18px;display:flex;align-items:center;gap:14px;border-left:5px solid var(--line)}
+.kpi.click{cursor:pointer}
+.kpi .n{font-size:30px;font-weight:700;color:var(--dark)}
+.kpi .l{font-size:13px;font-weight:600;color:var(--dark)}
+.kpi .s{font-size:11.5px;color:var(--off);margin-top:2px}
+.kpi.ok{border-color:var(--ok)} .kpi.warn{border-color:var(--warn)} .kpi.bad{border-color:var(--bad)} .kpi.off{border-color:var(--off)}
+.kpi.sel{outline:2px solid var(--main)}
+
+/* filterbar */
+.fbar{display:flex;gap:10px;align-items:center;margin-bottom:14px;flex-wrap:wrap}
+.search{flex:1;min-width:220px;background:#fff;border:1px solid var(--line);border-radius:10px;padding:9px 14px;font:inherit;color:var(--dark)}
+.chips{display:flex;gap:6px}
+.chip{background:#fff;border:1px solid var(--line);border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:500;cursor:pointer}
+.chip.on{background:var(--main);border-color:var(--main);color:#fff}
+.hint{font-size:11.5px;color:var(--off);margin:-8px 0 12px}
+
+/* screen grid */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(255px,1fr));gap:14px}
+.scard{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:13px 14px 12px;cursor:pointer;transition:transform .12s, box-shadow .12s;border:1px solid transparent}
+.scard:hover{transform:translateY(-2px);box-shadow:0 10px 26px rgba(27,75,137,.14);border-color:var(--bright)}
+.scard .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.scard .nm{font-size:14px;font-weight:600;color:var(--dark);line-height:1.25}
+.scard .rt{font-size:11.5px;color:var(--off);margin-top:2px}
+.badge{font-size:10.5px;font-weight:700;letter-spacing:.4px;border-radius:999px;padding:4px 9px;white-space:nowrap;text-transform:uppercase}
+.b-ok{background:#E4F5EC;color:var(--ok)} .b-warn{background:#FCF1DD;color:#B36F00} .b-bad{background:#FBE5E4;color:var(--bad)} .b-off{background:#ECECEC;color:var(--off)}
+.thumb{margin:10px 0 9px;height:86px;border-radius:9px;position:relative;overflow:hidden;background:linear-gradient(160deg,#2A3648,#141B26)}
+.thumb .sc{position:absolute;inset:14px 22px;border-radius:4px;display:flex;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:13px;letter-spacing:.5px;text-shadow:0 1px 3px rgba(0,0,0,.35)}
+.thumb .ts{position:absolute;right:7px;bottom:5px;font-size:9.5px;color:rgba(255,255,255,.75)}
+.thumb.dark .sc{background:#0B0E13!important;color:#39404d;font-size:11px;font-weight:500}
+.thumb.nocam{background:repeating-linear-gradient(45deg,#DADDE4,#DADDE4 8px,#CDD1DA 8px,#CDD1DA 16px)}
+.thumb.nocam .sc{background:none!important;color:var(--off);font-size:11px;font-weight:600}
+.pulseline{display:flex;gap:2px;height:14px;align-items:flex-end;margin-bottom:8px}
+.pulseline i{flex:1;border-radius:2px;height:100%}
+.t-ok{background:var(--ok)} .t-warn{background:var(--warn)} .t-bad{background:var(--bad)} .t-off{background:#C4C6CC}
+.scard .ft{display:flex;justify-content:space-between;font-size:11.5px;color:var(--off)}
+.scard .ft b{color:var(--dark)}
+
+/* ---------- tabellen ---------- */
+.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px}
+.panel h3{font-size:13px;color:var(--dark);margin-bottom:10px;display:flex;justify-content:space-between;align-items:center}
+.panel h3 span{font-weight:400;font-size:11.5px;color:var(--off)}
+.dtable{width:100%;border-collapse:collapse;font-size:12.5px}
+.dtable th{font-size:11px;text-transform:uppercase;letter-spacing:.8px;color:var(--off);text-align:left;padding:8px 10px;border-bottom:1px solid var(--line);white-space:nowrap}
+.dtable td{padding:9px 10px;border-bottom:1px solid #EEF0F4;color:var(--grey);vertical-align:middle}
+.dtable td b{color:var(--dark)}
+.dtable tr.rowlink{cursor:pointer}
+.dtable tr.rowlink:hover td{background:var(--tint)}
+.dtable tr.mis td{background:#FDF3F2}
+.dtable tr.mis:hover td{background:#FBE9E7}
+.expander td{background:#F7F9FC;padding:14px}
+.exp-in{display:grid;grid-template-columns:300px 1fr auto;gap:18px;align-items:start}
+.exp-in .thumb{height:150px;margin:0}
+.exp-meta{font-size:12.5px;line-height:2}
+.exp-meta b{color:var(--dark)}
+.minibar{height:8px;width:110px;background:var(--canvas);border-radius:99px;position:relative;display:inline-block;vertical-align:middle}
+.minibar b{position:absolute;left:0;top:0;bottom:0;border-radius:99px;background:var(--mid)}
+.empty{padding:22px;text-align:center;color:var(--off);font-size:12.5px;background:var(--tint);border-radius:10px}
+
+/* ---------- detail ---------- */
+.bk{display:inline-flex;align-items:center;gap:6px;font-weight:600;font-size:13px;margin-bottom:12px;cursor:pointer}
+.dhead{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:18px 22px;display:flex;justify-content:space-between;align-items:center;gap:16px;flex-wrap:wrap;margin-bottom:14px}
+.dhead h2{font-size:19px;color:var(--dark)}
+.dhead .meta{font-size:12.5px;color:var(--off);margin-top:4px}
+.btnrow{display:flex;gap:8px}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;padding:9px 15px;font:inherit;font-size:12.5px;font-weight:600;color:var(--dark);cursor:pointer}
+.btn:hover{border-color:var(--main)}
+.btn.pri{background:var(--main);border-color:var(--main);color:#fff}
+.btn.pri:hover{background:var(--dark)}
+.cols2{display:grid;grid-template-columns:1fr 56px 1fr;gap:0;align-items:stretch;margin-bottom:14px}
+.big{height:190px;border-radius:10px;position:relative;overflow:hidden;background:linear-gradient(160deg,#2A3648,#141B26)}
+.big .sc{position:absolute;inset:26px 46px;border-radius:6px;display:flex;flex-direction:column;align-items:center;justify-content:center;color:#fff;font-weight:700;font-size:22px;letter-spacing:.5px;text-shadow:0 2px 5px rgba(0,0,0,.35)}
+.big .sc small{font-size:11px;font-weight:500;opacity:.85;letter-spacing:2px;text-transform:uppercase;margin-top:4px}
+.big .ts{position:absolute;right:10px;bottom:8px;font-size:11px;color:rgba(255,255,255,.8)}
+.big.dark .sc{background:#0B0E13!important;color:#39404d;font-size:15px}
+.big.nocam{background:repeating-linear-gradient(45deg,#DADDE4,#DADDE4 10px,#CDD1DA 10px,#CDD1DA 20px)}
+.big.nocam .sc{background:none!important;color:var(--off);font-size:14px}
+.matchcol{display:flex;align-items:center;justify-content:center}
+.match{width:46px;height:46px;border-radius:50%;display:flex;align-items:center;justify-content:center;color:#fff;font-size:20px;font-weight:700;box-shadow:var(--sh)}
+.mrow{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;margin-bottom:14px}
+.ticks{display:flex;gap:2px;height:34px;align-items:flex-end}
+.ticks i{flex:1;border-radius:2px;height:100%;cursor:pointer;opacity:.92}
+.ticks i:hover{opacity:1;outline:1.5px solid var(--dark)}
+.legend{display:flex;gap:16px;font-size:11.5px;margin-top:10px;color:var(--off)}
+.legend i{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:5px}
+.axis{display:flex;justify-content:space-between;font-size:10.5px;color:var(--off);margin-top:6px}
+.looprow{display:grid;grid-template-columns:150px 1fr 76px;gap:10px;align-items:center;font-size:12.5px;margin-bottom:9px}
+.lbar{height:9px;background:var(--canvas);border-radius:99px;position:relative;overflow:visible}
+.lbar b{position:absolute;left:0;top:0;bottom:0;background:var(--mid);border-radius:99px}
+.lbar u{position:absolute;top:-3px;bottom:-3px;width:2px;background:var(--dark)}
+.looppct{text-align:right;color:var(--dark);font-weight:600}
+
+/* ---------- instellingen ---------- */
+.setgrid{display:flex;flex-direction:column;gap:14px}
+.switch{width:38px;height:21px;border-radius:99px;background:var(--line);position:relative;cursor:pointer;flex:none;transition:.15s}
+.switch::after{content:"";position:absolute;top:2.5px;left:3px;width:16px;height:16px;border-radius:50%;background:#fff;transition:.15s;box-shadow:0 1px 2px rgba(0,0,0,.2)}
+.switch.on{background:var(--ok)}
+.switch.on::after{left:19px}
+.rcv{display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap}
+.rchip{background:var(--tint);border:1px solid var(--bright);border-radius:999px;padding:3px 10px;font-size:11.5px;color:var(--dark)}
+.addr{border:1px dashed var(--line);border-radius:999px;padding:3px 10px;font-size:11.5px;color:var(--main);cursor:pointer}
+.slider{appearance:none;width:180px;height:6px;border-radius:99px;background:var(--line);outline:none;vertical-align:middle}
+.slider::-webkit-slider-thumb{appearance:none;width:16px;height:16px;border-radius:50%;background:var(--main);cursor:pointer}
+select.inp,input.inp{font:inherit;font-size:12.5px;color:var(--dark);border:1px solid var(--line);border-radius:10px;padding:8px 12px;background:#fff}
+.statline{display:flex;align-items:center;gap:8px;font-size:12.5px;margin-bottom:8px}
+.dot{width:9px;height:9px;border-radius:50%;flex:none}
+.warnbar{background:#FCF1DD;border:1px solid #F0CE96;color:#7A5200;border-radius:10px;padding:10px 14px;font-size:12.5px;margin-bottom:12px}
+
+/* ---------- modal & toast ---------- */
+.overlay{position:fixed;inset:0;background:rgba(27,43,68,.45);display:flex;align-items:center;justify-content:center;z-index:50}
+.modal{background:#fff;border-radius:16px;box-shadow:0 20px 60px rgba(0,0,0,.25);width:min(520px,92vw);padding:22px 24px}
+.modal h3{font-size:16px;color:var(--dark);margin-bottom:4px}
+.modal .msub{font-size:12.5px;color:var(--off);margin-bottom:16px}
+.frow{margin-bottom:13px}
+.frow label{display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:5px}
+.frow textarea,.frow input,.frow select{width:100%;font:inherit;font-size:13px;color:var(--dark);border:1px solid var(--line);border-radius:10px;padding:9px 12px;background:#fff}
+.radios{display:flex;gap:8px;flex-wrap:wrap}
+.radio{border:1.5px solid var(--line);border-radius:10px;padding:8px 13px;font-size:12.5px;cursor:pointer;font-weight:500}
+.radio.on{border-color:var(--main);background:var(--tint);color:var(--dark);font-weight:600}
+.mfoot{display:flex;justify-content:flex-end;gap:8px;margin-top:18px}
+.toast{position:fixed;right:22px;bottom:22px;background:var(--dark);color:#fff;border-radius:12px;padding:12px 18px;font-size:13px;box-shadow:0 10px 30px rgba(0,0,0,.3);z-index:60;display:flex;align-items:center;gap:10px;animation:tin .2s}
+@keyframes tin{from{transform:translateY(10px);opacity:0}}
+.aitem{display:flex;align-items:center;gap:14px;padding:11px 6px;border-bottom:1px solid #EEF0F4}
+.aitem:last-child{border:0}
+.aitem .tx{flex:1;min-width:0}
+.aitem .tt{font-weight:600;color:var(--dark);font-size:13.5px}
+.aitem .ds{font-size:12px;color:var(--off);margin-top:2px}
+.since{font-size:11.5px;color:var(--off);white-space:nowrap}
+.okstate{display:flex;align-items:center;gap:12px;padding:18px;background:#E4F5EC;border-radius:10px;color:#14663F;font-weight:600}
+.showall{grid-column:1/-1;background:var(--card);border:1.5px dashed var(--line);border-radius:var(--r);padding:16px;text-align:center;color:var(--main);font-weight:600;cursor:pointer}
+.showall:hover{border-color:var(--main)}
+.hide{display:none}
+@media(max-width:900px){.app{grid-template-columns:1fr}.side{position:static;height:auto;flex-direction:row;align-items:center}.side .foot{display:none}.kpis{grid-template-columns:repeat(2,1fr)}.cols2{grid-template-columns:1fr}.matchcol{padding:8px 0}.mrow{grid-template-columns:1fr}.exp-in{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="app">
+
+  <aside class="side">
+    <div class="logo">global</div>
+    <div class="prod">Mast Monitor</div>
+    <a class="backdoc" href="index.html">← Naar het informatiedocument</a>
+    <nav class="nav">
+      <a id="nav-overzicht" class="on" onclick="go('overzicht')"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="7" height="7" rx="1.5"/><rect x="14" y="3" width="7" height="7" rx="1.5"/><rect x="3" y="14" width="7" height="7" rx="1.5"/><rect x="14" y="14" width="7" height="7" rx="1.5"/></svg>Overzicht</a>
+      <a id="nav-creative" onclick="go('creative')"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M8 11.5l2.5 2.5L16 8.5"/></svg>Creative-check</a>
+      <a id="nav-archief" onclick="go('archief')"><svg viewBox="0 0 24 24"><path d="M3 7h18v13H3z"/><path d="M5 7V4h14v3"/><path d="M9 12h6"/></svg>Archief</a>
+      <a id="nav-instellingen" onclick="go('instellingen')"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.7 1.7 0 0 0 .34 1.87l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06A1.7 1.7 0 0 0 15 19.4a1.7 1.7 0 0 0-1 1.55V21a2 2 0 1 1-4 0v-.09A1.7 1.7 0 0 0 9 19.4a1.7 1.7 0 0 0-1.87.34l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06A1.7 1.7 0 0 0 4.6 15a1.7 1.7 0 0 0-1.55-1H3a2 2 0 1 1 0-4h.09A1.7 1.7 0 0 0 4.6 9a1.7 1.7 0 0 0-.34-1.87l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06A1.7 1.7 0 0 0 9 4.6a1.7 1.7 0 0 0 1-1.55V3a2 2 0 1 1 4 0v.09a1.7 1.7 0 0 0 1 1.51 1.7 1.7 0 0 0 1.87-.34l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06A1.7 1.7 0 0 0 19.4 9c.16.38.52.66.94.72H21a2 2 0 1 1 0 4h-.09a1.7 1.7 0 0 0-1.51 1z"/></svg>Instellingen</a>
+    </nav>
+    <div class="foot"><span class="pulse-dot"></span>Automatische check actief<br>elke 15 minuten · 38 van circa 70 schermen<br><a href="index.html" style="color:var(--main);font-weight:600">Informatiedocument →</a></div>
+  </aside>
+
+  <main class="main">
+
+    <!-- ============ OVERZICHT ============ -->
+    <section id="v-overzicht">
+      <div class="topbar">
+        <div><h1>Operationele status</h1><div class="sub">vrijdag 31 juli 2026 · mockup op basis van de 38 schermen uit lijst wk 28 (van circa 70)</div></div>
+        <div class="checkpill"><span class="pulse-dot"></span>Dagbundel <b>08:00</b> verzonden · laatste check <b class="checktime">14:45</b> · volgende over <b>7 min</b></div>
+        <button class="btn pri" onclick="simulate()">Simuleer volgende check ▸</button>
+      </div>
+      <div class="kpis" id="kpis"></div>
+      <div class="hint">Vanuit de dagelijkse melding land je met de inloglink direct in de actiewachtrij hieronder. De tellers en filters beperken de schermenlijst.</div>
+      <div class="panel" style="margin-bottom:16px">
+        <h3>Actie nodig <span id="acount"></span></h3>
+        <div id="alist"></div>
+      </div>
+      <h3 style="font-size:13px;color:var(--dark);margin-bottom:10px">Alle schermen</h3>
+      <div class="fbar">
+        <input class="search" id="q" placeholder="Zoek op mast, weg of richting…" oninput="draw()">
+        <div class="chips" id="chips"></div>
+      </div>
+      <div class="grid" id="grid"></div>
+    </section>
+
+    <!-- ============ CREATIVE-CHECK ============ -->
+    <section id="v-creative" class="hide">
+      <div class="topbar">
+        <div><h1>Creative-check — juiste uiting op het juiste moment</h1><div class="sub">Vergelijking van de laatste waarneming met de planning en referentiebeelden uit Snowflake</div></div>
+        <div class="checkpill">Planning gesynchroniseerd <b>vandaag 06:00</b></div>
+      </div>
+      <div class="kpis" id="ckpis"></div>
+      <div class="hint">Loopdekking = aandeel van de geboekte uitingen dat vandaag al is waargenomen. Klik op een rij voor het schermdetail.</div>
+      <div class="panel">
+        <table class="dtable" id="ctable"></table>
+      </div>
+    </section>
+
+    <!-- ============ DETAIL ============ -->
+    <section id="v-detail" class="hide">
+      <a class="bk" onclick="go(lastView)">← Terug</a>
+      <div class="dhead">
+        <div><h2 id="d-title"></h2><div class="meta" id="d-meta"></div></div>
+        <div style="display:flex;align-items:center;gap:12px"><span id="d-badge"></span>
+          <div class="btnrow"><button class="btn" onclick="openCorrectie()">Beoordeling corrigeren</button><button class="btn pri" onclick="openIncident()">Incident aanmaken</button></div>
+        </div>
+      </div>
+
+      <div class="cols2">
+        <div class="panel"><h3>Laatste snapshot <span id="d-snaptime">camera · <span class="checktime">14:45</span></span></h3><div class="big" id="d-snap"></div></div>
+        <div class="matchcol"><div class="match" id="d-match"></div></div>
+        <div class="panel"><h3>Verwachte uiting <span>Snowflake · slot <span class="checktime">14:45</span></span></h3><div class="big" id="d-ref"></div>
+          <div style="font-size:12px;margin-top:9px" id="d-refmeta"></div></div>
+      </div>
+
+      <div class="mrow">
+        <div class="panel">
+          <h3>Polsslag — 96 checks in de laatste 24 uur <span id="d-uptime"></span></h3>
+          <div class="ticks" id="d-ticks"></div>
+          <div class="axis"><span>gisteren 15:00</span><span>21:00</span><span>03:00</span><span>09:00</span><span>nu <span class="checktime">14:45</span></span></div>
+          <div class="legend"><span><i class="t-ok"></i>live</span><span><i class="t-warn"></i>aandacht</span><span><i class="t-bad"></i>niet live</span><span><i class="t-off"></i>camera offline</span></div>
+        </div>
+        <div class="panel">
+          <h3>Loopverdeling vandaag <span>waargenomen vs geboekt</span></h3>
+          <div id="d-loop"></div>
+          <div style="font-size:11px;color:var(--off);margin-top:6px">Streepje = geboekt aandeel per campagne (6 uitingen in de loop)</div>
+        </div>
+      </div>
+
+      <div class="panel">
+        <h3>Incidenten</h3>
+        <div id="d-inc"></div>
+      </div>
+    </section>
+
+    <!-- ============ ARCHIEF ============ -->
+    <section id="v-archief" class="hide">
+      <div class="topbar">
+        <div><h1>Archief — terugzoeken per mast en tijdstip</h1><div class="sub">Beelden worden pas geladen wanneer je een rij opent; de tabel zelf blijft snel</div></div>
+        <div class="checkpill"><b>350.208</b>&nbsp;checks in archief</div>
+      </div>
+      <div class="fbar" style="background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:14px 16px;margin-bottom:14px">
+        <select class="inp" id="a-mast"><option>Alle masten</option></select>
+        <input class="inp" type="date" value="2026-07-30">
+        <select class="inp"><option>Alle adverteerders</option><option>SunVolt Energie</option><option>Kavelaar Keukens</option><option>MobiLease</option><option>Fjord Reizen</option><option>Boralis Koffie</option><option>DutchDelta Verzekeringen</option></select>
+        <select class="inp"><option>Alle statussen</option><option>Live</option><option>Aandacht</option><option>Niet live</option><option>Camera offline</option></select>
+        <button class="btn pri" onclick="drawArch();toast('3.648 checks gevonden voor 30 juli')">Zoeken</button>
+        <span style="flex:1"></span>
+        <button class="btn" onclick="toast('Export gestart — je ontvangt een e-mail met de link')">Exporteer selectie</button>
+      </div>
+      <div class="panel">
+        <h3><span style="font-weight:600;color:var(--dark)">3.648 checks · donderdag 30 juli 2026</span><span>klik op een rij voor het beeld en de beoordeling</span></h3>
+        <table class="dtable" id="atable"></table>
+      </div>
+    </section>
+
+    <!-- ============ INSTELLINGEN ============ -->
+    <section id="v-instellingen" class="hide">
+      <div class="topbar">
+        <div><h1>Instellingen</h1><div class="sub">Gebruikers, meldingen, schermen en systeem</div></div>
+      </div>
+      <div class="setgrid">
+
+        <div class="panel">
+          <h3>Gebruikers <button class="btn pri" onclick="openUser()">Gebruiker toevoegen</button></h3>
+          <table class="dtable" id="utable">
+            <tr><th>Naam</th><th>E-mail</th><th>Rol</th><th>Ontvangt meldingen</th><th>Status</th></tr>
+            <tr><td><b>Tim</b></td><td>tim@global.nl</td><td>Beheerder</td><td><span class="switch on" onclick="flip(this)"></span></td><td><span class="badge b-ok">actief</span></td></tr>
+            <tr><td><b>Operations dienst A</b></td><td>operations-a@global.nl</td><td>Operations</td><td><span class="switch on" onclick="flip(this)"></span></td><td><span class="badge b-ok">actief</span></td></tr>
+            <tr><td><b>Sales support</b></td><td>salessupport@global.nl</td><td>Kijker</td><td><span class="switch" onclick="flip(this)"></span></td><td><span class="badge b-off">uitgenodigd</span></td></tr>
+          </table>
+          <div style="font-size:11.5px;color:var(--off);margin-top:8px">Rollen: Beheerder (alles), Operations (corrigeren en incidenten), Kijker (alleen lezen).</div>
+        </div>
+
+        <div class="panel">
+          <h3>Meldingen <span>elke melding bevat een directe inloglink naar het betreffende scherm</span></h3>
+          <table class="dtable">
+            <tr><th>Gebeurtenis</th><th>Aan</th><th>Moment</th><th>Ontvangers</th></tr>
+            <tr><td><b>Scherm niet live</b></td><td><span class="switch on" onclick="flip(this)"></span></td><td>Direct + in dagelijkse bundel</td><td class="rcv"><span class="rchip">operations-a@global.nl</span><span class="rchip">tim@global.nl</span><span class="addr" onclick="toast('Mockup: hier voeg je een ontvanger toe')">+ ontvanger</span></td></tr>
+            <tr><td><b>Camera offline</b></td><td><span class="switch on" onclick="flip(this)"></span></td><td>Direct + in dagelijkse bundel</td><td class="rcv"><span class="rchip">operations-a@global.nl</span><span class="addr" onclick="toast('Mockup: hier voeg je een ontvanger toe')">+ ontvanger</span></td></tr>
+            <tr><td><b>AI onzeker (aandacht)</b></td><td><span class="switch on" onclick="flip(this)"></span></td><td>Dagelijkse bundel 08:00</td><td class="rcv"><span class="rchip">operations-a@global.nl</span><span class="addr" onclick="toast('Mockup: hier voeg je een ontvanger toe')">+ ontvanger</span></td></tr>
+            <tr><td><b>Uiting wijkt af van planning</b></td><td><span class="switch on" onclick="flip(this)"></span></td><td>Dagelijkse bundel 08:00</td><td class="rcv"><span class="rchip">tim@global.nl</span><span class="addr" onclick="toast('Mockup: hier voeg je een ontvanger toe')">+ ontvanger</span></td></tr>
+            <tr><td><b>Dagelijkse samenvatting</b></td><td><span class="switch on" onclick="flip(this)"></span></td><td>Elke dag 08:00</td><td class="rcv"><span class="rchip">tim@global.nl</span><span class="addr" onclick="toast('Mockup: hier voeg je een ontvanger toe')">+ ontvanger</span></td></tr>
+          </table>
+        </div>
+
+        <div class="panel">
+          <h3>Schermen in het systeem <span id="scount"></span></h3>
+          <div class="warnbar">38 van circa 70 schermen geladen (lijst week 28). De volledige schermenlijst is nog aan te leveren — openstaande vraag bij de beheerder van de camera's.</div>
+          <table class="dtable" id="stable"></table>
+        </div>
+
+        <div class="panel">
+          <h3>Systeem</h3>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:18px">
+            <div>
+              <div class="frow"><label>Checkfrequentie</label><select class="inp" onchange="toast('Mockup: frequentie aangepast')"><option>Elke 15 minuten</option><option>Elke 30 minuten</option><option>Elk uur</option></select></div>
+              <div class="frow"><label>Retentie volledige beelden</label><select class="inp" onchange="toast('Mockup: retentie aangepast')"><option>90 dagen (daarna thumbnails)</option><option>60 dagen</option><option>180 dagen</option></select></div>
+              <div class="frow"><label>Drempel voor status aandacht (zekerheid AI)</label><input type="range" class="slider" min="50" max="95" value="80" oninput="this.nextElementSibling.textContent=this.value+'%';setTh(this.value,false)" onchange="setTh(this.value,true)"> <b style="color:var(--dark)">80%</b>
+              <div style="font-size:11.5px;color:var(--off);margin-top:4px">Onder deze zekerheid gaat een check naar menselijke beoordeling.</div></div>
+            </div>
+            <div>
+              <label style="display:block;font-size:12px;font-weight:600;color:var(--dark);margin-bottom:8px">Koppelingen</label>
+              <div class="statline"><span class="dot" style="background:var(--ok)"></span>Snowflake-sync — laatste run vandaag 06:00</div>
+              <div class="statline"><span class="dot" style="background:var(--ok)"></span>n8n-workflow screenshots — actief, laatste run 14:45</div>
+              <div class="statline"><span class="dot" style="background:var(--warn)"></span>Camerabron — 1 van 38 URLs onbereikbaar (Dordrecht N3)</div>
+              <div class="statline"><span class="dot" style="background:var(--ok)"></span>Meldingenservice — laatste bundel vandaag 08:00 verzonden</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<div id="modalroot"></div>
+<div id="toastroot"></div>
+
+<script>
+const SCREENS = [{"id":1,"plaats":"Amsterdam","weg":"A5","scherm":"","richting":"Amsterdam","url":"https://camera.stnmtn.com/b3a5fd55-46fd-4112-9a32-3fd77ade74c3"},{"id":2,"plaats":"Amsterdam","weg":"A5","scherm":"","richting":"Hoofddorp","url":"https://camera.stnmtn.com/7d9e1815-818f-4b4a-b2b9-d86c95c0f051"},{"id":3,"plaats":"Arnhem I","weg":"A12","scherm":"","richting":"Duiven","url":"https://camera.stnmtn.com/c59f235b-1b88-4680-9d35-643bc8aeee63"},{"id":4,"plaats":"Arnhem II","weg":"A12","scherm":"","richting":"Arnhem","url":"https://camera.stnmtn.com/a37aa4a5-c620-4ce3-856f-e60ccdb7b6d8"},{"id":5,"plaats":"Arnhem II","weg":"A12","scherm":"","richting":"Duitsland","url":"https://camera.stnmtn.com/9e8dee14-ce91-4797-a0f2-925d70c32f4c"},{"id":6,"plaats":"Assen","weg":"A28","scherm":"","richting":"Assen","url":"https://camera.stnmtn.com/82847d24-4d0f-4330-92cc-31f83f501338"},{"id":7,"plaats":"Assen","weg":"A28","scherm":"","richting":"Groningen","url":"https://camera.stnmtn.com/bc7e7693-3c00-479b-b8ca-e98bab5a5063"},{"id":8,"plaats":"Breda","weg":"A16","scherm":"","richting":"België","url":"https://camera.stnmtn.com/ce82442a-59dd-4b19-be55-581820be39e6"},{"id":9,"plaats":"Breda","weg":"A16","scherm":"","richting":"Breda","url":"https://camera.stnmtn.com/1738e4de-2bf8-4f43-81b0-d390fb036500"},{"id":10,"plaats":"Breda","weg":"A58","scherm":"","richting":"Breda","url":"https://camera.stnmtn.com/2c91991b-76d3-4a1f-b1b9-b2297fc317b6"},{"id":11,"plaats":"Breda","weg":"A58","scherm":"","richting":"Roosendaal","url":"https://camera.stnmtn.com/439b493f-ac2a-4e64-8435-884bb998a4cc"},{"id":12,"plaats":"Den Haag","weg":"A12","scherm":"","richting":"Den Haag","url":"https://camera.stnmtn.com/71b2b414-546e-4c5a-a11f-6ae4931f2ab0"},{"id":13,"plaats":"Den Haag","weg":"A12","scherm":"","richting":"Zoetermeer","url":"https://camera.stnmtn.com/b7611965-97b7-40c2-bf1e-9a34ef65ba87"},{"id":14,"plaats":"Dordrecht","weg":"A16","scherm":"","richting":"Breda","url":"https://camera.stnmtn.com/6147dbaa-645b-45ad-83ff-89bde6208c26"},{"id":15,"plaats":"Dordrecht","weg":"A16","scherm":"","richting":"Rotterdam","url":"https://camera.stnmtn.com/fd3fab18-1e6d-4d85-a2bd-875a00dceb38"},{"id":16,"plaats":"Dordrecht","weg":"N3","scherm":"","richting":"Papendrecht","url":"https://camera.stnmtn.com/068de43c-a401-4c70-be48-f3b86781fcf1"},{"id":17,"plaats":"Echt","weg":"A2","scherm":"","richting":"Eindhoven","url":"https://camera.stnmtn.com/adb9115e-c8da-4b9d-807b-558cd298d05c"},{"id":18,"plaats":"Echt","weg":"A2","scherm":"","richting":"Maastricht","url":"https://camera.stnmtn.com/c4d80b1c-cc01-42a9-b57e-4d2068dbbb68"},{"id":19,"plaats":"Leerdam","weg":"A15","scherm":"","richting":"Gorinchem","url":"https://camera.stnmtn.com/0396ede5-f5ae-4389-b3db-1ae0fd5739fb"},{"id":20,"plaats":"Leerdam","weg":"A15","scherm":"","richting":"Tiel","url":"https://camera.stnmtn.com/a48566ef-ae8c-4ed6-af49-5131cf506cdc"},{"id":21,"plaats":"Maastricht","weg":"A2","scherm":"","richting":"Geleen","url":"https://camera.stnmtn.com/7d851579-31b3-4210-8667-05517f44a5c3"},{"id":22,"plaats":"Maastricht","weg":"A2","scherm":"","richting":"Maastricht","url":"https://camera.stnmtn.com/19dab9b2-9fa3-4111-bc41-eaeb121c4ffb"},{"id":23,"plaats":"Roermond","weg":"A73","scherm":"","richting":"Duitsland","url":"https://camera.stnmtn.com/0fe44bd2-3429-463f-b546-8842ec73ebb2"},{"id":24,"plaats":"Roermond","weg":"A73","scherm":"","richting":"Echt","url":"https://camera.stnmtn.com/a920c95e-8117-4367-a3d3-009c6a83880f"},{"id":25,"plaats":"Roermond","weg":"A73","scherm":"","richting":"Venlo","url":"https://camera.stnmtn.com/0a4314bd-7d91-47b6-afc4-bceeaf4681ce"},{"id":26,"plaats":"Rotterdam","weg":"A15","scherm":"","richting":"Oostvoorne","url":"https://camera.stnmtn.com/d28b0ee4-5961-47ef-a446-2f8e61382ef9"},{"id":27,"plaats":"Rotterdam","weg":"A15","scherm":"","richting":"Ridderkerk","url":"https://camera.stnmtn.com/85da0f20-cc9c-44ed-98d7-5d056112684a"},{"id":28,"plaats":"Schiphol","weg":"A4","scherm":"Scherm 1","richting":"Amsterdam","url":"https://camera.stnmtn.com/abb3ae21-b7e9-41d3-a994-0d5a90e2d207"},{"id":29,"plaats":"Schiphol","weg":"A4","scherm":"Scherm 1","richting":"Den Haag","url":"https://camera.stnmtn.com/08a5824f-4f75-4607-9d22-a1a0015320d8"},{"id":30,"plaats":"Schiphol","weg":"A4","scherm":"Scherm 2","richting":"Amsterdam","url":"https://camera.stnmtn.com/2e081ea0-0b18-4aa5-8973-523cfff29a3a"},{"id":31,"plaats":"Schiphol","weg":"A4","scherm":"Scherm 2","richting":"Den Haag","url":"https://camera.stnmtn.com/7b205008-d594-49e0-ab9f-5b1db4d6d884"},{"id":32,"plaats":"Sliedrecht","weg":"A15","scherm":"Scherm 1","richting":"Gorinchem","url":"https://camera.stnmtn.com/7cd52764-a784-47b3-80ce-f8feea6f2c1c"},{"id":33,"plaats":"Sliedrecht","weg":"A15","scherm":"Scherm 1","richting":"Rotterdam","url":"https://camera.stnmtn.com/bf6bd2e1-8a80-44d8-b5e5-2746618ee43f"},{"id":34,"plaats":"Sliedrecht","weg":"A15","scherm":"Scherm 2","richting":"Gorinchem","url":"https://camera.stnmtn.com/ad4217e9-39a5-4d90-98ca-f14eb3d4f643"},{"id":35,"plaats":"Sliedrecht","weg":"A15","scherm":"Scherm 2","richting":"Rotterdam","url":"https://camera.stnmtn.com/4557a81e-a5be-438b-8e37-343b073922c6"},{"id":36,"plaats":"Venlo","weg":"A67","scherm":"","richting":"Eindhoven","url":"https://camera.stnmtn.com/0c8c31dd-6ce5-488d-a611-a08d7dde4946"},{"id":37,"plaats":"Venlo","weg":"A67","scherm":"","richting":"Venlo","url":"https://camera.stnmtn.com/03ebdd07-a543-4752-89ad-212ec4945df4"},{"id":38,"plaats":"Zwijndrecht","weg":"A16","scherm":"","richting":"Zwijndrecht","url":"https://camera.stnmtn.com/eec2c8b4-e6b3-4836-88d6-f0d8a0f51172"}];
+const ADV = [
+  {n:"SunVolt Energie", g:"linear-gradient(135deg,#F5A623,#E8590C)"},
+  {n:"Kavelaar Keukens", g:"linear-gradient(135deg,#0E7C7B,#12414B)"},
+  {n:"MobiLease", g:"linear-gradient(135deg,#195AA6,#5BC4E8)"},
+  {n:"Fjord Reizen", g:"linear-gradient(135deg,#1B4B89,#0B78BE)"},
+  {n:"Boralis Koffie", g:"linear-gradient(135deg,#7A4F2A,#3E2B1B)"},
+  {n:"DutchDelta Verzekeringen", g:"linear-gradient(135deg,#41506B,#1E2A3E)"}
+];
+const STATUS = {live:{l:"Live",b:"b-ok",t:"t-ok"},aandacht:{l:"Aandacht",b:"b-warn",t:"t-warn"},niet_live:{l:"Niet live",b:"b-bad",t:"t-bad"},offline:{l:"Camera offline",b:"b-off",t:"t-off"}};
+/* ---- in-memory store ---- */
+const OVR = {27:"niet_live",16:"offline"};
+const ZEKER = {36:64,7:64,12:84,20:86,31:88}; // grensgevallen voor de aandacht-drempel
+let TH = 80, CHECKTIME = "14:45";
+const CORRECTIES = [];
+const INCIDENTEN = [
+  {schermId:27,type:"Scherm toont geen uiting",wie:"Operations · dienst A",prio:"Hoog",status:"open",gestart:"vandaag 05:15",duur:"9u 30m"},
+  {schermId:16,type:"Camera onbereikbaar (scherm mogelijk wel live)",wie:"Leverancier camera",prio:"Normaal",status:"open",gestart:"vandaag 09:30",duur:"5u 15m"}
+];
+SCREENS.forEach(s=>{
+  s.base = OVR[s.id]||"live";           // ruwe AI-detectie
+  s.zeker = ZEKER[s.id] ?? 93+(s.id*13)%7; // AI-zekerheid laatste check
+  s.manual = false;                      // door mens gecorrigeerd
+  s.adv = ADV[s.id % ADV.length];
+  s.expected = s.adv;
+});
+function statusOf(s){ // de drempel bepaalt welke checks "aandacht" zijn
+  if(s.manual) return s.status;
+  if(s.base!="live") return s.base;
+  return s.zeker<TH ? "aandacht" : "live";
+}
+function applyStatus(){SCREENS.forEach(s=>{
+  s.status=statusOf(s);
+  const okc=s.hist?s.hist.filter(t=>t=="t-ok").length:96;
+  s.uptime=s.status=="offline"?"—":(okc/96*100).toFixed(1).replace(".",",");
+})}
+function rnd(seed){return function(){seed=(seed*9301+49297)%233280;return seed/233280}}
+function seedHist(s){ // 96 checks (24 uur) als echte historie
+  const r=rnd(s.id*97); s.hist=[];
+  for(let i=0;i<96;i++){
+    let t="t-ok";
+    if(s.base=="niet_live" && i>96*0.62) t="t-bad";
+    else if(s.base=="offline" && i>96*0.45) t="t-off";
+    else if(s.zeker<TH && i>96*0.8 && r()<0.55) t="t-warn";
+    else if(r()<0.02) t="t-warn";
+    s.hist.push(t);
+  }
+}
+SCREENS.forEach(seedHist);
+applyStatus();
+// één scherm draait live, maar met de verkeerde uiting
+const MIS = SCREENS.find(s=>s.id==10); MIS.mismatch = true; MIS.expected = ADV[2];
+
+let filt="alle", lastView="overzicht", currentScreen=null, showAll=false;
+function name(s){return `${s.plaats} ${s.weg}${s.scherm?" · "+s.scherm:""}`}
+function ticksFor(s,n){return s.hist.slice(-n).map(t=>`<i class="${t}"></i>`).join("")}
+function thumb(s,cls,big){
+  const st=s.status;
+  if(st=="offline") return `<div class="${cls} nocam"><div class="sc">camera onbereikbaar<br>sinds 09:30</div></div>`;
+  if(st=="niet_live") return `<div class="${cls} dark"><div class="sc">${big?"geen uiting — scherm zwart":"scherm zwart"}</div><div class="ts">${CHECKTIME}</div></div>`;
+  const inner = big?`${s.adv.n}<small>zomercampagne 2026</small>`:s.adv.n;
+  return `<div class="${cls}"><div class="sc" style="background:${s.adv.g}">${inner}</div><div class="ts">${CHECKTIME}</div></div>`;
+}
+function creativeState(s){
+  if(s.status=="niet_live"||s.status=="offline") return {k:"geen",l:"Geen waarneming",b:"b-off"};
+  if(s.mismatch) return {k:"mis",l:"Wijkt af",b:"b-bad"};
+  if(s.status=="aandacht") return {k:"onzeker",l:"Onzeker",b:"b-warn"};
+  return {k:"match",l:"Match",b:"b-ok"};
+}
+
+/* ---- overzicht ---- */
+function drawKpis(){
+  const c={live:0,aandacht:0,niet_live:0,offline:0};
+  SCREENS.forEach(s=>c[s.status]++);
+  const def=[["live","ok","Live","uiting gedetecteerd"],["aandacht","warn","Aandacht","AI onzeker, mens kijkt mee"],["niet_live","bad","Niet live","geen uiting zichtbaar"],["offline","off","Camera offline","geen beeld beschikbaar"]];
+  document.getElementById("kpis").innerHTML = def.map(([k,cl,l,sub])=>
+    `<div class="kpi click ${cl} ${filt==k?'sel':''}" onclick="setFilt('${k}')"><div class="n">${c[k]}</div><div><div class="l">${l}</div><div class="s">${sub}</div></div></div>`).join("");
+  document.getElementById("chips").innerHTML = [["alle","Alle 38"],["live","Live"],["aandacht","Aandacht"],["niet_live","Niet live"],["offline","Offline"]]
+    .map(([k,l])=>`<span class="chip ${filt==k?'on':''}" onclick="setFilt('${k}')">${l}</span>`).join("");
+}
+function setFilt(k){filt=(filt==k)?"alle":k;draw()}
+function actionInfo(s){
+  if(s.status=="niet_live") return {tt:"Scherm toont geen uiting",ds:"Incident open bij Operations dienst A — beeld is zwart sinds de check van 05:15",since:"sinds 05:15 · 9u 30m",rank:0,review:false};
+  if(s.mismatch) return {tt:"Uiting wijkt af van planning",ds:`Waargenomen ${s.adv.n}, verwacht ${s.expected.n} — beoordeel of dit klopt`,since:"sinds 11:00 · 3u 45m",rank:1,review:true};
+  if(s.status=="aandacht") return {tt:"AI onzeker — beoordeling gevraagd",ds:`Zekerheid ${s.zeker}% (laag contrast) — kijk mee en corrigeer, de engine leert hiervan`,since:"sinds 13:30 · 1u 15m",rank:2,review:true};
+  if(s.status=="offline") return {tt:"Camera onbereikbaar",ds:"Scherm mogelijk wel live — melding bij leverancier camera staat open",since:"sinds 09:30 · 5u 15m",rank:3,review:false};
+  return null;
+}
+function drawActions(){
+  const items=SCREENS.map(s=>({s,a:actionInfo(s)})).filter(x=>x.a);
+  INCIDENTEN.filter(i=>i.manual&&i.status=="open").forEach(i=>{const s=SCREENS.find(x=>x.id==i.schermId);
+    items.push({s,a:{tt:"Incident: "+i.type,ds:`Toegewezen aan ${i.wie} · prioriteit ${i.prio} — melding met inloglink verzonden`,since:"sinds "+i.gestart.replace("vandaag ",""),rank:0.5,review:false}})});
+  items.sort((x,y)=>x.a.rank-y.a.rank);
+  document.getElementById("acount").textContent=items.length?`${items.length} open — oudste 9u 30m`:"";
+  if(!items.length){
+    document.getElementById("alist").innerHTML=`<div class="okstate">✓&nbsp; Alles in orde — geen acties open. Volgende check over 7 minuten; bij een afwijking ontvang je automatisch een melding.</div>`;
+    return;
+  }
+  document.getElementById("alist").innerHTML=items.map(({s,a})=>`
+    <div class="aitem">
+      <span class="badge ${s.mismatch&&s.status=="live"?"b-bad":STATUS[s.status].b}">${s.mismatch&&s.status=="live"?"wijkt af":STATUS[s.status].l}</span>
+      <div class="tx"><div class="tt">${name(s)} — richting ${s.richting} · ${a.tt}</div><div class="ds">${a.ds}</div></div>
+      <span class="since">${a.since}</span>
+      ${a.review?`<button class="btn pri" onclick="reviewNow(${s.id})">Beoordeel nu</button>`:""}
+      <button class="btn" onclick="openDetail(${s.id},'overzicht')">Details</button>
+    </div>`).join("");
+}
+function reviewNow(id){openDetail(id,'overzicht');openCorrectie();}
+function draw(){
+  drawKpis();drawActions();
+  const q=(document.getElementById("q").value||"").toLowerCase();
+  const order={niet_live:0,aandacht:1,offline:2,live:3};
+  const list=SCREENS.filter(s=>(filt=="alle"||s.status==filt)&&(name(s)+" richting "+s.richting).toLowerCase().includes(q))
+    .sort((a,b)=>order[a.status]-order[b.status]||a.id-b.id);
+  const collapsed = !showAll && !q && filt=="alle";
+  const shown = collapsed ? list.filter(s=>s.status!="live"||s.mismatch) : list;
+  const okCount = list.length - list.filter(s=>s.status!="live"||s.mismatch).length;
+  document.getElementById("grid").innerHTML=shown.map(s=>`
+    <div class="scard" onclick="openDetail(${s.id},'overzicht')">
+      <div class="hd"><div><div class="nm">${name(s)}</div><div class="rt">Richting ${s.richting}</div></div>
+      <span class="badge ${STATUS[s.status].b}">${STATUS[s.status].l}</span></div>
+      ${thumb(s,"thumb")}
+      <div class="pulseline">${ticksFor(s,30)}</div>
+      <div class="ft"><span>uptime 24u <b>${s.uptime}${s.uptime=="—"?"":"%"}</b></span><span>check ${CHECKTIME}</span></div>
+    </div>`).join("")
+    + (collapsed ? `<div class="showall" onclick="showAll=true;draw()">✓ ${okCount} schermen live en in orde — toon alle 38 schermen</div>`
+       : (!q && filt=="alle" ? `<div class="showall" onclick="showAll=false;draw()">Verberg de ${okCount} schermen zonder actie</div>` : ""));
+}
+
+/* ---- creative-check ---- */
+function drawCreative(){
+  const c={match:0,mis:0,onzeker:0,geen:0};
+  SCREENS.forEach(s=>c[creativeState(s).k]++);
+  const def=[["match","ok","Match","uiting klopt met planning"],["mis","bad","Wijkt af","andere uiting dan gepland"],["onzeker","warn","Onzeker","mens beoordeelt"],["geen","off","Geen waarneming","scherm niet live of camera offline"]];
+  document.getElementById("ckpis").innerHTML=def.map(([k,cl,l,sub])=>
+    `<div class="kpi ${cl}"><div class="n">${c[k]}</div><div><div class="l">${l}</div><div class="s">${sub}</div></div></div>`).join("");
+  const rank={mis:0,onzeker:1,geen:2,match:3};
+  const rows=SCREENS.slice().sort((a,b)=>rank[creativeState(a).k]-rank[creativeState(b).k]||a.id-b.id).map(s=>{
+    const cs=creativeState(s);
+    const r=rnd(s.id*13);
+    const dek = cs.k=="match"?95+Math.round(r()*5) : cs.k=="mis"?100 : cs.k=="onzeker"?88 : s.status=="niet_live"?58:45;
+    const waarg = cs.k=="geen" ? "—" : s.adv.n;
+    return `<tr class="rowlink ${cs.k=='mis'?'mis':''}" onclick="openDetail(${s.id},'creative')">
+      <td><b>${name(s)}</b><br><span style="font-size:11px;color:var(--off)">richting ${s.richting}</span></td>
+      <td>${s.expected.n}</td>
+      <td>${waarg}${cs.k=="mis"?' <span style="color:var(--bad);font-weight:600">≠</span>':''}</td>
+      <td><span class="badge ${cs.b}">${cs.l}</span></td>
+      <td><span class="minibar"><b style="width:${dek}%"></b></span> <b style="font-size:11.5px">${dek}%</b></td>
+      <td style="color:var(--main);font-weight:600;white-space:nowrap">details →</td></tr>`;
+  }).join("");
+  document.getElementById("ctable").innerHTML=`<tr><th>Scherm</th><th>Verwacht (slot ${CHECKTIME})</th><th>Waargenomen (laatste)</th><th>Creative-status</th><th>Loopdekking vandaag</th><th></th></tr>`+rows;
+}
+
+/* ---- detail ---- */
+function openDetail(id,from){
+  if(from) lastView=from;
+  const s=SCREENS.find(x=>x.id==id); currentScreen=s;
+  document.getElementById("d-title").textContent=`Reclamemast ${name(s)} — richting ${s.richting}`;
+  document.getElementById("d-meta").innerHTML=`Snelwegmast · ${s.weg} · camera <a href="#" onclick="toast('Mockup: opent het live camerabeeld');return false">${s.url.replace("https://","").slice(0,34)}…</a>`;
+  document.getElementById("d-badge").innerHTML=`<span class="badge ${STATUS[s.status].b}">${STATUS[s.status].l}</span>${s.mismatch?' <span class="badge b-bad">uiting wijkt af</span>':''}`;
+  document.getElementById("d-snap").outerHTML=thumb(s,"big",true).replace('class="big','id="d-snap" class="big');
+  const ref=`<div class="big"><div class="sc" style="background:${s.expected.g}">${s.expected.n}<small>zomercampagne 2026</small></div></div>`;
+  document.getElementById("d-ref").outerHTML=ref.replace('class="big','id="d-ref" class="big');
+  document.getElementById("d-refmeta").innerHTML=`Campagne <b style="color:var(--dark)">CMP-2026-0${(s.id%6)+41}</b> · creative <b style="color:var(--dark)">CRE-${1200+s.id}</b> · geboekt aandeel 16,7%`;
+  const m=document.getElementById("d-match");
+  if(s.mismatch){m.style.background="var(--bad)";m.textContent="≠";m.title="Waargenomen uiting wijkt af van de planning"}
+  else if(s.status=="live"){m.style.background="var(--ok)";m.textContent="✓";m.title="Match 97% met verwachte uiting"}
+  else if(s.status=="aandacht"){m.style.background="var(--warn)";m.textContent="?";m.title="Match onzeker — laag contrast (nacht/weer)"}
+  else if(s.status=="niet_live"){m.style.background="var(--bad)";m.textContent="✕";m.title="Geen uiting gedetecteerd"}
+  else {m.style.background="var(--off)";m.textContent="—";m.title="Camera onbereikbaar"}
+  document.getElementById("d-uptime").textContent=`uptime ${s.uptime}${s.uptime=="—"?"":"%"}`;
+  document.getElementById("d-ticks").innerHTML=ticksFor(s,96);
+  const r=rnd(s.id*31);
+  document.getElementById("d-loop").innerHTML=ADV.map(a=>{
+    const w=(13+r()*8).toFixed(1);
+    return `<div class="looprow"><span>${a.n}</span><div class="lbar"><b style="width:${w*4}%"></b><u style="left:${16.7*4}%"></u></div><span class="looppct">${String(w).replace(".",",")}%</span></div>`}).join("");
+  drawIncidents(s);
+  go("detail");
+}
+function drawIncidents(s){
+  const inc=document.getElementById("d-inc");
+  let rows=INCIDENTEN.filter(i=>i.schermId==s.id).map(i=>`<tr><td><b>${i.gestart}</b></td><td>${i.type}</td><td><span class="badge ${i.status=="open"?"b-bad":"b-ok"}">${i.status}</span></td><td>${i.wie}</td><td>${i.duur}</td></tr>`).join("");
+  if(s.status=="aandacht") rows+=`<tr><td><b>vandaag 13:30</b></td><td>AI onzeker (zekerheid ${s.zeker}%) — menselijke beoordeling gevraagd</td><td><span class="badge b-warn">wacht op review</span></td><td>—</td><td>1u 15m</td></tr>`;
+  if(s.mismatch) rows+=`<tr><td><b>vandaag 11:00</b></td><td>Waargenomen uiting wijkt af van planning</td><td><span class="badge b-warn">wacht op review</span></td><td>—</td><td>3u 45m</td></tr>`;
+  if(s.status=="niet_live") rows+=`<tr><td>12 juli 08:30</td><td>Scherm toont geen uiting</td><td><span class="badge b-ok">opgelost</span></td><td>Operations · dienst B</td><td>3u 10m</td></tr>`;
+  if(rows) inc.innerHTML=`<table class="dtable" id="inctable"><tr><th>Gestart</th><th>Type</th><th>Status</th><th>Toegewezen aan</th><th>Duur</th></tr>${rows}</table>`;
+  else inc.innerHTML=`<div class="empty" id="incempty">Geen open incidenten voor dit scherm. Laatste incident: 3 juni 2026 (opgelost in 2u 40m).</div>`;
+}
+
+/* ---- archief: datatabel, beeld pas bij openen ---- */
+function drawArch(){
+  const sel=document.getElementById("a-mast");
+  if(sel.options.length==1) SCREENS.forEach(s=>sel.add(new Option(`${name(s)} — richting ${s.richting}`)));
+  const times=["09:45","09:30","09:15","09:00","08:45","08:30","08:15","08:00","07:45","07:30","07:15","07:00"];
+  const subset=[27,36,16,7,1,4,10,14,17,20,23,30];
+  const rows=subset.map((id,i)=>{
+    const s=SCREENS.find(x=>x.id==id);
+    const cs=creativeState(s);
+    return `<tr class="rowlink" id="arow-${i}" onclick="toggleArch(${i},${s.id},'${times[i]}')">
+      <td style="white-space:nowrap"><b>do 30 juli · ${times[i]}</b></td>
+      <td><b>${name(s)}</b><br><span style="font-size:11px;color:var(--off)">richting ${s.richting}</span></td>
+      <td><span class="badge ${STATUS[s.status].b}">${STATUS[s.status].l}</span></td>
+      <td>${cs.k=="geen"?"—":s.adv.n}</td>
+      <td><span class="badge ${cs.b}">${cs.l}</span></td>
+      <td style="color:var(--main);font-weight:600" id="ahint-${i}">toon beeld ▾</td></tr>
+      <tr class="expander hide" id="aexp-${i}"><td colspan="6"></td></tr>`;
+  }).join("");
+  document.getElementById("atable").innerHTML=`<tr><th>Tijdstip</th><th>Scherm</th><th>Status</th><th>Waargenomen uiting</th><th>Creative</th><th></th></tr>${rows}
+    <tr><td colspan="6" style="text-align:center;color:var(--off);font-size:12px;padding:12px">pagina 1 van 304 · <a href="#" onclick="toast('Mockup: volgende pagina');return false">volgende ›</a></td></tr>`;
+}
+function toggleArch(i,id,time){
+  const exp=document.getElementById("aexp-"+i), hint=document.getElementById("ahint-"+i);
+  if(exp.classList.contains("hide")){
+    const s=SCREENS.find(x=>x.id==id);
+    if(!exp.dataset.loaded){ // beeld wordt pas nu geladen
+      exp.firstElementChild.innerHTML=`<div class="exp-in">
+        ${thumb(s,"thumb")}
+        <div class="exp-meta">
+          <b>AI-beoordeling:</b> ${STATUS[s.status].l}${s.mismatch?" — waargenomen uiting wijkt af van planning":""} · zekerheid ${s.zeker||97}%<br>
+          <b>Verwacht (slot ${time}):</b> ${s.expected.n} · campagne CMP-2026-0${(s.id%6)+41}<br>
+          <b>Bestand:</b> snapshot_${s.id}_20260730_${time.replace(":","")}.jpg · 148 KB · bewaard tot 28 okt 2026
+        </div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <button class="btn" onclick="event.stopPropagation();openDetail(${s.id},'archief')">Open schermdetail</button>
+          <button class="btn" onclick="event.stopPropagation();toast('Download gestart')">Download beeld</button>
+        </div></div>`;
+      exp.dataset.loaded=1;
+    }
+    exp.classList.remove("hide"); hint.textContent="verberg ▴";
+  } else { exp.classList.add("hide"); hint.textContent="toon beeld ▾"; }
+}
+
+/* ---- instellingen ---- */
+function drawSettings(){
+  const t=document.getElementById("stable");
+  if(t.dataset.done) return;
+  t.innerHTML=`<tr><th>Scherm</th><th>Weg</th><th>Richting</th><th>Camera-URL</th><th>Actief in checks</th></tr>`+
+    SCREENS.map(s=>`<tr><td><b>${s.plaats}${s.scherm?" · "+s.scherm:""}</b></td><td>${s.weg}</td><td>${s.richting}</td>
+      <td style="font-size:11px;color:var(--off)">${s.url.replace("https://","").slice(0,40)}…</td>
+      <td><span class="switch on" onclick="flip(this)"></span></td></tr>`).join("");
+  document.getElementById("scount").textContent="38 geladen · lijst wk 28";
+  t.dataset.done=1;
+}
+function flip(el){el.classList.toggle("on");toast(el.classList.contains("on")?"Ingeschakeld":"Uitgeschakeld")}
+
+/* ---- modals ---- */
+function modal(html){document.getElementById("modalroot").innerHTML=`<div class="overlay" onclick="if(event.target===this)closeModal()">
+  <div class="modal">${html}</div></div>`}
+function closeModal(){document.getElementById("modalroot").innerHTML=""}
+function pick(el){[...el.parentElement.children].forEach(c=>c.classList.remove("on"));el.classList.add("on")}
+
+function openCorrectie(){
+  const s=currentScreen;
+  modal(`<h3>Beoordeling corrigeren</h3>
+  <div class="msub">${name(s)} · check ${CHECKTIME} · AI-oordeel: <b>${s.mismatch?"uiting wijkt af":STATUS[s.status].l}</b> (zekerheid ${s.zeker||97}%)</div>
+  <div class="frow"><label>Wat zie jij op het beeld?</label>
+    <div class="radios" id="cor-status">
+      <span class="radio ${s.status!='niet_live'?'on':''}" data-v="live" onclick="pick(this)">Live — uiting zichtbaar</span>
+      <span class="radio ${s.status=='niet_live'?'on':''}" data-v="niet_live" onclick="pick(this)">Niet live — scherm leeg</span>
+      <span class="radio" data-v="onbruikbaar" onclick="pick(this)">Beeld onbruikbaar</span>
+    </div></div>
+  <div class="frow"><label>Klopt de uiting met de planning?</label>
+    <div class="radios" id="cor-cre">
+      <span class="radio ${!s.mismatch?'on':''}" data-v="ja" onclick="pick(this)">Ja, juiste uiting</span>
+      <span class="radio ${s.mismatch?'on':''}" data-v="nee" onclick="pick(this)">Nee, andere uiting</span>
+      <span class="radio" data-v="nvt" onclick="pick(this)">Niet te beoordelen</span>
+    </div></div>
+  <div class="frow"><label>Toelichting (optioneel)</label><textarea id="cor-note" rows="2" placeholder="Bijv. scherm deels zichtbaar door mist"></textarea></div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Annuleren</button>
+  <button class="btn pri" onclick="submitCorrectie()">Correctie opslaan</button></div>`)
+}
+function submitCorrectie(){
+  const s=currentScreen;
+  const v1=(document.querySelector("#cor-status .on")||{}).dataset?.v;
+  const v2=(document.querySelector("#cor-cre .on")||{}).dataset?.v;
+  const note=(document.getElementById("cor-note")||{}).value||"";
+  const wasIssue = s.status!="live" || s.mismatch;
+  CORRECTIES.push({schermId:s.id,oordeelAI:s.mismatch?"uiting wijkt af":STATUS[s.status].l,oordeelMens:v1||"—",uiting:v2||"—",toelichting:note,tijd:CHECKTIME});
+  if(v1=="live"){s.base="live";s.zeker=99;s.manual=true;s.status="live"}
+  else if(v1=="niet_live"){s.base="niet_live";s.manual=true;s.status="niet_live"}
+  else if(v1=="onbruikbaar"){s.manual=true;s.status="aandacht"}
+  if(v2=="ja") s.mismatch=false; else if(v2=="nee") s.mismatch=true;
+  s.hist[s.hist.length-1]=tickFor(s); // polsslag beweegt mee
+  const okc=s.hist.filter(t=>t=="t-ok").length;
+  s.uptime=s.status=="offline"?"—":(okc/96*100).toFixed(1).replace(".",",");
+  closeModal(); draw(); openDetail(s.id,lastView);
+  toast(wasIssue && s.status=="live" && !s.mismatch ? "Beoordeling verwerkt — item uit de wachtrij, de AI-engine leert hiervan" : "Correctie opgeslagen — de AI-engine leert hiervan");
+}
+function openIncident(){
+  const s=currentScreen;
+  modal(`<h3>Incident aanmaken</h3>
+  <div class="msub">${name(s)} — richting ${s.richting}</div>
+  <div class="frow"><label>Type</label><select id="inc-type">
+    <option>Scherm toont geen uiting</option><option ${s.mismatch?"selected":""}>Verkeerde uiting</option><option>Camera onbereikbaar</option><option>Beeldkwaliteit onvoldoende</option><option>Anders</option></select></div>
+  <div class="frow"><label>Toewijzen aan</label><select id="inc-wie">
+    <option>Operations · dienst A</option><option>Operations · dienst B</option><option>Leverancier camera</option><option>Leverancier scherm</option></select></div>
+  <div class="frow"><label>Prioriteit</label>
+    <div class="radios" id="inc-prio"><span class="radio on" onclick="pick(this)">Hoog — nu oppakken</span><span class="radio" onclick="pick(this)">Normaal — vandaag</span><span class="radio" onclick="pick(this)">Laag</span></div></div>
+  <div class="frow"><label>Omschrijving</label><textarea rows="2" placeholder="Wat is er aan de hand?"></textarea></div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Annuleren</button>
+  <button class="btn pri" onclick="submitIncident()">Incident aanmaken</button></div>`)
+}
+function submitIncident(){
+  const s=currentScreen;
+  const type=document.getElementById("inc-type").value, wie=document.getElementById("inc-wie").value;
+  const prio=((document.querySelector("#inc-prio .on")||{}).textContent||"Hoog").split(" —")[0];
+  INCIDENTEN.push({schermId:s.id,type,wie,prio,status:"open",gestart:`vandaag ${CHECKTIME}`,duur:"0m",manual:true});
+  closeModal(); drawIncidents(s); drawActions(); drawKpis();
+  toast(`Incident aangemaakt en toegewezen aan ${wie} — melding met inloglink verzonden`);
+}
+
+function openUser(){
+  modal(`<h3>Gebruiker toevoegen</h3>
+  <div class="msub">De gebruiker ontvangt een uitnodiging per e-mail met een inloglink.</div>
+  <div class="frow"><label>Naam</label><input id="u-naam" placeholder="Voor- en achternaam"></div>
+  <div class="frow"><label>E-mailadres</label><input id="u-mail" placeholder="naam@global.nl"></div>
+  <div class="frow"><label>Rol</label><select id="u-rol"><option>Kijker — alleen lezen</option><option>Operations — corrigeren en incidenten</option><option>Beheerder — alles</option></select></div>
+  <div class="mfoot"><button class="btn" onclick="closeModal()">Annuleren</button>
+  <button class="btn pri" onclick="submitUser()">Uitnodigen</button></div>`)
+}
+function submitUser(){
+  const n=document.getElementById("u-naam").value||"Nieuwe gebruiker";
+  const m=document.getElementById("u-mail").value||"naam@global.nl";
+  const r=document.getElementById("u-rol").value.split(" —")[0];
+  closeModal();
+  document.getElementById("utable").insertAdjacentHTML("beforeend",
+    `<tr><td><b>${n}</b></td><td>${m}</td><td>${r}</td><td><span class="switch on" onclick="flip(this)"></span></td><td><span class="badge b-off">uitgenodigd</span></td></tr>`);
+  toast(`Uitnodiging verzonden naar ${m}`);
+}
+
+/* ---- toast & nav ---- */
+let toastTimer;
+function toast(msg){
+  document.getElementById("toastroot").innerHTML=`<div class="toast">✓&nbsp; ${msg}</div>`;
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>document.getElementById("toastroot").innerHTML="",2800);
+}
+function go(v){
+  ["overzicht","creative","detail","archief","instellingen"].forEach(x=>document.getElementById("v-"+x).classList.toggle("hide",x!=v));
+  const navFor = v=="detail" ? lastView : v;
+  ["overzicht","creative","archief","instellingen"].forEach(x=>document.getElementById("nav-"+x).classList.toggle("on",x==navFor));
+  if(v=="overzicht") draw();
+  if(v=="creative") drawCreative();
+  if(v=="archief") drawArch();
+  if(v=="instellingen") drawSettings();
+  window.scrollTo({top:0});
+}
+
+/* ---- simulatie & drempel ---- */
+function tickFor(s){return s.status=="offline"?"t-off":s.status=="niet_live"?"t-bad":s.status=="aandacht"?"t-warn":"t-ok"}
+function simulate(){
+  const [h,m]=CHECKTIME.split(":").map(Number); const t=(h*60+m+15)%1440;
+  CHECKTIME=String(Math.floor(t/60)).padStart(2,"0")+":"+String(t%60).padStart(2,"0");
+  SCREENS.forEach(s=>{ // kleine kans dat een status verandert
+    if(s.manual||s.base!="live") return;
+    const r=Math.random();
+    if(r<0.03) s.zeker=55+Math.round(Math.random()*20);
+    else if(s.zeker<TH&&r<0.35) s.zeker=90+Math.round(Math.random()*9);
+  });
+  applyStatus();
+  SCREENS.forEach(s=>{s.hist.shift();s.hist.push(tickFor(s))}); // historie schuift door
+  applyStatus();
+  redraw();
+  const open=SCREENS.filter(s=>s.status!="live"||s.mismatch).length+INCIDENTEN.filter(i=>i.manual&&i.status=="open").length;
+  toast(`Check ${CHECKTIME} uitgevoerd — ${SCREENS.length} schermen gecontroleerd, ${open} item(s) in de wachtrij`);
+}
+function setTh(v,final){
+  TH=+v; applyStatus(); redraw();
+  if(final) toast(`Aandacht-drempel op ${TH}% — ${SCREENS.filter(s=>s.status=="aandacht").length} scherm(en) in categorie aandacht`);
+}
+function redraw(){
+  document.querySelectorAll(".checktime").forEach(e=>e.textContent=CHECKTIME);
+  draw();
+  if(!document.getElementById("v-creative").classList.contains("hide")) drawCreative();
+  if(!document.getElementById("v-detail").classList.contains("hide")&&currentScreen) openDetail(currentScreen.id);
+}
+draw();
+</script>
+<!-- USERSNAP-START -->
+<script>
+  window.onUsersnapLoad = function(api) {
+    api.init();
+  };
+  var script = document.createElement('script');
+  script.defer = 1;
+  script.src = 'https://widget.usersnap.com/global/load/c4f048c1-ba97-4344-8bc6-a7afcbec2233?onload=onUsersnapLoad';
+  document.getElementsByTagName('head')[0].appendChild(script);
+</script>
+<!-- USERSNAP-END -->
+</body>
+</html>
