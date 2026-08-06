@@ -52,9 +52,20 @@
   .choose-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
   .choose-head h2{color:var(--dark);font-size:24px;font-weight:800;letter-spacing:-.3px}
   .choose-head .sub{font-size:13.5px;margin-top:3px}
-  .car-nav{display:flex;gap:8px}
-  .car-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--main);font-size:17px;box-shadow:var(--shadow-s);transition:all .15s}
+  /* Pijlen staan naast de laatst zichtbare kaart: zo is te zien dat er meer achter zit. */
+  .car-shell{position:relative}
+  .car-nav{position:absolute;top:50%;right:-92px;transform:translateY(-50%);display:flex;gap:8px;z-index:3}
+  .car-btn{width:38px;height:38px;border-radius:50%;border:1px solid var(--border);background:#fff;color:var(--main);font-size:17px;cursor:pointer;box-shadow:var(--shadow-m);transition:all .15s}
   .car-btn:hover{background:var(--main);color:#fff;border-color:var(--main)}
+  .car-btn[disabled]{opacity:.32;cursor:default;box-shadow:var(--shadow-s)}
+  .car-btn[disabled]:hover{background:#fff;color:var(--main);border-color:var(--border)}
+  /* Smaller scherm: geen ruimte náást de kaart, dus over de beeldband — nooit over tekst. */
+  @media (max-width:1255px){
+    .car-nav{top:72px;right:6px;transform:none}
+  }
+  @media (max-width:900px){
+    .car-nav{top:-48px;right:2px}
+  }
   .carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 22px;scrollbar-width:none}
   .carousel::-webkit-scrollbar{display:none}
   .proto{scroll-snap-align:start;flex:0 0 340px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-s);transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
@@ -163,13 +174,15 @@
       <h2>Kies een prototype</h2>
       <div class="sub">Klik op <b>Start met testen</b> om een prototype te openen.</div>
     </div>
+  </div>
+
+  <div class="car-shell">
+    <div class="carousel" id="carousel" tabindex="0" aria-label="Prototypes, blader met de pijltjestoetsen"></div>
     <div class="car-nav">
       <button class="car-btn" data-dir="-1" aria-label="Vorige">←</button>
       <button class="car-btn" data-dir="1" aria-label="Volgende">→</button>
     </div>
   </div>
-
-  <div class="carousel" id="carousel" tabindex="0" aria-label="Prototypes, blader met de pijltjestoetsen"></div>
   <div class="dots" id="dots" aria-hidden="true"></div>
 </div></div>
 
@@ -306,10 +319,21 @@
   cards.forEach((_, i) => { const d = document.createElement('span'); if (i === 0) d.className = 'on'; dotsEl.appendChild(d); });
   function slide(dir){ car.scrollBy({ left: dir * STEP, behavior: reduceMotion ? 'auto' : 'smooth' }); }
   document.querySelectorAll('.car-btn').forEach(b => b.addEventListener('click', () => slide(+b.dataset.dir)));
+  const prevBtn = document.querySelector('.car-btn[data-dir="-1"]');
+  const nextBtn = document.querySelector('.car-btn[data-dir="1"]');
+  /* Pijl uit als er die kant op niets meer staat: zo zie je meteen dát er meer achter zit. */
+  function syncNav(){
+    const max = car.scrollWidth - car.clientWidth;
+    prevBtn.disabled = car.scrollLeft <= 10;      /* strip rust op ~4px door de padding */
+    nextBtn.disabled = car.scrollLeft >= max - 10;
+  }
   car.addEventListener('scroll', () => {
     const i = Math.min(cards.length - 1, Math.round(car.scrollLeft / STEP));
     dotsEl.querySelectorAll('span').forEach((d, j) => d.classList.toggle('on', j === i));
+    syncNav();
   });
+  window.addEventListener('resize', syncNav);
+  syncNav();
   car.addEventListener('keydown', e => {
     if (e.key === 'ArrowLeft') { e.preventDefault(); slide(-1); }
     if (e.key === 'ArrowRight') { e.preventDefault(); slide(1); }
