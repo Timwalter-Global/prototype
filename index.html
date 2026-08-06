@@ -231,6 +231,15 @@
       type: 'Flow',
       url: 'prototypes/casar-dashboard/',
       thumb: 'flow'
+    },
+    {
+      titel: 'Creaties verzamelen',
+      categorie: 'Werkproces',
+      beschrijving: 'Van order tot goedgekeurde uiting. Wissel in de demo console van rol en perspectief en volg één dossier: zie je meteen wie aan zet is en welke uiting nog ontbreekt?',
+      testtijd: '± 15 min',
+      type: 'Werkproces',
+      url: 'prototypes/creaties-verzamelen/',
+      thumb: 'matrix'
     }
   ];
   const CONTACT_EMAIL = 'tim.walter@global.com';
@@ -253,7 +262,13 @@
       <div class="trow">
         <div class="tlist"><span class="tsk" style="height:6px"></span><span class="tsk" style="height:6px"></span><span class="tsk" style="height:6px"></span><span class="tsk" style="height:6px"></span></div>
         <div class="tmap"><i style="top:20%;left:30%"></i><i style="top:55%;left:60%"></i><i style="top:35%;left:78%"></i><i style="top:65%;left:22%"></i></div>
-      </div>`
+      </div>`,
+    matrix: `
+      <div class="tsk" style="width:42%;height:7px"></div>
+      <div class="trow" style="align-items:center"><span class="tile t-ok" style="flex:0 0 18px;height:6px;border-radius:999px"></span><span class="tsk" style="flex:1;height:6px"></span></div>
+      <div class="trow" style="align-items:center"><span class="tile t-warn" style="flex:0 0 18px;height:6px;border-radius:999px"></span><span class="tsk" style="flex:1;height:6px"></span></div>
+      <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#F2C9C9"></span><span class="tsk" style="flex:1;height:6px"></span></div>
+      <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#C3D6EC"></span><span class="tsk" style="flex:1;height:6px"></span></div>`
   };
 
   const car = document.getElementById('carousel');

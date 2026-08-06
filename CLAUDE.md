@@ -148,6 +148,7 @@ De widget-key is voor de hele space gelijk:
 | `casar-dashboard` | Casar 2.0 | `…/prototypes/casar-dashboard/` |
 | `adviewer2` | *(nog niet doorgegeven — gebruiker stelt target zelf in)* | `…/prototypes/adviewer2/` |
 | `mastmonitor` | Mast Monitor | `…/prototypes/mastmonitor/` (widget staat ook op `…/prototypes/mastmonitor/dashboard.html`) |
+| `creaties-verzamelen` | Usersnap-project met target op de prefix `…/prototypes/creaties…` | `…/prototypes/creaties-verzamelen/` (valt binnen die prefix) |
 
 ## Prototype offline halen
 
