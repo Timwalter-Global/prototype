@@ -12,7 +12,9 @@
   a{color:var(--fel)}
   /* ------- volledige navigatiebalk links ------- */
   .zij{position:fixed;left:0;top:0;bottom:0;width:var(--zijbreed);background:linear-gradient(180deg,var(--nacht) 0%,var(--donker) 55%,var(--blauw) 130%);color:#fff;display:flex;flex-direction:column;padding:22px 16px;overflow-y:auto;z-index:40}
+  .zij .logo{display:block;height:30px;width:auto;margin:2px 10px 12px;filter:brightness(0) invert(1)}
   .zij .merk{font-weight:800;font-size:18px;letter-spacing:.3px;padding:0 10px}
+  .auth-logo{display:block;height:34px;width:auto;margin:26px 0 0 30px}
   .zij .merk small{display:block;font-weight:400;font-size:11.5px;opacity:.65;letter-spacing:1.2px;text-transform:uppercase;margin-top:2px}
   .zij .wie{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.10);border-radius:14px;padding:12px;margin:18px 0 16px}
   .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--donker);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 42px}
@@ -39,19 +41,27 @@
   .paneel{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:22px}
   /* ------- uploads ------- */
   .rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
-  .kaart{border:1px solid var(--lijn);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .15s}
+  .kaart{border:1px solid var(--lijn);border-radius:14px;background:#fff;display:flex;flex-direction:column;transition:box-shadow .15s}
   .kaart:hover{box-shadow:0 10px 26px rgba(27,75,137,.13)}
-  .kaart .beeld{background:#0f1a2b;height:170px;display:flex;align-items:center;justify-content:center;position:relative}
+  .kaart .beeld{background:#0f1a2b;height:170px;display:flex;align-items:center;justify-content:center;position:relative;border-radius:14px 14px 0 0}
   .kaart .beeld img{max-width:82%;max-height:150px;object-fit:contain;box-shadow:0 4px 16px rgba(0,0,0,.45);border-radius:3px}
   .badge{position:absolute;top:10px;left:10px;background:var(--licht);color:var(--nacht);font-size:10.5px;font-weight:800;letter-spacing:.6px;border-radius:999px;padding:4px 10px;text-transform:uppercase}
   .kaart .info{padding:12px 15px 4px}
   .kaart .info b{color:var(--nacht);font-size:14px;word-break:break-all;display:block}
   .kaart .info small{color:#8b93a3;font-size:12px}
-  .kaart .acties{display:flex;flex-direction:column;gap:8px;padding:11px 15px 15px}
-  .kaart .rijtje{display:flex;gap:7px;flex-wrap:wrap}
+  .kaart .acties{display:flex;gap:8px;align-items:center;padding:11px 15px 15px}
+  .meer{position:relative}
+  .meerknop{width:38px;height:38px;padding:0;border-radius:50%;font-size:19px;line-height:1;display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #D8DEE9;background:#fff;color:var(--grijs);cursor:pointer;font-family:inherit}
+  .meerknop:hover,.meer.open .meerknop{border-color:var(--blauw);color:var(--blauw);background:#EAF1F9}
+  .meer .menu{display:none;position:absolute;right:0;bottom:calc(100% + 8px);background:#fff;border:1px solid var(--lijn);border-radius:12px;box-shadow:0 12px 30px rgba(27,75,137,.20);min-width:210px;padding:6px;z-index:15}
+  .meer.open .menu{display:block}
+  .meer .menu button{display:flex;align-items:center;gap:9px;width:100%;text-align:left;background:none;border:none;font-family:inherit;font-size:13.5px;font-weight:700;color:var(--nacht);padding:9px 11px;border-radius:8px;cursor:pointer}
+  .meer .menu button:hover{background:#F1F6FC}
+  .meer .menu button.rood{color:#C0392B}
+  .meer .menu button.rood:hover{background:#FDF2F0}
   .k-knop{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);border-radius:999px;font-size:12.5px;font-weight:700;padding:8px 13px;cursor:pointer;font-family:inherit}
   .k-knop:hover{background:#EAF1F9}
-  .k-knop.vol{background:var(--blauw);color:#fff;width:100%}
+  .k-knop.vol{background:var(--blauw);color:#fff;flex:1}
   .k-knop.vol:hover{background:var(--donker)}
   .k-knop.weg{border-color:#D8DEE9;color:#8b93a3}
   .k-knop.weg:hover{border-color:#C0392B;color:#C0392B;background:#FDF2F0}
@@ -218,7 +228,8 @@
   }
   function renderAuth(tab) {
     tab = tab || 'registreer';
-    app.innerHTML = '<div class="hoofd" style="margin-left:0;max-width:none"><div class="auth">' +
+    app.innerHTML = '<img class="auth-logo" src="../../../assets/global-logo.png" alt="Global">' +
+      '<div class="hoofd" style="margin-left:0;max-width:none"><div class="auth">' +
       '<div class="balk" style="margin-bottom:8px"><div><h1>Mijn account</h1><p>Log in of maak een gratis account aan om je uploads terug te zien, te vergelijken en te delen.</p></div></div>' +
       '<div class="voordeel"><h3>Met een gratis account krijg je er dit bij</h3>' +
       ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting'].map(function (t) { return '<div>' + VINK + '<span>' + t + '</span></div>'; }).join('') + '</div>' +
@@ -255,7 +266,8 @@
     try { history.replaceState(null, '', '#' + actief); } catch (e) {}
     app.innerHTML =
       '<aside class="zij">' +
-        '<div class="merk">AdViewer 2.0<small>Mijn account · Global</small></div>' +
+        '<img class="logo" src="../../../assets/global-logo.png" alt="Global">' +
+        '<div class="merk">AdViewer 2.0<small>Mijn account</small></div>' +
         '<div class="wie"><span class="avatar">' + esc(initialen()) + '</span><span><b>' + esc(db.user.naam) + '</b><small>' + esc(db.user.email) + '</small></span></div>' +
         '<div class="kopje">Mijn werk</div>' +
         '<nav>' +
@@ -358,21 +370,32 @@
           '<div class="info"><b>' + esc(u.name) + '</b><small>' + datumNL(u.date) + (u.shared.length ? ' · gedeeld met ' + u.shared.length : '') + '</small></div>' +
           '<div class="acties">' +
             '<button class="k-knop vol" data-a="open">▶ &nbsp;Open in viewer</button>' +
-            '<div class="rijtje">' +
-              '<button class="k-knop" data-a="cmp">Vergelijk</button>' +
-              '<button class="k-knop" data-a="link">Deellink</button>' +
-              '<button class="k-knop" data-a="video">Video</button>' +
-              '<button class="k-knop" data-a="share">Delen</button>' +
-              '<button class="k-knop weg" data-a="weg" aria-label="Verwijderen" title="Verwijderen">🗑</button>' +
+            '<div class="meer">' +
+              '<button class="meerknop" data-a="meer" aria-haspopup="true" aria-label="Meer acties">⋯</button>' +
+              '<div class="menu">' +
+                '<button data-a="cmp">🆚 Vergelijk met andere</button>' +
+                '<button data-a="link">🔗 Kopieer deellink</button>' +
+                '<button data-a="video">🎬 Video-export</button>' +
+                '<button data-a="share">📤 Delen met contact</button>' +
+                '<button data-a="weg" class="rood">🗑 Verwijderen</button>' +
+              '</div>' +
             '</div>' +
           '</div></div>';
       }).join('') + '</div>';
     m.querySelectorAll('.kaart').forEach(function (k) {
       var id = k.getAttribute('data-id');
       k.querySelectorAll('[data-a]').forEach(function (b) {
-        b.addEventListener('click', function () {
-          var u = db.uploads.filter(function (x) { return x.id === id; })[0]; if (!u) return;
+        b.addEventListener('click', function (ev) {
           var a = b.getAttribute('data-a');
+          if (a === 'meer') {
+            ev.stopPropagation();
+            var mr = b.closest('.meer'), was = mr.classList.contains('open');
+            m.querySelectorAll('.meer.open').forEach(function (x) { x.classList.remove('open'); });
+            if (!was) mr.classList.add('open');
+            return;
+          }
+          var u = db.uploads.filter(function (x) { return x.id === id; })[0]; if (!u) return;
+          m.querySelectorAll('.meer.open').forEach(function (x) { x.classList.remove('open'); });
           if (a === 'open') { try { sessionStorage.setItem(REOPEN, JSON.stringify({ src: u.src, name: u.name })); } catch (e) {} location.href = viewerUrl; }
           else if (a === 'cmp') { cmpA = u.id; cmpB = null; render('vergelijk'); }
           else if (a === 'link') kopieer(viewerUrl + '?campagne=' + u.id, 'Deellink van je campagne gekopieerd');
@@ -491,6 +514,13 @@
       kopieer(url, 'Link gekopieerd — plak ’m in je mail of chat');
     });
   }
+
+  document.addEventListener('click', function (e) {
+    if (!e.target.closest('.meer')) document.querySelectorAll('.meer.open').forEach(function (x) { x.classList.remove('open'); });
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') document.querySelectorAll('.meer.open').forEach(function (x) { x.classList.remove('open'); });
+  });
 
   /* ---------- start ---------- */
   function start() {
