@@ -124,7 +124,22 @@
 <!-- USERSNAP-START -->
 <script>
   window.onUsersnapLoad = function (api) {
-    api.init();
+    /* AVG-dataminimalisatie: alleen naam, e-mail en userId meesturen.
+       Het gesimuleerde account (adviewer2_account_v1) kent geen apart id,
+       daarom dient het e-mailadres als userId. */
+    var usersnapUser = null;
+    try {
+      var acc = JSON.parse(localStorage.getItem("adviewer2_account_v1"));
+      if (acc && acc.loggedIn && acc.user && acc.user.email) usersnapUser = acc.user;
+    } catch (e) {}
+    if (usersnapUser) {
+      api.init({
+        user: { email: usersnapUser.email, userId: usersnapUser.email },
+        custom: { name: usersnapUser.naam || "" }
+      });
+    } else {
+      api.init();
+    }
   };
   var usersnapScript = document.createElement("script");
   usersnapScript.defer = 1;
