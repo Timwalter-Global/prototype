@@ -6,101 +6,112 @@
 <meta name="robots" content="noindex, nofollow" />
 <title>Mijn account — AdViewer 2.0</title>
 <style>
-  :root{--blauw:#195AA6;--donker:#1B4B89;--nacht:#172842;--fel:#0B78BE;--licht:#5BC4E8;--grijs:#575756;--bg:#F1F5FA;--lijn:#E3EAF3}
+  :root{--blauw:#195AA6;--donker:#1B4B89;--nacht:#172842;--fel:#0B78BE;--licht:#5BC4E8;--grijs:#575756;--bg:#F1F5FA;--lijn:#E3EAF3;--zijbreed:272px}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:"Century Gothic",CenturyGothic,Poppins,sans-serif;background:var(--bg);color:var(--grijs);font-size:15px;line-height:1.55;min-height:100vh}
   a{color:var(--fel)}
-  .top{background:#fff;border-bottom:1px solid var(--lijn);padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
-  .top .merk{display:flex;align-items:baseline;gap:10px;color:var(--nacht);font-weight:800;font-size:17px}
-  .top .merk small{color:#8b93a3;font-weight:400;font-size:12.5px}
-  .top a.terug{display:inline-flex;align-items:center;gap:8px;background:var(--blauw);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px}
-  .top a.terug:hover{background:var(--donker)}
-  .schil{display:flex;gap:26px;max-width:1180px;margin:26px auto;padding:0 24px;align-items:flex-start}
-  /* zijbalk */
-  .zij{flex:0 0 264px;position:sticky;top:88px}
-  .zij .wie{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:18px;display:flex;gap:12px;align-items:center;margin-bottom:14px}
-  .avatar{width:46px;height:46px;border-radius:50%;background:var(--blauw);color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex:0 0 46px}
-  .wie b{color:var(--nacht);font-size:15px;display:block;line-height:1.25}
-  .wie small{font-size:12px;color:#8b93a3;word-break:break-all}
-  nav.menu{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:2px}
-  nav.menu button{display:flex;align-items:center;gap:11px;border:none;background:none;width:100%;text-align:left;font-family:inherit;font-size:14.5px;color:var(--nacht);padding:12px 13px;border-radius:11px;cursor:pointer;font-weight:700}
-  nav.menu button svg{flex:0 0 19px;stroke:#7d8aa0}
-  nav.menu button:hover{background:#F1F6FC}
-  nav.menu button.aan{background:var(--blauw);color:#fff}
-  nav.menu button.aan svg{stroke:#fff}
-  nav.menu .schei{height:1px;background:var(--lijn);margin:8px 6px}
-  nav.menu button.stil{font-weight:400;color:var(--grijs)}
-  /* hoofd */
-  main{flex:1;min-width:0}
-  .kop h1{color:var(--nacht);font-size:24px;font-weight:800}
-  .kop p{margin:4px 0 20px;font-size:14px;max-width:640px}
+  /* ------- volledige navigatiebalk links ------- */
+  .zij{position:fixed;left:0;top:0;bottom:0;width:var(--zijbreed);background:linear-gradient(180deg,var(--nacht) 0%,var(--donker) 55%,var(--blauw) 130%);color:#fff;display:flex;flex-direction:column;padding:22px 16px;overflow-y:auto;z-index:40}
+  .zij .merk{font-weight:800;font-size:18px;letter-spacing:.3px;padding:0 10px}
+  .zij .merk small{display:block;font-weight:400;font-size:11.5px;opacity:.65;letter-spacing:1.2px;text-transform:uppercase;margin-top:2px}
+  .zij .wie{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.10);border-radius:14px;padding:12px;margin:18px 0 16px}
+  .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--donker);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 42px}
+  .zij .wie b{display:block;font-size:14px;line-height:1.25}
+  .zij .wie small{font-size:11px;opacity:.75;word-break:break-all}
+  .zij .kopje{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;padding:12px 10px 6px}
+  .zij nav{display:flex;flex-direction:column;gap:3px}
+  .zij nav button{display:flex;align-items:center;gap:11px;border:none;background:none;width:100%;text-align:left;font-family:inherit;font-size:14px;color:#fff;padding:11px 12px;border-radius:11px;cursor:pointer;font-weight:700}
+  .zij nav button svg{flex:0 0 19px;stroke:rgba(255,255,255,.85)}
+  .zij nav button:hover{background:rgba(255,255,255,.12)}
+  .zij nav button.aan{background:#fff;color:var(--donker)}
+  .zij nav button.aan svg{stroke:var(--donker)}
+  .zij nav .tel{margin-left:auto;background:rgba(255,255,255,.18);border-radius:999px;font-size:11.5px;font-weight:800;padding:2px 9px}
+  .zij nav button.aan .tel{background:#EAF1F9;color:var(--donker)}
+  .zij .duw{flex:1}
+  .zij .voet{border-top:1px solid rgba(255,255,255,.16);padding-top:10px;margin-top:14px}
+  /* ------- hoofd ------- */
+  .hoofd{margin-left:var(--zijbreed);padding:26px 34px 60px;max-width:1080px}
+  .balk{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
+  .balk h1{color:var(--nacht);font-size:25px;font-weight:800}
+  .balk p{margin-top:4px;font-size:14px;max-width:620px}
+  .balk .viewerknop{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;background:var(--blauw);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:11px 20px;border-radius:999px;white-space:nowrap}
+  .balk .viewerknop:hover{background:var(--donker)}
   .paneel{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:22px}
-  /* uploads */
-  .rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+  /* ------- uploads ------- */
+  .rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
   .kaart{border:1px solid var(--lijn);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .15s}
-  .kaart:hover{box-shadow:0 10px 26px rgba(27,75,137,.12)}
-  .kaart .beeld{background:conic-gradient(#EDF1F7 0 25%,#fff 0 50%,#EDF1F7 0 75%,#fff 0) 0 0/24px 24px;height:150px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--lijn);position:relative}
-  .kaart .beeld img{max-width:88%;max-height:126px;object-fit:contain;box-shadow:0 4px 14px rgba(0,0,0,.18)}
-  .kies{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--lijn);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:var(--nacht);cursor:pointer}
-  .kies.aan{background:var(--blauw);border-color:var(--blauw);color:#fff}
-  .kaart .info{padding:13px 15px 6px}
+  .kaart:hover{box-shadow:0 10px 26px rgba(27,75,137,.13)}
+  .kaart .beeld{background:#0f1a2b;height:170px;display:flex;align-items:center;justify-content:center;position:relative}
+  .kaart .beeld img{max-width:82%;max-height:150px;object-fit:contain;box-shadow:0 4px 16px rgba(0,0,0,.45);border-radius:3px}
+  .badge{position:absolute;top:10px;left:10px;background:var(--licht);color:var(--nacht);font-size:10.5px;font-weight:800;letter-spacing:.6px;border-radius:999px;padding:4px 10px;text-transform:uppercase}
+  .kaart .info{padding:12px 15px 4px}
   .kaart .info b{color:var(--nacht);font-size:14px;word-break:break-all;display:block}
   .kaart .info small{color:#8b93a3;font-size:12px}
-  .kaart .acties{display:flex;flex-wrap:wrap;gap:7px;padding:11px 15px 15px}
-  .k-knop{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);border-radius:999px;font-size:12.5px;font-weight:700;padding:7px 13px;cursor:pointer;font-family:inherit}
+  .kaart .acties{display:flex;flex-direction:column;gap:8px;padding:11px 15px 15px}
+  .kaart .rijtje{display:flex;gap:7px;flex-wrap:wrap}
+  .k-knop{display:inline-flex;align-items:center;justify-content:center;gap:6px;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);border-radius:999px;font-size:12.5px;font-weight:700;padding:8px 13px;cursor:pointer;font-family:inherit}
   .k-knop:hover{background:#EAF1F9}
-  .k-knop.vol{background:var(--blauw);color:#fff}
+  .k-knop.vol{background:var(--blauw);color:#fff;width:100%}
   .k-knop.vol:hover{background:var(--donker)}
-  .cmp-balk{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--nacht);color:#fff;border-radius:999px;padding:10px 12px 10px 20px;display:none;align-items:center;gap:14px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:14px}
-  .cmp-balk button{border:none;border-radius:999px;background:var(--licht);color:var(--nacht);font-weight:800;font-size:13.5px;padding:9px 18px;cursor:pointer;font-family:inherit}
-  .cmp-balk button:disabled{opacity:.45;cursor:default}
-  .cmp-vlak{background:var(--nacht);border-radius:16px;padding:22px;display:flex;gap:18px}
-  .cmp-vlak>div{flex:1;text-align:center}
-  .cmp-vlak img{max-width:100%;max-height:340px;object-fit:contain;border-radius:6px}
-  .cmp-vlak .cap{color:#cfd6e0;font-size:12.5px;margin-top:8px;word-break:break-all}
-  /* leegte */
+  .k-knop.weg{border-color:#D8DEE9;color:#8b93a3}
+  .k-knop.weg:hover{border-color:#C0392B;color:#C0392B;background:#FDF2F0}
+  /* ------- vergelijken ------- */
+  .kiesrij{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px}
+  .kiesrij .veld{flex:1;min-width:220px;margin:0}
+  .cmp-vlak{background:var(--nacht);border-radius:16px;padding:24px;display:flex;gap:20px}
+  .cmp-vlak>div{flex:1;text-align:center;min-width:0}
+  .cmp-vlak img{max-width:100%;max-height:400px;object-fit:contain;border-radius:6px;box-shadow:0 8px 26px rgba(0,0,0,.5)}
+  .cmp-vlak .cap{color:#fff;font-size:13px;font-weight:700;margin-top:10px;word-break:break-all}
+  .cmp-vlak .ab{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--licht);color:var(--nacht);font-weight:800;font-size:13px;align-items:center;justify-content:center;margin-bottom:10px}
+  /* ------- leegte ------- */
   .leeg{text-align:center;padding:46px 20px}
   .leeg .em{font-size:40px}
   .leeg h3{color:var(--nacht);font-size:18px;margin:10px 0 6px}
-  .leeg p{max-width:420px;margin:0 auto 18px;font-size:14px}
-  /* formulieren */
+  .leeg p{max-width:430px;margin:0 auto 18px;font-size:14px}
+  /* ------- formulieren ------- */
   .veldrij{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
-  .veld{margin-bottom:2px}
   .veld label{display:block;font-size:12.5px;font-weight:700;color:var(--donker);margin-bottom:5px}
   .veld input,.veld select{width:100%;border:1.5px solid #C9D4E4;border-radius:10px;padding:11px 13px;font-size:14.5px;font-family:inherit;color:var(--nacht);background:#fff}
   .veld input:focus,.veld select:focus{outline:2px solid var(--fel);border-color:var(--fel)}
   .breed{grid-column:1/-1}
-  .hoofdknop{border:none;border-radius:999px;background:var(--blauw);color:#fff;font-weight:700;font-size:14.5px;padding:12px 26px;cursor:pointer;font-family:inherit}
+  .hoofdknop{display:inline-block;border:none;border-radius:999px;background:var(--blauw);color:#fff;font-weight:700;font-size:14.5px;padding:12px 26px;cursor:pointer;font-family:inherit;text-decoration:none}
   .hoofdknop:hover{background:var(--donker)}
   .fout{color:#C0392B;font-size:13px;margin-top:8px;display:none}
-  /* tabel */
+  /* ------- tabel ------- */
   table{width:100%;border-collapse:collapse;font-size:14px}
   th{text-align:left;color:var(--donker);font-size:12.5px;letter-spacing:.3px;border-bottom:2px solid var(--lijn);padding:9px 10px}
   td{border-bottom:1px solid var(--lijn);padding:11px 10px;color:var(--nacht);word-break:break-all}
   .tag{background:#E4F5E6;color:#1E7C33;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;white-space:nowrap}
   .deelrij{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;background:#F1F6FC;border:1px solid var(--lijn);border-radius:12px;padding:14px;margin-bottom:18px}
-  .deelrij .veld{flex:1;min-width:180px;margin:0}
-  /* auth (uitgelogd) */
-  .auth{max-width:480px;margin:40px auto}
+  .deelrij .veld{flex:1;min-width:190px;margin:0}
+  /* ------- deel de tool ------- */
+  .linkvak{display:flex;gap:10px;flex-wrap:wrap;margin:14px 0}
+  .linkvak input{flex:1;min-width:240px;border:1.5px solid #C9D4E4;border-radius:10px;padding:11px 13px;font-size:13.5px;font-family:inherit;color:var(--nacht);background:#F7FAFD}
+  .stap{display:flex;gap:12px;align-items:flex-start;padding:11px 0;border-bottom:1px solid var(--lijn)}
+  .stap:last-of-type{border-bottom:none}
+  .stap .n{flex:0 0 26px;height:26px;border-radius:50%;background:#EAF1F9;color:var(--donker);font-weight:800;font-size:12.5px;display:grid;place-items:center}
+  .stap b{color:var(--nacht);font-size:14px;display:block}
+  .stap p{font-size:13px}
+  /* ------- auth ------- */
+  .auth{max-width:500px;margin:30px auto}
   .auth .tabs{display:flex;gap:8px;margin-bottom:16px}
   .auth .tabs button{flex:1;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);font-weight:700;font-size:14px;padding:11px;border-radius:999px;cursor:pointer;font-family:inherit}
   .auth .tabs button.aan{background:var(--blauw);color:#fff}
   .voordeel{background:#EAF1F9;border:1.5px solid var(--blauw);border-radius:14px;padding:16px 18px;margin-bottom:16px}
   .voordeel h3{color:var(--nacht);font-size:15.5px;margin-bottom:8px}
   .voordeel div{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;margin:5px 0}
-  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--nacht);color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;z-index:60;box-shadow:0 8px 22px rgba(0,0,0,.3)}
-  button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--fel);outline-offset:2px}
-  @media(max-width:840px){.schil{flex-direction:column}.zij{position:static;flex:none;width:100%}.veldrij{grid-template-columns:1fr}}
+  .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--nacht);color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;z-index:60;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+  button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--fel);outline-offset:2px}
+  @media(max-width:900px){
+    .zij{position:static;width:100%;height:auto;padding:16px}
+    .hoofd{margin-left:0;padding:20px}
+    .cmp-vlak{flex-direction:column}
+  }
 </style>
 </head>
 <body>
 
-<header class="top">
-  <span class="merk">AdViewer 2.0 <small>Mijn account · Global</small></span>
-  <a class="terug" href="../">← Terug naar de viewer</a>
-</header>
-
-<div class="schil" id="app"></div>
+<div id="app"></div>
 
 <script>
 (function () {
@@ -123,17 +134,65 @@
   function icoon(d) { return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>'; }
   var ICO = {
     uploads: icoon('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>'),
+    vergelijk: icoon('<rect x="2" y="5" width="9" height="14" rx="1.5"/><rect x="13" y="5" width="9" height="14" rx="1.5"/>'),
     gedeeld: icoon('<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>'),
     profiel: icoon('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>'),
     deel: icoon('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>'),
+    viewer: icoon('<path d="M15 18l-6-6 6-6"/>'),
     uit: icoon('<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>')
   };
 
+  /* ---------- dummy-data: zes voorbeelduitingen ---------- */
+  function maakBeeld(t1, t2, k1, k2) {
+    var c = document.createElement('canvas'); c.width = 720; c.height = 1080;
+    var g = c.getContext('2d');
+    var gr = g.createLinearGradient(0, 0, 0, 1080); gr.addColorStop(0, k1); gr.addColorStop(1, k2);
+    g.fillStyle = gr; g.fillRect(0, 0, 720, 1080);
+    g.globalAlpha = .14; g.fillStyle = '#fff';
+    g.beginPath(); g.arc(600, 160, 220, 0, 7); g.fill();
+    g.beginPath(); g.arc(80, 950, 180, 0, 7); g.fill();
+    g.globalAlpha = 1; g.fillStyle = '#fff'; g.textAlign = 'center';
+    g.font = '800 76px "Century Gothic",Arial,sans-serif';
+    var woorden = t1.split(' '), regels = [], r = '';
+    woorden.forEach(function (w) { if ((r + ' ' + w).trim().length > 12) { regels.push(r.trim()); r = w; } else r += ' ' + w; });
+    regels.push(r.trim());
+    regels.forEach(function (rg, i) { g.fillText(rg, 360, 430 + i * 92); });
+    g.font = '400 40px "Century Gothic",Arial,sans-serif';
+    g.fillText(t2, 360, 460 + regels.length * 92);
+    g.font = '800 26px "Century Gothic",Arial,sans-serif'; g.globalAlpha = .8;
+    g.fillText('G L O B A L · B U I T E N R E C L A M E', 360, 1010);
+    try { return c.toDataURL('image/jpeg', 0.82); } catch (e) { return null; }
+  }
+  function zaaiDemo() {
+    var nu = Date.now(), D = 86400000;
+    var defs = [
+      { t1: 'Zomeractie −20%', t2: 'Alleen dit weekend', k1: '#F59E0B', k2: '#EF4444', naam: 'zomeractie-korting.jpg', dagen: 2, shared: [{ email: 'anna@mediabureau.nl', d: 2 }, { email: 'mark@klant.nl', d: 1 }] },
+      { t1: 'Festival Friday', t2: 'Line-up nu bekend', k1: '#7C3AED', k2: '#EC4899', naam: 'festival-friday.jpg', dagen: 5, shared: [{ email: 'eva@festival.nl', d: 4 }] },
+      { t1: 'Nieuwe smaak!', t2: 'Proef ’m vandaag nog', k1: '#10B981', k2: '#065F46', naam: 'nieuwe-smaak.jpg', dagen: 9, shared: [] },
+      { t1: 'Sale t/m zondag', t2: 'Tot 50% korting', k1: '#195AA6', k2: '#5BC4E8', naam: 'sale-zondag.jpg', dagen: 14, shared: [{ email: 'sanne@retailer.nl', d: 12 }] },
+      { t1: 'Grand opening', t2: 'Zaterdag 10.00 uur', k1: '#0F172A', k2: '#475569', naam: 'grand-opening.jpg', dagen: 21, shared: [] },
+      { t1: 'Kerstshow 2026', t2: 'Tickets nu online', k1: '#B91C1C', k2: '#7F1D1D', naam: 'kerstshow-2026.jpg', dagen: 30, shared: [{ email: 'pieter@theater.nl', d: 28 }] }
+    ];
+    defs.forEach(function (d, i) {
+      var src = maakBeeld(d.t1, d.t2, d.k1, d.k2);
+      if (!src) return;
+      db.uploads.push({
+        id: 'demo' + (i + 1), sig: 'demo:' + (i + 1), demo: true, name: d.naam, src: src,
+        date: new Date(nu - d.dagen * D).toISOString(),
+        shared: d.shared.map(function (s) { return { email: s.email, date: new Date(nu - s.d * D).toISOString() }; })
+      });
+    });
+    db.seeded = true; save();
+  }
+
   /* ---------- uitgelogd: registreren / inloggen ---------- */
+  function veld(id, label, type, val) {
+    return '<div class="veld"><label for="v-' + id + '">' + label + '</label><input id="v-' + id + '" type="' + (type || 'text') + '" value="' + esc(val || '') + '"></div>';
+  }
   function renderAuth(tab) {
     tab = tab || 'registreer';
-    app.innerHTML = '<main><div class="auth">' +
-      '<div class="kop"><h1>Mijn account</h1><p>Log in of maak een gratis account aan om je uploads terug te zien, te vergelijken en te delen.</p></div>' +
+    app.innerHTML = '<div class="hoofd" style="margin-left:0;max-width:none"><div class="auth">' +
+      '<div class="balk" style="margin-bottom:8px"><div><h1>Mijn account</h1><p>Log in of maak een gratis account aan om je uploads terug te zien, te vergelijken en te delen.</p></div></div>' +
       '<div class="voordeel"><h3>Met een gratis account krijg je er dit bij</h3>' +
       ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting'].map(function (t) { return '<div>' + VINK + '<span>' + t + '</span></div>'; }).join('') + '</div>' +
       '<div class="tabs"><button data-tab="registreer" class="' + (tab === 'registreer' ? 'aan' : '') + '">Account aanmaken</button><button data-tab="login" class="' + (tab === 'login' ? 'aan' : '') + '">Inloggen</button></div>' +
@@ -144,77 +203,91 @@
         : veld('email', 'E-mailadres', 'email', db.user ? db.user.email : '') + '<div style="height:12px"></div>' + veld('ww', 'Wachtwoord', 'password') +
           '<p class="fout" id="fout">Vul je e-mailadres en wachtwoord in.</p>' +
           '<button class="hoofdknop" id="doe" style="margin-top:16px;width:100%">Inloggen</button>') +
-      '</div></div></main>';
+      '</div><p style="text-align:center;margin-top:14px;font-size:13.5px"><a href="../">← Terug naar de viewer</a></p></div></div>';
     app.querySelectorAll('[data-tab]').forEach(function (b) { b.addEventListener('click', function () { renderAuth(b.getAttribute('data-tab')); }); });
     document.getElementById('doe').addEventListener('click', function () {
       var v = function (id) { var el = document.getElementById('v-' + id); return el ? el.value.trim() : ''; };
       if (tab === 'registreer') {
         if (!v('naam') || !v('email') || !v('ww')) { document.getElementById('fout').style.display = 'block'; return; }
         db.user = { naam: v('naam'), email: v('email'), bedrijf: v('bedrijf'), functie: v('functie'), ww: v('ww') };
-        db.loggedIn = true; save(); toast('Je account is aangemaakt — welkom ' + db.user.naam.split(' ')[0] + '!'); render('uploads');
+        db.loggedIn = true; save(); toast('Je account is aangemaakt — welkom ' + db.user.naam.split(' ')[0] + '!'); start();
       } else {
         if (!v('email') || !v('ww')) { document.getElementById('fout').style.display = 'block'; return; }
         if (!db.user) db.user = { naam: v('email').split('@')[0], email: v('email'), bedrijf: '', functie: '', ww: v('ww') };
-        db.loggedIn = true; save(); toast('Ingelogd als ' + db.user.naam); render('uploads');
+        db.loggedIn = true; save(); toast('Ingelogd als ' + db.user.naam); start();
       }
     });
   }
-  function veld(id, label, type, val) {
-    return '<div class="veld"><label for="v-' + id + '">' + label + '</label><input id="v-' + id + '" type="' + (type || 'text') + '" value="' + esc(val || '') + '"></div>';
-  }
 
-  /* ---------- ingelogd: raamwerk met zijbalk ---------- */
+  /* ---------- ingelogd: raamwerk met volledige balk ---------- */
   var actief = 'uploads';
-  var cmpSel = [];
+  var cmpA = null, cmpB = null;
+  function telShares() { return db.uploads.reduce(function (n, u) { return n + u.shared.length; }, 0); }
   function render(sectie) {
     actief = sectie || actief;
     try { history.replaceState(null, '', '#' + actief); } catch (e) {}
     app.innerHTML =
       '<aside class="zij">' +
-        '<div class="wie"><span class="avatar">' + esc(initialen()) + '</span><span><b>' + esc(db.user.naam) + '</b><small>' + esc(db.user.email) + (db.user.bedrijf ? ' · ' + esc(db.user.bedrijf) : '') + '</small></span></div>' +
-        '<nav class="menu">' +
-          navKnop('uploads', 'Mijn uploads') + navKnop('gedeeld', 'Gedeeld met') + navKnop('profiel', 'Profiel & instellingen') +
-          '<div class="schei"></div>' +
-          '<button class="stil" data-nav="deel">' + ICO.deel + 'Deel de tool met een collega</button>' +
-          '<button class="stil" data-nav="uit">' + ICO.uit + 'Uitloggen</button>' +
+        '<div class="merk">AdViewer 2.0<small>Mijn account · Global</small></div>' +
+        '<div class="wie"><span class="avatar">' + esc(initialen()) + '</span><span><b>' + esc(db.user.naam) + '</b><small>' + esc(db.user.email) + '</small></span></div>' +
+        '<div class="kopje">Mijn werk</div>' +
+        '<nav>' +
+          navKnop('uploads', 'Mijn uploads', db.uploads.length) +
+          navKnop('vergelijk', 'Vergelijken', null) +
+          navKnop('gedeeld', 'Gedeeld met', telShares()) +
+        '</nav>' +
+        '<div class="kopje">Account</div>' +
+        '<nav>' + navKnop('profiel', 'Profiel & instellingen', null) + navKnop('deel', 'Deel de tool', null) + '</nav>' +
+        '<div class="duw"></div>' +
+        '<nav class="voet">' +
+          '<button data-nav="viewer">' + ICO.viewer + 'Terug naar de viewer</button>' +
+          '<button data-nav="uit">' + ICO.uit + 'Uitloggen</button>' +
         '</nav>' +
       '</aside>' +
-      '<main id="inhoud"></main>';
+      '<div class="hoofd" id="inhoud"></div>';
     app.querySelectorAll('[data-nav]').forEach(function (b) {
       b.addEventListener('click', function () {
         var n = b.getAttribute('data-nav');
-        if (n === 'deel') { kopieer(viewerUrl + 'start/', 'Link naar de introductiepagina gekopieerd'); }
+        if (n === 'viewer') location.href = viewerUrl;
         else if (n === 'uit') { db.loggedIn = false; save(); location.href = viewerUrl; }
         else render(n);
       });
     });
-    ({ uploads: renderUploads, gedeeld: renderGedeeld, profiel: renderProfiel }[actief])();
+    ({ uploads: renderUploads, vergelijk: renderVergelijk, gedeeld: renderGedeeld, profiel: renderProfiel, deel: renderDeel }[actief])();
   }
-  function navKnop(id, label) { return '<button data-nav="' + id + '" class="' + (actief === id ? 'aan' : '') + '">' + ICO[id] + label + '</button>'; }
+  function navKnop(id, label, tel) {
+    return '<button data-nav="' + id + '" class="' + (actief === id ? 'aan' : '') + '">' + ICO[id === 'deel' ? 'deel' : id] + label +
+      (tel != null ? '<span class="tel">' + tel + '</span>' : '') + '</button>';
+  }
+  function kop(titel, tekst) {
+    return '<div class="balk"><div><h1>' + titel + '</h1><p>' + tekst + '</p></div>' +
+      '<a class="viewerknop" href="../">+ Nieuwe upload in de viewer</a></div>';
+  }
 
   /* ---------- mijn uploads ---------- */
   function renderUploads() {
-    cmpSel = [];
     var m = document.getElementById('inhoud');
-    var kop = '<div class="kop"><h1>Mijn uploads</h1><p>Al je eerdere uitingen op een rij. Open er een direct in de viewer, of vink er twee aan om ze naast elkaar te zien.</p></div>';
     if (!db.uploads.length) {
-      m.innerHTML = kop + '<div class="paneel"><div class="leeg"><div class="em">🖼️</div><h3>Nog geen uploads</h3><p>Upload een uiting in de viewer — hij verschijnt hier daarna automatisch, zodat je hem altijd kunt terugzien, vergelijken en delen.</p><a class="hoofdknop" style="text-decoration:none" href="../">Naar de viewer</a></div></div>';
+      m.innerHTML = kop('Mijn uploads', 'Al je eerdere uitingen op een rij.') +
+        '<div class="paneel"><div class="leeg"><div class="em">🖼️</div><h3>Nog geen uploads</h3><p>Upload een uiting in de viewer — hij verschijnt hier daarna automatisch, zodat je hem altijd kunt terugzien, vergelijken en delen.</p><a class="hoofdknop" href="../">Naar de viewer</a></div></div>';
       return;
     }
-    m.innerHTML = kop + '<div class="rooster">' + db.uploads.map(function (u) {
-      return '<div class="kaart" data-id="' + u.id + '">' +
-        '<div class="beeld"><button class="kies" data-a="cmp" aria-label="Selecteer voor vergelijken">☐ Vergelijk</button><img src="' + u.src + '" alt=""></div>' +
-        '<div class="info"><b>' + esc(u.name) + '</b><small>Geüpload op ' + datumNL(u.date) + (u.shared.length ? ' · gedeeld met ' + u.shared.length : '') + '</small></div>' +
-        '<div class="acties">' +
-          '<button class="k-knop vol" data-a="open">▶ Open in viewer</button>' +
-          '<button class="k-knop" data-a="link">🔗 Deellink</button>' +
-          '<button class="k-knop" data-a="video">🎬 Video-export</button>' +
-          '<button class="k-knop" data-a="share">📤 Delen</button>' +
-        '</div></div>';
-    }).join('') + '</div>' +
-    '<div class="cmp-balk" id="cmpbalk"><span id="cmptekst"></span><button id="cmpdoe" disabled>Toon naast elkaar</button></div>';
-
-    var balk = document.getElementById('cmpbalk'), doe = document.getElementById('cmpdoe'), tekst = document.getElementById('cmptekst');
+    m.innerHTML = kop('Mijn uploads', 'Al je eerdere uitingen op een rij. Open er een direct in de viewer, of zet er twee naast elkaar via Vergelijken.') +
+      '<div class="rooster">' + db.uploads.map(function (u) {
+        return '<div class="kaart" data-id="' + u.id + '">' +
+          '<div class="beeld">' + (u.demo ? '<span class="badge">Voorbeeld</span>' : '') + '<img src="' + u.src + '" alt=""></div>' +
+          '<div class="info"><b>' + esc(u.name) + '</b><small>' + datumNL(u.date) + (u.shared.length ? ' · gedeeld met ' + u.shared.length : '') + '</small></div>' +
+          '<div class="acties">' +
+            '<button class="k-knop vol" data-a="open">▶ &nbsp;Open in viewer</button>' +
+            '<div class="rijtje">' +
+              '<button class="k-knop" data-a="cmp">Vergelijk</button>' +
+              '<button class="k-knop" data-a="link">Deellink</button>' +
+              '<button class="k-knop" data-a="video">Video</button>' +
+              '<button class="k-knop" data-a="share">Delen</button>' +
+              '<button class="k-knop weg" data-a="weg" aria-label="Verwijderen" title="Verwijderen">🗑</button>' +
+            '</div>' +
+          '</div></div>';
+      }).join('') + '</div>';
     m.querySelectorAll('.kaart').forEach(function (k) {
       var id = k.getAttribute('data-id');
       k.querySelectorAll('[data-a]').forEach(function (b) {
@@ -222,28 +295,47 @@
           var u = db.uploads.filter(function (x) { return x.id === id; })[0]; if (!u) return;
           var a = b.getAttribute('data-a');
           if (a === 'open') { try { sessionStorage.setItem(REOPEN, JSON.stringify({ src: u.src, name: u.name })); } catch (e) {} location.href = viewerUrl; }
+          else if (a === 'cmp') { cmpA = u.id; cmpB = null; render('vergelijk'); }
           else if (a === 'link') kopieer(viewerUrl + '?campagne=' + u.id, 'Deellink van je campagne gekopieerd');
           else if (a === 'video') toast('Video-export gestart — we mailen ’m naar ' + db.user.email);
           else if (a === 'share') { render('gedeeld'); var sel = document.getElementById('g-upload'); if (sel) sel.value = u.id; }
-          else if (a === 'cmp') {
-            var i = cmpSel.indexOf(id);
-            if (i >= 0) { cmpSel.splice(i, 1); b.classList.remove('aan'); b.textContent = '☐ Vergelijk'; }
-            else if (cmpSel.length < 2) { cmpSel.push(id); b.classList.add('aan'); b.textContent = '☑ Geselecteerd'; }
-            balk.style.display = cmpSel.length ? 'flex' : 'none';
-            tekst.textContent = cmpSel.length + ' van 2 geselecteerd';
-            doe.disabled = cmpSel.length !== 2;
+          else if (a === 'weg') {
+            if (window.confirm('Weet je zeker dat je “' + u.name + '” uit je uploads wilt verwijderen?')) {
+              db.uploads = db.uploads.filter(function (x) { return x.id !== id; }); save();
+              toast('Upload verwijderd'); render('uploads');
+            }
           }
         });
       });
     });
-    doe.addEventListener('click', function () {
-      var us = cmpSel.map(function (id) { return db.uploads.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
-      if (us.length !== 2) return;
-      m.innerHTML = '<div class="kop"><h1>Twee uitingen naast elkaar</h1><p>Zo zien je varianten er broederlijk naast elkaar uit.</p></div>' +
-        '<div class="cmp-vlak">' + us.map(function (u) { return '<div><img src="' + u.src + '" alt=""><div class="cap">' + esc(u.name) + '</div></div>'; }).join('') + '</div>' +
-        '<button class="hoofdknop" id="cmpterug" style="margin-top:18px">← Terug naar mijn uploads</button>';
-      document.getElementById('cmpterug').addEventListener('click', renderUploads);
-    });
+  }
+
+  /* ---------- vergelijken ---------- */
+  function renderVergelijk() {
+    var m = document.getElementById('inhoud');
+    if (db.uploads.length < 2) {
+      m.innerHTML = kop('Vergelijken', 'Zet twee uitingen naast elkaar om te zien welke het sterkst werkt.') +
+        '<div class="paneel"><div class="leeg"><div class="em">🆚</div><h3>Nog te weinig uploads</h3><p>Je hebt minimaal twee uploads nodig om te vergelijken. Upload een uiting in de viewer en kom hier terug.</p><a class="hoofdknop" href="../">Naar de viewer</a></div></div>';
+      return;
+    }
+    if (!cmpA || !db.uploads.some(function (u) { return u.id === cmpA; })) cmpA = db.uploads[0].id;
+    if (!cmpB || cmpB === cmpA || !db.uploads.some(function (u) { return u.id === cmpB; })) {
+      cmpB = (db.uploads.filter(function (u) { return u.id !== cmpA; })[0] || {}).id;
+    }
+    function optie(sel) { return db.uploads.map(function (u) { return '<option value="' + u.id + '"' + (u.id === sel ? ' selected' : '') + '>' + esc(u.name) + '</option>'; }).join(''); }
+    var A = db.uploads.filter(function (u) { return u.id === cmpA; })[0];
+    var B = db.uploads.filter(function (u) { return u.id === cmpB; })[0];
+    m.innerHTML = kop('Vergelijken', 'Kies links en rechts een uiting — je ziet ze direct naast elkaar in één beeld.') +
+      '<div class="kiesrij">' +
+        '<div class="veld"><label for="cmp-a">Uiting A (links)</label><select id="cmp-a">' + optie(cmpA) + '</select></div>' +
+        '<div class="veld"><label for="cmp-b">Uiting B (rechts)</label><select id="cmp-b">' + optie(cmpB) + '</select></div>' +
+      '</div>' +
+      '<div class="cmp-vlak">' +
+        '<div><span class="ab">A</span><br><img src="' + A.src + '" alt=""><div class="cap">' + esc(A.name) + '</div></div>' +
+        '<div><span class="ab">B</span><br><img src="' + B.src + '" alt=""><div class="cap">' + esc(B.name) + '</div></div>' +
+      '</div>';
+    document.getElementById('cmp-a').addEventListener('change', function (e) { cmpA = e.target.value; if (cmpB === cmpA) cmpB = null; render('vergelijk'); });
+    document.getElementById('cmp-b').addEventListener('change', function (e) { cmpB = e.target.value; if (cmpA === cmpB) cmpA = null; render('vergelijk'); });
   }
 
   /* ---------- gedeeld met ---------- */
@@ -252,7 +344,7 @@
     var rijen = [];
     db.uploads.forEach(function (u) { u.shared.forEach(function (s) { rijen.push({ email: s.email, naam: u.name, date: s.date }); }); });
     rijen.sort(function (a, b) { return a.date < b.date ? 1 : -1; });
-    m.innerHTML = '<div class="kop"><h1>Gedeeld met</h1><p>Vul een e-mailadres in en wij sturen je uiting voor je door. Hieronder zie je precies met wie je wat hebt gedeeld.</p></div>' +
+    m.innerHTML = kop('Gedeeld met', 'Vul een e-mailadres in en wij sturen je uiting voor je door. Hieronder zie je precies met wie je wat hebt gedeeld.') +
       '<div class="paneel">' +
       (db.uploads.length
         ? '<div class="deelrij">' +
@@ -260,7 +352,7 @@
             '<div class="veld"><label for="g-email">E-mailadres van je contact</label><input id="g-email" type="email" placeholder="naam@bedrijf.nl"></div>' +
             '<button class="hoofdknop" id="g-doe">Verstuur voor mij</button>' +
           '</div><p class="fout" id="g-fout" style="margin:-8px 0 14px">Vul een geldig e-mailadres in.</p>'
-        : '<p style="margin-bottom:14px">Je hebt nog geen uploads om te delen — <a href="../">upload eerst een uiting in de viewer</a>.</p>') +
+        : '') +
       (rijen.length
         ? '<table><thead><tr><th>Gedeeld met</th><th>Uiting</th><th>Status</th></tr></thead><tbody>' +
           rijen.map(function (r) { return '<tr><td>' + esc(r.email) + '</td><td>' + esc(r.naam) + '</td><td><span class="tag">Verzonden · ' + datumNL(r.date) + '</span></td></tr>'; }).join('') +
@@ -283,7 +375,7 @@
   function renderProfiel() {
     var m = document.getElementById('inhoud');
     var u = db.user;
-    m.innerHTML = '<div class="kop"><h1>Profiel &amp; instellingen</h1><p>Deze gegevens gebruiken we om formulieren voor te vullen en (gesimuleerde) exports en gedeelde uitingen naar je te mailen.</p></div>' +
+    m.innerHTML = kop('Profiel &amp; instellingen', 'Deze gegevens gebruiken we om formulieren voor te vullen en (gesimuleerde) exports en gedeelde uitingen naar je te mailen.') +
       '<div class="paneel"><div class="veldrij">' +
       veld('naam', 'Naam', 'text', u.naam) + veld('email', 'Zakelijk e-mailadres', 'email', u.email) +
       veld('bedrijf', 'Bedrijf', 'text', u.bedrijf) + veld('functie', 'Functie', 'text', u.functie) +
@@ -297,13 +389,38 @@
     });
   }
 
-  /* ---------- start ---------- */
-  if (db.user && db.loggedIn) {
-    var h = (location.hash || '').replace('#', '');
-    render(['uploads', 'gedeeld', 'profiel'].indexOf(h) >= 0 ? h : 'uploads');
-  } else {
-    renderAuth('registreer');
+  /* ---------- deel de tool ---------- */
+  function renderDeel() {
+    var m = document.getElementById('inhoud');
+    var url = viewerUrl + 'start/';
+    var mailto = 'mailto:?subject=' + encodeURIComponent('Bekijk je campagne alvast op de buitenreclame van Global') +
+      '&body=' + encodeURIComponent('Hoi,\n\nMet AdViewer 2.0 van Global zie je in een paar seconden hoe jouw uiting eruitziet op echte buitenreclame-objecten. Deze pagina legt kort uit hoe het werkt:\n\n' + url + '\n\nGroet,\n' + db.user.naam);
+    m.innerHTML = kop('Deel de tool', 'Enthousiast? Zo laat je een collega of klant kennismaken met AdViewer 2.0.') +
+      '<div class="paneel"><b style="color:var(--nacht);font-size:15.5px">Wat gebeurt er als je deelt?</b>' +
+      '<div style="margin:10px 0 18px">' +
+        '<div class="stap"><span class="n">1</span><span><b>Je deelt een introductiepagina, niet zomaar de tool</b><p>Je collega landt op een korte uitlegpagina: wat AdViewer is, wat je ermee kunt en een mini-tutorial van vier stappen.</p></span></div>' +
+        '<div class="stap"><span class="n">2</span><span><b>Daarna start je collega zelf de tool</b><p>Vanuit de uitlegpagina opent hij of zij de viewer en kan direct een eigen uiting uploaden.</p></span></div>' +
+        '<div class="stap"><span class="n">3</span><span><b>Jouw uploads blijven privé</b><p>Je collega ziet alleen de tool zelf — niet jouw uploads of accountgegevens.</p></span></div>' +
+      '</div>' +
+      '<b style="color:var(--nacht);font-size:14px">De link die je deelt</b>' +
+      '<div class="linkvak"><input id="deel-url" readonly value="' + esc(url) + '"><button class="hoofdknop" id="deel-kopieer">Kopieer link</button>' +
+      '<a class="hoofdknop" style="background:#fff;color:var(--blauw);border:2px solid var(--blauw)" href="' + mailto + '">Verstuur via e-mail</a></div>' +
+      '<p style="font-size:13px"><a href="' + esc(url) + '" target="_blank" rel="noopener">Bekijk zelf eerst de introductiepagina →</a></p>' +
+      '</div>';
+    document.getElementById('deel-kopieer').addEventListener('click', function () {
+      document.getElementById('deel-url').select();
+      kopieer(url, 'Link gekopieerd — plak ’m in je mail of chat');
+    });
   }
+
+  /* ---------- start ---------- */
+  function start() {
+    if (!db.seeded) zaaiDemo();
+    var h = (location.hash || '').replace('#', '');
+    render(['uploads', 'vergelijk', 'gedeeld', 'profiel', 'deel'].indexOf(h) >= 0 ? h : 'uploads');
+  }
+  if (db.user && db.loggedIn) start();
+  else renderAuth('registreer');
 })();
 </script>
 
