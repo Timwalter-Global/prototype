@@ -149,7 +149,7 @@ De widget-key is voor de hele space gelijk:
 | `adviewer2` | *(nog niet doorgegeven — gebruiker stelt target zelf in)* | `…/prototypes/adviewer2/` (widget staat ook op de one-pager `…/prototypes/adviewer2/start/` en de profielpagina `…/prototypes/adviewer2/account/`; een target op de prefix `…/prototypes/adviewer2/` dekt alles) |
 | `mastmonitor` | Mast Monitor | `…/prototypes/mastmonitor/` (widget staat ook op `…/prototypes/mastmonitor/dashboard.html`) |
 | `creaties-verzamelen` | Usersnap-project met target op de prefix `…/prototypes/creaties…` | `…/prototypes/creaties-verzamelen/` (valt binnen die prefix) |
-| `creaties-verzamelen-validatie` | *(nog niet doorgegeven — gebruiker configureert Usersnap zelf)* | `…/prototypes/creaties-verzamelen-validatie/to-be/` (widget staat ook op `…/prototypes/creaties-verzamelen-validatie/`). **Let op:** deze URL valt óók onder de prefix `…/prototypes/creaties…` van het project hierboven; die target moet exact worden gemaakt om dubbele routering te voorkomen. |
+| `creaties-verzamelen-validatie` | *(nog niet doorgegeven — gebruiker configureert Usersnap zelf)* | **Gearchiveerd** — nu bereikbaar op `…/archief/creaties-verzamelen-validatie/to-be/` (widget staat ook op `…/archief/creaties-verzamelen-validatie/`). Valt daarmee niet meer onder de prefix `…/prototypes/creaties…` van het project hierboven. |
 
 ## Prototype offline halen
 
