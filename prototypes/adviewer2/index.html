@@ -395,22 +395,39 @@ document.addEventListener('DOMContentLoaded', async function() {
 <!-- USERSNAP-START -->
 <script>
   window.onUsersnapLoad = function (api) {
-    api.init();
     /* Naam uit de feedback-pop-up (of het gesimuleerde AdViewer-account) en
-       het account-e-mailadres meesturen. Vers gelezen bij het openen van de
-       widget, zodat inloggen of een net ingevulde naam direct meegaat; er
-       gaat verder niets mee (AVG-dataminimalisatie). */
-    api.on("open", function (event) {
+       het account-e-mailadres meesturen; er gaat verder niets mee
+       (AVG-dataminimalisatie). */
+    function usOpties() {
+      var o = {};
       try {
         var naam = (localStorage.getItem("feedbackNaam") || "").trim();
         var acc = null;
         try { acc = JSON.parse(localStorage.getItem("adviewer2_account_v1")); } catch (e2) {}
         var accUser = acc && acc.loggedIn && acc.user ? acc.user : null;
         if (!naam && accUser && accUser.naam) naam = accUser.naam;
-        if (naam) event.api.setValue("custom", { name: naam });
-        if (accUser && accUser.email) event.api.setValue("visitor", accUser.email);
+        if (naam) o.custom = { name: naam };
+        if (accUser && accUser.email) o.user = { userId: accUser.email, email: accUser.email };
+      } catch (e) {}
+      return o;
+    }
+    api.init(usOpties());
+    /* Vangnet: zet de gegevens ook op het moment dat de widget opent. */
+    api.on("open", function (event) {
+      try {
+        var extra = usOpties();
+        if (extra.custom) event.api.setValue("custom", extra.custom);
+        if (extra.user) event.api.setValue("visitor", extra.user.email);
       } catch (e) {}
     });
+    /* De feedback-pop-up roept dit aan zodra de naam is opgeslagen, zodat
+       die zonder herladen meegaat: widget herstarten met de nieuwe data. */
+    window.usersnapVernieuwGegevens = function () {
+      var herstart = function () { try { api.init(usOpties()); } catch (e) {} };
+      var p = null;
+      try { p = api.destroy(); } catch (e) {}
+      if (p && typeof p.then === "function") p.then(herstart, herstart); else herstart();
+    };
   };
   var usersnapScript = document.createElement("script");
   usersnapScript.defer = 1;

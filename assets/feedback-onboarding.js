@@ -85,10 +85,15 @@
     var vorigeFocus = document.activeElement;
     function sluit() {
       /* Naam bewaren bij elke sluitroute (CTA, kruisje, overlay, Escape),
-         zodat een getypte naam nooit verloren gaat. */
+         zodat een getypte naam nooit verloren gaat. Daarna de Usersnap-
+         snippet vragen zich te vernieuwen, zodat de naam direct meegaat
+         zonder de pagina te herladen. */
       try {
         var naam = naamInput.value.trim();
-        if (naam) localStorage.setItem(NAAMKEY, naam);
+        if (naam) {
+          localStorage.setItem(NAAMKEY, naam);
+          if (typeof window.usersnapVernieuwGegevens === 'function') window.usersnapVernieuwGegevens();
+        }
       } catch (e) {}
       overlay.remove();
       style.remove();

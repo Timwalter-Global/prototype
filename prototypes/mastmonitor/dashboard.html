@@ -743,16 +743,32 @@ draw();
 <!-- USERSNAP-START -->
 <script>
   window.onUsersnapLoad = function(api) {
-    api.init();
-    /* Naam uit de feedback-pop-up meesturen. Vers gelezen bij het openen van
-       de widget, zodat een net ingevulde naam direct meegaat; er gaat verder
+    /* Naam uit de feedback-pop-up meesturen als custom data; er gaat verder
        niets mee (AVG-dataminimalisatie). */
-    api.on('open', function(event) {
+    function usOpties() {
+      var o = {};
       try {
         var naam = (localStorage.getItem('feedbackNaam') || '').trim();
-        if (naam) event.api.setValue('custom', { name: naam });
+        if (naam) o.custom = { name: naam };
+      } catch (e) {}
+      return o;
+    }
+    api.init(usOpties());
+    /* Vangnet: zet de custom data ook op het moment dat de widget opent. */
+    api.on('open', function(event) {
+      try {
+        var extra = usOpties();
+        if (extra.custom) event.api.setValue('custom', extra.custom);
       } catch (e) {}
     });
+    /* De feedback-pop-up roept dit aan zodra de naam is opgeslagen, zodat
+       die zonder herladen meegaat: widget herstarten met de nieuwe data. */
+    window.usersnapVernieuwGegevens = function () {
+      var herstart = function () { try { api.init(usOpties()); } catch (e) {} };
+      var p = null;
+      try { p = api.destroy(); } catch (e) {}
+      if (p && typeof p.then === 'function') p.then(herstart, herstart); else herstart();
+    };
   };
   var script = document.createElement('script');
   script.defer = 1;
