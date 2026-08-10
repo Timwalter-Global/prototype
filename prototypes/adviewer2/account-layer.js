@@ -9,8 +9,8 @@
   var REOPEN = 'adviewer2_reopen_v1';
 
   function load() {
-    try { var d = JSON.parse(localStorage.getItem(LSK)); if (d && d.uploads) return d; } catch (e) {}
-    return { user: null, loggedIn: false, uploads: [] };
+    try { var d = JSON.parse(localStorage.getItem(LSK)); if (d && d.uploads) { if (!d.requests) d.requests = []; return d; } } catch (e) {}
+    return { user: null, loggedIn: false, uploads: [], requests: [] };
   }
   var db = load();
   function save() { try { localStorage.setItem(LSK, JSON.stringify(db)); } catch (e) {} }
@@ -134,8 +134,8 @@
       { wire: function (m) { m.querySelector('[data-close]').addEventListener('click', sluit); } });
   }
 
-  function toonGate() {
-    open('<h2>Maak een gratis account aan</h2><p>Deze functie hoort bij je gratis account.</p>' + voordelenKaart() +
+  function toonGate(reden) {
+    open('<h2>Maak een gratis account aan</h2><p>' + (reden || 'Deze functie hoort bij je gratis account.') + '</p>' + voordelenKaart() +
       '<button class="acc-prim" data-go="registreer">Maak een account aan</button>' +
       '<button class="acc-sec" data-go="login">Inloggen</button>' +
       '<p style="text-align:center;margin-top:12px"><button class="acc-link" data-go="deel">Of deel de tool met een collega</button></p>',
@@ -202,21 +202,44 @@
       '<p style="text-align:center;font-size:13px;word-break:break-all;color:#8b93a3">' + esc(url) + '</p>');
   }
 
+  function huidigeUiting() {
+    try { var d = JSON.parse(localStorage.getItem(APPK)); return d && d.creative && d.creative.name ? d.creative.name : null; } catch (e) { return null; }
+  }
   function contactForm(soort) {
-    if (!ingelogd()) { toonGate(); return; }
+    if (!ingelogd()) {
+      toonGate(soort === 'advies'
+        ? 'Om advies te vragen aan ons designteam heb je een gratis account nodig — zo weten we wie we moeten terugmailen. Aanmaken duurt nog geen minuut.'
+        : 'Om je uiting door te sturen naar ons salesteam heb je een gratis account nodig — zo weten we wie we moeten terugbellen. Aanmaken duurt nog geen minuut.');
+      return;
+    }
     var isAdvies = soort === 'advies';
+    var uiting = huidigeUiting();
     open('<h2>' + (isAdvies ? 'Vraag advies aan het designteam' : 'Zet om in campagne') + '</h2>' +
       '<p style="font-size:14px">' + (isAdvies
-        ? 'Ons designteam kijkt met je mee naar je uiting en denkt mee over verbeteringen.'
-        : 'Tevreden met je uiting? Ons salesteam helpt je om hem zo snel mogelijk als campagne in te boeken.') + '</p>' +
+        ? 'Ons designteam kijkt met je mee naar je uiting en denkt mee over verbeteringen. Je gegevens zijn alvast ingevuld vanuit je profiel.'
+        : 'Tevreden met je uiting? Ons salesteam helpt je om hem zo snel mogelijk als campagne in te boeken. Je gegevens zijn alvast ingevuld vanuit je profiel.') + '</p>' +
+      (uiting ? '<div style="background:#EAF1F9;border-radius:10px;padding:10px 14px;font-size:13.5px;margin-bottom:12px"><b style="color:#1B4B89">Uiting:</b> ' + esc(uiting) + '</div>' : '') +
       veld('cnaam', 'Naam', 'text', db.user.naam) + veld('cemail', 'E-mailadres', 'email', db.user.email) +
+      veld('cbedrijf', 'Bedrijf', 'text', db.user.bedrijf) +
       '<div class="acc-field"><label for="acc-cmsg">' + (isAdvies ? 'Waar wil je advies over?' : 'Vertel kort iets over je campagnewens (periode, regio, budgetindicatie)') + '</label><textarea id="acc-cmsg" rows="4"></textarea></div>' +
       '<button class="acc-prim" id="acc-docontact">' + (isAdvies ? 'Verstuur adviesaanvraag' : 'Stuur door naar sales') + '</button>',
       { wire: function (m) {
           m.querySelector('#acc-docontact').addEventListener('click', function () {
+            db.requests.unshift({
+              id: 'r' + Math.random().toString(36).slice(2, 9),
+              type: isAdvies ? 'advies' : 'campagne',
+              uiting: uiting, msg: m.querySelector('#acc-cmsg').value.trim(),
+              naam: m.querySelector('#acc-cnaam').value.trim() || db.user.naam,
+              email: m.querySelector('#acc-cemail').value.trim() || db.user.email,
+              bedrijf: m.querySelector('#acc-cbedrijf').value.trim(),
+              date: new Date().toISOString(), status: 'In behandeling'
+            });
+            save();
             bevestiging(isAdvies ? 'Adviesaanvraag verzonden' : 'Doorgestuurd naar sales',
-              isAdvies ? 'Het designteam neemt binnen 1 werkdag contact met je op via <b>' + esc(db.user.email) + '</b>.'
-                       : 'Ons salesteam neemt binnen 1 werkdag contact met je op via <b>' + esc(db.user.email) + '</b> om je campagne in te boeken.');
+              (isAdvies ? 'Het designteam neemt binnen 1 werkdag contact met je op via <b>' + esc(db.user.email) + '</b>.'
+                        : 'Ons salesteam neemt binnen 1 werkdag contact met je op via <b>' + esc(db.user.email) + '</b> om je campagne in te boeken.') +
+              ' Je vindt de aanvraag terug op je profielpagina.',
+              '<a class="acc-sec" style="text-align:center;text-decoration:none" href="' + baseUrl() + 'account/#aanvragen">Bekijk je aanvraag op je profielpagina</a>');
           });
         } });
   }
@@ -247,7 +270,8 @@
   function poll() {
     var cr = null;
     try { var d = JSON.parse(localStorage.getItem(APPK)); cr = d && d.creative && d.creative.src ? d.creative : null; } catch (e) {}
-    ctas.style.display = cr ? 'flex' : 'none';
+    var stack = document.querySelector('[data-comment-anchor="73c93b0481-div"]');
+    ctas.style.display = (cr && stack && stack.offsetParent) ? 'flex' : 'none';
     if (cr) {
       var sig = cr.src.length + ':' + cr.src.slice(100, 140);
       if (sig !== lastSig) {
@@ -262,7 +286,7 @@
       }
     } else lastSig = null;
   }
-  setInterval(poll, 900);
+  setInterval(poll, 500);
 
   /* ---------- heropenen vanuit Mijn uploads ---------- */
   function heropen() {
