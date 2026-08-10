@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow" />
+<title>Mijn account — AdViewer 2.0</title>
+<style>
+  :root{--blauw:#195AA6;--donker:#1B4B89;--nacht:#172842;--fel:#0B78BE;--licht:#5BC4E8;--grijs:#575756;--bg:#F1F5FA;--lijn:#E3EAF3}
+  *{margin:0;padding:0;box-sizing:border-box}
+  body{font-family:"Century Gothic",CenturyGothic,Poppins,sans-serif;background:var(--bg);color:var(--grijs);font-size:15px;line-height:1.55;min-height:100vh}
+  a{color:var(--fel)}
+  .top{background:#fff;border-bottom:1px solid var(--lijn);padding:0 28px;height:62px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:20}
+  .top .merk{display:flex;align-items:baseline;gap:10px;color:var(--nacht);font-weight:800;font-size:17px}
+  .top .merk small{color:#8b93a3;font-weight:400;font-size:12.5px}
+  .top a.terug{display:inline-flex;align-items:center;gap:8px;background:var(--blauw);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:9px 18px;border-radius:999px}
+  .top a.terug:hover{background:var(--donker)}
+  .schil{display:flex;gap:26px;max-width:1180px;margin:26px auto;padding:0 24px;align-items:flex-start}
+  /* zijbalk */
+  .zij{flex:0 0 264px;position:sticky;top:88px}
+  .zij .wie{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:18px;display:flex;gap:12px;align-items:center;margin-bottom:14px}
+  .avatar{width:46px;height:46px;border-radius:50%;background:var(--blauw);color:#fff;font-weight:800;font-size:16px;display:flex;align-items:center;justify-content:center;flex:0 0 46px}
+  .wie b{color:var(--nacht);font-size:15px;display:block;line-height:1.25}
+  .wie small{font-size:12px;color:#8b93a3;word-break:break-all}
+  nav.menu{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:10px;display:flex;flex-direction:column;gap:2px}
+  nav.menu button{display:flex;align-items:center;gap:11px;border:none;background:none;width:100%;text-align:left;font-family:inherit;font-size:14.5px;color:var(--nacht);padding:12px 13px;border-radius:11px;cursor:pointer;font-weight:700}
+  nav.menu button svg{flex:0 0 19px;stroke:#7d8aa0}
+  nav.menu button:hover{background:#F1F6FC}
+  nav.menu button.aan{background:var(--blauw);color:#fff}
+  nav.menu button.aan svg{stroke:#fff}
+  nav.menu .schei{height:1px;background:var(--lijn);margin:8px 6px}
+  nav.menu button.stil{font-weight:400;color:var(--grijs)}
+  /* hoofd */
+  main{flex:1;min-width:0}
+  .kop h1{color:var(--nacht);font-size:24px;font-weight:800}
+  .kop p{margin:4px 0 20px;font-size:14px;max-width:640px}
+  .paneel{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:22px}
+  /* uploads */
+  .rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:18px}
+  .kaart{border:1px solid var(--lijn);border-radius:14px;overflow:hidden;background:#fff;display:flex;flex-direction:column;transition:box-shadow .15s}
+  .kaart:hover{box-shadow:0 10px 26px rgba(27,75,137,.12)}
+  .kaart .beeld{background:conic-gradient(#EDF1F7 0 25%,#fff 0 50%,#EDF1F7 0 75%,#fff 0) 0 0/24px 24px;height:150px;display:flex;align-items:center;justify-content:center;border-bottom:1px solid var(--lijn);position:relative}
+  .kaart .beeld img{max-width:88%;max-height:126px;object-fit:contain;box-shadow:0 4px 14px rgba(0,0,0,.18)}
+  .kies{position:absolute;top:10px;left:10px;display:flex;align-items:center;gap:6px;background:#fff;border:1.5px solid var(--lijn);border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:var(--nacht);cursor:pointer}
+  .kies.aan{background:var(--blauw);border-color:var(--blauw);color:#fff}
+  .kaart .info{padding:13px 15px 6px}
+  .kaart .info b{color:var(--nacht);font-size:14px;word-break:break-all;display:block}
+  .kaart .info small{color:#8b93a3;font-size:12px}
+  .kaart .acties{display:flex;flex-wrap:wrap;gap:7px;padding:11px 15px 15px}
+  .k-knop{display:inline-flex;align-items:center;gap:6px;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);border-radius:999px;font-size:12.5px;font-weight:700;padding:7px 13px;cursor:pointer;font-family:inherit}
+  .k-knop:hover{background:#EAF1F9}
+  .k-knop.vol{background:var(--blauw);color:#fff}
+  .k-knop.vol:hover{background:var(--donker)}
+  .cmp-balk{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);background:var(--nacht);color:#fff;border-radius:999px;padding:10px 12px 10px 20px;display:none;align-items:center;gap:14px;z-index:30;box-shadow:0 10px 30px rgba(0,0,0,.3);font-size:14px}
+  .cmp-balk button{border:none;border-radius:999px;background:var(--licht);color:var(--nacht);font-weight:800;font-size:13.5px;padding:9px 18px;cursor:pointer;font-family:inherit}
+  .cmp-balk button:disabled{opacity:.45;cursor:default}
+  .cmp-vlak{background:var(--nacht);border-radius:16px;padding:22px;display:flex;gap:18px}
+  .cmp-vlak>div{flex:1;text-align:center}
+  .cmp-vlak img{max-width:100%;max-height:340px;object-fit:contain;border-radius:6px}
+  .cmp-vlak .cap{color:#cfd6e0;font-size:12.5px;margin-top:8px;word-break:break-all}
+  /* leegte */
+  .leeg{text-align:center;padding:46px 20px}
+  .leeg .em{font-size:40px}
+  .leeg h3{color:var(--nacht);font-size:18px;margin:10px 0 6px}
+  .leeg p{max-width:420px;margin:0 auto 18px;font-size:14px}
+  /* formulieren */
+  .veldrij{display:grid;grid-template-columns:1fr 1fr;gap:14px 18px}
+  .veld{margin-bottom:2px}
+  .veld label{display:block;font-size:12.5px;font-weight:700;color:var(--donker);margin-bottom:5px}
+  .veld input,.veld select{width:100%;border:1.5px solid #C9D4E4;border-radius:10px;padding:11px 13px;font-size:14.5px;font-family:inherit;color:var(--nacht);background:#fff}
+  .veld input:focus,.veld select:focus{outline:2px solid var(--fel);border-color:var(--fel)}
+  .breed{grid-column:1/-1}
+  .hoofdknop{border:none;border-radius:999px;background:var(--blauw);color:#fff;font-weight:700;font-size:14.5px;padding:12px 26px;cursor:pointer;font-family:inherit}
+  .hoofdknop:hover{background:var(--donker)}
+  .fout{color:#C0392B;font-size:13px;margin-top:8px;display:none}
+  /* tabel */
+  table{width:100%;border-collapse:collapse;font-size:14px}
+  th{text-align:left;color:var(--donker);font-size:12.5px;letter-spacing:.3px;border-bottom:2px solid var(--lijn);padding:9px 10px}
+  td{border-bottom:1px solid var(--lijn);padding:11px 10px;color:var(--nacht);word-break:break-all}
+  .tag{background:#E4F5E6;color:#1E7C33;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;white-space:nowrap}
+  .deelrij{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;background:#F1F6FC;border:1px solid var(--lijn);border-radius:12px;padding:14px;margin-bottom:18px}
+  .deelrij .veld{flex:1;min-width:180px;margin:0}
+  /* auth (uitgelogd) */
+  .auth{max-width:480px;margin:40px auto}
+  .auth .tabs{display:flex;gap:8px;margin-bottom:16px}
+  .auth .tabs button{flex:1;border:1.5px solid var(--blauw);background:#fff;color:var(--blauw);font-weight:700;font-size:14px;padding:11px;border-radius:999px;cursor:pointer;font-family:inherit}
+  .auth .tabs button.aan{background:var(--blauw);color:#fff}
+  .voordeel{background:#EAF1F9;border:1.5px solid var(--blauw);border-radius:14px;padding:16px 18px;margin-bottom:16px}
+  .voordeel h3{color:var(--nacht);font-size:15.5px;margin-bottom:8px}
+  .voordeel div{display:flex;gap:9px;align-items:flex-start;font-size:13.5px;margin:5px 0}
+  .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:var(--nacht);color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;z-index:60;box-shadow:0 8px 22px rgba(0,0,0,.3)}
+  button:focus-visible,a:focus-visible,input:focus-visible{outline:3px solid var(--fel);outline-offset:2px}
+  @media(max-width:840px){.schil{flex-direction:column}.zij{position:static;flex:none;width:100%}.veldrij{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <span class="merk">AdViewer 2.0 <small>Mijn account · Global</small></span>
+  <a class="terug" href="../">← Terug naar de viewer</a>
+</header>
+
+<div class="schil" id="app"></div>
+
+<script>
+(function () {
+  var LSK = 'adviewer2_account_v1', REOPEN = 'adviewer2_reopen_v1';
+  function load() { try { var d = JSON.parse(localStorage.getItem(LSK)); if (d && d.uploads) return d; } catch (e) {} return { user: null, loggedIn: false, uploads: [] }; }
+  var db = load();
+  function save() { try { localStorage.setItem(LSK, JSON.stringify(db)); } catch (e) {} }
+  function esc(s) { return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]; }); }
+  function initialen() { var p = (db.user.naam || db.user.email || '?').trim().split(/\s+/); return ((p[0] || '')[0] || '?').toUpperCase() + (p.length > 1 ? (p[p.length - 1][0] || '').toUpperCase() : ''); }
+  function datumNL(iso) { try { return new Date(iso).toLocaleDateString('nl-NL', { day: 'numeric', month: 'short', year: 'numeric' }); } catch (e) { return ''; } }
+  var viewerUrl = new URL('..', location.href).href;
+  function toast(msg) { var t = document.createElement('div'); t.className = 'toast'; t.textContent = msg; document.body.appendChild(t); setTimeout(function () { t.remove(); }, 2600); }
+  function kopieer(txt, melding) {
+    function done() { toast(melding); }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(txt).then(done, function () { window.prompt('Kopieer deze link:', txt); });
+    else window.prompt('Kopieer deze link:', txt);
+  }
+  var app = document.getElementById('app');
+  var VINK = '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#195AA6" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="flex:0 0 17px;margin-top:2px"><path d="M20 6L9 17l-5-5"/></svg>';
+  function icoon(d) { return '<svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">' + d + '</svg>'; }
+  var ICO = {
+    uploads: icoon('<rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>'),
+    gedeeld: icoon('<path d="M22 2L11 13"/><path d="M22 2l-7 20-4-9-9-4 20-7z"/>'),
+    profiel: icoon('<circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 3.6-6.5 8-6.5s8 2.5 8 6.5"/>'),
+    deel: icoon('<circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/>'),
+    uit: icoon('<path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4"/><path d="M16 17l5-5-5-5"/><path d="M21 12H9"/>')
+  };
+
+  /* ---------- uitgelogd: registreren / inloggen ---------- */
+  function renderAuth(tab) {
+    tab = tab || 'registreer';
+    app.innerHTML = '<main><div class="auth">' +
+      '<div class="kop"><h1>Mijn account</h1><p>Log in of maak een gratis account aan om je uploads terug te zien, te vergelijken en te delen.</p></div>' +
+      '<div class="voordeel"><h3>Met een gratis account krijg je er dit bij</h3>' +
+      ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting'].map(function (t) { return '<div>' + VINK + '<span>' + t + '</span></div>'; }).join('') + '</div>' +
+      '<div class="tabs"><button data-tab="registreer" class="' + (tab === 'registreer' ? 'aan' : '') + '">Account aanmaken</button><button data-tab="login" class="' + (tab === 'login' ? 'aan' : '') + '">Inloggen</button></div>' +
+      '<div class="paneel">' + (tab === 'registreer'
+        ? '<div class="veldrij">' + veld('naam', 'Naam') + veld('email', 'Zakelijk e-mailadres', 'email') + veld('bedrijf', 'Bedrijf') + veld('functie', 'Functie') + '<div class="breed">' + veld('ww', 'Wachtwoord', 'password') + '</div></div>' +
+          '<p class="fout" id="fout">Vul minimaal je naam, e-mailadres en een wachtwoord in.</p>' +
+          '<button class="hoofdknop" id="doe" style="margin-top:16px;width:100%">Maak een account aan</button>'
+        : veld('email', 'E-mailadres', 'email', db.user ? db.user.email : '') + '<div style="height:12px"></div>' + veld('ww', 'Wachtwoord', 'password') +
+          '<p class="fout" id="fout">Vul je e-mailadres en wachtwoord in.</p>' +
+          '<button class="hoofdknop" id="doe" style="margin-top:16px;width:100%">Inloggen</button>') +
+      '</div></div></main>';
+    app.querySelectorAll('[data-tab]').forEach(function (b) { b.addEventListener('click', function () { renderAuth(b.getAttribute('data-tab')); }); });
+    document.getElementById('doe').addEventListener('click', function () {
+      var v = function (id) { var el = document.getElementById('v-' + id); return el ? el.value.trim() : ''; };
+      if (tab === 'registreer') {
+        if (!v('naam') || !v('email') || !v('ww')) { document.getElementById('fout').style.display = 'block'; return; }
+        db.user = { naam: v('naam'), email: v('email'), bedrijf: v('bedrijf'), functie: v('functie'), ww: v('ww') };
+        db.loggedIn = true; save(); toast('Je account is aangemaakt — welkom ' + db.user.naam.split(' ')[0] + '!'); render('uploads');
+      } else {
+        if (!v('email') || !v('ww')) { document.getElementById('fout').style.display = 'block'; return; }
+        if (!db.user) db.user = { naam: v('email').split('@')[0], email: v('email'), bedrijf: '', functie: '', ww: v('ww') };
+        db.loggedIn = true; save(); toast('Ingelogd als ' + db.user.naam); render('uploads');
+      }
+    });
+  }
+  function veld(id, label, type, val) {
+    return '<div class="veld"><label for="v-' + id + '">' + label + '</label><input id="v-' + id + '" type="' + (type || 'text') + '" value="' + esc(val || '') + '"></div>';
+  }
+
+  /* ---------- ingelogd: raamwerk met zijbalk ---------- */
+  var actief = 'uploads';
+  var cmpSel = [];
+  function render(sectie) {
+    actief = sectie || actief;
+    try { history.replaceState(null, '', '#' + actief); } catch (e) {}
+    app.innerHTML =
+      '<aside class="zij">' +
+        '<div class="wie"><span class="avatar">' + esc(initialen()) + '</span><span><b>' + esc(db.user.naam) + '</b><small>' + esc(db.user.email) + (db.user.bedrijf ? ' · ' + esc(db.user.bedrijf) : '') + '</small></span></div>' +
+        '<nav class="menu">' +
+          navKnop('uploads', 'Mijn uploads') + navKnop('gedeeld', 'Gedeeld met') + navKnop('profiel', 'Profiel & instellingen') +
+          '<div class="schei"></div>' +
+          '<button class="stil" data-nav="deel">' + ICO.deel + 'Deel de tool met een collega</button>' +
+          '<button class="stil" data-nav="uit">' + ICO.uit + 'Uitloggen</button>' +
+        '</nav>' +
+      '</aside>' +
+      '<main id="inhoud"></main>';
+    app.querySelectorAll('[data-nav]').forEach(function (b) {
+      b.addEventListener('click', function () {
+        var n = b.getAttribute('data-nav');
+        if (n === 'deel') { kopieer(viewerUrl + 'start/', 'Link naar de introductiepagina gekopieerd'); }
+        else if (n === 'uit') { db.loggedIn = false; save(); location.href = viewerUrl; }
+        else render(n);
+      });
+    });
+    ({ uploads: renderUploads, gedeeld: renderGedeeld, profiel: renderProfiel }[actief])();
+  }
+  function navKnop(id, label) { return '<button data-nav="' + id + '" class="' + (actief === id ? 'aan' : '') + '">' + ICO[id] + label + '</button>'; }
+
+  /* ---------- mijn uploads ---------- */
+  function renderUploads() {
+    cmpSel = [];
+    var m = document.getElementById('inhoud');
+    var kop = '<div class="kop"><h1>Mijn uploads</h1><p>Al je eerdere uitingen op een rij. Open er een direct in de viewer, of vink er twee aan om ze naast elkaar te zien.</p></div>';
+    if (!db.uploads.length) {
+      m.innerHTML = kop + '<div class="paneel"><div class="leeg"><div class="em">🖼️</div><h3>Nog geen uploads</h3><p>Upload een uiting in de viewer — hij verschijnt hier daarna automatisch, zodat je hem altijd kunt terugzien, vergelijken en delen.</p><a class="hoofdknop" style="text-decoration:none" href="../">Naar de viewer</a></div></div>';
+      return;
+    }
+    m.innerHTML = kop + '<div class="rooster">' + db.uploads.map(function (u) {
+      return '<div class="kaart" data-id="' + u.id + '">' +
+        '<div class="beeld"><button class="kies" data-a="cmp" aria-label="Selecteer voor vergelijken">☐ Vergelijk</button><img src="' + u.src + '" alt=""></div>' +
+        '<div class="info"><b>' + esc(u.name) + '</b><small>Geüpload op ' + datumNL(u.date) + (u.shared.length ? ' · gedeeld met ' + u.shared.length : '') + '</small></div>' +
+        '<div class="acties">' +
+          '<button class="k-knop vol" data-a="open">▶ Open in viewer</button>' +
+          '<button class="k-knop" data-a="link">🔗 Deellink</button>' +
+          '<button class="k-knop" data-a="video">🎬 Video-export</button>' +
+          '<button class="k-knop" data-a="share">📤 Delen</button>' +
+        '</div></div>';
+    }).join('') + '</div>' +
+    '<div class="cmp-balk" id="cmpbalk"><span id="cmptekst"></span><button id="cmpdoe" disabled>Toon naast elkaar</button></div>';
+
+    var balk = document.getElementById('cmpbalk'), doe = document.getElementById('cmpdoe'), tekst = document.getElementById('cmptekst');
+    m.querySelectorAll('.kaart').forEach(function (k) {
+      var id = k.getAttribute('data-id');
+      k.querySelectorAll('[data-a]').forEach(function (b) {
+        b.addEventListener('click', function () {
+          var u = db.uploads.filter(function (x) { return x.id === id; })[0]; if (!u) return;
+          var a = b.getAttribute('data-a');
+          if (a === 'open') { try { sessionStorage.setItem(REOPEN, JSON.stringify({ src: u.src, name: u.name })); } catch (e) {} location.href = viewerUrl; }
+          else if (a === 'link') kopieer(viewerUrl + '?campagne=' + u.id, 'Deellink van je campagne gekopieerd');
+          else if (a === 'video') toast('Video-export gestart — we mailen ’m naar ' + db.user.email);
+          else if (a === 'share') { render('gedeeld'); var sel = document.getElementById('g-upload'); if (sel) sel.value = u.id; }
+          else if (a === 'cmp') {
+            var i = cmpSel.indexOf(id);
+            if (i >= 0) { cmpSel.splice(i, 1); b.classList.remove('aan'); b.textContent = '☐ Vergelijk'; }
+            else if (cmpSel.length < 2) { cmpSel.push(id); b.classList.add('aan'); b.textContent = '☑ Geselecteerd'; }
+            balk.style.display = cmpSel.length ? 'flex' : 'none';
+            tekst.textContent = cmpSel.length + ' van 2 geselecteerd';
+            doe.disabled = cmpSel.length !== 2;
+          }
+        });
+      });
+    });
+    doe.addEventListener('click', function () {
+      var us = cmpSel.map(function (id) { return db.uploads.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
+      if (us.length !== 2) return;
+      m.innerHTML = '<div class="kop"><h1>Twee uitingen naast elkaar</h1><p>Zo zien je varianten er broederlijk naast elkaar uit.</p></div>' +
+        '<div class="cmp-vlak">' + us.map(function (u) { return '<div><img src="' + u.src + '" alt=""><div class="cap">' + esc(u.name) + '</div></div>'; }).join('') + '</div>' +
+        '<button class="hoofdknop" id="cmpterug" style="margin-top:18px">← Terug naar mijn uploads</button>';
+      document.getElementById('cmpterug').addEventListener('click', renderUploads);
+    });
+  }
+
+  /* ---------- gedeeld met ---------- */
+  function renderGedeeld() {
+    var m = document.getElementById('inhoud');
+    var rijen = [];
+    db.uploads.forEach(function (u) { u.shared.forEach(function (s) { rijen.push({ email: s.email, naam: u.name, date: s.date }); }); });
+    rijen.sort(function (a, b) { return a.date < b.date ? 1 : -1; });
+    m.innerHTML = '<div class="kop"><h1>Gedeeld met</h1><p>Vul een e-mailadres in en wij sturen je uiting voor je door. Hieronder zie je precies met wie je wat hebt gedeeld.</p></div>' +
+      '<div class="paneel">' +
+      (db.uploads.length
+        ? '<div class="deelrij">' +
+            '<div class="veld"><label for="g-upload">Uiting</label><select id="g-upload">' + db.uploads.map(function (u) { return '<option value="' + u.id + '">' + esc(u.name) + '</option>'; }).join('') + '</select></div>' +
+            '<div class="veld"><label for="g-email">E-mailadres van je contact</label><input id="g-email" type="email" placeholder="naam@bedrijf.nl"></div>' +
+            '<button class="hoofdknop" id="g-doe">Verstuur voor mij</button>' +
+          '</div><p class="fout" id="g-fout" style="margin:-8px 0 14px">Vul een geldig e-mailadres in.</p>'
+        : '<p style="margin-bottom:14px">Je hebt nog geen uploads om te delen — <a href="../">upload eerst een uiting in de viewer</a>.</p>') +
+      (rijen.length
+        ? '<table><thead><tr><th>Gedeeld met</th><th>Uiting</th><th>Status</th></tr></thead><tbody>' +
+          rijen.map(function (r) { return '<tr><td>' + esc(r.email) + '</td><td>' + esc(r.naam) + '</td><td><span class="tag">Verzonden · ' + datumNL(r.date) + '</span></td></tr>'; }).join('') +
+          '</tbody></table>'
+        : '<div class="leeg"><div class="em">📤</div><h3>Nog niets gedeeld</h3><p>Deel je uiting met collega’s of je klant — wij versturen ’m en jij houdt hier het overzicht.</p></div>') +
+      '</div>';
+    var doe = document.getElementById('g-doe');
+    if (doe) doe.addEventListener('click', function () {
+      var em = document.getElementById('g-email').value.trim();
+      var id = document.getElementById('g-upload').value;
+      if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { document.getElementById('g-fout').style.display = 'block'; return; }
+      var u = db.uploads.filter(function (x) { return x.id === id; })[0]; if (!u) return;
+      u.shared.push({ email: em, date: new Date().toISOString() }); save();
+      toast('Verzonden naar ' + em); renderGedeeld();
+      var sel = document.getElementById('g-upload'); if (sel) sel.value = id;
+    });
+  }
+
+  /* ---------- profiel ---------- */
+  function renderProfiel() {
+    var m = document.getElementById('inhoud');
+    var u = db.user;
+    m.innerHTML = '<div class="kop"><h1>Profiel &amp; instellingen</h1><p>Deze gegevens gebruiken we om formulieren voor te vullen en (gesimuleerde) exports en gedeelde uitingen naar je te mailen.</p></div>' +
+      '<div class="paneel"><div class="veldrij">' +
+      veld('naam', 'Naam', 'text', u.naam) + veld('email', 'Zakelijk e-mailadres', 'email', u.email) +
+      veld('bedrijf', 'Bedrijf', 'text', u.bedrijf) + veld('functie', 'Functie', 'text', u.functie) +
+      '<div class="breed">' + veld('ww', 'Wachtwoord', 'password', u.ww) + '</div>' +
+      '</div><button class="hoofdknop" id="p-doe" style="margin-top:18px">Wijzigingen opslaan</button></div>';
+    document.getElementById('p-doe').addEventListener('click', function () {
+      var v = function (id) { return document.getElementById('v-' + id).value.trim(); };
+      u.naam = v('naam') || u.naam; u.email = v('email') || u.email;
+      u.bedrijf = v('bedrijf'); u.functie = v('functie'); u.ww = v('ww') || u.ww;
+      save(); toast('Profiel opgeslagen'); render('profiel');
+    });
+  }
+
+  /* ---------- start ---------- */
+  if (db.user && db.loggedIn) {
+    var h = (location.hash || '').replace('#', '');
+    render(['uploads', 'gedeeld', 'profiel'].indexOf(h) >= 0 ? h : 'uploads');
+  } else {
+    renderAuth('registreer');
+  }
+})();
+</script>
+
+<!-- USERSNAP-START -->
+<script>
+  window.onUsersnapLoad = function (api) {
+    api.init();
+  };
+  var usersnapScript = document.createElement("script");
+  usersnapScript.defer = 1;
+  usersnapScript.src =
+    "https://widget.usersnap.com/global/load/c4f048c1-ba97-4344-8bc6-a7afcbec2233?onload=onUsersnapLoad";
+  document.getElementsByTagName("head")[0].appendChild(usersnapScript);
+</script>
+<!-- USERSNAP-END -->
+<!-- FEEDBACK-ONBOARDING-START -->
+<script src="../../../assets/feedback-onboarding.js"></script>
+<!-- FEEDBACK-ONBOARDING-END -->
+</body>
+</html>

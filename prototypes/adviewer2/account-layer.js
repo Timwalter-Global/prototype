@@ -148,8 +148,6 @@
         if (g === 'registreer') toonRegistreer();
         else if (g === 'login') toonLogin();
         else if (g === 'deel') deelTool();
-        else if (g === 'menu') toonMenu();
-        else if (g === 'uploads') toonUploads();
       });
     });
   }
@@ -173,7 +171,8 @@
             if (!v('naam') || !v('email') || !v('ww')) { m.querySelector('#acc-regerr').style.display = 'block'; return; }
             db.user = { naam: v('naam'), email: v('email'), bedrijf: v('bedrijf'), functie: v('functie'), ww: v('ww') };
             db.loggedIn = true; save(); zetIcoon();
-            bevestiging('Je account is aangemaakt', 'Welkom ' + esc(db.user.naam.split(' ')[0]) + '! Je bent direct ingelogd — rechtsboven zie je nu je profiel.');
+            bevestiging('Je account is aangemaakt', 'Welkom ' + esc(db.user.naam.split(' ')[0]) + '! Je bent direct ingelogd — rechtsboven zie je nu je profiel. Klik erop om naar je profielpagina te gaan.',
+              '<a class="acc-sec" style="text-align:center;text-decoration:none" href="' + baseUrl() + 'account/">Bekijk je profielpagina</a>');
           });
         } });
   }
@@ -192,123 +191,6 @@
             if (!db.user) db.user = { naam: em.split('@')[0], email: em, bedrijf: '', functie: '', ww: ww };
             db.loggedIn = true; save(); zetIcoon(); sluit();
             toast('Ingelogd als ' + db.user.naam);
-          });
-        } });
-  }
-
-  function toonMenu() {
-    var u = db.user;
-    open('<h2>' + esc(u.naam) + '</h2><p style="font-size:13.5px;color:#8b93a3">' + esc(u.email) + (u.bedrijf ? ' · ' + esc(u.bedrijf) : '') + '</p>' +
-      '<div style="margin-top:8px">' +
-      '<button class="acc-menu-item" data-m="uploads">🖼️&nbsp; Mijn uploads</button>' +
-      '<button class="acc-menu-item" data-m="gedeeld">📤&nbsp; Gedeeld met</button>' +
-      '<button class="acc-menu-item" data-m="profiel">⚙️&nbsp; Profiel &amp; instellingen</button>' +
-      '<button class="acc-menu-item" data-m="deel">🔗&nbsp; Deel de tool met een collega</button>' +
-      '<button class="acc-menu-item" data-m="uit">↪️&nbsp; Uitloggen</button></div>',
-      { wire: function (m) {
-          m.querySelectorAll('[data-m]').forEach(function (b) {
-            b.addEventListener('click', function () {
-              var a = b.getAttribute('data-m');
-              if (a === 'uploads') toonUploads();
-              else if (a === 'gedeeld') toonGedeeldOverzicht();
-              else if (a === 'profiel') toonProfiel();
-              else if (a === 'deel') deelTool();
-              else if (a === 'uit') { db.loggedIn = false; save(); zetIcoon(); sluit(); toast('Je bent uitgelogd'); }
-            });
-          });
-        } });
-  }
-
-  var cmpSel = [];
-  function toonUploads() {
-    cmpSel = [];
-    var items = db.uploads.map(function (u) {
-      return '<div class="acc-tile" data-id="' + u.id + '"><img src="' + u.src + '" alt="">' +
-        '<div class="nm">' + esc(u.name) + '</div><div class="dt">' + datumNL(u.date) + '</div>' +
-        '<div class="acts">' +
-        '<button class="acc-mini" data-a="open">Open in viewer</button>' +
-        '<button class="acc-mini" data-a="cmp">Vergelijk</button>' +
-        '<button class="acc-mini" data-a="link">Deellink</button>' +
-        '<button class="acc-mini" data-a="video">Video-export</button>' +
-        '<button class="acc-mini" data-a="share">Gedeeld met (' + u.shared.length + ')</button>' +
-        '</div></div>';
-    }).join('');
-    open('<h2>Mijn uploads</h2>' +
-      (db.uploads.length ? '<p style="font-size:13.5px">Klik op <b>Open in viewer</b> om een eerdere uiting direct weer te bekijken, of selecteer er twee met <b>Vergelijk</b>.</p><div class="acc-grid">' + items + '</div><button class="acc-prim" id="acc-docmp" style="display:none"></button>'
-        : '<p>Je hebt nog geen uploads. Upload een uiting via de viewer — hij verschijnt hier dan automatisch.</p>'),
-      { wire: function (m) {
-          var cmpBtn = m.querySelector('#acc-docmp');
-          m.querySelectorAll('.acc-tile').forEach(function (tile) {
-            var id = tile.getAttribute('data-id');
-            tile.querySelectorAll('[data-a]').forEach(function (b) {
-              b.addEventListener('click', function () {
-                var a = b.getAttribute('data-a'), u = db.uploads.filter(function (x) { return x.id === id; })[0];
-                if (!u) return;
-                if (a === 'open') { try { sessionStorage.setItem(REOPEN, JSON.stringify({ src: u.src, name: u.name })); } catch (e) {} location.reload(); }
-                else if (a === 'link') kopieer(baseUrl() + '?campagne=' + id, 'Deellink van je campagne gekopieerd');
-                else if (a === 'video') bevestiging('Video-export gestart', 'We renderen een video van <b>' + esc(u.name) + '</b> en mailen ’m naar <b>' + esc(db.user.email) + '</b>. Dit duurt normaal enkele minuten.');
-                else if (a === 'share') toonGedeeld(u);
-                else if (a === 'cmp') {
-                  var i = cmpSel.indexOf(id);
-                  if (i >= 0) { cmpSel.splice(i, 1); b.classList.remove('on'); }
-                  else if (cmpSel.length < 2) { cmpSel.push(id); b.classList.add('on'); }
-                  cmpBtn.style.display = cmpSel.length === 2 ? 'block' : 'none';
-                  cmpBtn.textContent = 'Toon deze twee naast elkaar';
-                }
-              });
-            });
-          });
-          if (cmpBtn) cmpBtn.addEventListener('click', function () {
-            var us = cmpSel.map(function (id) { return db.uploads.filter(function (x) { return x.id === id; })[0]; }).filter(Boolean);
-            if (us.length !== 2) return;
-            open('<h2>Twee uitingen naast elkaar</h2><div class="acc-cmp">' +
-              us.map(function (u) { return '<div><img src="' + u.src + '" alt=""><div class="cap">' + esc(u.name) + '</div></div>'; }).join('') +
-              '</div><button class="acc-sec" data-go="uploads">Terug naar mijn uploads</button>', { wire: wireGo });
-          });
-        } });
-  }
-
-  function toonGedeeld(u) {
-    var lijst = u.shared.length
-      ? '<ul class="acc-list">' + u.shared.map(function (s) { return '<li><span>' + esc(s.email) + '</span><span class="acc-tag">Verzonden · ' + datumNL(s.date) + '</span></li>'; }).join('') + '</ul>'
-      : '<p style="font-size:14px">Nog met niemand gedeeld.</p>';
-    open('<h2>Gedeeld met</h2><p style="font-size:13.5px"><b>' + esc(u.name) + '</b> — vul een e-mailadres in en wij sturen je uiting voor je door.</p>' + lijst +
-      veld('shmail', 'E-mailadres van je contact', 'email', '', 'naam@bedrijf.nl') +
-      '<p class="acc-err" id="acc-sherr">Vul een geldig e-mailadres in.</p>' +
-      '<button class="acc-prim" id="acc-doshare">Verstuur voor mij</button>' +
-      '<button class="acc-sec" data-go="uploads">Terug naar mijn uploads</button>',
-      { wire: function (m) {
-          wireGo(m);
-          m.querySelector('#acc-doshare').addEventListener('click', function () {
-            var em = m.querySelector('#acc-shmail').value.trim();
-            if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(em)) { m.querySelector('#acc-sherr').style.display = 'block'; return; }
-            u.shared.push({ email: em, date: new Date().toISOString() }); save();
-            toast('Verzonden naar ' + em); toonGedeeld(u);
-          });
-        } });
-  }
-
-  function toonGedeeldOverzicht() {
-    var rows = [];
-    db.uploads.forEach(function (u) { u.shared.forEach(function (s) { rows.push('<li><span>' + esc(s.email) + '<br><small style="color:#8b93a3">' + esc(u.name) + '</small></span><span class="acc-tag">Verzonden · ' + datumNL(s.date) + '</span></li>'); }); });
-    open('<h2>Gedeeld met</h2><p style="font-size:13.5px">Alle mensen met wie je een uiting hebt gedeeld. Delen doe je per upload via <b>Mijn uploads</b>.</p>' +
-      (rows.length ? '<ul class="acc-list">' + rows.join('') + '</ul>' : '<p>Je hebt nog niets gedeeld.</p>') +
-      '<button class="acc-prim" data-go="uploads">Naar mijn uploads</button>', { wire: wireGo });
-  }
-
-  function toonProfiel() {
-    var u = db.user;
-    open('<h2>Profiel &amp; instellingen</h2>' +
-      veld('pnaam', 'Naam', 'text', u.naam) + veld('pemail', 'Zakelijk e-mailadres', 'email', u.email) +
-      veld('pbedrijf', 'Bedrijf', 'text', u.bedrijf) + veld('pfunctie', 'Functie', 'text', u.functie) +
-      veld('pww', 'Wachtwoord', 'password', u.ww) +
-      '<button class="acc-prim" id="acc-dopr">Opslaan</button>',
-      { wire: function (m) {
-          m.querySelector('#acc-dopr').addEventListener('click', function () {
-            var v = function (id) { return m.querySelector('#acc-' + id).value.trim(); };
-            u.naam = v('pnaam') || u.naam; u.email = v('pemail') || u.email;
-            u.bedrijf = v('pbedrijf'); u.functie = v('pfunctie'); u.ww = v('pww') || u.ww;
-            save(); zetIcoon(); sluit(); toast('Profiel opgeslagen');
           });
         } });
   }
@@ -344,7 +226,7 @@
     if (ingelogd()) { knop.innerHTML = ''; knop.textContent = initialen(); knop.title = db.user.naam; }
     else { knop.innerHTML = PERSOON; knop.title = 'Account'; }
   }
-  knop.addEventListener('click', function () { ingelogd() ? toonMenu() : toonGate(); });
+  knop.addEventListener('click', function () { ingelogd() ? (location.href = baseUrl() + 'account/') : toonGate(); });
   ctas.querySelectorAll('[data-open]').forEach(function (b) {
     b.addEventListener('click', function () { contactForm(b.getAttribute('data-open')); });
   });
@@ -370,7 +252,7 @@
       var sig = cr.src.length + ':' + cr.src.slice(100, 140);
       if (sig !== lastSig) {
         lastSig = sig;
-        if (!db.uploads.some(function (u) { return u.sig === sig; })) {
+        if (!db.uploads.some(function (u) { return u.sig === sig || (u.src.length + ':' + u.src.slice(100, 140)) === sig; })) {
           verklein(cr.src, function (klein) {
             db.uploads.unshift({ id: 'u' + Math.random().toString(36).slice(2, 9), sig: sig, name: cr.name || 'Uiting', src: klein, date: new Date().toISOString(), shared: [] });
             if (db.uploads.length > 10) db.uploads.length = 10;
