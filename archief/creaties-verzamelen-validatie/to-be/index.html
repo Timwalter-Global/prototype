@@ -1888,6 +1888,15 @@ window.PROCESDATA_TOBE_V2 = {
 <script>
   window.onUsersnapLoad = function (api) {
     api.init();
+    /* Naam uit de feedback-pop-up meesturen. Vers gelezen bij het openen van
+       de widget, zodat een net ingevulde naam direct meegaat; er gaat verder
+       niets mee (AVG-dataminimalisatie). */
+    api.on('open', function (event) {
+      try {
+        var naam = (localStorage.getItem('feedbackNaam') || '').trim();
+        if (naam) event.api.setValue('custom', { name: naam });
+      } catch (e) {}
+    });
   };
   var usersnapScript = document.createElement("script");
   usersnapScript.defer = 1;

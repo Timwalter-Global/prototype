@@ -1,13 +1,19 @@
 /* Feedback-onboarding voor prototypepagina's.
    Toont bij het eerste bezoek aan een prototype een pop-up die uitlegt dat
-   feedback via de Usersnap Feedback-knop gaat. Eenmalig per browser per
-   prototype (localStorage, gedeeld tussen alle pagina's van dezelfde slug).
+   feedback via de Usersnap Feedback-knop gaat, en vraagt daarbij optioneel
+   de naam van de tester. Eenmalig per browser per prototype (localStorage,
+   gedeeld tussen alle pagina's van dezelfde slug); de naam wordt onder één
+   domeinbrede sleutel bewaard en geldt dus voor alle prototypes. De
+   Usersnap-snippets lezen die naam bij het openen van de widget.
    Wordt op elke prototypepagina geladen tussen de markers
    <!-- FEEDBACK-ONBOARDING-START --> ... <!-- FEEDBACK-ONBOARDING-END -->. */
 (function () {
   var m = location.pathname.match(/\/prototypes\/([^\/]+)\//);
   var slug = m ? m[1] : location.pathname;
-  var KEY = 'feedbackOnboardingGezien:' + slug;
+  /* v2: sleutel gebumpt zodat bestaande testers de pop-up nog één keer zien
+     en hun naam kunnen invullen. */
+  var KEY = 'feedbackOnboardingGezien2:' + slug;
+  var NAAMKEY = 'feedbackNaam';
   try {
     if (localStorage.getItem(KEY)) return;
   } catch (e) {
@@ -34,9 +40,15 @@
       '.gfb-step h4{color:#1B4B89;font-size:14.5px;font-weight:700;margin-bottom:2px}' +
       '.gfb-step p{font-size:13.5px}' +
       '.gfb-minitab{display:inline-block;background:#5BC4E8;color:#fff;font-weight:700;font-size:12px;padding:4px 10px;border-radius:6px;vertical-align:middle}' +
+      '.gfb-naam{margin-top:16px;padding:14px 16px;background:#EAF1F9;border-radius:12px}' +
+      '.gfb-naam label{display:block;color:#1B4B89;font-size:13.5px;font-weight:700;margin-bottom:5px}' +
+      '.gfb-naam label span{font-weight:400;color:#575756}' +
+      '.gfb-naam input{width:100%;border:1.5px solid #C9D4E4;border-radius:10px;padding:10px 12px;font-size:14.5px;font-family:inherit;color:#172842;background:#fff}' +
+      '.gfb-naam input:focus{outline:2px solid #0B78BE;border-color:#0B78BE}' +
+      '.gfb-naam p{font-size:12px;color:#575756;margin-top:6px}' +
       '.gfb-cta{margin-top:20px;width:100%;border:none;border-radius:12px;background:#195AA6;color:#fff;font-weight:700;font-size:15px;padding:13px 0;cursor:pointer;font-family:inherit}' +
       '.gfb-cta:hover{background:#1B4B89}' +
-      '.gfb-close:focus-visible,.gfb-cta:focus-visible{outline:3px solid #0B78BE;outline-offset:2px}';
+      '.gfb-close:focus-visible,.gfb-cta:focus-visible,.gfb-naam input:focus-visible{outline:3px solid #0B78BE;outline-offset:2px}';
     document.head.appendChild(style);
 
     var overlay = document.createElement('div');
@@ -58,12 +70,26 @@
           '<h4>Beschrijf het kort en verstuur</h4>' +
           '<p>Wat mis je of wat werkt niet? Voeg eventueel een screenshot of opname toe en klik op Submit.</p>' +
         '</div></div>' +
+        '<div class="gfb-naam">' +
+          '<label for="gfb-naam-input">Je naam <span>(mag leeg blijven)</span></label>' +
+          '<input id="gfb-naam-input" type="text" placeholder="Voor- en achternaam" autocomplete="name" maxlength="80">' +
+          '<p>We tonen je naam bij je feedback, zodat we weten van wie die komt. Je hoeft dit maar één keer in te vullen.</p>' +
+        '</div>' +
         '<button class="gfb-cta" type="button">Begrepen, start met testen</button>' +
       '</div>';
     document.body.appendChild(overlay);
 
+    var naamInput = overlay.querySelector('#gfb-naam-input');
+    try { naamInput.value = localStorage.getItem(NAAMKEY) || ''; } catch (e) {}
+
     var vorigeFocus = document.activeElement;
     function sluit() {
+      /* Naam bewaren bij elke sluitroute (CTA, kruisje, overlay, Escape),
+         zodat een getypte naam nooit verloren gaat. */
+      try {
+        var naam = naamInput.value.trim();
+        if (naam) localStorage.setItem(NAAMKEY, naam);
+      } catch (e) {}
       overlay.remove();
       style.remove();
       document.removeEventListener('keydown', opEscape);
