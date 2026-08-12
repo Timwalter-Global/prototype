@@ -1,0 +1,15 @@
+{
+  // LET OP: "name" moet exact gelijk zijn aan de projectnaam in het
+  // Cloudflare-dashboard (Workers & Pages), anders maakt een deploy een
+  // tweede, los project aan.
+  "name": "global-prototypes",
+  "compatibility_date": "2026-08-01",
+  "main": "worker.js",
+  "assets": {
+    "directory": ".",
+    "binding": "ASSETS",
+    // Alle requests gaan eerst door worker.js (wachtwoordcheck),
+    // pas daarna worden de statische bestanden geserveerd.
+    "run_worker_first": true
+  }
+}

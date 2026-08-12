@@ -1,0 +1,7 @@
+{
+  "name": "global-prototypes",
+  "private": true,
+  "devDependencies": {
+    "wrangler": "4.121.0"
+  }
+}

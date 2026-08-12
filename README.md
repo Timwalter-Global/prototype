@@ -2,7 +2,11 @@
 
 Prototypes livezetten en feedback ophalen met **Usersnap**.
 
-**Live overzicht:** https://timwalter-global.github.io/prototype/
+**Live overzicht:** https://www.globalnl-innovate.com/
+
+De site staat achter een gedeeld wachtwoord: de browser vraagt bij het openen
+om een inlog (gebruikersnaam mag leeg blijven of iets willekeurigs zijn, het
+wachtwoord telt). Vraag het wachtwoord op bij Tim.
 
 ## Hoe het werkt
 
@@ -12,10 +16,10 @@ Prototypes livezetten en feedback ophalen met **Usersnap**.
    en vraag: *"Zet dit prototype live"*.
 3. Claude Code plaatst het prototype in `prototypes/<slug>/`, voegt de
    Usersnap-snippet toe, zet het op de overzichtspagina en pusht naar `main`.
-   GitHub Pages publiceert het binnen 1–2 minuten.
-4. Deel de link. Iedereen met de link kan het prototype bekijken en via de
-   Usersnap-knop feedback geven; de feedback (inclusief wie wat zei) zie je in
-   het Usersnap-dashboard.
+   Cloudflare publiceert het binnen ±1 minuut.
+4. Deel de link plus het wachtwoord. Testers loggen in (zie hierboven) en
+   kunnen dan het prototype bekijken en via de Usersnap-knop feedback geven;
+   de feedback (inclusief wie wat zei) zie je in het Usersnap-dashboard.
 5. Klaar met de ronde? Vraag Claude Code het prototype offline te halen.
    De feedback blijft in Usersnap bewaard.
 
