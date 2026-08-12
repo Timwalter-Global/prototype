@@ -211,9 +211,9 @@
                     <sc-if value="{{ tabStandaard }}" hint-placeholder-val="{{ true }}">
                       <div style="display:flex;gap:9px;padding:10px 12px;background:#eaf1f9;border:1px solid #cddcee;border-radius:8px">
                         <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="#195AA6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none;margin-top:1px"><circle cx="12" cy="12" r="10"></circle><path d="M12 16v-4"></path><path d="M12 8h.01"></path></svg>
-                        <div style="font-size:11px;color:#1B4B89;line-height:1.55;text-wrap:pretty"><span style="font-weight:800">Verplaatsingsgedrag-data.</span> BRO doelgroepen zijn gebaseerd op hoe mensen zich langs objecten verplaatsen — niet op segmentatiedata op postcodeniveau (zoals Casar).</div>
+                        <div style="font-size:11px;color:#1B4B89;line-height:1.55;text-wrap:pretty"><span style="font-weight:800">Bereikcijfers per doelgroep.</span> Per doelgroep zie je het bereik (DROTS), de penetratie en de index ten opzichte van het Nederlands gemiddelde (100). Open de doelgroepindex bij de resultaten om ze naast elkaar te vergelijken.</div>
                       </div>
-                      <dc-import name="FilterSelect" hint-size="100%,44px" label="BRO doelgroepen (19)" count="{{ dgCount }}" has-count="{{ dgHasCount }}" open="{{ dgFieldOpen }}" rot="{{ dgRot }}" on-toggle="{{ onDgToggle }}" search="{{ dgSearch }}" on-search="{{ onDgSearch }}" options="{{ dgOptions }}" empty="{{ dgEmpty }}" on-select-all="{{ onDgAll }}" on-clear="{{ onDgClear }}" chips="{{ dgChips }}" has-chips="{{ dgHasChips }}"></dc-import>
+                      <dc-import name="FilterSelect" hint-size="100%,44px" label="{{ dgLijstLabel }}" count="{{ dgCount }}" has-count="{{ dgHasCount }}" open="{{ dgFieldOpen }}" rot="{{ dgRot }}" on-toggle="{{ onDgToggle }}" search="{{ dgSearch }}" on-search="{{ onDgSearch }}" options="{{ dgOptions }}" empty="{{ dgEmpty }}" on-select-all="{{ onDgAll }}" on-clear="{{ onDgClear }}" chips="{{ dgChips }}" has-chips="{{ dgHasChips }}"></dc-import>
                       <sc-if value="{{ hasDgIndex }}" hint-placeholder-val="{{ false }}">
                         <div style="display:flex;flex-direction:column;gap:8px;border:1px solid #e3e7ec;border-radius:8px;padding:10px 12px;background:#fbfcfd">
                           <div style="display:flex;align-items:center;gap:6px">
@@ -617,14 +617,15 @@
                 <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiPct }}</div>
                 <div style="font-size:10px;color:#8a93a0">{{ kpiPctSub }}</div>
               </div>
-              <div style="background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
+              <button onClick="{{ onDgTabelOpen }}" title="Bekijk de indexscores van alle doelgroepen" style="display:block;width:100%;text-align:left;background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px;font-family:inherit;cursor:pointer" style-hover="border-color:#195AA6;background:#f2f6fb">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
                   <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Doelgroepindex</div>
                   <span title="Hoe sterk de geselecteerde doelgroep in de huidige selectie is vertegenwoordigd ten opzichte van het landelijk gemiddelde (index 100). Boven de 100 = bovengemiddeld aanwezig." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#e3e7ec;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
                 </div>
                 <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiIndex }}</div>
                 <div style="font-size:10px;color:#8a93a0">{{ kpiIndexSub }}</div>
-              </div>
+                <div style="font-size:10px;font-weight:700;color:#0B78BE;margin-top:4px">Vergelijk alle doelgroepen ›</div>
+              </button>
               <div style="background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
                   <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530"># POI's in actieve selectie</div>
@@ -868,6 +869,93 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ dgTabelOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onDgTabelClose }}" style="position:fixed;inset:0;z-index:1000;background:rgba(21,32,45,.42);display:flex;align-items:center;justify-content:center">
+      <div onClick="{{ stopProp }}" data-screen-label="Doelgroepen vergelijken" style="width:760px;max-width:94vw;max-height:88vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(15,30,50,.3);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:20px 24px 6px;flex:none">
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#1c2530">Doelgroepen vergelijken</div>
+            <div style="font-size:11.5px;color:#5a6472;margin-top:3px">Index 100 = het Nederlands gemiddelde. Klik een doelgroep aan om die in je selectie op te nemen.</div>
+          </div>
+          <button onClick="{{ onDgTabelClose }}" title="Sluiten" style="width:24px;height:24px;border:none;border-radius:50%;background:#f1f3f6;color:#5a6472;cursor:pointer;font-size:14px;line-height:1;padding:0;flex:none" style-hover="background:#e3e7ec">×</button>
+        </div>
+        <div style="padding:10px 24px 8px;flex:none">
+          <input value="{{ dgTabelZoek }}" onChange="{{ onDgTabelZoek }}" placeholder="Zoek doelgroep…" style="width:100%;padding:8px 12px;border:1px solid #d6dbe3;border-radius:8px;font-family:inherit;font-size:12px;color:#2b3440;background:#fff;outline:none">
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:0 24px">
+          <table style="width:100%;border-collapse:collapse;font-size:11.5px">
+            <thead>
+              <tr>
+                <th style="position:sticky;top:0;background:#fff;text-align:left;padding:8px 8px 8px 0;font-weight:700;color:#5a6472;border-bottom:1px solid #e3e7ec;z-index:2"><button onClick="{{ onSortNaam }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:11.5px;font-weight:700;color:#5a6472;cursor:pointer" style-hover="color:#195AA6">Doelgroep{{ sortNaam }}</button></th>
+                <th style="position:sticky;top:0;background:#fff;text-align:right;padding:8px;font-weight:700;color:#5a6472;border-bottom:1px solid #e3e7ec;width:150px;z-index:2"><button onClick="{{ onSortIndex }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:11.5px;font-weight:700;color:#5a6472;cursor:pointer" style-hover="color:#195AA6">Index{{ sortIndex }}</button></th>
+                <th style="position:sticky;top:0;background:#fff;text-align:right;padding:8px;font-weight:700;color:#5a6472;border-bottom:1px solid #e3e7ec;width:80px;z-index:2"><button onClick="{{ onSortPct }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:11.5px;font-weight:700;color:#5a6472;cursor:pointer" style-hover="color:#195AA6">% Pen{{ sortPct }}</button></th>
+                <th style="position:sticky;top:0;background:#fff;text-align:right;padding:8px 0 8px 8px;font-weight:700;color:#5a6472;border-bottom:1px solid #e3e7ec;width:130px;z-index:2"><button onClick="{{ onSortDrots }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:11.5px;font-weight:700;color:#5a6472;cursor:pointer" style-hover="color:#195AA6">DROTS{{ sortDrots }}</button></th>
+              </tr>
+            </thead>
+            <tbody>
+              <sc-for list="{{ dgTabelRows }}" as="dr" hint-placeholder-count="6">
+                <tr onClick="{{ dr.onToggle }}" style="cursor:pointer;background:{{ dr.rijBg }}" style-hover="background:#f2f6fb">
+                  <td style="padding:7px 8px 7px 0;border-bottom:1px solid #f1f3f6">
+                    <span style="display:inline-flex;align-items:center;gap:8px">
+                      <input type="checkbox" checked="{{ dr.checked }}" onChange="{{ dr.onToggle }}" style="accent-color:#195AA6;width:13px;height:13px;margin:0;flex:none">
+                      <span style="font-weight:{{ dr.gewicht }};color:#1c2530">{{ dr.naam }}</span>
+                    </span>
+                  </td>
+                  <td style="padding:7px 8px;border-bottom:1px solid #f1f3f6">
+                    <span style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
+                      <span style="position:relative;width:78px;height:9px;background:#f1f3f6;border-radius:3px;flex:none">
+                        <span style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:#c3c9d2"></span>
+                        <span style="position:absolute;top:1px;bottom:1px;left:{{ dr.barLeft }};width:{{ dr.barBreedte }};background:{{ dr.barKleur }};border-radius:2px"></span>
+                      </span>
+                      <span style="font-weight:700;color:{{ dr.indexKleur }};min-width:34px;text-align:right">{{ dr.indexLabel }}</span>
+                    </span>
+                  </td>
+                  <td style="padding:7px 8px;border-bottom:1px solid #f1f3f6;text-align:right;color:#2b3440">{{ dr.pctLabel }}</td>
+                  <td style="padding:7px 0 7px 8px;border-bottom:1px solid #f1f3f6;text-align:right;color:#5a6472">{{ dr.drotsLabel }}</td>
+                </tr>
+              </sc-for>
+            </tbody>
+          </table>
+          <sc-if value="{{ dgTabelLeeg }}" hint-placeholder-val="{{ false }}"><div style="padding:14px 0;font-size:11.5px;color:#8a93a0">Geen doelgroep gevonden voor deze zoekterm.</div></sc-if>
+          <sc-if value="{{ heeftEigenRows }}" hint-placeholder-val="{{ false }}">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;padding:16px 0 6px">Jouw opgeslagen doelgroepen</div>
+            <table style="width:100%;border-collapse:collapse;font-size:11.5px">
+              <tbody>
+                <sc-for list="{{ dgEigenRows }}" as="er" hint-placeholder-count="1">
+                  <tr onClick="{{ er.onToggle }}" style="cursor:pointer;background:{{ er.rijBg }}" style-hover="background:#f2f6fb">
+                    <td style="padding:7px 8px 7px 0;border-bottom:1px solid #f1f3f6">
+                      <span style="display:inline-flex;align-items:center;gap:8px">
+                        <input type="checkbox" checked="{{ er.checked }}" onChange="{{ er.onToggle }}" style="accent-color:#195AA6;width:13px;height:13px;margin:0;flex:none">
+                        <span style="font-weight:{{ er.gewicht }};color:#1c2530">{{ er.naam }}</span>
+                        <span style="font-size:9.5px;font-weight:700;color:#5a6472;background:#f1f3f6;padding:2px 6px;border-radius:999px">eigen</span>
+                      </span>
+                    </td>
+                    <td style="padding:7px 8px;border-bottom:1px solid #f1f3f6;width:150px">
+                      <span style="display:flex;align-items:center;gap:8px;justify-content:flex-end">
+                        <span style="position:relative;width:78px;height:9px;background:#f1f3f6;border-radius:3px;flex:none">
+                          <span style="position:absolute;top:0;bottom:0;left:50%;width:1px;background:#c3c9d2"></span>
+                          <span style="position:absolute;top:1px;bottom:1px;left:{{ er.barLeft }};width:{{ er.barBreedte }};background:{{ er.barKleur }};border-radius:2px"></span>
+                        </span>
+                        <span style="font-weight:700;color:{{ er.indexKleur }};min-width:34px;text-align:right">{{ er.indexLabel }}</span>
+                      </span>
+                    </td>
+                    <td style="padding:7px 8px;border-bottom:1px solid #f1f3f6;text-align:right;color:#2b3440;width:80px">{{ er.pctLabel }}</td>
+                    <td style="padding:7px 0 7px 8px;border-bottom:1px solid #f1f3f6;text-align:right;color:#5a6472;width:130px">{{ er.drotsLabel }}</td>
+                  </tr>
+                </sc-for>
+              </tbody>
+            </table>
+            <div style="font-size:10.5px;color:#8a93a0;line-height:1.5;padding:8px 0 0;text-wrap:pretty">Eigen doelgroepen zijn niet gemeten: hun index en DROTS zijn een schatting op basis van de gekozen variabelen, daarom staat er een ~ voor.</div>
+          </sc-if>
+        </div>
+        <div style="padding:14px 24px 20px;display:flex;align-items:center;justify-content:space-between;gap:10px;flex:none;border-top:1px solid #eceff3">
+          <span style="font-size:10.5px;color:#8a93a0">{{ dgTabelTelling }}</span>
+          <button onClick="{{ onDgTabelClose }}" style="padding:9px 16px;border:1px solid #d6dbe3;border-radius:8px;background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:#5a6472;cursor:pointer" style-hover="background:#f1f3f6">Sluiten</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ unsavedOpen }}" hint-placeholder-val="{{ false }}">
     <div style="position:fixed;inset:0;z-index:1050;background:rgba(21,32,45,.42);display:flex;align-items:center;justify-content:center">
       <div data-screen-label="Niet opgeslagen wijzigingen" style="width:400px;max-width:92vw;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(15,30,50,.3);padding:22px 24px;display:flex;flex-direction:column;gap:10px">
@@ -967,12 +1055,15 @@ class Component extends DCLogic {
     detailId: null,
     profileOpen: false, copied: false,
     exportOpen: false, exportFmt: 'xlsx', exportTab: 'data', exportDone: false,
+    dgTabelOpen: false, dgTabelZoek: '', dgSortKol: 'index', dgSortRicht: 'desc',
     shareOpen: false, linkCopied: false, shareLink: '',
     toast: ''
   };
   D = null;
 
   componentDidMount() {
+    this._esc = e => { if (e.key === 'Escape' && this.state.dgTabelOpen) this.setState({ dgTabelOpen: false }); };
+    window.addEventListener('keydown', this._esc);
     import('./data.js').then(m => {
       this.D = m;
       const regios = [{ naam: 'Steden 100.000+', layer: 'gemeente', values: m.CITIES.filter(c => c.inw >= 100).map(c => c.n), vast: true }];
@@ -989,6 +1080,7 @@ class Component extends DCLogic {
     }).catch(e => console.error('Kon data.js niet laden', e));
   }
 
+  componentWillUnmount() { window.removeEventListener('keydown', this._esc); }
   fmt(n) { return (n || 0).toLocaleString('nl-NL'); }
   tg(a, v) { return a.includes(v) ? a.filter(x => x !== v) : a.concat([v]); }
   toastMsg(msg) { this.setState({ toast: msg }); clearTimeout(this._tt); this._tt = setTimeout(() => this.setState({ toast: '' }), 2600); }
@@ -998,6 +1090,39 @@ class Component extends DCLogic {
   _d(a, b, c, d) { return Math.sqrt(Math.pow((a - c) * 111, 2) + Math.pow((b - d) * 68, 2)); }
 
   allDg() { return this.D ? this.D.BRO_DOELGROEPEN.concat(this.state.savedDg) : []; }
+  // Eigen doelgroepen zijn niet gemeten: index en DROTS zijn afgeleid van de gekozen variabelen
+  dgIndexVan(g) { return g.index != null ? g.index : Math.min(180, 100 + (g.vars || 1) * 6); }
+  dgDrotsVan(g) { return g.drots != null ? g.drots : Math.round(2754357068 * (g.pct || 0) / 100); }
+  fmtPct1(n) { return (n || 0).toLocaleString('nl-NL', { minimumFractionDigits: 1, maximumFractionDigits: 1 }) + '%'; }
+  dgSorteer(id) {
+    const s = this.state;
+    this.setState(s.dgSortKol === id
+      ? { dgSortRicht: s.dgSortRicht === 'desc' ? 'asc' : 'desc' }
+      : { dgSortKol: id, dgSortRicht: id === 'naam' ? 'asc' : 'desc' });
+  }
+  dgTabelRij(g) {
+    const s = this.state;
+    const idx = this.dgIndexVan(g), eigen = !!g.custom;
+    const afw = Math.min(50, Math.abs(idx - 100) / 2);
+    const boven = idx >= 100;
+    return {
+      naam: g.naam, checked: s.selDg.includes(g.id),
+      gewicht: s.selDg.includes(g.id) ? '700' : '600',
+      rijBg: s.selDg.includes(g.id) ? '#eaf1f9' : 'transparent',
+      indexLabel: (eigen ? '~' : '') + idx,
+      indexKleur: idx >= 110 ? '#195AA6' : idx <= 90 ? '#8a93a0' : '#2b3440',
+      barLeft: (boven ? 50 : 50 - afw) + '%', barBreedte: afw + '%',
+      barKleur: boven ? '#195AA6' : '#b9c3cf',
+      pctLabel: this.fmtPct1(g.pct),
+      drotsLabel: (eigen ? '~' : '') + this.fmt(this.dgDrotsVan(g)),
+      onToggle: () => this.setState({ selDg: this.tg(this.state.selDg, g.id) })
+    };
+  }
+  dgKenmerk(g) {
+    const idx = this.dgIndexVan(g);
+    const duiding = idx >= 110 ? 'bovengemiddeld' : idx <= 90 ? 'ondergemiddeld' : 'rond het gemiddelde';
+    return 'bereikt ' + this.fmtPct1(g.pct) + ' van de huishoudens en scoort met index ' + idx + ' ' + duiding;
+  }
   previewGroup() {
     const s = this.state;
     if (!s.previewOn || !s.customVars.length) return null;
@@ -1110,7 +1235,7 @@ class Component extends DCLogic {
     const topGem = Object.entries(gem).sort((a, b) => b[1] - a[1]).slice(0, 3).map(e => e[0]);
     const p = [];
     p.push('Dit profiel combineert ' + nameStr + '. Samen vertegenwoordigen zij circa ' + pct + '% van de bereikte huishoudens; binnen de huidige selectie gaat het om ongeveer ' + this.fmt(Math.round(hh * pct / 100)) + ' huishoudens.');
-    const ken = sel.filter(g => g.kenmerk).map(g => g.naam + ' ' + g.kenmerk + '.');
+    const ken = sel.map(g => g.naam + ' ' + (g.kenmerk || this.dgKenmerk(g)) + '.');
     if (ken.length) p.push(ken.join(' '));
     if (eff.length) p.push('De doelgroep is het sterkst te bereiken via ' + (top.length ? top.join(' en ') : 'het landelijke netwerk') + ' (' + this.fmt(eff.length) + ' objecten in de huidige selectie). De hoogste dichtheid ligt in ' + (topGem.length ? topGem.join(', ') : 'de Randstad') + '.');
     if (s.customVars.length) p.push('Eigen condities: ' + s.customVars.map(v => v.naam + ' = ' + this.varWaarde(v)).join(' · ') + '.');
@@ -1139,7 +1264,7 @@ class Component extends DCLogic {
 
     const dgq = (s.fieldSearch.dg || '').toLowerCase();
     const dgOptions = this.allDg().filter(g => g.naam.toLowerCase().includes(dgq)).map(g => ({
-      label: g.custom ? g.naam + ' (eigen)' : g.naam, count: g.pct + '%',
+      label: g.custom ? g.naam + ' (eigen)' : g.naam, count: this.fmtPct1(g.pct),
       checked: s.selDg.includes(g.id),
       onToggle: () => this.setState({ selDg: this.tg(this.state.selDg, g.id) })
     }));
@@ -1259,6 +1384,16 @@ class Component extends DCLogic {
     });
     const f0 = dgIndexRows[0];
     const dgIndexUitleg = f0 ? 'Voorbeeld: met "≥ ' + f0.val + '" tellen alleen objecten mee in gebieden waar ' + f0.naam + ' een index van ' + f0.val + ' of hoger heeft. Kies "≤" om deze doelgroep juist uit te sluiten bij de objectselectie.' : '';
+    const dgZoek = s.dgTabelZoek.toLowerCase();
+    const dgSorteerLijst = lijst => lijst.filter(g => g.naam.toLowerCase().includes(dgZoek)).slice().sort((a, b) => {
+      const r = s.dgSortRicht === 'asc' ? 1 : -1;
+      if (s.dgSortKol === 'naam') return a.naam.localeCompare(b.naam, 'nl') * r;
+      const w = g => s.dgSortKol === 'index' ? this.dgIndexVan(g) : s.dgSortKol === 'pct' ? (g.pct || 0) : this.dgDrotsVan(g);
+      return (w(a) - w(b)) * r;
+    });
+    const dgTabelStandaard = dgSorteerLijst(D.BRO_DOELGROEPEN);
+    const dgTabelEigen = dgSorteerLijst(s.savedDg);
+    const dgPijl = kol => s.dgSortKol === kol ? (s.dgSortRicht === 'asc' ? ' ↑' : ' ↓') : '';
     const savedDgRows = s.savedDg.map(g => ({
       naam: g.naam, meta: (g.vars || 1) + ((g.vars || 1) === 1 ? ' variabele' : ' variabelen'),
       checked: s.selDg.includes(g.id),
@@ -1656,8 +1791,21 @@ class Component extends DCLogic {
       kpiObjecten: this.fmt(eff.length), kpiHuishoudens: this.fmt(hh),
       kpiPct: selDgList.length ? pct + '%' : '—',
       kpiPctSub: selDgList.length ? 'van bereikte huishoudens' : 'nog geen doelgroep gekozen',
-      kpiIndex: selDgList.length ? String(Math.round(90 + pct * 1.6)) : '—',
-      kpiIndexSub: selDgList.length ? 'index t.o.v. NL-gemiddelde (100)' : 'nog geen doelgroep gekozen',
+      kpiIndex: selDgList.length ? String(Math.round(selDgList.reduce((t, g) => t + this.dgIndexVan(g), 0) / selDgList.length)) : '—',
+      kpiIndexSub: selDgList.length ? (selDgList.length > 1 ? 'gemiddelde index van ' + selDgList.length + ' doelgroepen' : 'index t.o.v. NL-gemiddelde (100)') : 'nog geen doelgroep gekozen',
+      dgLijstLabel: 'Doelgroepen (' + D.BRO_DOELGROEPEN.length + ')',
+      dgTabelOpen: s.dgTabelOpen,
+      onDgTabelOpen: () => this.setState({ dgTabelOpen: true, dgTabelZoek: '' }),
+      onDgTabelClose: () => this.setState({ dgTabelOpen: false }),
+      dgTabelZoek: s.dgTabelZoek, onDgTabelZoek: e => this.setState({ dgTabelZoek: e.target.value }),
+      onSortNaam: () => this.dgSorteer('naam'), onSortIndex: () => this.dgSorteer('index'),
+      onSortPct: () => this.dgSorteer('pct'), onSortDrots: () => this.dgSorteer('drots'),
+      sortNaam: dgPijl('naam'), sortIndex: dgPijl('index'), sortPct: dgPijl('pct'), sortDrots: dgPijl('drots'),
+      dgTabelRows: dgTabelStandaard.map(g => this.dgTabelRij(g)),
+      dgEigenRows: dgTabelEigen.map(g => this.dgTabelRij(g)),
+      dgTabelLeeg: dgTabelStandaard.length === 0 && dgTabelEigen.length === 0,
+      heeftEigenRows: dgTabelEigen.length > 0,
+      dgTabelTelling: selDgList.length === 1 ? '1 doelgroep geselecteerd' : selDgList.length + ' doelgroepen geselecteerd',
       kpiVlakken: this.fmt(eff.reduce((t, o) => t + (o.vlakken || 1), 0)),
       kpiPoe: incPts.length ? this.fmt(poeIn) : '—',
       kpiPoeSub: incPts.length ? 'van ' + this.fmt(incPts.length) + ' includerende POI-locaties valt binnen de selectie' : 'geen POI-selectie actief',

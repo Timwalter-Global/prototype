@@ -80,25 +80,25 @@ for (const c of CITIES) {
 }
 
 export const BRO_DOELGROEPEN = [
-  {id:"boodschappers",naam:"Boodschappers",pct:31,kenmerk:"doen meerdere keren per week boodschappen en zijn sterk aanwezig rond supermarkten en winkelcentra"},
-  {id:"forenzen",naam:"Forenzen",pct:24,kenmerk:"reizen dagelijks tussen huis en werk en passeren vaste punten rond stations en invalswegen"},
-  {id:"automobilisten",naam:"Automobilisten",pct:46,kenmerk:"leggen veel kilometers af en zijn goed bereikbaar via snelwegmasten en tankstations"},
-  {id:"jongeren",naam:"Jongeren 18–24",pct:11,kenmerk:"zijn vaak onderweg in stedelijk gebied en gevoelig voor actuele, snelle boodschappen"},
-  {id:"studenten",naam:"Studenten",pct:8,kenmerk:"bewegen zich rond onderwijslocaties, OV-knooppunten en binnensteden"},
-  {id:"young-professionals",naam:"Young professionals",pct:14,kenmerk:"combineren werk en sociaal leven in de stad en zijn digitaal georiënteerd"},
-  {id:"jonge-gezinnen",naam:"Jonge gezinnen",pct:16,kenmerk:"doen gezinsboodschappen en bezoeken winkelcentra vooral in de weekenden"},
-  {id:"gezinnen-tieners",naam:"Gezinnen met tieners",pct:13,kenmerk:"hebben een hoge bestedingsdruk en een breed boodschappenpatroon"},
-  {id:"empty-nesters",naam:"Empty nesters",pct:15,kenmerk:"hebben meer vrije tijd en besteden bovengemiddeld aan uitstapjes en retail"},
-  {id:"welvarende-senioren",naam:"Welvarende senioren",pct:12,kenmerk:"winkelen doordeweeks en hechten aan kwaliteit en service"},
-  {id:"trendsetters",naam:"Stedelijke trendsetters",pct:9,kenmerk:"lopen voorop in trends en zijn sterk vertegenwoordigd in de grote steden"},
-  {id:"zakelijke-beslissers",naam:"Zakelijke beslissers",pct:6,kenmerk:"reizen frequent via trein en snelweg en zijn ontvankelijk voor zakelijke proposities"},
-  {id:"zzpers",naam:"Zzp'ers",pct:10,kenmerk:"werken flexibel en verplaatsen zich veel binnen de eigen regio"},
-  {id:"sportief",naam:"Sportieve levensstijl",pct:18,kenmerk:"bezoeken sportlocaties en letten op gezondheid en voeding"},
-  {id:"uitgaanspubliek",naam:"Uitgaanspubliek",pct:13,kenmerk:"is in de avonduren actief in binnensteden en rond horeca"},
-  {id:"vakantiegangers",naam:"Vakantiegangers",pct:22,kenmerk:"plannen meerdere reizen per jaar en zijn gevoelig voor inspiratie onderweg"},
-  {id:"online-shoppers",naam:"Online shoppers",pct:28,kenmerk:"combineren online oriëntatie met fysieke aankopen"},
-  {id:"duurzaam",naam:"Duurzame consumenten",pct:17,kenmerk:"kiezen bewust en waarderen merken met een duidelijke maatschappelijke boodschap"},
-  {id:"vermogend",naam:"Vermogende huishoudens",pct:8,kenmerk:"hebben een hoge koopkracht en zijn te vinden rond premium winkelgebieden"}
+  {id:"a-13-19",naam:"13\u201319",drots:255848625,pct:9.3,index:101},
+  {id:"a-13-29",naam:"13\u201329",drots:771287705,pct:28.0,index:102},
+  {id:"a-13plus",naam:"13+",drots:2754357068,pct:100.0,index:100},
+  {id:"a-3554m",naam:"35\u201354 M",drots:420469872,pct:15.3,index:107},
+  {id:"a-3554v",naam:"35\u201354 V",drots:403013579,pct:14.6,index:97},
+  {id:"a-55m",naam:"55+ M",drots:450811368,pct:16.4,index:86},
+  {id:"a-55v",naam:"55+ V",drots:402792807,pct:14.6,index:74},
+  {id:"a-1824m",naam:"18\u201324 M",drots:153353654,pct:5.6,index:101},
+  {id:"a-1824v",naam:"18\u201324 V",drots:167992104,pct:6.1,index:127},
+  {id:"a-2534m",naam:"25\u201334 M",drots:312326560,pct:11.3,index:153},
+  {id:"a-2534v",naam:"25\u201334 V",drots:266262521,pct:9.7,index:124},
+  {id:"a-studerend",naam:"Beroep: studerend / schoolgaand",drots:240398043,pct:8.7,index:128},
+  {id:"a-boodschapper50",naam:"Boodschapper 50 plus",drots:879056274,pct:31.9,index:82},
+  {id:"a-bovenmodaal",naam:"Bovenmodaal inkomen",drots:1305535794,pct:47.4,index:103},
+  {id:"a-dagelijkse",naam:"Dagelijkse aankoper 20 tot 49 jaar",drots:1169315752,pct:42.5,index:123},
+  {id:"a-kinderen18",naam:"Huishouden met kinderen <18",drots:662195117,pct:24.0,index:99},
+  {id:"a-millennials",naam:"Millennials",drots:796453272,pct:28.9,index:117},
+  {id:"a-opleiding-hoog",naam:"Opleiding: Hoog",drots:1299217859,pct:47.2,index:120},
+  {id:"a-tv-laag",naam:"TV Laag",drots:1055650676,pct:38.3,index:116}
 ];
 
 export const CBS_VARIABELEN = [
