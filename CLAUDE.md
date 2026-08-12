@@ -184,10 +184,10 @@ worden omgezet, gevolgd door een routeringstest per prototype.
 | Slug | Usersnap-project | Target-URL |
 | --- | --- | --- |
 | `casar-dashboard` | Casar 2.0 | `…/prototypes/casar-dashboard/` (widget staat ook op de werkruimte `…/prototypes/casar-dashboard/werkruimte.html`; een target op de prefix dekt beide) |
-| `adviewer2` | *(nog niet doorgegeven — gebruiker stelt target zelf in)* | `…/prototypes/adviewer2/` (widget staat ook op de one-pager `…/prototypes/adviewer2/start/` en de profielpagina `…/prototypes/adviewer2/account/`; een target op de prefix `…/prototypes/adviewer2/` dekt alles) |
+| `adviewer2` | Adviewer 2.0 | `…/prototypes/adviewer2/` (widget staat ook op de one-pager `…/prototypes/adviewer2/start/` en de profielpagina `…/prototypes/adviewer2/account/`; een target op de prefix `…/prototypes/adviewer2/` dekt alles) |
 | `mastmonitor` | Mast Monitor | `…/prototypes/mastmonitor/` (widget staat ook op `…/prototypes/mastmonitor/dashboard.html`) |
 | `creaties-verzamelen` | Usersnap-project met target op de prefix `…/prototypes/creaties…` | `…/prototypes/creaties-verzamelen/` (valt binnen die prefix) |
-| `creaties-verzamelen-validatie` | *(nog niet doorgegeven — gebruiker configureert Usersnap zelf)* | **Gearchiveerd** — nu bereikbaar op `…/archief/creaties-verzamelen-validatie/to-be/` (widget staat ook op `…/archief/creaties-verzamelen-validatie/`). Valt daarmee niet meer onder de prefix `…/prototypes/creaties…` van het project hierboven. |
+| `creaties-verzamelen-validatie` | Creaties verzamelen to-be | **Gearchiveerd** — nu bereikbaar op `…/archief/creaties-verzamelen-validatie/to-be/` (widget staat ook op `…/archief/creaties-verzamelen-validatie/`). Valt daarmee niet meer onder de prefix `…/prototypes/creaties…` van het project hierboven. |
 
 ## Prototype offline halen
 
