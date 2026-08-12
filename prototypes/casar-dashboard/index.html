@@ -175,9 +175,11 @@
                     </div>
                     <div style="display:flex;align-items:center;gap:10px">
                       <input type="range" min="{{ poiMin }}" max="{{ poiMax }}" step="{{ poiStep }}" value="{{ poiValue }}" onChange="{{ onPoiValue }}" style="flex:1">
-                      <span style="font-size:11.5px;font-weight:700;color:#1c2530;white-space:nowrap;min-width:78px;text-align:right">{{ poiValueLabel }}</span>
+                      <div style="display:flex;align-items:center;gap:5px;flex:none">
+                        <input type="text" inputmode="decimal" value="{{ poiFieldValue }}" onChange="{{ onPoiField }}" onBlur="{{ onPoiFieldBlur }}" onKeyDown="{{ onPoiFieldKey }}" style="width:56px;padding:5px 8px;border:1px solid #d6dbe3;border-radius:6px;font-family:inherit;font-size:11.5px;font-weight:700;color:#1c2530;background:#fff;text-align:right;outline:none">
+                        <span style="font-size:11.5px;font-weight:700;color:#1c2530;min-width:24px">{{ poiUnit }}</span>
+                      </div>
                     </div>
-                    <div style="font-size:10.5px;color:#8a93a0;line-height:1.5;text-wrap:pretty">De schaal loopt fijnmazig bij kleine afstanden en grover bij grote — zonder maximum. Includeren telt objecten binnen het gebied mee; uitsluiten verwijdert ze uit de selectie.</div>
                   </div>
                 </sc-if>
               </div>
@@ -917,7 +919,7 @@ class Component extends DCLogic {
     geoLayer: 'gemeente', selGeo: { provincie: [], gemeente: [], pc4: [] },
     regios: [], regioInputOpen: false, regioNaam: '', regioBeheerOpen: false, activeRegio: null,
     selNw: [], famOpen: { 'Analoog': true, 'Digitaal': true },
-    selPoi: [], poiZoek: '', selPoiSpec: [], poiMode: 'afstand', poiAfstand: 2000, poiReistijd: 10,
+    selPoi: [], poiZoek: '', selPoiSpec: [], poiMode: 'afstand', poiAfstand: 2000, poiReistijd: 10, poiDraft: null,
     poiModes: {}, poiLists: [], selPoiLists: [], poiMenuOpen: null, poiDeleteId: null,
     poiUploadOpen: false, poiUploadStep: 'upload', poiUploadNaam: '', poiUploadEditId: null,
     adhocOpen: false, adhocAdres: '', adhocLabel: '', adhocPois: [],
@@ -989,6 +991,14 @@ class Component extends DCLogic {
   _t2m(t) { const m = 100 * Math.exp(t / 100 * Math.log(500)); return m < 1000 ? Math.round(m / 50) * 50 : m < 5000 ? Math.round(m / 100) * 100 : Math.round(m / 500) * 500; }
   _m2t(m) { return Math.round(100 * Math.log(Math.max(100, m) / 100) / Math.log(500)); }
   fmtDist(m) { return m < 1000 ? m + ' meter' : (Math.round(m / 100) / 10).toLocaleString('nl-NL') + ' km'; }
+  fmtKm(m) { return (Math.round(m / 10) / 100).toLocaleString('nl-NL', { maximumFractionDigits: 2 }); }
+  _poiParse(raw) { const n = parseFloat(String(raw == null ? '' : raw).replace(',', '.').trim()); return isFinite(n) ? n : null; }
+  _poiInRange(n) { return this.state.poiMode === 'afstand' ? (n >= 0.1 && n <= 50) : (n >= 1 && n <= 30); }
+  _poiClamp(n) {
+    return this.state.poiMode === 'afstand'
+      ? { poiAfstand: Math.round(Math.min(50, Math.max(0.1, n)) * 20) * 50 }
+      : { poiReistijd: Math.round(Math.min(30, Math.max(1, n))) };
+  }
   poiRadiusM() { const s = this.state; return s.poiMode === 'afstand' ? s.poiAfstand : s.poiReistijd * 350; }
 
   filterObjs(skip) {
@@ -1453,12 +1463,16 @@ class Component extends DCLogic {
       poiSpecChips, poiSpecHasChips: poiSpecChips.length > 0,
       poiAfstBg: afst ? tabOn : tabOff, poiAfstShadow: afst ? shOn : 'none',
       poiReisBg: afst ? tabOff : tabOn, poiReisShadow: afst ? 'none' : shOn,
-      onPoiAfstand: () => this.setState({ poiMode: 'afstand' }),
-      onPoiReistijd: () => this.setState({ poiMode: 'reistijd' }),
+      onPoiAfstand: () => this.setState({ poiMode: 'afstand', poiDraft: null }),
+      onPoiReistijd: () => this.setState({ poiMode: 'reistijd', poiDraft: null }),
       poiMin: afst ? 0 : 1, poiMax: afst ? 100 : 30, poiStep: 1,
       poiValue: afst ? this._m2t(s.poiAfstand) : s.poiReistijd,
-      poiValueLabel: afst ? this.fmtDist(s.poiAfstand) : s.poiReistijd + ' minuten',
-      onPoiValue: e => { const v = +e.target.value; this.setState(this.state.poiMode === 'afstand' ? { poiAfstand: this._t2m(v) } : { poiReistijd: v }); },
+      poiUnit: afst ? 'km' : 'min',
+      poiFieldValue: s.poiDraft !== null ? s.poiDraft : (afst ? this.fmtKm(s.poiAfstand) : String(s.poiReistijd)),
+      onPoiValue: e => { const v = +e.target.value; this.setState(Object.assign({ poiDraft: null }, this.state.poiMode === 'afstand' ? { poiAfstand: this._t2m(v) } : { poiReistijd: v })); },
+      onPoiField: e => { const raw = e.target.value, n = this._poiParse(raw); this.setState(Object.assign({ poiDraft: raw }, n !== null && this._poiInRange(n) ? this._poiClamp(n) : {})); },
+      onPoiFieldBlur: () => { const n = this._poiParse(this.state.poiDraft); this.setState(Object.assign({ poiDraft: null }, n !== null ? this._poiClamp(n) : {})); },
+      onPoiFieldKey: e => { if (e.key === 'Enter') e.target.blur(); },
       poiUploadOpen: s.poiUploadOpen,
       uploadStepUpload: s.poiUploadStep === 'upload', uploadStepValidate: s.poiUploadStep === 'validate', uploadStepName: s.poiUploadStep === 'name',
       onPoiUploadOpen: () => this.setState({ poiUploadOpen: true, poiUploadStep: 'upload', poiUploadNaam: '', poiUploadEditId: null }),
