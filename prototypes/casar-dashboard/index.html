@@ -475,14 +475,26 @@
         </sc-if>
 
         <div style="flex:1;position:relative;min-width:0;background:#dfe3e9">
-          <x-import component-from-global-scope="MapView" from="./map-view.jsx" hint-size="100%,100%" style="width:100%;height:100%" objects="{{ mapObjects }}" pois="{{ mapPois }}" poi-radius="{{ mapPoiRadius }}" poi-dashed="{{ mapPoiDashed }}" mode="{{ mapMode }}" grayscale="{{ mapGray }}" selected-provincies="{{ mapSelProv }}" selected-gemeenten="{{ mapSelGem }}" pc4-centers="{{ mapSelPc4 }}" on-object-click="{{ onObjectClick }}" on-lasso="{{ onLasso }}"></x-import>
+          <x-import component-from-global-scope="MapView" from="./map-view.jsx" hint-size="100%,100%" style="width:100%;height:100%" objects="{{ mapObjects }}" pois="{{ mapPois }}" poi-radius="{{ mapPoiRadius }}" poi-dashed="{{ mapPoiDashed }}" mode="{{ mapMode }}" grayscale="{{ mapGray }}" selected-provincies="{{ mapSelProv }}" selected-gemeenten="{{ mapSelGem }}" pc4-centers="{{ mapSelPc4 }}" geo-layer="{{ mapGeoLayer }}" geo-pickable="{{ mapGeoPickable }}" geo-selected="{{ mapGeoSelected }}" on-geo-pick="{{ onGeoPick }}" on-geo-exit="{{ onModePan }}" on-object-click="{{ onObjectClick }}" on-lasso="{{ onLasso }}"></x-import>
 
           <div style="position:absolute;top:12px;left:56px;z-index:700;display:flex;flex-direction:column;gap:6px;align-items:flex-start">
             <div style="display:flex;gap:4px;background:#fff;border:1px solid #d6dbe3;border-radius:8px;padding:3px;box-shadow:0 2px 8px rgba(27,75,137,.12)">
               <button onClick="{{ onModePan }}" style="padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:600;color:#2b3440;background:{{ panBg }}">Navigeren</button>
+              <button onClick="{{ onModeGeo }}" style="padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:600;color:#2b3440;background:{{ geoPickBg }}">Gebieden kiezen</button>
               <button onClick="{{ onModeLasso }}" style="padding:6px 12px;border:none;border-radius:6px;cursor:pointer;font-family:inherit;font-size:11.5px;font-weight:600;color:#2b3440;background:{{ lassoBg2 }}">Lasso</button>
             </div>
             <sc-if value="{{ isLasso }}" hint-placeholder-val="{{ false }}"><div style="background:#1c2530;color:#fff;font-size:11px;font-weight:600;padding:6px 10px;border-radius:6px;max-width:260px;line-height:1.4">Houd de muisknop ingedrukt en teken een gebied. Bij loslaten worden alle objecten erin geselecteerd; je bestaande selectie blijft behouden.</div></sc-if>
+            <sc-if value="{{ isGeoPick }}" hint-placeholder-val="{{ false }}">
+              <div style="background:#195AA6;color:#fff;border-radius:8px;padding:8px 10px;max-width:300px;box-shadow:0 2px 8px rgba(27,75,137,.22)">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 21s7-6.4 7-11a7 7 0 1 0-14 0c0 4.6 7 11 7 11z"></path><circle cx="12" cy="10" r="2.4"></circle></svg>
+                  <span style="flex:1;font-size:11.5px;font-weight:700">Handmatige selectie: {{ geoPickLabel }}</span>
+                  <button onClick="{{ onModePan }}" style="flex:none;padding:3px 9px;border:1px solid rgba(255,255,255,.6);border-radius:6px;background:transparent;color:#fff;font-family:inherit;font-size:10.5px;font-weight:700;cursor:pointer" style-hover="background:rgba(255,255,255,.18)">Klaar</button>
+                </div>
+                <div style="font-size:10.5px;line-height:1.5;margin-top:4px;color:#dce9f7;text-wrap:pretty">Klik gebieden aan om ze toe te voegen of te verwijderen. {{ geoPickCount }} · uitzetten met Klaar, Navigeren of Esc.</div>
+                <sc-if value="{{ isPc4Layer }}" hint-placeholder-val="{{ false }}"><div style="font-size:10px;line-height:1.5;margin-top:4px;color:#b9d4f0;text-wrap:pretty">Postcodegebieden zijn in dit prototype schematisch weergegeven.</div></sc-if>
+              </div>
+            </sc-if>
           </div>
 
           <div style="position:absolute;top:12px;right:12px;z-index:700;display:flex;gap:4px;background:#fff;border:1px solid #d6dbe3;border-radius:8px;padding:3px;box-shadow:0 2px 8px rgba(27,75,137,.12)">
@@ -1225,6 +1237,9 @@ class Component extends DCLogic {
     const rKmP = this.poiRadiusM() / 1000;
     const poeIn = pois.filter(p => eff.some(o => this._d(o.lat, o.lng, p.lat, p.lng) <= rKmP)).length;
     const mapSelPc4 = s.selGeo.pc4.map(pc => { const objs = D.OBJECTS.filter(o => o.pc4 === pc); if (!objs.length) return null; return { lat: objs.reduce((t, o) => t + o.lat, 0) / objs.length, lng: objs.reduce((t, o) => t + o.lng, 0) / objs.length }; }).filter(Boolean);
+    const mapGeoPickable = layer === 'pc4'
+      ? Array.from(new Set(D.OBJECTS.map(o => o.pc4))).sort().map(pc => { const objs = D.OBJECTS.filter(o => o.pc4 === pc); return { name: pc, lat: objs.reduce((t, o) => t + o.lat, 0) / objs.length, lng: objs.reduce((t, o) => t + o.lng, 0) / objs.length }; })
+      : (layer === 'provincie' ? D.PROVINCIES : D.CITIES.map(c => c.n)).map(n => ({ name: n }));
 
     const poiListRows = s.poiLists.map(l => ({
       naam: l.naam, meta: l.pts.length + ' locaties',
@@ -1442,7 +1457,12 @@ class Component extends DCLogic {
       lassoFg: s.mapMode === 'lasso' ? '#fff' : '#5a6472',
       lassoBg2: s.mapMode === 'lasso' ? '#eaf1f9' : 'transparent',
       panBg: s.mapMode === 'pan' ? '#eaf1f9' : 'transparent',
+      geoPickBg: s.mapMode === 'geo' ? '#eaf1f9' : 'transparent',
+      isGeoPick: s.mapMode === 'geo',
+      geoPickLabel: s.geoLayer === 'provincie' ? 'provincies' : s.geoLayer === 'gemeente' ? 'gemeenten' : 'postcodegebieden',
+      geoPickCount: s.selGeo[s.geoLayer].length === 1 ? '1 geselecteerd' : s.selGeo[s.geoLayer].length + ' geselecteerd',
       onModeLasso: () => this.setState({ mapMode: this.state.mapMode === 'lasso' ? 'pan' : 'lasso' }),
+      onModeGeo: () => this.setState({ mapMode: this.state.mapMode === 'geo' ? 'pan' : 'geo' }),
       onModePan: () => this.setState({ mapMode: 'pan' }),
 
       poiCount: String(poiBadgeN), poiHasCount: poiBadgeN > 0,
@@ -1530,11 +1550,13 @@ class Component extends DCLogic {
       },
       activePoiRows, hasActivePois: activePoiRows.length > 0,
 
-      mapObjects: D.OBJECTS.map(o => ({ id: o.id, lat: o.lat, lng: o.lng, color: o.color, provincie: o.provincie, selected: s.manualSel.includes(o.id), dimmed: s.activeRonde ? !effIds.has(o.id) : !baseIds.has(o.id) })),
+      mapObjects: D.OBJECTS.map(o => ({ id: o.id, lat: o.lat, lng: o.lng, color: o.color, provincie: o.provincie, gemeente: o.gemeente, selected: s.manualSel.includes(o.id), dimmed: s.activeRonde ? !effIds.has(o.id) : !baseIds.has(o.id) })),
       mapPois: entries.flatMap(e => e.pts.map(p => ({ lat: p.lat, lng: p.lng, mode: e.mode, adhoc: e.kind === 'adhoc' }))), mapPoiRadius: entries.length ? this.poiRadiusM() : 0,
       mapPoiDashed: s.poiMode === 'reistijd', mapMode: s.mapMode,
       mapGray: (this.props.kaartKleur ?? 'grijstinten') === 'grijstinten',
       mapSelProv: s.selGeo.provincie, mapSelGem: s.selGeo.gemeente, mapSelPc4,
+      mapGeoLayer: s.geoLayer, mapGeoPickable, mapGeoSelected: s.selGeo[s.geoLayer],
+      onGeoPick: naam => { const cur = this.state.selGeo, l = this.state.geoLayer; this.setState({ selGeo: Object.assign({}, cur, { [l]: this.tg(cur[l], naam) }), activeRegio: null }); },
       onObjectClick: id => this.setState({ detailId: id }),
       onLasso: ids => {
         if (!ids.length) { this.toastMsg('Geen objecten binnen het getekende gebied'); this.setState({ mapMode: 'pan' }); return; }
