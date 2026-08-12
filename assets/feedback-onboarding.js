@@ -10,9 +10,9 @@
 (function () {
   var m = location.pathname.match(/\/prototypes\/([^\/]+)\//);
   var slug = m ? m[1] : location.pathname;
-  /* v2: sleutel gebumpt zodat bestaande testers de pop-up nog één keer zien
-     en hun naam kunnen invullen. */
-  var KEY = 'feedbackOnboardingGezien2:' + slug;
+  /* v3: sleutel gebumpt zodat bestaande testers de pop-up nog één keer zien,
+     nu met de uitleg dat de prototypes dummy data bevatten. */
+  var KEY = 'feedbackOnboardingGezien3:' + slug;
   var NAAMKEY = 'feedbackNaam';
   try {
     if (localStorage.getItem(KEY)) return;
@@ -33,7 +33,9 @@
       '.gfb-close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:#9AA3B5;cursor:pointer;font-family:inherit;line-height:1;padding:4px}' +
       '.gfb-close:hover{color:#575756}' +
       '.gfb-modal h2{color:#1B4B89;font-size:21px;font-weight:800;margin-bottom:4px}' +
-      '.gfb-lead{font-size:14px;margin-bottom:18px}' +
+      '.gfb-lead{font-size:14px;margin-bottom:14px}' +
+      '.gfb-note{background:#EAF1F9;border-left:4px solid #5BC4E8;border-radius:12px;padding:12px 16px;font-size:13.5px;margin-bottom:6px}' +
+      '.gfb-note b{color:#1B4B89}' +
       '.gfb-step{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #EEF1F6}' +
       '.gfb-step:last-of-type{border-bottom:none}' +
       '.gfb-num{flex:0 0 28px;height:28px;border-radius:50%;background:#195AA6;color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}' +
@@ -58,9 +60,10 @@
         '<button class="gfb-close" type="button" aria-label="Sluiten">✕</button>' +
         '<h2 id="gfb-title">Zo geef je feedback</h2>' +
         '<p class="gfb-lead">Je bekijkt een prototype van Global. We horen graag wat jij ervan vindt — feedback geven kan doorlopend.</p>' +
+        '<div class="gfb-note"><b>Goed om te weten:</b> alles wat je ziet is dummy data. Het doel is niet om de data te testen, maar om het prototype te beoordelen op gebruiksgemak, duidelijkheid en functies.</div>' +
         '<div class="gfb-step"><span class="gfb-num">1</span><div>' +
           '<h4>Probeer het uit</h4>' +
-          '<p>Klik rond zoals je dat normaal zou doen. Het is een prototype, dus niet alles hoeft te werken.</p>' +
+          '<p>Klik rond zoals je dat normaal zou doen. Het is een prototype met dummy data, dus niet alles hoeft te werken en de gegevens zijn niet echt.</p>' +
         '</div></div>' +
         '<div class="gfb-step"><span class="gfb-num">2</span><div>' +
           '<h4>Zie je iets? Klik op <span class="gfb-minitab">Feedback</span></h4>' +

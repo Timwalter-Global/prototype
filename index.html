@@ -37,6 +37,7 @@
   .hero h1{font-size:33px;font-weight:800;letter-spacing:-.5px;line-height:1.15;max-width:640px}
   .hero p{margin-top:10px;font-size:16px;opacity:.92;max-width:600px}
   .hero p b{color:var(--bright);font-weight:700}
+  .hero .dummy-note{display:inline-block;margin-top:16px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.4);border-radius:12px;padding:10px 16px;font-size:13.5px;opacity:1;max-width:600px}
 
   /* ───────── Sectie 1: stappen ───────── */
   .steps{margin-top:-26px;position:relative;z-index:2}
@@ -128,7 +129,9 @@
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
   .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:#9AA3B5}
   .modal h2{color:var(--dark);font-size:21px;font-weight:800;margin-bottom:4px}
-  .modal .lead{font-size:14px;margin-bottom:18px}
+  .modal .lead{font-size:14px;margin-bottom:14px}
+  .ob-note{background:#EAF1F9;border-left:4px solid var(--sky,#5BC4E8);border-radius:12px;padding:12px 16px;font-size:13.5px;margin-bottom:14px}
+  .ob-note b{color:var(--dark)}
 
   /* onboarding pop-up */
   .ob-step{display:flex;gap:13px;align-items:flex-start;padding:12px 0;border-bottom:1px solid #EEF1F6}
@@ -163,6 +166,7 @@
   <div class="wrap">
     <h1>Help onze prototypes beter te maken</h1>
     <p>Kies een prototype, probeer het uit en laat je feedback direct achter via de <b>Feedback</b> knop. Test er zoveel je wilt; feedback geven kan doorlopend.</p>
+    <p class="dummy-note">Alle prototypes zijn gevuld met <b>dummy data</b> — de cijfers en gegevens zijn dus niet echt. Je beoordeelt het prototype zelf: gebruiksgemak, duidelijkheid en functies.</p>
   </div>
 </div>
 
@@ -175,7 +179,7 @@
     </div></div>
     <div class="step"><span class="num">2</span><div>
       <h3>Probeer het uit</h3>
-      <p>Klik rond zoals je normaal zou doen. Het is een prototype, dus niet alles hoeft te werken.</p>
+      <p>Klik rond zoals je normaal zou doen. Het is een prototype met dummy data, dus niet alles hoeft te werken en de gegevens zijn niet echt.</p>
     </div></div>
     <div class="step"><span class="num">3</span><div>
       <h3>Geef je feedback</h3>
@@ -223,6 +227,7 @@
     <button class="close" id="ob-close" aria-label="Sluiten">✕</button>
     <h2 id="ob-title">Zo geef je feedback</h2>
     <p class="lead">Je opent nu <b id="ob-proto" style="color:var(--dark)">dit prototype</b>. In drie stappen laat je je feedback achter:</p>
+    <div class="ob-note"><b>Goed om te weten:</b> alles wat je ziet is dummy data. Het doel is niet om de data te testen, maar om het prototype te beoordelen op gebruiksgemak, duidelijkheid en functies.</div>
     <div class="ob-step"><span class="num">1</span><div>
       <h4>Probeer het uit</h4>
       <p>Gebruik het prototype zoals je dat normaal zou doen. Niet alles hoeft te werken.</p>
