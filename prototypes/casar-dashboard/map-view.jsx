@@ -35,10 +35,121 @@ function pinIcon(kind) {
     html: '<svg width="26" height="26" viewBox="0 0 24 24"><path d="M12 1.8C8 1.8 4.8 5 4.8 9c0 5.4 7.2 13.2 7.2 13.2S19.2 14.4 19.2 9c0-4-3.2-7.2-7.2-7.2z" fill="' + fill + '" stroke="' + stroke + '" stroke-width="1.7"/>' + inner + '</svg>' });
 }
 
+// PNG-snapshot van heel Nederland: tegels + objecten + POI's + legenda op een canvas
+const NL_BBOX = { latN: 53.58, latS: 50.72, lngW: 3.33, lngE: 7.25 };
+function merc(lat, lng, z) {
+  const s = 256 * Math.pow(2, z), r = lat * Math.PI / 180;
+  return { x: (lng + 180) / 360 * s, y: (1 - Math.log(Math.tan(r) + 1 / Math.cos(r)) / Math.PI) / 2 * s };
+}
+function laadTegel(url) {
+  return new Promise(res => {
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => res(img);
+    img.onerror = () => res(null);
+    img.src = url;
+  });
+}
+async function maakSnapshot(p, huidigeZoom) {
+  let z = Math.max(7, Math.min(12, Math.round(huidigeZoom)));
+  while (z > 7 && merc(0, NL_BBOX.lngE, z).x - merc(0, NL_BBOX.lngW, z).x > 3800) z--;
+  const tl = merc(NL_BBOX.latN, NL_BBOX.lngW, z), br = merc(NL_BBOX.latS, NL_BBOX.lngE, z);
+  const w = Math.round(br.x - tl.x), h = Math.round(br.y - tl.y);
+  const cv = document.createElement('canvas');
+  cv.width = w; cv.height = h;
+  const ctx = cv.getContext('2d');
+  ctx.fillStyle = '#dfe3e9'; ctx.fillRect(0, 0, w, h);
+  const px = (lat, lng) => { const m = merc(lat, lng, z); return [m.x - tl.x, m.y - tl.y]; };
+
+  const t0x = Math.floor(tl.x / 256), t1x = Math.floor(br.x / 256);
+  const t0y = Math.floor(tl.y / 256), t1y = Math.floor(br.y / 256);
+  const taken = [];
+  for (let tx = t0x; tx <= t1x; tx++) for (let ty = t0y; ty <= t1y; ty++)
+    taken.push(laadTegel('https://tile.openstreetmap.org/' + z + '/' + tx + '/' + ty + '.png')
+      .then(img => ({ img, tx, ty })));
+  const tegels = await Promise.all(taken);
+  if (p.grayscale !== false) ctx.filter = 'grayscale(1) contrast(.9) brightness(1.05)';
+  tegels.forEach(t => { if (t.img) ctx.drawImage(t.img, t.tx * 256 - tl.x, t.ty * 256 - tl.y); });
+  ctx.filter = 'none';
+
+  const mpp = 156543.03392 * Math.cos(52 * Math.PI / 180) / Math.pow(2, z);
+  (p.pois || []).forEach(poi => {
+    const excl = poi.mode === 'exclude';
+    const [x, y] = px(poi.lat, poi.lng);
+    if (p.poiRadius > 0) {
+      ctx.beginPath(); ctx.arc(x, y, p.poiRadius / mpp, 0, Math.PI * 2);
+      ctx.setLineDash((excl || p.poiDashed) ? [6, 5] : []);
+      ctx.strokeStyle = excl ? '#c0392b' : '#195AA6'; ctx.lineWidth = 1.5;
+      ctx.fillStyle = excl ? 'rgba(138,147,160,.13)' : 'rgba(25,90,166,.07)';
+      ctx.fill(); ctx.stroke(); ctx.setLineDash([]);
+    }
+    const pin = new Path2D('M12 1.8C8 1.8 4.8 5 4.8 9c0 5.4 7.2 13.2 7.2 13.2S19.2 14.4 19.2 9c0-4-3.2-7.2-7.2-7.2z');
+    ctx.save(); ctx.translate(x - 13, y - 24); ctx.scale(26 / 24, 26 / 24);
+    ctx.fillStyle = excl ? '#8a93a0' : poi.adhoc ? '#ffffff' : '#D64550';
+    ctx.strokeStyle = poi.adhoc ? '#D64550' : '#ffffff'; ctx.lineWidth = 1.7;
+    ctx.fill(pin); ctx.stroke(pin);
+    ctx.beginPath(); ctx.arc(12, 10.5, 2.5, 0, Math.PI * 2);
+    ctx.fillStyle = excl ? '#fff' : poi.adhoc ? '#D64550' : '#fff'; ctx.fill();
+    ctx.restore();
+  });
+  (p.objects || []).forEach(o => {
+    const [x, y] = px(o.lat, o.lng);
+    ctx.beginPath(); ctx.arc(x, y, o.selected ? 7 : 5, 0, Math.PI * 2);
+    ctx.fillStyle = o.dimmed ? 'rgba(195,201,210,.45)' : o.color;
+    ctx.strokeStyle = o.selected ? '#0f2f57' : '#ffffff';
+    ctx.lineWidth = o.selected ? 2.5 : 1;
+    ctx.fill(); ctx.stroke();
+  });
+
+  const items = (p.legend || []).slice();
+  if (items.length) {
+    const rijH = 17, pad = 12, bw = 195;
+    const extra = (p.pois || []).length ? 1 : 0;
+    const bh = pad * 2 + 16 + (items.length + extra) * rijH + (extra ? 8 : 0);
+    const bx = w - bw - 14, by = h - bh - 14;
+    ctx.fillStyle = '#ffffff'; ctx.strokeStyle = '#d6dbe3'; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.roundRect(bx, by, bw, bh, 10); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = '#8a93a0'; ctx.font = '700 9.5px Montserrat, sans-serif';
+    ctx.fillText('NETWERKEN', bx + pad, by + pad + 8);
+    ctx.font = '600 10.5px Montserrat, sans-serif';
+    items.forEach((it, i) => {
+      const ry = by + pad + 16 + i * rijH + 8;
+      ctx.beginPath(); ctx.arc(bx + pad + 4, ry - 3, 4, 0, Math.PI * 2);
+      ctx.fillStyle = it.color; ctx.fill();
+      ctx.fillStyle = '#2b3440'; ctx.fillText(it.naam, bx + pad + 14, ry);
+    });
+    if (extra) {
+      const ry = by + pad + 16 + items.length * rijH + 8 + 6;
+      ctx.strokeStyle = '#eceff3';
+      ctx.beginPath(); ctx.moveTo(bx + pad, ry - 13); ctx.lineTo(bx + bw - pad, ry - 13); ctx.stroke();
+      const pin = new Path2D('M12 1.8C8 1.8 4.8 5 4.8 9c0 5.4 7.2 13.2 7.2 13.2S19.2 14.4 19.2 9c0-4-3.2-7.2-7.2-7.2z');
+      ctx.save(); ctx.translate(bx + pad - 2, ry - 10); ctx.scale(0.5, 0.5);
+      ctx.fillStyle = '#D64550'; ctx.strokeStyle = '#fff'; ctx.lineWidth = 1.7; ctx.fill(pin); ctx.stroke(pin);
+      ctx.restore();
+      ctx.fillStyle = '#2b3440'; ctx.fillText('POI-locatie', bx + pad + 14, ry);
+    }
+  }
+  ctx.font = '10px Montserrat, sans-serif';
+  const attr = '© OpenStreetMap contributors';
+  ctx.fillStyle = 'rgba(255,255,255,.75)';
+  ctx.fillRect(10, h - 26, ctx.measureText(attr).width + 12, 16);
+  ctx.fillStyle = '#5a6472'; ctx.fillText(attr, 16, h - 14);
+
+  const naam = (p.projectNaam || 'kaart').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '') || 'kaart';
+  return new Promise(res => cv.toBlob(blob => {
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = naam + '-kaartbeeld.png';
+    a.click();
+    setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+    res(true);
+  }, 'image/png'));
+}
+
 function MapView(props) {
   const { objects = [], pois = [], poiRadius = 0, poiDashed = false, mode = 'pan', grayscale = true,
     selectedProvincies = [], selectedGemeenten = [], pc4Centers = [],
-    geoLayer = 'gemeente', geoPickable = [], geoSelected = [] } = props;
+    geoLayer = 'gemeente', geoPickable = [], geoSelected = [], snapshotTick = 0 } = props;
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layerRef = useRef(null);
@@ -213,9 +324,18 @@ function MapView(props) {
     return () => { cancelled = true; };
   }, [ready, mode, geoLayer, geoPickable.map(g => g.name).join('|'), geoSelected.join('|')]);
 
-  // Esc verlaat de handmatige gebiedsselectie
+  // Snapshot-download wanneer de teller in de props verhoogd wordt
   useEffect(() => {
-    if (!ready || mode !== 'geo') return;
+    if (!ready || !snapshotTick || !mapRef.current) return;
+    const p = propsRef.current;
+    maakSnapshot(p, mapRef.current.getZoom())
+      .then(() => { if (p.onSnapshotDone) p.onSnapshotDone(); })
+      .catch(() => { if (p.onSnapshotDone) p.onSnapshotDone(); });
+  }, [ready, snapshotTick]);
+
+  // Esc verlaat de handmatige gebiedsselectie en de lasso
+  useEffect(() => {
+    if (!ready || (mode !== 'geo' && mode !== 'lasso')) return;
     const onKey = e => {
       if (e.key !== 'Escape') return;
       const p = propsRef.current;
