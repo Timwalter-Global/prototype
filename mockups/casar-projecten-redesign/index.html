@@ -5,6 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="robots" content="noindex, nofollow" />
 <title>Casar Projecten</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
     --main:#195AA6; --dark:#1B4B89; --mid:#0B78BE; --bright:#5BC4E8;
@@ -14,7 +15,7 @@
     --tint:#EAF1FA;
     --danger:#C0392B; --danger-tint:#FBEEEE;
     --ok:#1E8E5A;
-    --radius:14px;
+    --radius:16px;
     --shadow-s:0 1px 3px rgba(43,58,82,.07);
     --shadow-m:0 8px 24px rgba(43,58,82,.11);
     --shadow-l:0 18px 44px rgba(43,58,82,.20);
@@ -33,11 +34,11 @@
 
   /* ───────── Topbar ───────── */
   .topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
-  .topbar .wrap{display:flex;align-items:center;gap:14px;height:58px}
-  .logomark{width:32px;height:32px;border-radius:9px;background:var(--main);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none}
-  .logotype{display:flex;flex-direction:column;line-height:1.2}
-  .logotype b{font-weight:800;color:var(--dark);font-size:16.5px;letter-spacing:-.3px}
-  .logotype span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .topbar .wrap{display:flex;align-items:center;gap:14px;height:56px}
+  .logo-img{width:30px;height:30px;flex:none;display:block}
+  .logo{font-weight:800;color:var(--main);font-size:20px;letter-spacing:-.5px}
+  .topbar .divider{width:1px;height:22px;background:var(--border)}
+  .topbar .crumb{font-size:13.5px;color:var(--ink)}
   .topbar .spacer{flex:1}
   /* Profiel: bewust géén knop — alleen tonen dat je bent ingelogd (naam komt straks via Outlook SSO). */
   .profile{display:flex;align-items:center;gap:11px}
@@ -48,29 +49,45 @@
   .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#fff;flex:none;background:var(--dark)}
   .avatar.sm{width:24px;height:24px;font-size:9.5px}
 
-  /* ───────── Hero: compact, rustig ───────── */
-  .hero{background:linear-gradient(115deg,var(--dark) 0%,var(--main) 60%,var(--mid) 100%);color:#fff;padding:30px 0 66px}
+  /* ───────── Hero: layout en vormgebruik van de landingspagina ───────── */
+  .hero{position:relative;overflow:hidden;background:linear-gradient(115deg,var(--dark) 0%,var(--main) 55%,var(--mid) 100%);color:#fff;padding:36px 0 74px}
+  .hero .frames{position:absolute;inset:0;opacity:.13;pointer-events:none}
+  .hero .frames span{position:absolute;border:2px solid #fff;border-radius:6px;opacity:.55;animation:frameGlow 7s ease-in-out infinite}
+  .hero .frames span:nth-child(2){animation-delay:1.4s}
+  .hero .frames span:nth-child(3){animation-delay:2.8s}
+  .hero .frames span:nth-child(4){animation-delay:4.2s}
+  @keyframes frameGlow{0%,100%{opacity:.55}50%{opacity:1}}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
   .hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bright);margin-bottom:7px}
-  .hero h1{font-size:25px;font-weight:800;letter-spacing:-.4px;line-height:1.2;max-width:640px;text-wrap:balance}
-  .hero p{margin-top:9px;font-size:14px;opacity:.92;max-width:640px;text-wrap:pretty}
+  .hero h1{font-size:29px;font-weight:800;letter-spacing:-.5px;line-height:1.18;max-width:640px;text-wrap:balance}
+  .hero p{margin-top:10px;font-size:15px;opacity:.92;max-width:600px;text-wrap:pretty}
   .hero p b{color:var(--bright);font-weight:700}
+  .dummy-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);border-radius:16px;backdrop-filter:blur(6px);padding:18px 20px}
+  .dummy-card .icon{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.2);font-size:20px;margin-bottom:10px}
+  .dummy-card h3{font-size:15.5px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px}
+  .dummy-card p{font-size:13px;line-height:1.55;opacity:.92;margin-top:0}
+  @media (max-width:940px){
+    .hero .wrap{grid-template-columns:1fr;gap:24px}
+    .hero h1{font-size:25px}
+    .dummy-card{max-width:420px}
+  }
   .how-toggle{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#fff;font-size:12px;font-weight:700;padding:7px 15px;transition:background .15s}
   .how-toggle:hover{background:rgba(255,255,255,.2)}
   .how-toggle .chev{font-size:9px;transition:transform .2s}
   .how-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
-  .how-steps{display:none;margin-top:14px;gap:26px;max-width:860px}
+  .how-steps{display:none;margin-top:16px;gap:26px;max-width:640px}
   .how-steps.open{display:flex;animation:fadeIn .2s ease}
   .how-steps .row{display:flex;gap:10px;align-items:flex-start;flex:1}
   .how-steps .num{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px;font-weight:800}
   .how-steps .row div{font-size:12px;line-height:1.5;opacity:.92}
   .how-steps .row div b{display:block;font-size:12.5px;opacity:1}
-  @media (max-width:760px){.how-steps{flex-direction:column;gap:12px}}
+  @media (max-width:940px){.how-steps{flex-direction:column;gap:12px}}
   @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
   /* ───────── Actiebalk (bovenste horizontale swimlane) ───────── */
   .actionbar{margin-top:-38px;position:relative;z-index:5}
   .actionbar .bar{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-m);padding:12px 14px}
-  .btn-primary{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:11px;background:var(--main);color:#fff;font-weight:700;font-size:14px;padding:12px 20px;transition:background .15s,transform .1s;white-space:nowrap}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;background:var(--main);color:#fff;font-weight:700;font-size:14px;padding:12px 20px;transition:background .15s,transform .1s;white-space:nowrap}
   .btn-primary:hover{background:var(--dark)}
   .btn-primary:active{transform:scale(.98)}
   .search{flex:1;position:relative}
@@ -205,8 +222,9 @@
 <!-- ───────── Topbar met profiel (niet klikbaar, naam via Outlook SSO) ───────── -->
 <header class="topbar">
   <div class="wrap">
-    <div class="logomark" aria-hidden="true">C</div>
-    <div class="logotype"><b>Casar</b><span>Audience Platform</span></div>
+    <img class="logo-img" src="data:image/png;base64,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" alt="Global">
+    <span class="logo">global</span><span class="divider"></span>
+    <span class="crumb">Casar · Audience Platform</span>
     <div class="spacer"></div>
     <div class="profile" title="Ingelogd via Outlook — naam en foto komen automatisch mee">
       <div class="who"><b>Tim Walter</b><span><i></i>Ingelogd via Outlook</span></div>
@@ -217,16 +235,29 @@
 
 <!-- ───────── Hero: compact, uitleg inklapbaar ───────── -->
 <section class="hero">
+  <div class="frames" aria-hidden="true">
+    <span style="top:16%;left:5%;width:70px;height:110px"></span>
+    <span style="top:58%;left:12%;width:120px;height:70px"></span>
+    <span style="top:12%;left:32%;width:90px;height:60px"></span>
+    <span style="top:64%;left:40%;width:110px;height:64px"></span>
+  </div>
   <div class="wrap">
-    <div class="eyebrow">Jouw projecten</div>
-    <h1>Van doelgroep naar onderbouwde locatielijst — in één werkruimte</h1>
-    <p>Kies een <b>doelgroep</b>, baken het <b>gebied</b> af en filter op <b>netwerk en POI's</b>. Je ziet direct welke objecten overblijven — en deelt het resultaat als kaart, spotplan of export met je klant of collega.</p>
-    <button class="how-toggle" id="howToggle" aria-expanded="false">Zo werkt het <span class="chev">▼</span></button>
-    <div class="how-steps" id="howSteps">
-      <div class="row"><div class="num">1</div><div><b>Start of open een project</b>Elke campagnevraag krijgt een eigen project.</div></div>
-      <div class="row"><div class="num">2</div><div><b>Filter en bekijk op de kaart</b>Doelgroep, geografie, netwerk en POI's werken direct door.</div></div>
-      <div class="row"><div class="num">3</div><div><b>Deel of exporteer</b>Map-link en spotplan voor je klant, projecten delen met collega's.</div></div>
+    <div>
+      <div class="eyebrow">Jouw projecten</div>
+      <h1>Stel je locatielijst samen en deel 'm direct</h1>
+      <p>Kies je <b>doelgroep</b> en je <b>gebied</b> — je ziet meteen welke objecten passen. Het resultaat deel je in één klik met je klant of collega.</p>
+      <button class="how-toggle" id="howToggle" aria-expanded="false">Zo werkt het <span class="chev">▼</span></button>
+      <div class="how-steps" id="howSteps">
+        <div class="row"><div class="num">1</div><div><b>Start of open een project</b>Elke campagnevraag krijgt een eigen project.</div></div>
+        <div class="row"><div class="num">2</div><div><b>Filter en bekijk op de kaart</b>Doelgroep, geografie, netwerk en POI's werken direct door.</div></div>
+        <div class="row"><div class="num">3</div><div><b>Deel of exporteer</b>Map-link en spotplan voor je klant, projecten delen met collega's.</div></div>
+      </div>
     </div>
+    <aside class="dummy-card">
+      <span class="icon" aria-hidden="true">🧪</span>
+      <h3>Alles is dummy data</h3>
+      <p>De cijfers en gegevens in dit prototype zijn niet echt. Je beoordeelt het prototype zelf: gebruiksgemak, duidelijkheid en functionaliteit.</p>
+    </aside>
   </div>
 </section>
 
