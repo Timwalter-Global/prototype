@@ -73,6 +73,16 @@
   .cmp-vlak img{max-width:100%;max-height:400px;object-fit:contain;border-radius:6px;box-shadow:0 8px 26px rgba(0,0,0,.5)}
   .cmp-vlak .cap{color:#fff;font-size:13px;font-weight:700;margin-top:10px;word-break:break-all}
   .cmp-vlak .ab{display:inline-flex;width:26px;height:26px;border-radius:50%;background:var(--licht);color:var(--nacht);font-weight:800;font-size:13px;align-items:center;justify-content:center;margin-bottom:10px}
+  /* AC-01: vergelijken in objectcontext */
+  .cmp-scene{position:relative;aspect-ratio:4/3;overflow:hidden;border-radius:12px;background:#1c2733;box-shadow:0 8px 26px rgba(0,0,0,.35)}
+  .cmp-scene .foto{position:absolute;inset:0;background-size:cover}
+  .cmp-scene .dim{position:absolute;inset:0}
+  .cmp-scene .frame{position:absolute;filter:drop-shadow(0 10px 18px rgba(11,13,16,.35))}
+  .cmp-scene .frame>img.kader{position:absolute;inset:0;width:100%;height:100%}
+  .cmp-scene .vlak{position:absolute;overflow:hidden}
+  .cmp-scene .vlak img{width:100%;height:100%;object-fit:cover;display:block}
+  .cmp-scene .gloss{position:absolute;inset:0;background:linear-gradient(112deg,rgba(255,255,255,0) 38%,rgba(255,255,255,.2) 45%,rgba(255,255,255,.05) 52%,rgba(255,255,255,0) 58%);box-shadow:inset 0 0 30px rgba(10,16,24,.28);pointer-events:none}
+  .cmp-scene .chip{position:absolute;left:10px;bottom:10px;display:flex;align-items:center;gap:5px;background:var(--blauw);color:#fff;font-size:10.5px;font-weight:800;letter-spacing:.4px;padding:4px 10px;border-radius:999px}
   /* ------- leegte ------- */
   .leeg{text-align:center;padding:46px 20px}
   .leeg .em{font-size:40px}
@@ -232,7 +242,7 @@
       '<div class="hoofd" style="margin-left:0;max-width:none"><div class="auth">' +
       '<div class="balk" style="margin-bottom:8px"><div><h1>Mijn account</h1><p>Log in of maak een gratis account aan om je uploads terug te zien, te vergelijken en te delen.</p></div></div>' +
       '<div class="voordeel"><h3>Met een gratis account krijg je er dit bij</h3>' +
-      ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting'].map(function (t) { return '<div>' + VINK + '<span>' + t + '</span></div>'; }).join('') + '</div>' +
+      ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting', 'Downloads zonder watermerk'].map(function (t) { return '<div>' + VINK + '<span>' + t + '</span></div>'; }).join('') + '</div>' +
       '<div class="tabs"><button data-tab="registreer" class="' + (tab === 'registreer' ? 'aan' : '') + '">Account aanmaken</button><button data-tab="login" class="' + (tab === 'login' ? 'aan' : '') + '">Inloggen</button></div>' +
       '<div class="paneel">' + (tab === 'registreer'
         ? '<div class="veldrij">' + veld('naam', 'Naam') + veld('email', 'Zakelijk e-mailadres', 'email') + veld('bedrijf', 'Bedrijf') + veld('functie', 'Functie') + '<div class="breed">' + veld('ww', 'Wachtwoord', 'password') + '</div></div>' +
@@ -338,10 +348,36 @@
     return '<button class="stat" data-nav-naar="' + sectie + '"><span class="getal">' + getal + '</span><span class="label">' + label + '</span><span class="actie">' + actie + ' →</span></button>';
   }
 
-  /* ---------- aanvragen ---------- */
+  /* ---------- aanvragen (AC-02: nieuwe aanvraag direct vanaf deze pagina) ---------- */
+  var aanvraagFormOpen = false;
   function renderAanvragen() {
     var m = document.getElementById('inhoud');
-    m.innerHTML = kop('Aanvragen', 'Je advies- en campagne-aanvragen op een rij, met de actuele status. Een nieuwe aanvraag doe je vanuit de viewer: upload een uiting en gebruik de knoppen op de objectweergave.') +
+    /* Bewuste scopekeuze: een aanvraag is een contactmoment, geen
+       configurator. Geen object- of locatieselectie in deze flow; wie een
+       object in gedachten heeft, noemt het gewoon in het tekstveld. */
+    var formulier = !aanvraagFormOpen ? '' :
+      '<div class="paneel aanvraag" id="na-vorm">' +
+        '<div class="a-kop"><b>Nieuwe aanvraag</b><button class="k-knop weg" id="na-sluit">Annuleer</button></div>' +
+        '<div class="veldrij" style="margin-top:8px">' +
+          '<div class="veld"><label for="na-type">Wat wil je doen?</label><select id="na-type">' +
+            '<option value="advies">🎨 Advies vragen aan het designteam</option>' +
+            '<option value="campagne">🚀 Campagne-aanvraag (sales)</option>' +
+          '</select></div>' +
+          '<div class="veld"><label for="na-uiting">Uiting</label><select id="na-uiting">' +
+            db.uploads.map(function (u) { return '<option value="' + u.id + '">' + esc(u.name) + '</option>'; }).join('') +
+            '<option value="__upload">⬆️ Nieuwe uiting uploaden…</option>' +
+          '</select></div>' +
+          '<div class="veld breed"><label for="na-msg" id="na-msg-label">Waar wil je advies over?</label><textarea id="na-msg" rows="4" style="width:100%;border:1.5px solid #C9D4E4;border-radius:10px;padding:11px 13px;font-size:14.5px;font-family:inherit;color:var(--nacht)"></textarea></div>' +
+        '</div>' +
+        '<p class="fout" id="na-fout">Kies een uiting en vul je vraag of wens in.</p>' +
+        '<button class="hoofdknop" id="na-doe" style="margin-top:14px">Dien aanvraag in</button>' +
+        '<input type="file" id="na-file" accept="image/png,image/jpeg" style="display:none">' +
+        '<p style="font-size:12.5px;color:#8b93a3;margin-top:10px">Noem gerust een object of locatie in je toelichting — je accountmanager neemt contact op en kijkt met je mee. Handig vooraf: <a href="https://global.com/nl/onderzoek/tips-out-of-home-creatie/" target="_blank" rel="noopener">bekijk onze creatie-tips</a>.</p>' +
+      '</div>';
+    m.innerHTML =
+      '<div class="balk"><div><h1>Aanvragen</h1><p>Je advies- en campagne-aanvragen op een rij, met de actuele status. Start hier direct een nieuwe aanvraag, of doe het onderweg vanuit de objectweergave in de viewer — beide routes werken.</p></div>' +
+        '<button class="viewerknop" id="na-open" style="border:none;cursor:pointer;font-family:inherit">+ Nieuwe aanvraag</button></div>' +
+      formulier +
       (db.requests.length
         ? db.requests.map(function (r) {
             return '<div class="paneel aanvraag">' +
@@ -352,7 +388,55 @@
               (r.status === 'In behandeling' ? '<p style="font-size:12.5px;color:#8b93a3;margin-top:8px">' + (r.type === 'advies' ? 'Het designteam' : 'Ons salesteam') + ' neemt binnen 1 werkdag contact met je op.</p>' : '') +
               '</div>';
           }).join('')
-        : '<div class="paneel"><div class="leeg"><div class="em">💬</div><h3>Nog geen aanvragen</h3><p>Upload een uiting in de viewer. Op de objectweergave vind je daarna de knoppen <b>Vraag advies aan het designteam</b> en <b>Zet om in campagne</b>.</p><a class="hoofdknop" href="../">Naar de viewer</a></div></div>');
+        : '<div class="paneel"><div class="leeg"><div class="em">💬</div><h3>Nog geen aanvragen</h3><p>Start je eerste aanvraag met de knop <b>+ Nieuwe aanvraag</b> hierboven, of upload een uiting in de viewer en gebruik de knoppen in de balk bovenaan.</p></div></div>');
+    document.getElementById('na-open').addEventListener('click', function () { aanvraagFormOpen = true; render('aanvragen'); });
+    if (!aanvraagFormOpen) return;
+    document.getElementById('na-sluit').addEventListener('click', function () { aanvraagFormOpen = false; render('aanvragen'); });
+    var selType = document.getElementById('na-type');
+    selType.addEventListener('change', function () {
+      document.getElementById('na-msg-label').textContent = selType.value === 'advies'
+        ? 'Waar wil je advies over?'
+        : 'Vertel kort iets over je campagnewens (periode, regio, budgetindicatie)';
+    });
+    var selUiting = document.getElementById('na-uiting');
+    var fileInput = document.getElementById('na-file');
+    selUiting.addEventListener('change', function () {
+      if (selUiting.value === '__upload') fileInput.click();
+    });
+    fileInput.addEventListener('change', function () {
+      var f = fileInput.files && fileInput.files[0];
+      if (!f) { selUiting.value = (db.uploads[0] || {}).id || ''; return; }
+      var rd = new FileReader();
+      rd.onload = function () {
+        db.uploads.unshift({ id: 'u' + Math.random().toString(36).slice(2, 9), name: f.name, src: rd.result, date: new Date().toISOString(), shared: [] });
+        save();
+        var msg = document.getElementById('na-msg').value;
+        render('aanvragen');
+        var su = document.getElementById('na-uiting');
+        if (su) su.value = db.uploads[0].id;
+        var ta = document.getElementById('na-msg');
+        if (ta) ta.value = msg;
+      };
+      rd.readAsDataURL(f);
+    });
+    document.getElementById('na-doe').addEventListener('click', function () {
+      var uid = selUiting.value;
+      var u = db.uploads.filter(function (x) { return x.id === uid; })[0];
+      var msg = document.getElementById('na-msg').value.trim();
+      if (!u || !msg) { document.getElementById('na-fout').style.display = 'block'; return; }
+      var isAdvies = selType.value === 'advies';
+      db.requests.unshift({
+        id: 'r' + Math.random().toString(36).slice(2, 9),
+        type: isAdvies ? 'advies' : 'campagne',
+        uiting: u.name, msg: msg,
+        naam: db.user.naam, email: db.user.email, bedrijf: db.user.bedrijf,
+        date: new Date().toISOString(), status: 'In behandeling'
+      });
+      save();
+      aanvraagFormOpen = false;
+      toast(isAdvies ? 'Adviesaanvraag verzonden — het designteam neemt binnen 1 werkdag contact op' : 'Doorgestuurd naar sales — je hoort binnen 1 werkdag van ons');
+      render('aanvragen');
+    });
   }
 
   /* ---------- mijn uploads ---------- */
@@ -412,14 +496,65 @@
     });
   }
 
-  /* ---------- vergelijken ---------- */
+  /* ---------- vergelijken (AC-01: in objectcontext) ---------- */
+  /* Vereenvoudigde kopie van de objectscènes uit de viewer: fotografie +
+     frame + uiting. Beide zijden tonen hetzélfde object; bij objecten met
+     twee schermen staat binnen één zijde altijd dezelfde uiting op beide. */
+  var CMP_FRAMES = {
+    abri: { src: '../assets/format-abri.png', r: 154 / 274, box: { l: 4.6, t: 2.2, w: 90.8, h: 88.2 } },
+    scrP: { src: '../assets/format-screen-portrait.png', r: 207 / 335, box: { l: 8.2, t: 5.8, w: 83.6, h: 86.4 } },
+    mast: { src: '../assets/format-snelwegmast.png', r: 318 / 467, box: { l: 2.4, t: 1.8, w: 95.2, h: 34.6 } }
+  };
+  var CMP_OBJECTEN = [
+    { id: 'vanwou', naam: 'Amsterdam, Van Woustraat', type: 'Abri', r: 2 / 3, fmtNaam: '2:3 staand', foto: '../assets/slide-section-bg.jpg', fx: 78, fy: 38, zoom: 1.55, dim: .12, frames: [{ f: 'abri', l: 37, t: 16, h: 66, tf: 'perspective(1100px) rotateY(-5deg)' }] },
+    { id: 'piazza', naam: 'Eindhoven, Piazza', type: 'Abri', r: 2 / 3, fmtNaam: '2:3 staand', foto: '../assets/photo-winkelcentrum.jpg', fx: 30, fy: 42, zoom: 1.55, dim: .10, frames: [{ f: 'abri', l: 37.5, t: 19, h: 63, tf: 'perspective(1100px) rotateY(-3deg)' }] },
+    { id: 'westfield', naam: 'Leidschendam, Westfield Mall', type: 'Digitaal scherm', r: 9 / 16, fmtNaam: '9:16 staand', foto: '../assets/photo-winkelcentrum.jpg', fx: 52, fy: 36, zoom: 1.9, dim: .18, frames: [{ f: 'scrP', l: 37, t: 15, h: 64, tf: 'perspective(1000px) rotateY(6deg)' }] },
+    { id: 'schiphol', naam: 'Schiphol Plaza, aankomsthal (2 schermen)', type: 'Stationsscherm', r: 9 / 16, fmtNaam: '9:16 staand', foto: '../assets/photo-netwerk.jpg', fx: 50, fy: 40, zoom: 1.4, dim: .30, frames: [{ f: 'scrP', l: 22.5, t: 22, h: 56, tf: 'perspective(1200px) rotateY(4deg)' }, { f: 'scrP', l: 51.5, t: 22, h: 56, tf: 'perspective(1200px) rotateY(-4deg)' }] },
+    { id: 'a2', naam: 'A2 Amsterdam, knooppunt Amstel', type: 'Snelwegmast', r: 16 / 9, fmtNaam: '16:9 liggend', foto: '../assets/slide-section-bg.jpg', fx: 52, fy: 11, zoom: 2.1, dim: .05, frames: [{ f: 'mast', l: 28, t: 7, h: 88, tf: 'perspective(1600px) rotateY(-4deg)' }] }
+  ];
+  var cmpObj = null;
+  var cmpDims = {}; // upload-id -> beeldverhouding (asynchroon gemeten)
+  function meetUpload(u) {
+    if (cmpDims[u.id] !== undefined) return;
+    cmpDims[u.id] = null;
+    var img = new Image();
+    img.onload = function () {
+      cmpDims[u.id] = img.naturalWidth / img.naturalHeight;
+      if (actief === 'vergelijk') render('vergelijk');
+    };
+    img.onerror = function () { cmpDims[u.id] = 0; };
+    img.src = u.src;
+  }
+  function pastOpObject(u, obj) {
+    var ar = cmpDims[u.id];
+    if (!ar) return false;
+    return Math.abs(ar - obj.r) / obj.r <= 0.08;
+  }
+  function cmpSceneHTML(obj, uploadSrc) {
+    var html = '<div class="cmp-scene">' +
+      '<div class="foto" style="background-image:url(\'' + obj.foto + '\');background-position:' + obj.fx + '% ' + obj.fy + '%;transform:scale(' + obj.zoom + ');transform-origin:' + obj.fx + '% ' + obj.fy + '%"></div>' +
+      (obj.dim ? '<div class="dim" style="background:rgba(10,16,24,' + obj.dim + ')"></div>' : '');
+    obj.frames.forEach(function (fr) {
+      var F = CMP_FRAMES[fr.f];
+      var w = fr.h * F.r * 0.75;
+      html += '<div class="frame" style="left:' + fr.l + '%;top:' + fr.t + '%;width:' + w + '%;height:' + fr.h + '%;transform:' + fr.tf + '">' +
+        '<img class="kader" src="' + F.src + '" alt="">' +
+        '<div class="vlak" style="left:' + F.box.l + '%;top:' + F.box.t + '%;width:' + F.box.w + '%;height:' + F.box.h + '%">' +
+          '<img src="' + uploadSrc + '" alt=""><div class="gloss"></div>' +
+        '</div>' +
+      '</div>';
+    });
+    html += '<div class="chip">Gegenereerd met Global AI</div></div>';
+    return html;
+  }
   function renderVergelijk() {
     var m = document.getElementById('inhoud');
     if (db.uploads.length < 2) {
-      m.innerHTML = kop('Vergelijken', 'Zet twee uitingen naast elkaar om te zien welke het sterkst werkt.') +
+      m.innerHTML = kop('Vergelijken', 'Zet twee uitingen naast elkaar op hetzelfde object om te zien welke het sterkst werkt.') +
         '<div class="paneel"><div class="leeg"><div class="em">🆚</div><h3>Nog te weinig uploads</h3><p>Je hebt minimaal twee uploads nodig om te vergelijken. Upload een uiting in de viewer en kom hier terug.</p><a class="hoofdknop" href="../">Naar de viewer</a></div></div>';
       return;
     }
+    db.uploads.forEach(meetUpload);
     if (!cmpA || !db.uploads.some(function (u) { return u.id === cmpA; })) cmpA = db.uploads[0].id;
     if (!cmpB || cmpB === cmpA || !db.uploads.some(function (u) { return u.id === cmpB; })) {
       cmpB = (db.uploads.filter(function (u) { return u.id !== cmpA; })[0] || {}).id;
@@ -427,17 +562,34 @@
     function optie(sel) { return db.uploads.map(function (u) { return '<option value="' + u.id + '"' + (u.id === sel ? ' selected' : '') + '>' + esc(u.name) + '</option>'; }).join(''); }
     var A = db.uploads.filter(function (u) { return u.id === cmpA; })[0];
     var B = db.uploads.filter(function (u) { return u.id === cmpB; })[0];
-    m.innerHTML = kop('Vergelijken', 'Kies links en rechts een uiting — je ziet ze direct naast elkaar in één beeld.') +
+    var meten = cmpDims[A.id] === null || cmpDims[B.id] === null;
+    /* Alleen objecten waar béide uitingen op passen zijn selecteerbaar. */
+    var passend = CMP_OBJECTEN.filter(function (o) { return pastOpObject(A, o) && pastOpObject(B, o); });
+    if (!cmpObj || !passend.some(function (o) { return o.id === cmpObj; })) cmpObj = (passend[0] || {}).id || null;
+    var obj = CMP_OBJECTEN.filter(function (o) { return o.id === cmpObj; })[0] || null;
+    var objOpties = CMP_OBJECTEN.map(function (o) {
+      var kan = passend.some(function (x) { return x.id === o.id; });
+      return '<option value="' + o.id + '"' + (o.id === cmpObj ? ' selected' : '') + (kan ? '' : ' disabled') + '>' + esc(o.naam) + ' · ' + o.type + (kan ? '' : ' — past niet bij beide uitingen (' + o.fmtNaam + ')') + '</option>';
+    }).join('');
+    m.innerHTML = kop('Vergelijken', 'Kies twee uitingen en een object — je ziet beide direct naast elkaar in de daadwerkelijke omgeving, met dezelfde previewweergave als in de viewer.') +
       '<div class="kiesrij">' +
         '<div class="veld"><label for="cmp-a">Uiting A (links)</label><select id="cmp-a">' + optie(cmpA) + '</select></div>' +
         '<div class="veld"><label for="cmp-b">Uiting B (rechts)</label><select id="cmp-b">' + optie(cmpB) + '</select></div>' +
+        '<div class="veld"><label for="cmp-obj">Object</label><select id="cmp-obj">' + objOpties + '</select></div>' +
       '</div>' +
-      '<div class="cmp-vlak">' +
-        '<div><span class="ab">A</span><br><img src="' + A.src + '" alt=""><div class="cap">' + esc(A.name) + '</div></div>' +
-        '<div><span class="ab">B</span><br><img src="' + B.src + '" alt=""><div class="cap">' + esc(B.name) + '</div></div>' +
-      '</div>';
+      (meten
+        ? '<div class="paneel"><div class="leeg"><div class="em">📐</div><h3>Even meten…</h3><p>We controleren welke objecten bij je uitingen passen.</p></div></div>'
+        : (obj
+          ? '<div class="cmp-vlak">' +
+              '<div><span class="ab">A</span>' + cmpSceneHTML(obj, A.src) + '<div class="cap">' + esc(A.name) + '</div></div>' +
+              '<div><span class="ab">B</span>' + cmpSceneHTML(obj, B.src) + '<div class="cap">' + esc(B.name) + '</div></div>' +
+            '</div>' +
+            '<p style="font-size:12.5px;color:#8b93a3;margin-top:10px">Wissel van object om beide uitingen daar te zien; je keuze van uitingen blijft staan.' + (obj.frames.length > 1 ? ' Dit object heeft twee schermen: binnen één zijde zie je dezelfde uiting op beide schermen.' : '') + '</p>'
+          : '<div class="paneel"><div class="leeg"><div class="em">📐</div><h3>Geen gezamenlijk object</h3><p>Deze twee uitingen hebben verschillende formaten, waardoor er geen object is waar ze allebei op passen. Kies twee uitingen met hetzelfde formaat.</p></div></div>'));
     document.getElementById('cmp-a').addEventListener('change', function (e) { cmpA = e.target.value; if (cmpB === cmpA) cmpB = null; render('vergelijk'); });
     document.getElementById('cmp-b').addEventListener('change', function (e) { cmpB = e.target.value; if (cmpA === cmpB) cmpA = null; render('vergelijk'); });
+    var so = document.getElementById('cmp-obj');
+    if (so) so.addEventListener('change', function (e) { cmpObj = e.target.value; render('vergelijk'); });
   }
 
   /* ---------- gedeeld met ---------- */
