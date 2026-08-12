@@ -90,18 +90,19 @@
   .btn-primary{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:12px;background:var(--main);color:#fff;font-weight:700;font-size:14px;padding:12px 20px;transition:background .15s,transform .1s;white-space:nowrap}
   .btn-primary:hover{background:var(--dark)}
   .btn-primary:active{transform:scale(.98)}
+  /* Nieuw project: bewust dé blikvanger van de pagina — groter en in een
+     afwijkende accentkleur (oranje), zodat hij niet wegvalt tegen het blauw. */
+  .btn-new{background:linear-gradient(135deg,#FF8A00 0%,#F06400 100%);font-size:16.5px;font-weight:800;letter-spacing:-.2px;padding:16px 28px;border-radius:14px;box-shadow:0 8px 22px rgba(240,100,0,.38);transition:transform .12s,box-shadow .15s,filter .15s}
+  .btn-new:hover{background:linear-gradient(135deg,#FF8A00 0%,#F06400 100%);filter:brightness(1.07);transform:translateY(-1px);box-shadow:0 11px 26px rgba(240,100,0,.45)}
+  .btn-new:active{transform:scale(.98)}
+  .btn-new svg{width:17px;height:17px}
   .search{flex:1;position:relative}
   .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
   .search input{width:100%;padding:12px 16px 12px 42px;border:1px solid var(--border-cool);border-radius:11px;font-family:inherit;font-size:14px;color:var(--ink);background:#FBFCFE;outline:none;transition:border-color .15s,box-shadow .15s}
   .search input:focus{border-color:var(--mid);box-shadow:0 0 0 3px rgba(11,120,190,.14)}
   .search input::placeholder{color:var(--muted)}
-  .sort{display:flex;align-items:center;gap:8px;white-space:nowrap}
-  .sort label{font-size:12px;color:var(--muted);font-weight:600}
-  .sort select{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--dark);border:1px solid var(--border-cool);border-radius:10px;background:#FBFCFE;padding:10px 10px;outline:none;cursor:pointer}
-  .sort select:focus{border-color:var(--mid)}
   @media (max-width:760px){
     .actionbar .bar{flex-wrap:wrap}
-    .sort label{display:none}
   }
 
   /* ───────── Lanes ───────── */
@@ -111,9 +112,17 @@
   .lane-head .n{font-size:11.5px;font-weight:700;color:var(--muted)}
   .lane-head .hint{font-size:11.5px;color:var(--muted);margin-left:auto}
 
-  /* Recent bewerkt: slanke chips */
-  .recent-row{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
-  .recent-card{flex:none;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:8px 18px 8px 10px;box-shadow:var(--shadow-s);cursor:pointer;transition:border-color .15s;text-align:left;max-width:320px}
+  /* Recent bewerkt: slanke chips in een carousel (4 per pagina op desktop) */
+  .recent-viewport{overflow:hidden;padding:2px 2px 6px}
+  .recent-row{display:flex;gap:10px;transition:transform .35s ease}
+  .car-nav{margin-left:auto;display:flex;gap:6px}
+  .car-nav[hidden]{display:none}
+  .car-btn{width:30px;height:30px;border:1px solid var(--border-cool);border-radius:50%;background:#fff;color:var(--dark);display:grid;place-items:center;box-shadow:var(--shadow-s);transition:border-color .15s,color .15s}
+  .car-btn:hover:not(:disabled){border-color:var(--main);color:var(--main)}
+  .car-btn:disabled{opacity:.35;cursor:default}
+  .recent-card{flex:0 0 calc((100% - 30px)/4);min-width:0;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:8px 18px 8px 10px;box-shadow:var(--shadow-s);cursor:pointer;transition:border-color .15s;text-align:left}
+  @media (max-width:940px){.recent-card{flex-basis:calc((100% - 10px)/2)}}
+  @media (max-width:600px){.recent-card{flex-basis:100%}}
   .recent-card:hover{border-color:var(--main)}
   .recent-card .dot{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tint);color:var(--main);display:grid;place-items:center}
   .recent-card .txt{min-width:0;line-height:1.3}
@@ -264,21 +273,13 @@
 <!-- ───────── Bovenste horizontale swimlane: nieuw project + zoeken + sorteren ───────── -->
 <div class="wrap actionbar">
   <div class="bar">
-    <button class="btn-primary" id="btnNieuw">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+    <button class="btn-primary btn-new" id="btnNieuw">
+      <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       Nieuw project
     </button>
     <div class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <input type="search" id="zoek" placeholder="Zoek in al je projecten — ook in wat met je gedeeld is…" aria-label="Zoek project">
-    </div>
-    <div class="sort">
-      <label for="sorteer">Sorteer op</label>
-      <select id="sorteer" aria-label="Sorteer projecten">
-        <option value="recent">Laatst bewerkt</option>
-        <option value="naam">Naam A–Z</option>
-        <option value="objecten">Meeste objecten</option>
-      </select>
     </div>
   </div>
 </div>
@@ -287,8 +288,20 @@
 
   <!-- Recent bewerkt -->
   <section id="laneRecent" aria-label="Recent bewerkt">
-    <div class="lane-head"><h2>Recent bewerkt</h2></div>
-    <div class="recent-row" id="recentRow"></div>
+    <div class="lane-head">
+      <h2>Recent bewerkt</h2>
+      <div class="car-nav" id="carNav" hidden>
+        <button class="car-btn" id="carPrev" aria-label="Vorige recente projecten">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"/></svg>
+        </button>
+        <button class="car-btn" id="carNext" aria-label="Volgende recente projecten">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg>
+        </button>
+      </div>
+    </div>
+    <div class="recent-viewport">
+      <div class="recent-row" id="recentRow"></div>
+    </div>
   </section>
 
   <!-- Twee verticale swimlanes -->
@@ -378,9 +391,10 @@
 
 <script>
 /* ─────────────────────────────────────────────────────────────
-   Voorbeelddata — bewust négen eigen projecten, zodat je ziet
-   hoe het overzicht schaalt. In het echte product komt dit uit
-   de backend; naam/avatar van de gebruiker via Outlook SSO.
+   Voorbeelddata — bewust ruim voldoende projecten, zodat je ziet
+   hoe het overzicht schaalt (o.a. de carousel bij Recent bewerkt).
+   In het echte product komt dit uit de backend; naam/avatar van
+   de gebruiker via Outlook SSO.
    ───────────────────────────────────────────────────────────── */
 const COLLEGAS = [
   { naam:"Sanne de Vries",   email:"sanne.devries@global.com" },
@@ -392,27 +406,33 @@ const COLLEGAS = [
 ];
 
 let mijnProjecten = [
-  { id:"p1", naam:"Retail Q3 – landelijke campagne", cat:"FMCG",          bewerkt:"Vandaag, 11:24", ts:900, objecten:412, gedeeldMet:["femke.jansen@global.com"] },
-  { id:"p2", naam:"Automotive introductie EV",       cat:"Automotive",    bewerkt:"Gisteren",       ts:880, objecten:186, gedeeldMet:[] },
-  { id:"p3", naam:"Zomeractie kustregio",            cat:"Drankenmerk",   bewerkt:"28 juli",        ts:840, objecten:94,  gedeeldMet:["sanne.devries@global.com","mark.vandijk@global.com"] },
-  { id:"p4", naam:"Doelgroeptest studenten G5",      cat:"Telecom",       bewerkt:"21 juli",        ts:820, objecten:238, gedeeldMet:[] },
-  { id:"p5", naam:"Back-to-school stationsdomein",   cat:"Retail",        bewerkt:"17 juli",        ts:800, objecten:145, gedeeldMet:[] },
-  { id:"p6", naam:"Verzekeraar merkcampagne 50+",    cat:"Financieel",    bewerkt:"9 juli",         ts:760, objecten:301, gedeeldMet:["tom.hendriks@global.com"] },
-  { id:"p7", naam:"Streamingdienst lancering NL",    cat:"Entertainment", bewerkt:"2 juli",         ts:720, objecten:527, gedeeldMet:[] },
-  { id:"p8", naam:"Fietsenmerk voorjaar randstad",   cat:"Retail",        bewerkt:"24 juni",        ts:680, objecten:78,  gedeeldMet:[] },
-  { id:"p9", naam:"Energie switch-campagne",         cat:"Utilities",     bewerkt:"12 juni",        ts:640, objecten:203, gedeeldMet:[] },
+  { id:"p1",  naam:"Retail Q3 – landelijke campagne",      cat:"FMCG",          bewerkt:"Vandaag, 11:24", ts:900, objecten:412, gedeeldMet:["femke.jansen@global.com"] },
+  { id:"p10", naam:"Luchthaven zomerreizigers",            cat:"Travel",        bewerkt:"Vandaag, 08:45", ts:895, objecten:342, gedeeldMet:[] },
+  { id:"p2",  naam:"Automotive introductie EV",            cat:"Automotive",    bewerkt:"Gisteren",       ts:880, objecten:186, gedeeldMet:[] },
+  { id:"p11", naam:"Sportmerk EK-activatie",               cat:"Sport",         bewerkt:"Gisteren",       ts:875, objecten:129, gedeeldMet:["lisa.vermeulen@global.com"] },
+  { id:"p12", naam:"Supermarkt weekacties regio Zuid",     cat:"FMCG",          bewerkt:"6 augustus",     ts:850, objecten:264, gedeeldMet:[] },
+  { id:"p3",  naam:"Zomeractie kustregio",                 cat:"Drankenmerk",   bewerkt:"28 juli",        ts:840, objecten:94,  gedeeldMet:["sanne.devries@global.com","mark.vandijk@global.com"] },
+  { id:"p13", naam:"Woonketen openingsactie Utrecht",      cat:"Retail",        bewerkt:"25 juli",        ts:830, objecten:57,  gedeeldMet:[] },
+  { id:"p4",  naam:"Doelgroeptest studenten G5",           cat:"Telecom",       bewerkt:"21 juli",        ts:820, objecten:238, gedeeldMet:[] },
+  { id:"p5",  naam:"Back-to-school stationsdomein",        cat:"Retail",        bewerkt:"17 juli",        ts:800, objecten:145, gedeeldMet:[] },
+  { id:"p6",  naam:"Verzekeraar merkcampagne 50+",         cat:"Financieel",    bewerkt:"9 juli",         ts:760, objecten:301, gedeeldMet:["tom.hendriks@global.com"] },
+  { id:"p7",  naam:"Streamingdienst lancering NL",         cat:"Entertainment", bewerkt:"2 juli",         ts:720, objecten:527, gedeeldMet:[] },
+  { id:"p8",  naam:"Fietsenmerk voorjaar randstad",        cat:"Retail",        bewerkt:"24 juni",        ts:680, objecten:78,  gedeeldMet:[] },
+  { id:"p9",  naam:"Energie switch-campagne",              cat:"Utilities",     bewerkt:"12 juni",        ts:640, objecten:203, gedeeldMet:[] },
 ];
 
 let gedeeldMetMij = [
-  { id:"s1", naam:"DOOH plan centrum Rotterdam", cat:"Retail", bewerkt:"Vandaag, 09:10", ts:890, objecten:156, eigenaar:"Sanne de Vries" },
-  { id:"s2", naam:"Fastfood Q4 – snelwegmasten", cat:"Horeca", bewerkt:"8 augustus",     ts:860, objecten:63,  eigenaar:"Jeroen Bakker" },
+  { id:"s1", naam:"DOOH plan centrum Rotterdam",           cat:"Retail",   bewerkt:"Vandaag, 09:10", ts:890, objecten:156, eigenaar:"Sanne de Vries" },
+  { id:"s3", naam:"OOH-pitch koffieketen",                 cat:"Horeca",   bewerkt:"Gisteren",       ts:870, objecten:88,  eigenaar:"Lisa Vermeulen" },
+  { id:"s2", naam:"Fastfood Q4 – snelwegmasten",           cat:"Horeca",   bewerkt:"8 augustus",     ts:860, objecten:63,  eigenaar:"Jeroen Bakker" },
+  { id:"s4", naam:"Gemeentecampagne verkeersveiligheid",   cat:"Overheid", bewerkt:"4 augustus",     ts:845, objecten:117, eigenaar:"Tom Hendriks" },
 ];
 
-const LANE_LIMIT = 5;   // per lane eerst dit aantal kaarten; daarna "Toon alle X"
-let teller = 10;
+const LANE_LIMIT = 5;    // per lane eerst dit aantal kaarten; daarna "Toon alle X"
+const RECENT_MAX = 8;    // aantal chips in de carousel "Recent bewerkt"
+let teller = 14;
 let tsTeller = 1000;
 let zoekterm = "";
-let sortering = "recent";
 let openMenuId = null;
 let shareProjectId = null;
 let deleteProjectId = null;
@@ -511,11 +531,7 @@ function filter(list){
 }
 
 function sorteer(list){
-  const l = [...list];
-  if(sortering === "naam") l.sort((a,b)=>a.naam.localeCompare(b.naam,"nl"));
-  else if(sortering === "objecten") l.sort((a,b)=>b.objecten-a.objecten);
-  else l.sort((a,b)=>b.ts-a.ts);
-  return l;
+  return [...list].sort((a,b)=>b.ts-a.ts);
 }
 
 function laneHTML(list, expanded, kaart, laneKey, leeg){
@@ -528,17 +544,39 @@ function laneHTML(list, expanded, kaart, laneKey, leeg){
   return html;
 }
 
+/* ── carousel "Recent bewerkt" ──
+   Toont 4 chips per pagina (2 op tablet, 1 op mobiel). De pijlknoppen
+   verschijnen alleen als er meer projecten zijn dan er in één keer passen. */
+let recentAantal = 0;
+let recentPage = 0;
+
+function carouselPerPagina(){
+  return window.innerWidth <= 600 ? 1 : window.innerWidth <= 940 ? 2 : 4;
+}
+
+function updateCarousel(){
+  const perPagina = carouselPerPagina();
+  const paginas = Math.max(1, Math.ceil(recentAantal / perPagina));
+  recentPage = Math.min(recentPage, paginas - 1);
+  $("#recentRow").style.transform = `translateX(calc((100% + 10px) * -${recentPage}))`;
+  $("#carNav").hidden = recentAantal <= perPagina;
+  $("#carPrev").disabled = recentPage === 0;
+  $("#carNext").disabled = recentPage >= paginas - 1;
+}
+
 function render(){
   const mine = sorteer(filter(mijnProjecten));
   const shared = sorteer(filter(gedeeldMetMij));
 
-  // Recent: de 3 laatst bewerkte over beide lanes heen
-  const recent = [...mijnProjecten, ...gedeeldMetMij].sort((a,b)=>b.ts-a.ts).slice(0,3);
+  // Recent: de laatst bewerkte projecten over beide lanes heen, in de carousel
+  const recent = [...mijnProjecten, ...gedeeldMetMij].sort((a,b)=>b.ts-a.ts).slice(0, RECENT_MAX);
+  recentAantal = recent.length;
   $("#recentRow").innerHTML = recent.map(recentKaart).join("");
   $("#laneRecent").style.display = zoekterm ? "none" : "";
+  updateCarousel();
 
   $("#laneMine").innerHTML = laneHTML(mine, mineExpanded, eigenKaart, "mine",
-    `<div class="empty"><b>${zoekterm ? "Geen eigen projecten gevonden" : "Nog geen projecten"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Start je eerste project met de blauwe knop hierboven."}</div>`);
+    `<div class="empty"><b>${zoekterm ? "Geen eigen projecten gevonden" : "Nog geen projecten"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Start je eerste project met de oranje knop hierboven."}</div>`);
   $("#laneShared").innerHTML = laneHTML(shared, sharedExpanded, gedeeldeKaart, "shared",
     `<div class="empty"><b>${zoekterm ? "Niets gevonden in gedeelde projecten" : "Nog niets met je gedeeld"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Projecten die collega's met je delen verschijnen hier vanzelf."}</div>`);
 
@@ -735,8 +773,11 @@ $("#howToggle").addEventListener("click", () => {
 });
 
 $("#zoek").addEventListener("input", e => { zoekterm = e.target.value.trim(); render(); });
-$("#sorteer").addEventListener("change", e => { sortering = e.target.value; render(); });
 $("#shareInput").addEventListener("input", shareZoek);
+
+$("#carPrev").addEventListener("click", () => { recentPage = Math.max(0, recentPage - 1); updateCarousel(); });
+$("#carNext").addEventListener("click", () => { recentPage++; updateCarousel(); });
+window.addEventListener("resize", updateCarousel);
 
 document.addEventListener("keydown", e => {
   if(e.key === "Escape"){
