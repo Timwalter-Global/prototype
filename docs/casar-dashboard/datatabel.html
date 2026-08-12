@@ -4,7 +4,8 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow" />
-<title>Casar-dashboard · Datatabel</title>
+<title>Casar-dashboard · Datatabel (werkdocument)</title>
+<script src="./supabase-js-2.112.3.min.js"></script>
 <style>
   :root{
     --blauw:#195AA6; --blauw-licht:#0B78BE; --blauw-donker:#1B4B89;
@@ -13,135 +14,341 @@
   }
   *{box-sizing:border-box}
   body{margin:0;font-family:"Century Gothic",Poppins,sans-serif;background:var(--canvas);color:var(--grijs);font-size:15px;line-height:1.55}
-  .wrap{max-width:1280px;margin:0 auto;padding:48px 32px 80px}
+  .wrap{max-width:1320px;margin:0 auto;padding:40px 32px 80px}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;margin:-40px -32px 28px;padding:14px 32px;background:rgba(244,246,249,.94);backdrop-filter:blur(4px);border-bottom:1px solid var(--lijn)}
+  .topbar .kicker{flex:1}
   .kicker{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blauw-licht)}
-  h1{margin:10px 0 8px;font-size:30px;color:var(--blauw-donker)}
-  .intro{max-width:820px;margin:0 0 14px}
-  .notitie{max-width:820px;margin:0 0 36px;padding:14px 18px;background:#eaf3fb;border:1px solid #cde3f4;border-radius:10px;font-size:13.5px;color:var(--blauw-donker)}
+  #status{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:#e8f2ea;color:#1f6b3d;border:1px solid #bfe3cb;white-space:nowrap}
+  #status.saving{background:#eaf3fb;color:var(--blauw-donker);border-color:#cde3f4}
+  #status.error{background:#fbeeee;color:#c0392b;border-color:#efc9c4}
+  #status .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+  h1{margin:6px 0 8px;font-size:28px;color:var(--blauw-donker)}
+  .intro{max-width:860px;margin:0 0 14px}
+  .notitie{max-width:860px;margin:0 0 8px;padding:14px 18px;background:#eaf3fb;border:1px solid #cde3f4;border-radius:10px;font-size:13.5px;color:var(--blauw-donker)}
   .notitie strong{color:var(--blauw)}
+  #laadfout{display:none;max-width:860px;margin:16px 0;padding:14px 18px;background:#fbeeee;border:1px solid #efc9c4;border-radius:10px;font-size:13.5px;color:#c0392b}
   h2{margin:44px 0 6px;font-size:19px;color:var(--blauw)}
-  .sectie-sub{margin:0 0 14px;font-size:13.5px;color:#7a7a79;max-width:820px}
+  .sectie-sub{margin:0 0 14px;font-size:13.5px;color:#7a7a79;max-width:860px}
   .tabel-scroll{overflow-x:auto;border:1px solid var(--lijn);border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(27,75,137,.06)}
-  table{width:100%;border-collapse:collapse;font-size:13px;min-width:1080px}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:1120px}
   th{background:var(--blauw);color:#fff;text-align:left;padding:11px 14px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
-  td{padding:11px 14px;border-bottom:1px solid var(--lijn-licht);vertical-align:top;color:#3c4450}
+  th.bron-kop{background:var(--blauw-donker)}
+  td{padding:0;border-bottom:1px solid var(--lijn-licht);vertical-align:top}
   tr:last-child td{border-bottom:none}
-  tr:nth-child(even) td{background:#fafbfd}
-  td.var{font-weight:700;color:#1c2530;white-space:nowrap}
-  td.vb{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--blauw-donker);background:#f6f9fc}
-  td.bron{font-size:12.5px}
-  .check{display:inline-block;margin-top:4px;padding:2px 8px;border-radius:999px;background:#fdf1dc;border:1px solid #f0d9a8;color:#8a6410;font-size:10.5px;font-weight:700;letter-spacing:.03em}
-  col.c-var{width:15%} col.c-oms{width:26%} col.c-data{width:26%} col.c-vb{width:17%} col.c-bron{width:16%}
-  footer{margin-top:52px;font-size:12px;color:#9aa3b0}
+  .cel{min-height:100%;padding:11px 14px;color:#3c4450;outline:none;white-space:pre-wrap;overflow-wrap:break-word;min-width:0}
+  .cel:hover{background:#f4f8fc}
+  .cel:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--blauw-licht);border-radius:4px}
+  td.var .cel{font-weight:700;color:#1c2530}
+  td.vb .cel{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--blauw-donker)}
+  td.vb{background:#f6f9fc}
+  td.bron .cel{font-size:12.5px}
+  td.bron .cel:empty{background:#fdf6e4}
+  td.bron .cel:empty::before{content:"nog invullen…";color:#b39544;font-style:italic;pointer-events:none}
+  td.acties{width:36px;text-align:center;vertical-align:middle}
+  .verwijder{width:22px;height:22px;border:none;border-radius:50%;background:transparent;color:#b9c3cf;cursor:pointer;font-size:14px;line-height:1;padding:0}
+  .verwijder:hover{background:#fbeeee;color:#c0392b}
+  .rij-toevoegen{margin-top:10px;display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px dashed var(--blauw);border-radius:999px;background:#fff;color:var(--blauw);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+  .rij-toevoegen:hover{background:#eaf3fb}
+  footer{margin-top:52px;font-size:12px;color:#9aa3b0;max-width:860px;line-height:1.6}
 </style>
 </head>
 <body>
 <div class="wrap">
-  <div class="kicker">Casar 2.0 · Audience Platform</div>
+  <div class="topbar">
+    <div class="kicker">Casar 2.0 · Audience Platform · Werkdocument</div>
+    <span id="status"><span class="dot"></span><span id="status-tekst">Laden…</span></span>
+  </div>
   <h1>Datatabel — welke data voedt het dashboard?</h1>
-  <p class="intro">Dit overzicht beschrijft alle datavariabelen die nodig zijn om het Casar-dashboard (het Audience Platform-prototype) met echte data te vullen. Per variabele: wat die in het dashboard doet, welke data we er precies in willen hebben, hoe dat eruit komt te zien en waar de data vandaan moet komen.</p>
-  <div class="notitie"><strong>Let op:</strong> de kolom <strong>Bron</strong> bevat op een aantal plekken een voorstel dat nog bevestigd moet worden — die staan gemarkeerd met <span class="check">ter bevestiging</span>. Vul aan of corrigeer waar nodig; dit is een werkdocument.</div>
-
-  <h2>A · Objecten &amp; netwerken</h2>
-  <p class="sectie-sub">De kern van het dashboard: elk out-of-home object op de kaart, met alles wat het objectdetail, de filters en de export nodig hebben.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Object-ID</td><td>Unieke sleutel per object. Alles hangt hieraan: kaart, objectdetail, export, handmatige selectie en de koppeling met bereikcijfers.</td><td>Stabiel, uniek ID per object dat niet verandert bij vervanging of hernummering.</td><td class="vb">GL-10247</td><td class="bron">Global objectdatabase (inventarissysteem)</td></tr>
-      <tr><td class="var">Netwerk</td><td>Voedt het filter "Netwerk en objecten", de kleuren en legenda op de kaart en de KPI-uitsplitsing "Objecten per netwerk".</td><td>Netwerknaam + code per object, plus de volledige netwerklijst (abri's, winkelcentra, snelwegen, tankstations, supermarkten, retail…).</td><td class="vb">Supermarkten</td><td class="bron">Global objectdatabase</td></tr>
-      <tr><td class="var">Familie</td><td>Bovenliggende groepering in het netwerkfilter: analoog of digitaal.</td><td>Per netwerk: "Analoog" of "Digitaal".</td><td class="vb">Digitaal</td><td class="bron">Afgeleid uit netwerk (objectdatabase)</td></tr>
-      <tr><td class="var">Objecttype &amp; formaat</td><td>Kolom "Type" in objectdetail en export; zegt wat voor drager het is en welk formaat.</td><td>Type + formaat per object, uit een vaste typelijst.</td><td class="vb">Abri · 2 m² / Mast · 36 m² / Scherm · 75″</td><td class="bron">Global objectdatabase</td></tr>
-      <tr><td class="var">Technologie</td><td>Exportkolom "Technologie"; onderscheidt statisch, scroller en digitaal.</td><td>Eén waarde per object: Analoog / Scroller / Digitaal.</td><td class="vb">Scroller</td><td class="bron">Global objectdatabase</td></tr>
-      <tr><td class="var">Merk / formule</td><td>Subfilter binnen de netwerken supermarkten en tankstations (AH, Jumbo, Shell…).</td><td>Winkel- of tankstationketen per locatie waar het object hangt.</td><td class="vb">Albert Heijn</td><td class="bron">Global objectdatabase (locatiecontract)</td></tr>
-      <tr><td class="var">Adres</td><td>Getoond in objectdetail en exportkolom "Straat"; maakt de lijst herkenbaar voor de klant.</td><td>Straat + huisnummer + plaats, geschoond volgens BAG.</td><td class="vb">Stationsplein 12, Utrecht</td><td class="bron">Global objectdatabase / BAG</td></tr>
-      <tr><td class="var">Postcode (PC6 + PC4)</td><td>Exportkolom, PC4-kaartlaag én de koppelsleutel naar segmentatiedata op postcodeniveau.</td><td>Volledige PC6 per object; PC4 daaruit afgeleid.</td><td class="vb">3511 AB → 3511</td><td class="bron">Global objectdatabase / BAG</td></tr>
-      <tr><td class="var">Gemeente &amp; provincie</td><td>Filteropties in "Geografie", kaartlagen en exportkolommen.</td><td>Officiële CBS-gemeentenaam en -code + provincie per object, jaarlijks bijgewerkt bij herindelingen.</td><td class="vb">Utrecht (GM0344) · Utrecht</td><td class="bron">Afgeleid uit coördinaten + CBS-gebiedsindeling</td></tr>
-      <tr><td class="var">Coördinaten</td><td>Positie op de kaart, basis voor lasso-selectie en voor afstand/reistijd naar POI's.</td><td>Latitude/longitude in WGS84, minimaal 5 decimalen (±1 m nauwkeurig).</td><td class="vb">52.09074, 5.12142</td><td class="bron">Global objectdatabase (ingemeten)</td></tr>
-      <tr><td class="var">Aantal vlakken</td><td>KPI "# Vlakken", exportkolom en de basis voor rondesamenstelling: één object kan meerdere reclamevlakken hebben.</td><td>Aantal vlakken per object, liefst met vlak-ID's per vlak.</td><td class="vb">2</td><td class="bron">Global objectdatabase</td></tr>
-      <tr><td class="var">BRO-dekking</td><td>Badge "NIET IN BRO" in het objectdetail; bepaalt of er bereikcijfers voor het object bestaan.</td><td>Ja/nee per object + het BRO-frame-ID voor de koppeling.</td><td class="vb">Ja · frame 88123</td><td class="bron">Koppeltabel Global ↔ BRO</td></tr>
-      <tr><td class="var">Objectfoto</td><td>Street View-preview in het objectdetailpaneel.</td><td>Foto-URL per object, of on-the-fly Street View op basis van de coördinaten.</td><td class="vb">https://…/GL-10247.jpg</td><td class="bron">Eigen fotodatabase of Google Street View API <span class="check">ter bevestiging</span></td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>B · Bereik &amp; contacten (BRO)</h2>
-  <p class="sectie-sub">De cijfers achter de KPI's "Huishoudens", "Doelgroep %" en "Doelgroepindex" en het contactencijfer in het objectdetail.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Contacten per week</td><td>"# Contacten" in het objectdetail; optelbaar naar campagne- of selectieniveau.</td><td>Gemiddeld aantal bruto contacten per object per week (populatie 13+).</td><td class="vb">41.200 per week</td><td class="bron">BRO (Buitenreclame Onderzoek)</td></tr>
-      <tr><td class="var">Weekbereik huishoudens</td><td>KPI "Huishoudens": geschat aantal unieke huishoudens dat de geselecteerde objecten wekelijks bereiken.</td><td>Bereik per object plus een ontdubbelingsmethode over meerdere objecten heen (netto bereik van een selectie).</td><td class="vb">4.870 huishoudens</td><td class="bron">BRO + bereiksmodel <span class="check">ter bevestiging</span></td></tr>
-      <tr><td class="var">BRO-doelgroepen</td><td>De 19 standaarddoelgroepen in het doelgroepfilter, gebaseerd op verplaatsingsgedrag, inclusief de omschrijving in de interface.</td><td>Per doelgroep: naam, definitie/kenmerk en aandeel in de bevolking.</td><td class="vb">Forenzen — 24%</td><td class="bron">BRO</td></tr>
-      <tr><td class="var">Doelgroepindex per object</td><td>Het indexfilter (0–500), de KPI "Doelgroepindex" en "Index" in het objectdetail; rangschikt objecten op doelgroepscore, ook bij het samenstellen van rondes op doelgroep.</td><td>Index per object (of per gebied, herleidbaar naar object) per BRO-doelgroep; 100 = landelijk gemiddelde.</td><td class="vb">Forenzen: 132</td><td class="bron">BRO (verplaatsingsgedrag)</td></tr>
-      <tr><td class="var">Doelgroep %</td><td>KPI "Doelgroep %": het aandeel van de bereikte huishoudens dat tot de geselecteerde doelgroep(en) behoort.</td><td>Berekenbaar uit bereik per object × doelgroepsamenstelling van het verzorgingsgebied.</td><td class="vb">27%</td><td class="bron">Berekend (BRO + segmentatie)</td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>C · Segmentatie — eigen doelgroepen samenstellen</h2>
-  <p class="sectie-sub">De bouwstenen achter "Nieuwe doelgroep samenstellen" en het gegenereerde doelgroepprofiel.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Segmentatievariabelen</td><td>De keuzelijst waarmee gebruikers eigen doelgroepen bouwen: demografie (leeftijd, geslacht, stedelijkheid), inkomen (huishoudinkomen, koopkracht) en gezinssituatie (huishoudgrootte, kinderen thuis).</td><td>Per PC4 de verdeling over vaste klassen per variabele, bijv. leeftijd 18–24 / 25–34 / 35–49 / 50–64 / 65+, inkomen &lt; €30k t/m &gt; €70k.</td><td class="vb">PC4 3511 · 25–34: 28%</td><td class="bron">Casar-segmentatiedata / CBS Kerncijfers wijken en buurten / datapartner <span class="check">ter bevestiging</span></td></tr>
-      <tr><td class="var">Index eigen doelgroep</td><td>Zelfde indexmechanisme (0–500) voor opgeslagen eigen doelgroepen als voor BRO-doelgroepen.</td><td>Per PC4 een indexscore per samengestelde doelgroep, berekend uit de gekozen variabelen en condities.</td><td class="vb">≥ 150 in 3511</td><td class="bron">Berekend (uit segmentatievariabelen)</td></tr>
-      <tr><td class="var">Doelgroepprofiel</td><td>Het genereerbare, kopieerbare profiel in het zijpaneel "Doelgroepprofiel".</td><td>Beschrijvende kenmerken per doelgroep en per variabele als input voor de gegenereerde tekst.</td><td class="vb">"Doet meerdere keren per week boodschappen…"</td><td class="bron">Gegenereerd op basis van BRO- en segmentatiedata</td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>D · Geografie &amp; kaart</h2>
-  <p class="sectie-sub">Alles wat de kaartlagen en het geografiefilter nodig hebben.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Geo-grenzen</td><td>De kaartlagen provincie / gemeente / PC4: filteropties tonen en geselecteerde gebieden inkleuren op de kaart.</td><td>Actuele geometrie (GeoJSON) met naam en code per niveau, in de jaarversie die ook voor de segmentatiedata geldt.</td><td class="vb">Polygon GM0344 (Utrecht)</td><td class="bron">CBS / PDOK / Kadaster (open data)</td></tr>
-      <tr><td class="var">Kaartondergrond</td><td>De basiskaart onder alle objecten en gebieden (grijstinten of kleur).</td><td>Tile-service met volledige NL-dekking en licentie voor commercieel gebruik.</td><td class="vb">OSM-tiles via Leaflet</td><td class="bron">OpenStreetMap of commerciële tileprovider <span class="check">ter bevestiging</span></td></tr>
-      <tr><td class="var">Klant-postcodelijst</td><td>"Upload postcodelijst" bij de PC4-laag: de aangeleverde postcodes worden automatisch geselecteerd.</td><td>CSV of Excel met een kolom PC4-codes; validatie tegen bestaande PC4's.</td><td class="vb">3511, 3512, 3013</td><td class="bron">Upload door gebruiker/klant</td></tr>
-      <tr><td class="var">Opgeslagen regio's</td><td>Herbruikbare regiosets in het geografiefilter ("Randstad G4"), inclusief beheer.</td><td>Naam + set geo-selecties per gebruiker of team.</td><td class="vb">Randstad G4</td><td class="bron">Applicatiedatabase (door gebruikers aangemaakt)</td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>E · POI's, afstand &amp; reistijd</h2>
-  <p class="sectie-sub">Het POI-filter, de POI-punten op de kaart en de afstand-/reistijdkolommen in de export.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">POI-branches</td><td>De branchekeuze in het POI-filter: supermarkten, fastfood, tankstations, bouwmarkten, fitness, warenhuizen…</td><td>Brancheindeling + volledige, periodiek ververste vestigingenlijst per branche.</td><td class="vb">Fitnesscentra</td><td class="bron">POI-dataleverancier (bijv. Locatus, OSM, Google Places) <span class="check">ter bevestiging</span></td></tr>
-      <tr><td class="var">POI-vestigingen</td><td>De punten op de kaart, de zoeklijst "Specifieke POI's" en de exportsamenvatting "Objecten per POI-vestiging".</td><td>Per vestiging: naam, keten, adres, plaats, coördinaten en branche.</td><td class="vb">Jumbo Utrecht · Marktstraat 14</td><td class="bron">POI-dataleverancier</td></tr>
-      <tr><td class="var">Eigen POI-lijsten</td><td>"Eigen POI lijst toevoegen" en "Eenmalige POI op adres": klantlocaties als middelpunt van een selectiegebied.</td><td>CSV/Excel met adres of postcode per locatie; geocoderen naar coördinaten.</td><td class="vb">Nieuwe winkel Rotterdam · 3011 AB</td><td class="bron">Upload gebruiker + geocodeerservice</td></tr>
-      <tr><td class="var">Afstand object–POI</td><td>Het afstandscriterium in het POI-filter en de exportkolommen "Dichtstbijzijnde POI" en "Afstand tot POI".</td><td>Afstand per object naar de dichtstbijzijnde geselecteerde POI; keuze hemelsbreed of over de weg vastleggen.</td><td class="vb">450 m</td><td class="bron">Berekend uit coördinaten</td></tr>
-      <tr><td class="var">Reistijd object–POI</td><td>Het reistijdcriterium (minuten) en de exportkolom "Reistijd tot POI"; alleen gevuld als reistijd als filter actief is.</td><td>Reistijd per vervoerswijze (in elk geval auto) van object naar POI.</td><td class="vb">6 min</td><td class="bron">Routeringsservice (bijv. OSRM, Google Routes, HERE) <span class="check">ter bevestiging</span></td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>F · Vlakken, rondes &amp; inzet</h2>
-  <p class="sectie-sub">De sectie "Vlakken": standaard rondes en zelf samengestelde inzet.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Standaard rondes</td><td>Het tabblad "Standaard rondes": vooraf gedefinieerde pakketten waaruit de gebruiker kiest; de kaart en KPI's tonen dan alleen die vlakken.</td><td>Per ronde: naam, aantal vlakken, samenstellingsregels (spreiding, netwerken) en share of time.</td><td class="vb">Ronde 1.000 vlakken</td><td class="bron">Global planning / inkoop (verkoopproposities)</td></tr>
-      <tr><td class="var">Share of time</td><td>Invoerveld bij "Zelf samenstellen": het aandeel zendtijd op digitale vlakken.</td><td>Beschikbare en verkochte share of time per digitaal vlak of ronde.</td><td class="vb">20%</td><td class="bron">Global planning / adserving</td></tr>
-      <tr><td class="var">Nader te bepalen</td><td>Het prototype reserveert twee extra invoervelden bij het zelf samenstellen van rondes.</td><td>Nog te definiëren met de business — kandidaten: periode/week, budget, regio-spreiding.</td><td class="vb">—</td><td class="bron">— <span class="check">ter bevestiging</span></td></tr>
-    </tbody>
-  </table></div>
-
-  <h2>G · Applicatiedata (door gebruikers aangemaakt)</h2>
-  <p class="sectie-sub">Geen brondata, maar wél op te slaan: alles wat gebruikers in het platform zelf aanmaken.</p>
-  <div class="tabel-scroll"><table>
-    <colgroup><col class="c-var"><col class="c-oms"><col class="c-data"><col class="c-vb"><col class="c-bron"></colgroup>
-    <thead><tr><th>Datavariabele</th><th>Omschrijving</th><th>Gewenste data</th><th>Voorbeeld</th><th>Bron</th></tr></thead>
-    <tbody>
-      <tr><td class="var">Projecten</td><td>Het projectenoverzicht en de werkruimte: elke selectie leeft binnen een project dat je later weer opent of deelt via een maplink.</td><td>Per project: naam, klant, laatst bewerkt, alle actieve filterselecties en handmatige selecties, deel-status.</td><td class="vb">Retail Q3 – landelijke campagne · FMCG</td><td class="bron">Applicatiedatabase</td></tr>
-      <tr><td class="var">Opgeslagen doelgroepen</td><td>Het tabblad "Jouw opgeslagen doelgroepen", inclusief beheren en hergebruiken over projecten heen.</td><td>Per doelgroep: naam, gekozen variabelen + condities, eigenaar, aanmaakdatum.</td><td class="vb">Boodschappers 30–45</td><td class="bron">Applicatiedatabase</td></tr>
-      <tr><td class="var">Opgeslagen POI-lijsten</td><td>"Jouw POI lijsten", inclusief delen met collega's en het opslaan van eenmalige POI's als lijst.</td><td>Per lijst: naam, locaties (gegeocodeerd), eigenaar, gedeeld-status.</td><td class="vb">Vestigingen klant X · Gedeeld</td><td class="bron">Applicatiedatabase</td></tr>
-    </tbody>
-  </table></div>
-
-  <footer>Werkdocument bij het Casar-dashboard-prototype (Audience Platform) · opgesteld op basis van de schermen en voorbeelddata in <code>prototypes/casar-dashboard/</code>.</footer>
+  <p class="intro">Dit is het gezamenlijke werkdocument met alle datavariabelen die nodig zijn om het Casar-dashboard met echte data te vullen. <strong>Klik op een cel om te typen</strong> — elke wijziging wordt automatisch opgeslagen en is direct zichtbaar voor iedereen die dit document open heeft.</p>
+  <div class="notitie"><strong>De kolom Bron staat bewust open.</strong> Vul per variabele in waar de data vandaan moet komen. Rijen toevoegen kan onderaan elke sectie; verwijderen met het kruisje achter een rij.</div>
+  <div id="laadfout">De tabel kan nu niet geladen worden. Controleer je internetverbinding en herlaad de pagina. Lukt het dan nog niet, meld het bij Tim.</div>
+  <div id="secties"></div>
+  <footer>Werkdocument bij het Casar-dashboard-prototype (Audience Platform). Wijzigingen worden centraal opgeslagen (Supabase) en zijn zichtbaar voor iedereen met de link — er is geen versiegeschiedenis, dus overschrijven is definitief.</footer>
 </div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SUPABASE_URL = "https://oenfktekinmrsehfzdva.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_mgbVOTLLpxUBvnv8BOXDKQ_cPN9AJxx";
+  var DOC = "casar-dashboard";
+  var TABEL = "datatabel_rows";
+
+  var SECTIES = [
+    { key: "A", titel: "A · Objecten & netwerken", sub: "De kern van het dashboard: elk out-of-home object op de kaart, met alles wat het objectdetail, de filters en de export nodig hebben." },
+    { key: "B", titel: "B · Bereik & contacten (BRO)", sub: "De cijfers achter de KPI's “Huishoudens”, “Doelgroep %” en “Doelgroepindex” en het contactencijfer in het objectdetail." },
+    { key: "C", titel: "C · Segmentatie — eigen doelgroepen samenstellen", sub: "De bouwstenen achter “Nieuwe doelgroep samenstellen” en het gegenereerde doelgroepprofiel." },
+    { key: "D", titel: "D · Geografie & kaart", sub: "Alles wat de kaartlagen en het geografiefilter nodig hebben." },
+    { key: "E", titel: "E · POI's, afstand & reistijd", sub: "Het POI-filter, de POI-punten op de kaart en de afstand-/reistijdkolommen in de export." },
+    { key: "F", titel: "F · Vlakken, rondes & inzet", sub: "De sectie “Vlakken”: standaard rondes en zelf samengestelde inzet." },
+    { key: "G", titel: "G · Applicatiedata (door gebruikers aangemaakt)", sub: "Geen brondata, maar wél op te slaan: alles wat gebruikers in het platform zelf aanmaken." }
+  ];
+  var KOLOMMEN = [
+    { veld: "variabele",    kop: "Datavariabele", klasse: "var",  breedte: "14%" },
+    { veld: "omschrijving", kop: "Omschrijving",  klasse: "oms",  breedte: "26%" },
+    { veld: "gewenste_data",kop: "Gewenste data", klasse: "data", breedte: "26%" },
+    { veld: "voorbeeld",    kop: "Voorbeeld",     klasse: "vb",   breedte: "16%" },
+    { veld: "bron",         kop: "Bron — in te vullen", klasse: "bron", breedte: "18%" }
+  ];
+
+  if (!window.supabase || !window.supabase.createClient) {
+    document.getElementById("laadfout").style.display = "block";
+    document.getElementById("status").className = "error";
+    document.getElementById("status-tekst").textContent = "Niet verbonden";
+    return;
+  }
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  var rijen = new Map();          // id -> rijdata
+  var bezigMetOpslaan = 0;
+  var wachtrijTimers = new Map(); // "id:veld" -> timeout
+
+  var statusEl = document.getElementById("status");
+  var statusTekstEl = document.getElementById("status-tekst");
+
+  function zetStatus(soort, tekst) {
+    statusEl.className = soort === "ok" ? "" : soort;
+    statusTekstEl.textContent = tekst;
+  }
+  function statusKlaar() {
+    if (bezigMetOpslaan === 0) zetStatus("ok", "Alle wijzigingen opgeslagen");
+  }
+
+  /* ---------- opslaan ---------- */
+
+  function slaCelOp(id, veld, waarde) {
+    var rij = rijen.get(id);
+    if (!rij || rij[veld] === waarde) return;
+    rij[veld] = waarde;
+    bezigMetOpslaan++;
+    zetStatus("saving", "Bezig met opslaan…");
+    var patch = {}; patch[veld] = waarde;
+    sb.from(TABEL).update(patch).eq("id", id).then(function (res) {
+      bezigMetOpslaan--;
+      if (res.error) zetStatus("error", "Opslaan mislukt — pas de cel opnieuw aan");
+      else statusKlaar();
+    }, function () {
+      bezigMetOpslaan--;
+      zetStatus("error", "Opslaan mislukt (geen verbinding) — pas de cel opnieuw aan");
+    });
+  }
+
+  function planOpslaan(id, veld, waarde, direct) {
+    var sleutel = id + ":" + veld;
+    if (wachtrijTimers.has(sleutel)) clearTimeout(wachtrijTimers.get(sleutel));
+    if (direct) { wachtrijTimers.delete(sleutel); slaCelOp(id, veld, waarde); return; }
+    wachtrijTimers.set(sleutel, setTimeout(function () {
+      wachtrijTimers.delete(sleutel);
+      slaCelOp(id, veld, waarde);
+    }, 1200));
+  }
+
+  /* ---------- rendering ---------- */
+
+  function maakCel(rij, kolom) {
+    var td = document.createElement("td");
+    td.className = kolom.klasse;
+    var cel = document.createElement("div");
+    cel.className = "cel";
+    try { cel.contentEditable = "plaintext-only"; } catch (e) {}
+    if (cel.contentEditable !== "plaintext-only") cel.contentEditable = "true";
+    cel.spellcheck = false;
+    cel.dataset.id = rij.id;
+    cel.dataset.veld = kolom.veld;
+    cel.textContent = rij[kolom.veld] || "";
+    cel.addEventListener("input", function () {
+      planOpslaan(rij.id, kolom.veld, cel.textContent, false);
+    });
+    cel.addEventListener("blur", function () {
+      planOpslaan(rij.id, kolom.veld, cel.textContent, true);
+    });
+    cel.addEventListener("paste", function (ev) {
+      if (cel.contentEditable === "plaintext-only") return;
+      ev.preventDefault();
+      var tekst = (ev.clipboardData || window.clipboardData).getData("text");
+      document.execCommand("insertText", false, tekst);
+    });
+    td.appendChild(cel);
+    return td;
+  }
+
+  function maakRijElement(rij) {
+    var tr = document.createElement("tr");
+    tr.dataset.id = rij.id;
+    KOLOMMEN.forEach(function (kolom) { tr.appendChild(maakCel(rij, kolom)); });
+    var acties = document.createElement("td");
+    acties.className = "acties";
+    var knop = document.createElement("button");
+    knop.className = "verwijder";
+    knop.title = "Rij verwijderen";
+    knop.textContent = "×";
+    knop.addEventListener("click", function () {
+      var naam = rijen.get(rij.id) && rijen.get(rij.id).variabele;
+      if (!confirm("Rij “" + (naam || "zonder naam") + "” definitief verwijderen?")) return;
+      bezigMetOpslaan++;
+      zetStatus("saving", "Bezig met opslaan…");
+      sb.from(TABEL).delete().eq("id", rij.id).then(function (res) {
+        bezigMetOpslaan--;
+        if (res.error) { zetStatus("error", "Verwijderen mislukt — probeer opnieuw"); return; }
+        verwijderRijLokaal(rij.id);
+        statusKlaar();
+      }, function () {
+        bezigMetOpslaan--;
+        zetStatus("error", "Verwijderen mislukt (geen verbinding) — probeer opnieuw");
+      });
+    });
+    acties.appendChild(knop);
+    tr.appendChild(acties);
+    return tr;
+  }
+
+  function verwijderRijLokaal(id) {
+    rijen.delete(id);
+    var tr = document.querySelector('tr[data-id="' + id + '"]');
+    if (tr) tr.remove();
+    statusKlaar();
+  }
+
+  function werkRijLokaalBij(rij) {
+    var bestaand = rijen.get(rij.id);
+    rijen.set(rij.id, rij);
+    var tr = document.querySelector('tr[data-id="' + rij.id + '"]');
+    if (!tr) { voegRijToeAanSectie(rij); return; }
+    KOLOMMEN.forEach(function (kolom) {
+      var cel = tr.querySelector('.cel[data-veld="' + kolom.veld + '"]');
+      if (!cel || cel === document.activeElement) return;
+      var nieuw = rij[kolom.veld] || "";
+      if (cel.textContent !== nieuw) cel.textContent = nieuw;
+    });
+  }
+
+  function voegRijToeAanSectie(rij) {
+    var tbody = document.querySelector('tbody[data-sectie="' + rij.sectie + '"]');
+    if (!tbody) return;
+    tbody.appendChild(maakRijElement(rij));
+  }
+
+  function renderAlles(alleRijen) {
+    var container = document.getElementById("secties");
+    container.textContent = "";
+    SECTIES.forEach(function (sectie) {
+      var kop = document.createElement("h2");
+      kop.textContent = sectie.titel;
+      var sub = document.createElement("p");
+      sub.className = "sectie-sub";
+      sub.textContent = sectie.sub;
+      var scroll = document.createElement("div");
+      scroll.className = "tabel-scroll";
+      var tabel = document.createElement("table");
+      var colgroup = document.createElement("colgroup");
+      KOLOMMEN.forEach(function (kolom) {
+        var col = document.createElement("col");
+        col.style.width = kolom.breedte;
+        colgroup.appendChild(col);
+      });
+      colgroup.appendChild(document.createElement("col"));
+      tabel.appendChild(colgroup);
+      var thead = document.createElement("thead");
+      var koprij = document.createElement("tr");
+      KOLOMMEN.forEach(function (kolom) {
+        var th = document.createElement("th");
+        if (kolom.veld === "bron") th.className = "bron-kop";
+        th.textContent = kolom.kop;
+        koprij.appendChild(th);
+      });
+      koprij.appendChild(document.createElement("th"));
+      thead.appendChild(koprij);
+      tabel.appendChild(thead);
+      var tbody = document.createElement("tbody");
+      tbody.dataset.sectie = sectie.key;
+      alleRijen.filter(function (r) { return r.sectie === sectie.key; })
+        .forEach(function (r) { tbody.appendChild(maakRijElement(r)); });
+      tabel.appendChild(tbody);
+      scroll.appendChild(tabel);
+
+      var toevoegKnop = document.createElement("button");
+      toevoegKnop.className = "rij-toevoegen";
+      toevoegKnop.textContent = "+ Rij toevoegen";
+      toevoegKnop.addEventListener("click", function () {
+        var maxPositie = 0;
+        rijen.forEach(function (r) { if (r.sectie === sectie.key && r.positie > maxPositie) maxPositie = r.positie; });
+        bezigMetOpslaan++;
+        zetStatus("saving", "Bezig met opslaan…");
+        sb.from(TABEL)
+          .insert({ doc: DOC, sectie: sectie.key, positie: maxPositie + 1, variabele: "", omschrijving: "", gewenste_data: "", voorbeeld: "", bron: "" })
+          .select().single()
+          .then(function (res) {
+            bezigMetOpslaan--;
+            if (res.error || !res.data) { zetStatus("error", "Rij toevoegen mislukt — probeer opnieuw"); return; }
+            if (!rijen.has(res.data.id)) { rijen.set(res.data.id, res.data); voegRijToeAanSectie(res.data); }
+            statusKlaar();
+            var tr = document.querySelector('tr[data-id="' + res.data.id + '"]');
+            var eersteCel = tr && tr.querySelector(".cel");
+            if (eersteCel) eersteCel.focus();
+          }, function () {
+            bezigMetOpslaan--;
+            zetStatus("error", "Rij toevoegen mislukt (geen verbinding) — probeer opnieuw");
+          });
+      });
+
+      container.appendChild(kop);
+      container.appendChild(sub);
+      container.appendChild(scroll);
+      container.appendChild(toevoegKnop);
+    });
+  }
+
+  /* ---------- realtime ---------- */
+
+  function startRealtime() {
+    sb.channel("datatabel-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: TABEL }, function (melding) {
+        if (melding.eventType === "DELETE") {
+          if (melding.old && melding.old.id) verwijderRijLokaal(melding.old.id);
+          return;
+        }
+        var rij = melding.new;
+        if (!rij || rij.doc !== DOC) return;
+        werkRijLokaalBij(rij);
+      })
+      .subscribe();
+  }
+
+  /* ---------- laden ---------- */
+
+  sb.from(TABEL).select("*").eq("doc", DOC)
+    .order("sectie", { ascending: true })
+    .order("positie", { ascending: true })
+    .then(function (res) {
+      if (res.error) {
+        document.getElementById("laadfout").style.display = "block";
+        zetStatus("error", "Niet verbonden");
+        return;
+      }
+      (res.data || []).forEach(function (r) { rijen.set(r.id, r); });
+      renderAlles(res.data || []);
+      zetStatus("ok", "Alle wijzigingen opgeslagen");
+      startRealtime();
+    }, function () {
+      document.getElementById("laadfout").style.display = "block";
+      zetStatus("error", "Niet verbonden");
+    });
+
+  window.addEventListener("beforeunload", function (ev) {
+    if (bezigMetOpslaan > 0 || wachtrijTimers.size > 0) {
+      wachtrijTimers.forEach(function (timer, sleutel) {
+        clearTimeout(timer);
+        var deel = sleutel.split(":");
+        var id = deel.slice(0, deel.length - 1).join(":");
+        var veld = deel[deel.length - 1];
+        var cel = document.querySelector('.cel[data-id="' + id + '"][data-veld="' + veld + '"]');
+        if (cel) slaCelOp(id, veld, cel.textContent);
+      });
+      ev.preventDefault();
+      ev.returnValue = "";
+    }
+  });
+})();
+</script>
 </body>
 </html>
