@@ -11,12 +11,16 @@ Live basis-URL: `https://www.globalnl-innovate.com/`
 - **Cloudflare Pages** is gekoppeld aan deze GitHub-repository: elke push naar
   `main` deployt automatisch (±1 min). Geen build-stap; de repo-root wordt
   1-op-1 geserveerd.
-- De site staat achter **Cloudflare Access**: bezoekers loggen in met hun
-  e-mailadres en een eenmalige code. Toegestaan zijn `@global.com`-adressen;
-  externe testers moeten per e-mailadres worden toegevoegd in de Access-policy
-  (Zero Trust-dashboard → *Access* → *Applications* → applicatie
-  *Global prototypes*). Er bestaat géén wachtwoord en geen registratie —
-  wie testers wil uitnodigen regelt dat in deze policy.
+- De site staat achter een **gedeeld wachtwoord** via
+  `functions/_middleware.js` (Cloudflare Pages Functions, HTTP Basic Auth):
+  de browser toont een inlogvenster; gebruikersnaam maakt niet uit, alleen
+  het wachtwoord telt. Het wachtwoord staat als environment variable
+  `SITE_PASSWORD` in het Pages-project (*Settings → Variables and secrets*)
+  en dus **nooit in deze publieke repo**. Wachtwoord wijzigen = variabele
+  aanpassen en de laatste deployment opnieuw uitvoeren (*Retry deployment*).
+  Ontbreekt de variabele, dan blijft de site bewust dicht (fail closed).
+- Raak `functions/_middleware.js` niet aan bij go-lives; het beschermt
+  automatisch ook elk nieuw prototype.
 - Naast het eigen domein bestaat er een `….pages.dev`-adres van het
   Cloudflare-project; ook dat hoort achter Access te staan. Deel het nooit
   als prototype-link — de enige publieke basis-URL is het eigen domein.
@@ -137,9 +141,8 @@ Stappen:
 8. Commit en push naar `main`. Cloudflare Pages publiceert automatisch (±1 min).
 9. Meld de live URL aan de gebruiker:
    `https://www.globalnl-innovate.com/prototypes/<slug>/`
-   Herinner de gebruiker eraan dat testers alleen binnenkomen als hun
-   e-mailadres door de Access-policy wordt toegelaten (zie "Hosting en
-   toegang") — externe testers dus vooraf toevoegen.
+   Herinner de gebruiker eraan dat testers het gedeelde wachtwoord nodig
+   hebben (zie "Hosting en toegang").
 10. **Draag de target-configuratie expliciet over aan de gebruiker.** Dit is de
    stap die het vaakst wordt vergeten en die je zelf niet kunt uitvoeren.
    Meld letterlijk:
@@ -219,10 +222,11 @@ snippetvarianten en de geplakte versie is leidend.
 - Laat een werkende widget staan zolang een routeringsprobleem loopt.
   Verkeerd gearchiveerde feedback kun je in Usersnap verplaatsen of
   exporteren, maar feedback die een tester niet kón geven is definitief weg.
-- De pagina's staan achter een Cloudflare Access-login, maar **de repository
-  zelf is publiek**: alles wat hier gecommit wordt is voor iedereen leesbaar.
-  Zet er dus nooit vertrouwelijke data, echte klantgegevens of secrets in
-  (de Usersnap-key is een publieke widget-key en mag er wél in).
-- De Access-login beschermt de site; hij vervangt de noindex-tag en de
+- De pagina's staan achter een wachtwoord, maar **de repository zelf is
+  publiek**: alles wat hier gecommit wordt is voor iedereen leesbaar. Zet er
+  dus nooit vertrouwelijke data, echte klantgegevens of secrets in — en ook
+  het sitewachtwoord zelf nooit (de Usersnap-key is een publieke widget-key
+  en mag er wél in).
+- De wachtwoordbeveiliging vervangt de noindex-tag en de
   Usersnap-target-discipline niet. Alle bestaande stappen blijven gelden.
 - Werk direct op `main`, tenzij de gebruiker om een branch of PR vraagt.

@@ -4,9 +4,9 @@ Prototypes livezetten en feedback ophalen met **Usersnap**.
 
 **Live overzicht:** https://www.globalnl-innovate.com/
 
-De site staat achter een Cloudflare Access-login: testers loggen in met hun
-e-mailadres (`@global.com`, of extern na toevoeging aan de Access-policy) en
-ontvangen een eenmalige code per mail. Er is geen wachtwoord of registratie.
+De site staat achter een gedeeld wachtwoord: de browser vraagt bij het openen
+om een inlog (gebruikersnaam mag leeg blijven of iets willekeurigs zijn, het
+wachtwoord telt). Vraag het wachtwoord op bij Tim.
 
 ## Hoe het werkt
 
@@ -17,7 +17,7 @@ ontvangen een eenmalige code per mail. Er is geen wachtwoord of registratie.
 3. Claude Code plaatst het prototype in `prototypes/<slug>/`, voegt de
    Usersnap-snippet toe, zet het op de overzichtspagina en pusht naar `main`.
    Cloudflare Pages publiceert het binnen ±1 minuut.
-4. Deel de link. Testers loggen in met hun e-mailadres (zie hierboven) en
+4. Deel de link plus het wachtwoord. Testers loggen in (zie hierboven) en
    kunnen dan het prototype bekijken en via de Usersnap-knop feedback geven;
    de feedback (inclusief wie wat zei) zie je in het Usersnap-dashboard.
 5. Klaar met de ronde? Vraag Claude Code het prototype offline te halen.
