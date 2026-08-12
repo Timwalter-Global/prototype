@@ -1,10 +1,27 @@
 # Feedback verzamelen — werkwijze voor Claude Code
 
-Deze repository host Claude-design HTML-prototypes via GitHub Pages.
+Deze repository host Claude-design HTML-prototypes via **Cloudflare Pages**.
 Feedback wordt verzameld met **Usersnap**: elk prototype heeft een eigen
 Usersnap-project.
 
-Live basis-URL: `https://timwalter-global.github.io/prototype/`
+Live basis-URL: `https://www.globalnl-innovate.com/`
+
+## Hosting en toegang
+
+- **Cloudflare Pages** is gekoppeld aan deze GitHub-repository: elke push naar
+  `main` deployt automatisch (±1 min). Geen build-stap; de repo-root wordt
+  1-op-1 geserveerd.
+- De site staat achter **Cloudflare Access**: bezoekers loggen in met hun
+  e-mailadres en een eenmalige code. Toegestaan zijn `@global.com`-adressen;
+  externe testers moeten per e-mailadres worden toegevoegd in de Access-policy
+  (Zero Trust-dashboard → *Access* → *Applications* → applicatie
+  *Global prototypes*). Er bestaat géén wachtwoord en geen registratie —
+  wie testers wil uitnodigen regelt dat in deze policy.
+- Naast het eigen domein bestaat er een `….pages.dev`-adres van het
+  Cloudflare-project; ook dat hoort achter Access te staan. Deel het nooit
+  als prototype-link — de enige publieke basis-URL is het eigen domein.
+- De oude GitHub Pages-URL (`https://timwalter-global.github.io/prototype/`)
+  is vervallen en wordt uitgezet; verwijs er nergens meer naar.
 
 ## Hoe Usersnap hier werkt — lees dit eerst
 
@@ -117,15 +134,18 @@ Stappen:
    nieuw, herkenbaar miniatuurtemplate — geen generieke afbeelding of icoon.
    Geen LIVE-badges of livegang-datums op de kaarten; de contactkaart staat
    automatisch altijd achteraan.
-8. Commit en push naar `main`. GitHub Pages publiceert automatisch (1–2 min).
+8. Commit en push naar `main`. Cloudflare Pages publiceert automatisch (±1 min).
 9. Meld de live URL aan de gebruiker:
-   `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
+   `https://www.globalnl-innovate.com/prototypes/<slug>/`
+   Herinner de gebruiker eraan dat testers alleen binnenkomen als hun
+   e-mailadres door de Access-policy wordt toegelaten (zie "Hosting en
+   toegang") — externe testers dus vooraf toevoegen.
 10. **Draag de target-configuratie expliciet over aan de gebruiker.** Dit is de
    stap die het vaakst wordt vergeten en die je zelf niet kunt uitvoeren.
    Meld letterlijk:
 
    > Zet in Usersnap bij project **<projectnaam>** onder *Target* deze URL:
-   > `https://timwalter-global.github.io/prototype/prototypes/<slug>/`
+   > `https://www.globalnl-innovate.com/prototypes/<slug>/`
 
    Zonder die stap verschijnt de widget wel, maar komt de feedback in het
    verkeerde project of nergens binnen.
@@ -142,6 +162,11 @@ target moet staan. Vul deze tabel bij elke go-live aan.
 
 De widget-key is voor de hele space gelijk:
 `c4f048c1-ba97-4344-8bc6-a7afcbec2233` (space `global`).
+
+In de tabel staat `…` voor de basis-URL `https://www.globalnl-innovate.com`.
+Bij de migratie van GitHub Pages naar Cloudflare (augustus 2026) moesten alle
+targets in Usersnap van de oude `…github.io/prototype/…`-URL's naar dit domein
+worden omgezet, gevolgd door een routeringstest per prototype.
 
 | Slug | Usersnap-project | Target-URL |
 | --- | --- | --- |
@@ -194,7 +219,10 @@ snippetvarianten en de geplakte versie is leidend.
 - Laat een werkende widget staan zolang een routeringsprobleem loopt.
   Verkeerd gearchiveerde feedback kun je in Usersnap verplaatsen of
   exporteren, maar feedback die een tester niet kón geven is definitief weg.
-- De repository is publiek en de pagina's zijn bereikbaar voor iedereen met de
-  link. Zet er dus nooit vertrouwelijke data, echte klantgegevens of secrets in
+- De pagina's staan achter een Cloudflare Access-login, maar **de repository
+  zelf is publiek**: alles wat hier gecommit wordt is voor iedereen leesbaar.
+  Zet er dus nooit vertrouwelijke data, echte klantgegevens of secrets in
   (de Usersnap-key is een publieke widget-key en mag er wél in).
+- De Access-login beschermt de site; hij vervangt de noindex-tag en de
+  Usersnap-target-discipline niet. Alle bestaande stappen blijven gelden.
 - Werk direct op `main`, tenzij de gebruiker om een branch of PR vraagt.
