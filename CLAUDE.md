@@ -153,7 +153,7 @@ De widget-key is voor de hele space gelijk:
 
 | Slug | Usersnap-project | Target-URL |
 | --- | --- | --- |
-| `casar-dashboard` | Casar 2.0 | `…/prototypes/casar-dashboard/` |
+| `casar-dashboard` | Casar 2.0 | `…/prototypes/casar-dashboard/` (widget staat ook op de werkruimte `…/prototypes/casar-dashboard/werkruimte.html`; een target op de prefix dekt beide) |
 | `adviewer2` | *(nog niet doorgegeven — gebruiker stelt target zelf in)* | `…/prototypes/adviewer2/` (widget staat ook op de one-pager `…/prototypes/adviewer2/start/` en de profielpagina `…/prototypes/adviewer2/account/`; een target op de prefix `…/prototypes/adviewer2/` dekt alles) |
 | `mastmonitor` | Mast Monitor | `…/prototypes/mastmonitor/` (widget staat ook op `…/prototypes/mastmonitor/dashboard.html`) |
 | `creaties-verzamelen` | Usersnap-project met target op de prefix `…/prototypes/creaties…` | `…/prototypes/creaties-verzamelen/` (valt binnen die prefix) |
