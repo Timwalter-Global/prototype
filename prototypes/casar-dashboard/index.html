@@ -619,7 +619,8 @@
             <span style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#5a6472">Resultaat</span>
           </div>
           <div style="flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:14px" data-comment-anchor="d7f55bb1a9-div">
-            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+            <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0">Selectie</div>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:-5px">
               <div style="background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
                   <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Objecten</div>
@@ -636,24 +637,7 @@
                 <div style="font-size:21px;font-weight:800;color:#1c2530;margin-top:3px">{{ kpiVlakken }}</div>
                 <div style="font-size:10px;color:#8a93a0">reclamevlakken</div>
               </div>
-              <div style="background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
-                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
-                  <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Doelgroep %</div>
-                  <span title="Het aandeel van de bereikte huishoudens dat tot de geselecteerde doelgroep(en) behoort." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#e3e7ec;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
-                </div>
-                <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiPct }}</div>
-                <div style="font-size:10px;color:#8a93a0">{{ kpiPctSub }}</div>
-              </div>
-              <button onClick="{{ onDgTabelOpen }}" title="Bekijk de indexscores van alle doelgroepen" style="display:block;width:100%;text-align:left;background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px;font-family:inherit;cursor:pointer" style-hover="border-color:#195AA6;background:#f2f6fb">
-                <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
-                  <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Doelgroepindex</div>
-                  <span title="Hoe sterk de geselecteerde doelgroep in de huidige selectie is vertegenwoordigd ten opzichte van het landelijk gemiddelde (index 100). Boven de 100 = bovengemiddeld aanwezig." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#e3e7ec;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
-                </div>
-                <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiIndex }}</div>
-                <div style="font-size:10px;color:#8a93a0">{{ kpiIndexSub }}</div>
-                <div style="font-size:10px;font-weight:700;color:#0B78BE;margin-top:4px">Vergelijk alle doelgroepen ›</div>
-              </button>
-              <div style="background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
+              <div style="grid-column:1 / -1;background:#f7f8fa;border:1px solid #eceff3;border-radius:10px;padding:10px 12px">
                 <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
                   <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530"># POI's in actieve selectie</div>
                   <span title="Het aantal geselecteerde POI-locaties (zoals supermarkten of tankstations) dat binnen de actieve selectie valt en waar objecten omheen meetellen." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#e3e7ec;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
@@ -674,6 +658,43 @@
                   <div style="height:4px;border-radius:2px;background:#eceff3;overflow:hidden;margin-left:15px"><div style="height:100%;border-radius:2px;background:{{ b.color }};width:{{ b.w }}"></div></div>
                 </div>
               </sc-for>
+            </div>
+            <div style="border-top:1px solid #e3e7ec;padding-top:14px;display:flex;flex-direction:column;gap:9px">
+              <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0">Doelgroep</div>
+              <sc-if value="{{ hasDgSel }}" hint-placeholder-val="{{ false }}">
+                <div style="background:#f2f6fb;border:1px solid #cddcee;border-radius:10px;padding:12px">
+                  <div style="display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px">
+                    <sc-for list="{{ dgKaartNamen }}" as="dn" hint-placeholder-count="1">
+                      <span style="font-size:10.5px;font-weight:600;color:#1B4B89;background:#fff;border:1px solid #cddcee;border-radius:999px;padding:3px 9px">{{ dn }}</span>
+                    </sc-for>
+                  </div>
+                  <div style="display:flex">
+                    <div style="flex:1;min-width:0;padding-right:14px">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
+                        <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Index</div>
+                        <span title="Hoe sterk de geselecteerde doelgroep in de huidige selectie is vertegenwoordigd ten opzichte van het landelijk gemiddelde (index 100). Boven de 100 = bovengemiddeld aanwezig." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#dbe7f3;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
+                      </div>
+                      <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiIndex }}</div>
+                      <div style="font-size:10px;color:#8a93a0">{{ kpiIndexSub }}</div>
+                    </div>
+                    <div style="flex:1;min-width:0;border-left:1px solid #cddcee;padding-left:14px">
+                      <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:4px">
+                        <div style="font-size:10px;font-weight:800;letter-spacing:.05em;text-transform:uppercase;color:#1c2530">Doelgroep %</div>
+                        <span title="Het aandeel van de bereikte huishoudens dat tot de geselecteerde doelgroep(en) behoort." style="width:13px;height:13px;display:inline-flex;align-items:center;justify-content:center;border-radius:50%;background:#dbe7f3;color:#5a6472;font-size:9px;font-weight:700;cursor:help;flex:none">?</span>
+                      </div>
+                      <div style="font-size:21px;font-weight:800;color:#195AA6;margin-top:3px">{{ kpiPct }}</div>
+                      <div style="font-size:10px;color:#8a93a0">{{ kpiPctSub }}</div>
+                    </div>
+                  </div>
+                  <button onClick="{{ onDgTabelOpen }}" style="margin-top:10px;background:none;border:none;padding:0;font-family:inherit;font-size:10.5px;font-weight:700;color:#0B78BE;cursor:pointer" style-hover="text-decoration:underline">Vergelijk alle doelgroepen ›</button>
+                </div>
+              </sc-if>
+              <sc-if value="{{ noDgSel }}" hint-placeholder-val="{{ true }}">
+                <div style="background:#fbfcfd;border:1px solid #e3e7ec;border-radius:10px;padding:12px">
+                  <div style="font-size:11px;color:#8a93a0;line-height:1.55;text-wrap:pretty">Nog geen doelgroep gekozen — kies er een in het filter Doelgroep, of vergelijk eerst alle doelgroepen op index, penetratie en DROTS.</div>
+                  <button onClick="{{ onDgTabelOpen }}" style="margin-top:10px;background:none;border:none;padding:0;font-family:inherit;font-size:10.5px;font-weight:700;color:#0B78BE;cursor:pointer" style-hover="text-decoration:underline">Vergelijk alle doelgroepen ›</button>
+                </div>
+              </sc-if>
             </div>
           </div>
         </div>
@@ -1900,7 +1921,9 @@ class Component extends DCLogic {
       kpiPct: selDgList.length ? pct + '%' : '—',
       kpiPctSub: selDgList.length ? 'van bereikte huishoudens' : 'nog geen doelgroep gekozen',
       kpiIndex: selDgList.length ? String(Math.round(selDgList.reduce((t, g) => t + this.dgIndexVan(g), 0) / selDgList.length)) : '—',
-      kpiIndexSub: selDgList.length ? (selDgList.length > 1 ? 'gemiddelde index van ' + selDgList.length + ' doelgroepen' : 'index t.o.v. NL-gemiddelde (100)') : 'nog geen doelgroep gekozen',
+      kpiIndexSub: selDgList.length ? (selDgList.length > 1 ? 'gemiddelde van ' + selDgList.length + ' doelgroepen' : 't.o.v. NL-gemiddelde (100)') : 'nog geen doelgroep gekozen',
+      hasDgSel: selDgList.length > 0, noDgSel: selDgList.length === 0,
+      dgKaartNamen: selDgList.map(g => g.naam),
       dgLijstLabel: 'Doelgroepen (' + D.BRO_DOELGROEPEN.length + ')',
       dgTabelOpen: s.dgTabelOpen,
       onDgTabelOpen: () => this.setState({ dgTabelOpen: true, dgTabelZoek: '' }),
