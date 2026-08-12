@@ -9,6 +9,16 @@
   :root{--blauw:#195AA6;--donker:#1B4B89;--fel:#0B78BE;--licht:#5BC4E8;--grijs:#575756;--bg:#F4F8FC}
   *{margin:0;padding:0;box-sizing:border-box}
   body{font-family:"Century Gothic",CenturyGothic,Poppins,sans-serif;color:var(--grijs);background:var(--bg);line-height:1.6}
+  /* AL-01: sticky topbar met dezelfde CTA's als in de viewer */
+  .topbar{position:sticky;top:0;z-index:50;background:#fff;border-bottom:1px solid #E3EAF3;box-shadow:0 1px 4px rgba(27,75,137,.06)}
+  .topbar .binnen{max-width:960px;margin:0 auto;padding:10px 24px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .topbar .merk{font-weight:800;font-size:16px;color:var(--blauw);text-decoration:none}
+  .topbar .duw{flex:1}
+  .topbar a.cta-adv,.topbar a.cta-sales{font-size:12.5px;font-weight:700;text-decoration:none;border-radius:999px;padding:8px 15px}
+  .topbar a.cta-adv{border:1.5px solid var(--blauw);color:var(--blauw);background:#fff}
+  .topbar a.cta-adv:hover{background:#EAF1F9}
+  .topbar a.cta-sales{background:var(--blauw);color:#fff}
+  .topbar a.cta-sales:hover{background:var(--donker)}
   .hero{background:linear-gradient(135deg,var(--donker),var(--blauw) 55%,var(--fel));color:#fff;padding:64px 24px 72px;text-align:center}
   .hero .kicker{display:inline-block;background:rgba(255,255,255,.16);border-radius:999px;padding:6px 16px;font-size:13px;font-weight:700;letter-spacing:.4px;margin-bottom:18px}
   .hero h1{font-size:clamp(28px,5vw,44px);font-weight:800;line-height:1.15;max-width:760px;margin:0 auto 14px}
@@ -48,6 +58,15 @@
 </style>
 </head>
 <body>
+
+<div class="topbar">
+  <div class="binnen">
+    <a class="merk" href="../">Global · AdViewer 2.0</a>
+    <span class="duw"></span>
+    <a class="cta-adv" href="../?aanvraag=advies">Vraag creatie-advies</a>
+    <a class="cta-sales" href="../?aanvraag=sales">Zet om in campagne</a>
+  </div>
+</div>
 
 <div class="hero">
   <span class="kicker">GLOBAL · ADVIEWER 2.0</span>

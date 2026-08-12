@@ -83,7 +83,7 @@
 
   function voordelenKaart() {
     return '<div class="acc-card"><h3>Met een gratis account krijg je er dit bij</h3>' +
-      ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting']
+      ['Al je eerdere uploads terugzien', 'Twee uitingen naast elkaar in één beeld', 'Een deelbare link van je campagne', 'Video-export van je uiting', 'Downloads zonder watermerk']
         .map(function (t) { return '<div class="acc-check">' + VINK + '<span>' + t + '</span></div>'; }).join('') +
       '</div>';
   }
@@ -94,11 +94,11 @@
   knop.setAttribute('aria-label', 'Account');
   knop.title = 'Account';
 
-  var ctas = document.createElement('div');
-  ctas.className = 'acc-ctas acc-font';
-  ctas.innerHTML =
-    '<button class="acc-cta adv" data-open="advies">Vraag advies aan het designteam</button>' +
-    '<button class="acc-cta sales" data-open="sales">Zet om in campagne</button>';
+  /* AL-01: de CTA's staan in de sticky topbar van de viewer; deze laag
+     luistert naar het event van die knoppen en opent de aanvraagflow. */
+  window.addEventListener('adviewer:aanvraag', function (e) {
+    contactForm(e && e.detail && e.detail.soort === 'sales' ? 'sales' : 'advies');
+  });
 
   var ov = null;
   function sluit() { if (ov) { ov.remove(); ov = null; } }
@@ -222,7 +222,8 @@
       veld('cnaam', 'Naam', 'text', db.user.naam) + veld('cemail', 'E-mailadres', 'email', db.user.email) +
       veld('cbedrijf', 'Bedrijf', 'text', db.user.bedrijf) +
       '<div class="acc-field"><label for="acc-cmsg">' + (isAdvies ? 'Waar wil je advies over?' : 'Vertel kort iets over je campagnewens (periode, regio, budgetindicatie)') + '</label><textarea id="acc-cmsg" rows="4"></textarea></div>' +
-      '<button class="acc-prim" id="acc-docontact">' + (isAdvies ? 'Verstuur adviesaanvraag' : 'Stuur door naar sales') + '</button>',
+      '<button class="acc-prim" id="acc-docontact">' + (isAdvies ? 'Verstuur adviesaanvraag' : 'Stuur door naar sales') + '</button>' +
+      (isAdvies ? '<p style="text-align:center;margin-top:12px;font-size:13px">Alvast zelf aan de slag? <a href="https://global.com/nl/onderzoek/tips-out-of-home-creatie/" target="_blank" rel="noreferrer" style="color:#0B78BE;font-weight:600">Bekijk onze creatie-tips</a></p>' : ''),
       { wire: function (m) {
           m.querySelector('#acc-docontact').addEventListener('click', function () {
             db.requests.unshift({
@@ -250,9 +251,6 @@
     else { knop.innerHTML = PERSOON; knop.title = 'Account'; }
   }
   knop.addEventListener('click', function () { ingelogd() ? (location.href = baseUrl() + 'account/') : toonGate(); });
-  ctas.querySelectorAll('[data-open]').forEach(function (b) {
-    b.addEventListener('click', function () { contactForm(b.getAttribute('data-open')); });
-  });
 
   /* ---------- uploads archiveren & CTA's tonen (poll op app-state) ---------- */
   var lastSig = null;
@@ -270,8 +268,6 @@
   function poll() {
     var cr = null;
     try { var d = JSON.parse(localStorage.getItem(APPK)); cr = d && d.creative && d.creative.src ? d.creative : null; } catch (e) {}
-    var stack = document.querySelector('[data-comment-anchor="73c93b0481-div"]');
-    ctas.style.display = (cr && stack && stack.offsetParent) ? 'flex' : 'none';
     if (cr) {
       var sig = cr.src.length + ':' + cr.src.slice(100, 140);
       if (sig !== lastSig) {
@@ -314,8 +310,13 @@
   function init() {
     document.head.appendChild(style);
     document.body.appendChild(knop);
-    document.body.appendChild(ctas);
     zetIcoon(); poll(); heropen();
+    /* AL-01: de one-pager (start/) linkt naar de viewer met ?aanvraag=…
+       zodat dezelfde aanvraagflow ook vandaar bereikbaar is. */
+    try {
+      var soort = new URLSearchParams(location.search).get('aanvraag');
+      if (soort === 'advies' || soort === 'sales') contactForm(soort);
+    } catch (e) {}
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();

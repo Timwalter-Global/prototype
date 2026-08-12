@@ -58,7 +58,13 @@ index.html                    Landingspagina in Global-huisstijl met alle live p
 assets/                       Global-logo's voor de landingspagina
 prototypes/<slug>/index.html  Eén map per live prototype
 archief/<slug>/index.html     Offline gehaalde prototypes (optioneel bewaard)
+tools/                        Onderhoudsscripts, niet gehost (zie .assetsignore)
 ```
+
+De viewer van `adviewer2` is een zelf-uitpakkende bundel: de echte app zit
+als JSON-string ín `prototypes/adviewer2/index.html`. Bewerk dat bestand
+nooit rechtstreeks; gebruik `tools/adviewer2-bundle/unpack.py` en
+`repack.py` (uitpakken → `template.html` aanpassen → terugbouwen).
 
 De landingspagina volgt de huisstijl van Global Media & Entertainment
 (Century Gothic; kleuren #195AA6 dominant, #0B78BE, #1B4B89, #5BC4E8, #575756;
