@@ -1,6 +1,7 @@
 # Feedback verzamelen — werkwijze voor Claude Code
 
-Deze repository host Claude-design HTML-prototypes via **Cloudflare Pages**.
+Deze repository host Claude-design HTML-prototypes via **Cloudflare Workers**
+(static assets).
 Feedback wordt verzameld met **Usersnap**: elk prototype heeft een eigen
 Usersnap-project.
 
@@ -8,22 +9,23 @@ Live basis-URL: `https://www.globalnl-innovate.com/`
 
 ## Hosting en toegang
 
-- **Cloudflare Pages** is gekoppeld aan deze GitHub-repository: elke push naar
-  `main` deployt automatisch (±1 min). Geen build-stap; de repo-root wordt
-  1-op-1 geserveerd.
-- De site staat achter een **gedeeld wachtwoord** via
-  `functions/_middleware.js` (Cloudflare Pages Functions, HTTP Basic Auth):
-  de browser toont een inlogvenster; gebruikersnaam maakt niet uit, alleen
-  het wachtwoord telt. Het wachtwoord staat als environment variable
-  `SITE_PASSWORD` in het Pages-project (*Settings → Variables and secrets*)
-  en dus **nooit in deze publieke repo**. Wachtwoord wijzigen = variabele
-  aanpassen en de laatste deployment opnieuw uitvoeren (*Retry deployment*).
-  Ontbreekt de variabele, dan blijft de site bewust dicht (fail closed).
-- Raak `functions/_middleware.js` niet aan bij go-lives; het beschermt
-  automatisch ook elk nieuw prototype.
-- Naast het eigen domein bestaat er een `….pages.dev`-adres van het
-  Cloudflare-project; ook dat hoort achter Access te staan. Deel het nooit
-  als prototype-link — de enige publieke basis-URL is het eigen domein.
+- Een **Cloudflare Workers-project** is gekoppeld aan deze GitHub-repository:
+  elke push naar `main` deployt automatisch (±1 min). Geen build-stap; de
+  repo-root wordt als static assets geserveerd (zie `wrangler.jsonc`;
+  `.assetsignore` sluit de niet-sitebestanden uit).
+- De site staat achter een **gedeeld wachtwoord** via `worker.js`
+  (HTTP Basic Auth): de browser toont een inlogvenster; gebruikersnaam maakt
+  niet uit, alleen het wachtwoord telt. Het wachtwoord staat als secret
+  `SITE_PASSWORD` in het Workers-project (*Settings → Variables and secrets*)
+  en dus **nooit in deze publieke repo**. Ontbreekt het secret, dan blijft de
+  site bewust dicht (fail closed).
+- Raak `worker.js` en `wrangler.jsonc` niet aan bij go-lives; de
+  wachtwoordcheck beschermt automatisch ook elk nieuw prototype. De `name`
+  in `wrangler.jsonc` moet exact gelijk blijven aan de projectnaam in het
+  Cloudflare-dashboard.
+- Naast het eigen domein kan er een `….workers.dev`-adres van het project
+  bestaan; de wachtwoordcheck geldt daar ook, maar deel het nooit als
+  prototype-link — de enige publieke basis-URL is het eigen domein.
 - De oude GitHub Pages-URL (`https://timwalter-global.github.io/prototype/`)
   is vervallen en wordt uitgezet; verwijs er nergens meer naar.
 
@@ -138,7 +140,7 @@ Stappen:
    nieuw, herkenbaar miniatuurtemplate — geen generieke afbeelding of icoon.
    Geen LIVE-badges of livegang-datums op de kaarten; de contactkaart staat
    automatisch altijd achteraan.
-8. Commit en push naar `main`. Cloudflare Pages publiceert automatisch (±1 min).
+8. Commit en push naar `main`. Cloudflare publiceert automatisch (±1 min).
 9. Meld de live URL aan de gebruiker:
    `https://www.globalnl-innovate.com/prototypes/<slug>/`
    Herinner de gebruiker eraan dat testers het gedeelde wachtwoord nodig

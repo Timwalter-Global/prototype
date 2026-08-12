@@ -16,7 +16,7 @@ wachtwoord telt). Vraag het wachtwoord op bij Tim.
    en vraag: *"Zet dit prototype live"*.
 3. Claude Code plaatst het prototype in `prototypes/<slug>/`, voegt de
    Usersnap-snippet toe, zet het op de overzichtspagina en pusht naar `main`.
-   Cloudflare Pages publiceert het binnen ±1 minuut.
+   Cloudflare publiceert het binnen ±1 minuut.
 4. Deel de link plus het wachtwoord. Testers loggen in (zie hierboven) en
    kunnen dan het prototype bekijken en via de Usersnap-knop feedback geven;
    de feedback (inclusief wie wat zei) zie je in het Usersnap-dashboard.
