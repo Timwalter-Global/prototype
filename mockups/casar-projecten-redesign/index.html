@@ -13,8 +13,8 @@
     --border:#E4E1D8; --border-cool:#DDE2EC;
     --tint:#EAF1FA;
     --danger:#C0392B; --danger-tint:#FBEEEE;
-    --ok:#1E8E5A; --ok-tint:#E7F5EE;
-    --radius:16px;
+    --ok:#1E8E5A;
+    --radius:14px;
     --shadow-s:0 1px 3px rgba(43,58,82,.07);
     --shadow-m:0 8px 24px rgba(43,58,82,.11);
     --shadow-l:0 18px 44px rgba(43,58,82,.20);
@@ -33,121 +33,122 @@
 
   /* ───────── Topbar ───────── */
   .topbar{background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:40}
-  .topbar .wrap{display:flex;align-items:center;gap:14px;height:60px}
-  .logomark{width:34px;height:34px;border-radius:9px;background:var(--main);color:#fff;display:grid;place-items:center;font-weight:800;font-size:17px;flex:none}
+  .topbar .wrap{display:flex;align-items:center;gap:14px;height:58px}
+  .logomark{width:32px;height:32px;border-radius:9px;background:var(--main);color:#fff;display:grid;place-items:center;font-weight:800;font-size:16px;flex:none}
   .logotype{display:flex;flex-direction:column;line-height:1.2}
-  .logotype b{font-weight:800;color:var(--dark);font-size:17px;letter-spacing:-.3px}
-  .logotype span{font-size:10.5px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+  .logotype b{font-weight:800;color:var(--dark);font-size:16.5px;letter-spacing:-.3px}
+  .logotype span{font-size:10px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
   .topbar .spacer{flex:1}
   /* Profiel: bewust géén knop — alleen tonen dat je bent ingelogd (naam komt straks via Outlook SSO). */
-  .profile{display:flex;align-items:center;gap:11px;padding:6px 8px 6px 14px;border:1px solid var(--border);border-radius:999px;background:#fff}
+  .profile{display:flex;align-items:center;gap:11px}
   .profile .who{display:flex;flex-direction:column;align-items:flex-end;line-height:1.25}
   .profile .who b{font-size:13px;font-weight:700;color:var(--dark)}
   .profile .who span{font-size:10.5px;color:var(--muted);display:inline-flex;align-items:center;gap:5px}
-  .profile .who span i{width:7px;height:7px;border-radius:50%;background:var(--ok);flex:none}
-  .avatar{width:36px;height:36px;border-radius:50%;display:grid;place-items:center;font-size:13px;font-weight:800;color:#fff;flex:none;background:linear-gradient(135deg,var(--mid),var(--dark))}
-  .avatar.sm{width:26px;height:26px;font-size:10px}
+  .profile .who span i{width:6px;height:6px;border-radius:50%;background:var(--ok);flex:none}
+  .avatar{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;font-size:12.5px;font-weight:800;color:#fff;flex:none;background:var(--dark)}
+  .avatar.sm{width:24px;height:24px;font-size:9.5px}
 
-  /* ───────── Hero ───────── */
-  .hero{position:relative;overflow:hidden;background:linear-gradient(115deg,var(--dark) 0%,var(--main) 55%,var(--mid) 100%);color:#fff;padding:34px 0 92px}
-  .hero .frames{position:absolute;inset:0;opacity:.13;pointer-events:none}
-  .hero .frames span{position:absolute;border:2px solid #fff;border-radius:6px;opacity:.55;animation:frameGlow 7s ease-in-out infinite}
-  .hero .frames span:nth-child(2){animation-delay:2.2s}
-  .hero .frames span:nth-child(3){animation-delay:4.4s}
-  @keyframes frameGlow{0%,100%{opacity:.55}50%{opacity:1}}
-  .hero .wrap{position:relative;display:grid;grid-template-columns:1fr 330px;gap:44px;align-items:center}
-  .hero .eyebrow{font-size:11.5px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bright);margin-bottom:8px}
-  .hero h1{font-size:31px;font-weight:800;letter-spacing:-.5px;line-height:1.16;max-width:640px;text-wrap:balance}
-  .hero p{margin-top:12px;font-size:15.5px;opacity:.93;max-width:620px;text-wrap:pretty}
+  /* ───────── Hero: compact, rustig ───────── */
+  .hero{background:linear-gradient(115deg,var(--dark) 0%,var(--main) 60%,var(--mid) 100%);color:#fff;padding:30px 0 66px}
+  .hero .eyebrow{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--bright);margin-bottom:7px}
+  .hero h1{font-size:25px;font-weight:800;letter-spacing:-.4px;line-height:1.2;max-width:640px;text-wrap:balance}
+  .hero p{margin-top:9px;font-size:14px;opacity:.92;max-width:640px;text-wrap:pretty}
   .hero p b{color:var(--bright);font-weight:700}
-  .hero-steps{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);border-radius:16px;backdrop-filter:blur(6px);padding:18px 20px;display:flex;flex-direction:column;gap:12px}
-  .hero-steps .row{display:flex;gap:11px;align-items:flex-start}
-  .hero-steps .num{flex:0 0 24px;width:24px;height:24px;border-radius:50%;background:rgba(255,255,255,.22);display:grid;place-items:center;font-size:12px;font-weight:800}
-  .hero-steps .row div{font-size:12.5px;line-height:1.5;opacity:.95}
-  .hero-steps .row div b{display:block;font-size:13px;opacity:1}
-  @media (max-width:940px){
-    .hero .wrap{grid-template-columns:1fr}
-    .hero-steps{max-width:440px}
-    .hero h1{font-size:25px}
-  }
+  .how-toggle{margin-top:12px;display:inline-flex;align-items:center;gap:7px;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.3);border-radius:999px;color:#fff;font-size:12px;font-weight:700;padding:7px 15px;transition:background .15s}
+  .how-toggle:hover{background:rgba(255,255,255,.2)}
+  .how-toggle .chev{font-size:9px;transition:transform .2s}
+  .how-toggle[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .how-steps{display:none;margin-top:14px;gap:26px;max-width:860px}
+  .how-steps.open{display:flex;animation:fadeIn .2s ease}
+  .how-steps .row{display:flex;gap:10px;align-items:flex-start;flex:1}
+  .how-steps .num{flex:0 0 22px;width:22px;height:22px;border-radius:50%;background:rgba(255,255,255,.2);display:grid;place-items:center;font-size:11px;font-weight:800}
+  .how-steps .row div{font-size:12px;line-height:1.5;opacity:.92}
+  .how-steps .row div b{display:block;font-size:12.5px;opacity:1}
+  @media (max-width:760px){.how-steps{flex-direction:column;gap:12px}}
+  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 
   /* ───────── Actiebalk (bovenste horizontale swimlane) ───────── */
-  .actionbar{margin-top:-52px;position:relative;z-index:5}
-  .actionbar .bar{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-m);padding:14px 16px}
-  .btn-primary{display:inline-flex;align-items:center;gap:9px;border:none;border-radius:12px;background:var(--main);color:#fff;font-weight:700;font-size:14.5px;padding:13px 22px;transition:background .15s,transform .1s;white-space:nowrap}
+  .actionbar{margin-top:-38px;position:relative;z-index:5}
+  .actionbar .bar{display:flex;gap:12px;align-items:center;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-m);padding:12px 14px}
+  .btn-primary{display:inline-flex;align-items:center;gap:8px;border:none;border-radius:11px;background:var(--main);color:#fff;font-weight:700;font-size:14px;padding:12px 20px;transition:background .15s,transform .1s;white-space:nowrap}
   .btn-primary:hover{background:var(--dark)}
   .btn-primary:active{transform:scale(.98)}
   .search{flex:1;position:relative}
   .search svg{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);pointer-events:none}
-  .search input{width:100%;padding:13px 16px 13px 42px;border:1px solid var(--border-cool);border-radius:12px;font-family:inherit;font-size:14px;color:var(--ink);background:#FBFCFE;outline:none;transition:border-color .15s,box-shadow .15s}
+  .search input{width:100%;padding:12px 16px 12px 42px;border:1px solid var(--border-cool);border-radius:11px;font-family:inherit;font-size:14px;color:var(--ink);background:#FBFCFE;outline:none;transition:border-color .15s,box-shadow .15s}
   .search input:focus{border-color:var(--mid);box-shadow:0 0 0 3px rgba(11,120,190,.14)}
   .search input::placeholder{color:var(--muted)}
-  .count-pill{font-size:12.5px;font-weight:700;color:var(--main);background:var(--tint);border-radius:999px;padding:7px 14px;white-space:nowrap}
-  @media (max-width:720px){
+  .sort{display:flex;align-items:center;gap:8px;white-space:nowrap}
+  .sort label{font-size:12px;color:var(--muted);font-weight:600}
+  .sort select{font-family:inherit;font-size:12.5px;font-weight:700;color:var(--dark);border:1px solid var(--border-cool);border-radius:10px;background:#FBFCFE;padding:10px 10px;outline:none;cursor:pointer}
+  .sort select:focus{border-color:var(--mid)}
+  @media (max-width:760px){
     .actionbar .bar{flex-wrap:wrap}
-    .count-pill{display:none}
+    .sort label{display:none}
   }
 
   /* ───────── Lanes ───────── */
-  .lanes{padding:30px 0 64px;display:flex;flex-direction:column;gap:30px}
-  .lane-head{display:flex;align-items:baseline;gap:10px;margin-bottom:12px}
-  .lane-head h2{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dark)}
-  .lane-head .n{font-size:12px;font-weight:700;color:var(--muted)}
-  .lane-head .hint{font-size:12px;color:var(--muted);margin-left:auto}
+  .lanes{padding:26px 0 60px;display:flex;flex-direction:column;gap:26px}
+  .lane-head{display:flex;align-items:baseline;gap:9px;margin-bottom:10px}
+  .lane-head h2{font-size:11.5px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--dark)}
+  .lane-head .n{font-size:11.5px;font-weight:700;color:var(--muted)}
+  .lane-head .hint{font-size:11.5px;color:var(--muted);margin-left:auto}
 
-  .recent-row{display:flex;gap:14px;overflow-x:auto;padding:2px 2px 10px;scrollbar-width:thin}
-  .recent-card{flex:0 0 300px;display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:14px 16px;box-shadow:var(--shadow-s);cursor:pointer;transition:transform .15s,box-shadow .15s;text-align:left}
-  .recent-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-m)}
-  .recent-card .mini-map{flex:0 0 46px;height:46px;border-radius:10px;background:linear-gradient(135deg,#D9E6F2,#C7D8EA);position:relative;overflow:hidden}
-  .recent-card .mini-map i{position:absolute;width:6px;height:6px;border-radius:50%;background:var(--main)}
-  .recent-card .txt{min-width:0}
-  .recent-card .txt b{display:block;font-size:13.5px;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-  .recent-card .txt span{font-size:11.5px;color:var(--muted)}
+  /* Recent bewerkt: slanke chips */
+  .recent-row{display:flex;gap:10px;overflow-x:auto;padding:2px 2px 6px;scrollbar-width:thin}
+  .recent-card{flex:none;display:flex;align-items:center;gap:10px;background:var(--panel);border:1px solid var(--border);border-radius:999px;padding:8px 18px 8px 10px;box-shadow:var(--shadow-s);cursor:pointer;transition:border-color .15s;text-align:left;max-width:320px}
+  .recent-card:hover{border-color:var(--main)}
+  .recent-card .dot{flex:none;width:28px;height:28px;border-radius:50%;background:var(--tint);color:var(--main);display:grid;place-items:center}
+  .recent-card .txt{min-width:0;line-height:1.3}
+  .recent-card .txt b{display:block;font-size:12.5px;font-weight:700;color:var(--dark);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+  .recent-card .txt span{font-size:10.5px;color:var(--muted)}
 
-  .columns{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:start}
+  /* Twee verticale swimlanes: eigen werk domineert */
+  .columns{display:grid;grid-template-columns:1.6fr 1fr;gap:24px;align-items:start}
   @media (max-width:940px){.columns{grid-template-columns:1fr}}
-  .col-lane{display:flex;flex-direction:column;gap:14px}
+  .col-lane{display:flex;flex-direction:column;gap:10px}
 
-  /* ───────── Projectkaart ───────── */
-  .pcard{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-s);padding:18px 18px 16px;transition:box-shadow .15s,transform .15s}
-  .pcard:hover{box-shadow:var(--shadow-m);transform:translateY(-2px)}
-  .pcard .top{display:flex;align-items:flex-start;gap:10px}
-  .pcard .titles{flex:1;min-width:0;cursor:pointer}
-  .pcard h3{font-size:16.5px;font-weight:800;letter-spacing:-.2px;color:var(--dark);line-height:1.3}
+  /* ───────── Projectkaart: compact en stil ───────── */
+  .pcard{position:relative;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow-s);padding:13px 15px 10px;transition:border-color .15s}
+  .pcard:hover{border-color:#C9CFDC}
+  .pcard .top{display:flex;align-items:center;gap:10px}
+  .pcard .titles{flex:1;min-width:0;cursor:pointer;line-height:1.35}
+  .pcard h3{display:inline;font-size:14.5px;font-weight:800;letter-spacing:-.2px;color:var(--dark)}
   .pcard .titles:hover h3{color:var(--mid)}
-  .pcard .meta{font-size:12px;color:var(--muted);margin-top:3px}
-  .pcard .obj{flex:none;font-size:12px;font-weight:700;color:var(--main);background:var(--tint);border-radius:999px;padding:4px 11px;white-space:nowrap}
-  .kebab{flex:none;width:30px;height:30px;border:none;border-radius:8px;background:none;color:var(--muted);font-size:17px;font-weight:800;line-height:1;transition:background .15s,color .15s}
+  .pcard .meta{font-size:11.5px;color:var(--muted);margin-top:1px}
+  .pcard .meta b{font-weight:700;color:var(--muted)}
+  .pcard .obj{flex:none;font-size:11.5px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums}
+  .kebab{flex:none;width:28px;height:28px;border:none;border-radius:8px;background:none;color:var(--muted);font-size:16px;font-weight:800;line-height:1;transition:background .15s,color .15s}
   .kebab:hover{background:var(--tint);color:var(--main)}
-  .shared-with{display:flex;align-items:center;gap:8px;margin-top:11px;font-size:11.5px;color:var(--muted)}
-  .shared-with .stack{display:flex}
-  .shared-with .stack .avatar.sm{border:2px solid #fff;margin-left:-7px}
-  .shared-with .stack .avatar.sm:first-child{margin-left:0}
-  .owner-line{display:flex;align-items:center;gap:8px;margin-top:11px;font-size:11.5px;color:var(--muted)}
-  .viewonly{display:inline-flex;align-items:center;gap:5px;font-size:10.5px;font-weight:700;color:var(--muted);background:var(--canvas);border:1px solid var(--border);border-radius:999px;padding:3px 9px;margin-left:auto}
-  .pcard .actions{display:flex;gap:8px;margin-top:14px;padding-top:13px;border-top:1px solid var(--border);flex-wrap:wrap}
-  .act{display:inline-flex;align-items:center;gap:7px;border:1px solid var(--border-cool);border-radius:10px;background:#FBFCFE;color:var(--dark);font-size:12px;font-weight:700;padding:8px 12px;transition:all .15s}
-  .act:hover{border-color:var(--main);color:var(--main);background:var(--tint)}
-  .act.share{border-color:var(--main);color:var(--main);background:#fff;margin-left:auto}
-  .act.share:hover{background:var(--main);color:#fff}
+  .stack{display:inline-flex;vertical-align:middle;margin-right:2px}
+  .stack .avatar.sm{width:18px;height:18px;font-size:7.5px;border:1.5px solid #fff;margin-left:-5px}
+  .stack .avatar.sm:first-child{margin-left:0}
+  /* Acties: altijd zichtbaar, maar stil — kleur pas op hover */
+  .pcard .actions{display:flex;align-items:center;gap:2px;margin-top:9px;padding-top:8px;border-top:1px solid #F0EDE5;flex-wrap:wrap}
+  .act{display:inline-flex;align-items:center;gap:6px;border:none;border-radius:8px;background:none;color:var(--muted);font-size:11.5px;font-weight:700;padding:6px 9px;transition:color .15s,background .15s}
+  .act:hover{color:var(--main);background:var(--tint)}
+  .act.share{margin-left:auto;color:var(--main)}
+  .act.share:hover{background:var(--tint)}
   .act svg{flex:none}
+  .viewonly{margin-left:auto;font-size:10px;font-weight:700;color:var(--muted);padding:6px 0}
 
   /* Kebab-menu */
-  .menu{position:absolute;right:14px;top:46px;z-index:30;background:#fff;border:1px solid var(--border-cool);border-radius:12px;box-shadow:var(--shadow-l);overflow:hidden;min-width:190px;padding:5px}
+  .menu{position:absolute;right:12px;top:40px;z-index:30;background:#fff;border:1px solid var(--border-cool);border-radius:12px;box-shadow:var(--shadow-l);overflow:hidden;min-width:190px;padding:5px}
   .menu button{display:flex;align-items:center;gap:10px;width:100%;text-align:left;padding:9px 12px;border:none;border-radius:8px;background:none;font-size:13px;font-weight:600;color:var(--ink)}
   .menu button:hover{background:var(--tint);color:var(--dark)}
   .menu .sep{height:1px;background:var(--border);margin:5px 8px}
   .menu button.danger{color:var(--danger)}
   .menu button.danger:hover{background:var(--danger-tint);color:var(--danger)}
 
-  /* Lege staat */
-  .empty{border:1.5px dashed var(--border);border-radius:var(--radius);padding:34px 24px;text-align:center;color:var(--muted);font-size:13px}
+  /* Toon alle / lege staat */
+  .show-more{border:1px dashed var(--border);border-radius:12px;background:none;color:var(--muted);font-size:12.5px;font-weight:700;padding:11px 0;transition:color .15s,border-color .15s}
+  .show-more:hover{color:var(--main);border-color:var(--main)}
+  .empty{border:1.5px dashed var(--border);border-radius:var(--radius);padding:30px 22px;text-align:center;color:var(--muted);font-size:13px}
   .empty b{display:block;color:var(--ink);font-size:14px;margin-bottom:4px}
 
   /* ───────── Modals ───────── */
   .overlay{position:fixed;inset:0;background:rgba(27,50,80,.45);z-index:60;display:none;align-items:flex-start;justify-content:center;padding:9vh 20px 20px}
   .overlay.open{display:flex;animation:fadeIn .18s ease}
-  @keyframes fadeIn{from{opacity:0}to{opacity:1}}
   .modal{background:#fff;border-radius:18px;box-shadow:var(--shadow-l);width:100%;max-width:480px;padding:24px 24px 22px;animation:pop .2s ease}
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
   .modal h3{font-size:18px;font-weight:800;color:var(--dark);letter-spacing:-.2px;line-height:1.3;padding-right:32px}
@@ -175,6 +176,7 @@
   .access-title{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px}
   .access-list{display:flex;flex-direction:column;gap:7px}
   .access-row{display:flex;align-items:center;gap:11px;border:1px solid var(--border);border-radius:12px;padding:8px 12px;background:#FBFCFE}
+  .access-row .avatar.sm{width:26px;height:26px;font-size:10px}
   .access-row .nm{font-size:13px;font-weight:700;color:var(--dark);line-height:1.25}
   .access-row .em{font-size:11.5px;color:var(--muted)}
   .access-row .role{margin-left:auto;font-size:11px;font-weight:700;color:var(--muted)}
@@ -213,20 +215,14 @@
   </div>
 </header>
 
-<!-- ───────── Hero: wat Casar doet en wat je eraan hebt ───────── -->
+<!-- ───────── Hero: compact, uitleg inklapbaar ───────── -->
 <section class="hero">
-  <div class="frames" aria-hidden="true">
-    <span style="left:4%;top:18%;width:120px;height:74px"></span>
-    <span style="left:15%;bottom:10%;width:88px;height:56px"></span>
-    <span style="left:44%;top:8%;width:104px;height:66px"></span>
-  </div>
   <div class="wrap">
-    <div>
-      <div class="eyebrow">Jouw projecten</div>
-      <h1>Van doelgroep naar onderbouwde locatielijst — in één werkruimte</h1>
-      <p>Met Casar stel je in een paar minuten een campagneselectie samen: kies een <b>doelgroep</b>, baken het <b>gebied</b> af en filter op <b>netwerk en POI's</b>. Je ziet direct welke objecten overblijven, onderbouwd met bereikcijfers — en deelt het resultaat als kaart, spotplan of export met je klant of collega.</p>
-    </div>
-    <div class="hero-steps" aria-label="Zo werkt het">
+    <div class="eyebrow">Jouw projecten</div>
+    <h1>Van doelgroep naar onderbouwde locatielijst — in één werkruimte</h1>
+    <p>Kies een <b>doelgroep</b>, baken het <b>gebied</b> af en filter op <b>netwerk en POI's</b>. Je ziet direct welke objecten overblijven — en deelt het resultaat als kaart, spotplan of export met je klant of collega.</p>
+    <button class="how-toggle" id="howToggle" aria-expanded="false">Zo werkt het <span class="chev">▼</span></button>
+    <div class="how-steps" id="howSteps">
       <div class="row"><div class="num">1</div><div><b>Start of open een project</b>Elke campagnevraag krijgt een eigen project.</div></div>
       <div class="row"><div class="num">2</div><div><b>Filter en bekijk op de kaart</b>Doelgroep, geografie, netwerk en POI's werken direct door.</div></div>
       <div class="row"><div class="num">3</div><div><b>Deel of exporteer</b>Map-link en spotplan voor je klant, projecten delen met collega's.</div></div>
@@ -234,18 +230,25 @@
   </div>
 </section>
 
-<!-- ───────── Bovenste horizontale swimlane: nieuw project + zoeken ───────── -->
+<!-- ───────── Bovenste horizontale swimlane: nieuw project + zoeken + sorteren ───────── -->
 <div class="wrap actionbar">
   <div class="bar">
     <button class="btn-primary" id="btnNieuw">
-      <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><path d="M12 5v14M5 12h14"/></svg>
       Nieuw project
     </button>
     <div class="search">
       <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
       <input type="search" id="zoek" placeholder="Zoek in al je projecten — ook in wat met je gedeeld is…" aria-label="Zoek project">
     </div>
-    <span class="count-pill" id="countPill"></span>
+    <div class="sort">
+      <label for="sorteer">Sorteer op</label>
+      <select id="sorteer" aria-label="Sorteer projecten">
+        <option value="recent">Laatst bewerkt</option>
+        <option value="naam">Naam A–Z</option>
+        <option value="objecten">Meeste objecten</option>
+      </select>
+    </div>
   </div>
 </div>
 
@@ -253,7 +256,7 @@
 
   <!-- Recent bewerkt -->
   <section id="laneRecent" aria-label="Recent bewerkt">
-    <div class="lane-head"><h2>Recent bewerkt</h2><span class="hint">Je laatst geopende werk, één klik weg</span></div>
+    <div class="lane-head"><h2>Recent bewerkt</h2></div>
     <div class="recent-row" id="recentRow"></div>
   </section>
 
@@ -344,8 +347,9 @@
 
 <script>
 /* ─────────────────────────────────────────────────────────────
-   Voorbeelddata — in het echte product komt dit uit de backend
-   en komen naam/avatar van de ingelogde gebruiker via Outlook SSO.
+   Voorbeelddata — bewust négen eigen projecten, zodat je ziet
+   hoe het overzicht schaalt. In het echte product komt dit uit
+   de backend; naam/avatar van de gebruiker via Outlook SSO.
    ───────────────────────────────────────────────────────────── */
 const COLLEGAS = [
   { naam:"Sanne de Vries",   email:"sanne.devries@global.com" },
@@ -357,34 +361,39 @@ const COLLEGAS = [
 ];
 
 let mijnProjecten = [
-  { id:"p1", naam:"Retail Q3 – landelijke campagne", cat:"FMCG",        bewerkt:"Vandaag, 11:24", objecten:412, gedeeldMet:["femke.jansen@global.com"] },
-  { id:"p2", naam:"Automotive introductie EV",       cat:"Automotive",  bewerkt:"Gisteren",       objecten:186, gedeeldMet:[] },
-  { id:"p3", naam:"Zomeractie kustregio",            cat:"Drankenmerk", bewerkt:"28 juli",        objecten:94,  gedeeldMet:["sanne.devries@global.com","mark.vandijk@global.com"] },
-  { id:"p4", naam:"Doelgroeptest studenten G5",      cat:"Telecom",     bewerkt:"21 juli",        objecten:238, gedeeldMet:[] },
+  { id:"p1", naam:"Retail Q3 – landelijke campagne", cat:"FMCG",          bewerkt:"Vandaag, 11:24", ts:900, objecten:412, gedeeldMet:["femke.jansen@global.com"] },
+  { id:"p2", naam:"Automotive introductie EV",       cat:"Automotive",    bewerkt:"Gisteren",       ts:880, objecten:186, gedeeldMet:[] },
+  { id:"p3", naam:"Zomeractie kustregio",            cat:"Drankenmerk",   bewerkt:"28 juli",        ts:840, objecten:94,  gedeeldMet:["sanne.devries@global.com","mark.vandijk@global.com"] },
+  { id:"p4", naam:"Doelgroeptest studenten G5",      cat:"Telecom",       bewerkt:"21 juli",        ts:820, objecten:238, gedeeldMet:[] },
+  { id:"p5", naam:"Back-to-school stationsdomein",   cat:"Retail",        bewerkt:"17 juli",        ts:800, objecten:145, gedeeldMet:[] },
+  { id:"p6", naam:"Verzekeraar merkcampagne 50+",    cat:"Financieel",    bewerkt:"9 juli",         ts:760, objecten:301, gedeeldMet:["tom.hendriks@global.com"] },
+  { id:"p7", naam:"Streamingdienst lancering NL",    cat:"Entertainment", bewerkt:"2 juli",         ts:720, objecten:527, gedeeldMet:[] },
+  { id:"p8", naam:"Fietsenmerk voorjaar randstad",   cat:"Retail",        bewerkt:"24 juni",        ts:680, objecten:78,  gedeeldMet:[] },
+  { id:"p9", naam:"Energie switch-campagne",         cat:"Utilities",     bewerkt:"12 juni",        ts:640, objecten:203, gedeeldMet:[] },
 ];
 
 let gedeeldMetMij = [
-  { id:"s1", naam:"DOOH plan centrum Rotterdam", cat:"Retail",   bewerkt:"Vandaag, 09:10", objecten:156, eigenaar:"Sanne de Vries" },
-  { id:"s2", naam:"Fastfood Q4 – snelwegmasten", cat:"Horeca",   bewerkt:"8 augustus",     objecten:63,  eigenaar:"Jeroen Bakker" },
+  { id:"s1", naam:"DOOH plan centrum Rotterdam", cat:"Retail", bewerkt:"Vandaag, 09:10", ts:890, objecten:156, eigenaar:"Sanne de Vries" },
+  { id:"s2", naam:"Fastfood Q4 – snelwegmasten", cat:"Horeca", bewerkt:"8 augustus",     ts:860, objecten:63,  eigenaar:"Jeroen Bakker" },
 ];
 
-let teller = 5;
+const LANE_LIMIT = 5;   // per lane eerst dit aantal kaarten; daarna "Toon alle X"
+let teller = 10;
+let tsTeller = 1000;
 let zoekterm = "";
+let sortering = "recent";
 let openMenuId = null;
 let shareProjectId = null;
 let deleteProjectId = null;
 let renameProjectId = null;
+let mineExpanded = false;
+let sharedExpanded = false;
 
 /* ── helpers ── */
 const $ = s => document.querySelector(s);
 const esc = s => s.replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const initialen = naam => naam.split(" ").filter(Boolean).map(w=>w[0]).slice(0,2).join("").toUpperCase();
 const collegaByEmail = em => COLLEGAS.find(c => c.email === em);
-const avatarKleur = naam => {
-  const hues = [[27,75,137],[11,120,190],[25,90,166],[70,110,90],[120,80,140]];
-  const h = hues[naam.length % hues.length];
-  return `linear-gradient(135deg, rgb(${h[0]+40},${h[1]+40},${h[2]+40}), rgb(${h[0]},${h[1]},${h[2]}))`;
-};
 
 function toast(msg){
   const t = $("#toast");
@@ -396,10 +405,11 @@ function toast(msg){
 
 /* ── iconen voor de kaart-acties ── */
 const IC = {
-  export:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',
-  map:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.2V5.8L9 8m0 12l6-2.4M9 20V8m6 9.6L20.5 20V6.8L15 4.6m0 13V4.6M9 8l6-3.4"/></svg>',
-  spot:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
-  share:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-3.9M8.6 13.3l6.8 3.9"/></svg>',
+  export:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11M7 11l5 5 5-5M5 20h14"/></svg>',
+  map:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.2V5.8L9 8m0 12l6-2.4M9 20V8m6 9.6L20.5 20V6.8L15 4.6m0 13V4.6M9 8l6-3.4"/></svg>',
+  spot:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="4" width="16" height="16" rx="2"/><path d="M8 9h8M8 13h8M8 17h5"/></svg>',
+  share:'<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 10.7l6.8-3.9M8.6 13.3l6.8 3.9"/></svg>',
+  pin:'<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0z"/><circle cx="12" cy="10" r="3"/></svg>',
 };
 
 /* ── renderen ── */
@@ -408,17 +418,16 @@ function actieKnoppen(p, eigen){
     <button class="act" data-actie="export" data-id="${p.id}" title="Exporteer de locatielijst">${IC.export}Exporteer</button>
     <button class="act" data-actie="map" data-id="${p.id}" title="Kopieer de deelbare kaartlink">${IC.map}Map-link</button>
     <button class="act" data-actie="spot" data-id="${p.id}" title="Open het spotplan">${IC.spot}Spotplan</button>
-    ${eigen ? `<button class="act share" data-actie="delen" data-id="${p.id}" title="Deel dit project met een collega">${IC.share}Delen</button>` : ``}`;
+    ${eigen ? `<button class="act share" data-actie="delen" data-id="${p.id}" title="Deel dit project met een collega">${IC.share}Delen</button>`
+            : `<span class="viewonly" title="De eigenaar beheert dit project — jij kunt het bekijken en exporteren">Bekijken &amp; exporteren</span>`}`;
 }
 
 function eigenKaart(p){
   const avatars = p.gedeeldMet.map(em => {
     const c = collegaByEmail(em);
-    return `<span class="avatar sm" title="${esc(c.naam)}" style="background:${avatarKleur(c.naam)}">${initialen(c.naam)}</span>`;
+    return `<span class="avatar sm" title="Gedeeld met ${esc(c.naam)}">${initialen(c.naam)}</span>`;
   }).join("");
-  const deelInfo = p.gedeeldMet.length
-    ? `<div class="shared-with"><span class="stack">${avatars}</span><span>Gedeeld met ${p.gedeeldMet.length} collega${p.gedeeldMet.length>1?"'s":""}</span></div>`
-    : ``;
+  const deelInfo = p.gedeeldMet.length ? ` · <span class="stack">${avatars}</span> gedeeld` : ``;
   const menu = openMenuId === p.id ? `
     <div class="menu" role="menu">
       <button data-actie="hernoem" data-id="${p.id}">Naam wijzigen</button>
@@ -432,12 +441,11 @@ function eigenKaart(p){
     <div class="top">
       <div class="titles" data-actie="open" data-id="${p.id}" title="Open dit project">
         <h3>${esc(p.naam)}</h3>
-        <div class="meta">${esc(p.cat)} · laatst bewerkt: ${esc(p.bewerkt)}</div>
+        <div class="meta">${esc(p.cat)} · ${esc(p.bewerkt)}${deelInfo}</div>
       </div>
-      <span class="obj">${p.objecten} objecten</span>
+      <span class="obj">${p.objecten} obj.</span>
       <button class="kebab" data-actie="menu" data-id="${p.id}" aria-label="Beheer project ${esc(p.naam)}" aria-haspopup="menu" aria-expanded="${openMenuId===p.id}">⋯</button>
     </div>
-    ${deelInfo}
     <div class="actions">${actieKnoppen(p, true)}</div>
     ${menu}
   </article>`;
@@ -449,25 +457,19 @@ function gedeeldeKaart(p){
     <div class="top">
       <div class="titles" data-actie="open" data-id="${p.id}" title="Open dit project">
         <h3>${esc(p.naam)}</h3>
-        <div class="meta">${esc(p.cat)} · laatst bewerkt: ${esc(p.bewerkt)}</div>
+        <div class="meta">Van <b>${esc(p.eigenaar)}</b> · ${esc(p.bewerkt)}</div>
       </div>
-      <span class="obj">${p.objecten} objecten</span>
-    </div>
-    <div class="owner-line">
-      <span class="avatar sm" style="background:${avatarKleur(p.eigenaar)}">${initialen(p.eigenaar)}</span>
-      <span>Gedeeld door <b>${esc(p.eigenaar)}</b></span>
-      <span class="viewonly" title="De eigenaar beheert dit project — jij kunt het bekijken en exporteren">Bekijken &amp; exporteren</span>
+      <span class="obj">${p.objecten} obj.</span>
     </div>
     <div class="actions">${actieKnoppen(p, false)}</div>
   </article>`;
 }
 
 function recentKaart(p){
-  const dots = [[18,10],[30,26],[10,30],[34,12],[22,36]].map(d=>`<i style="left:${d[0]}px;top:${d[1]}px"></i>`).join("");
   return `
   <button class="recent-card" data-actie="open" data-id="${p.id}">
-    <span class="mini-map" aria-hidden="true">${dots}</span>
-    <span class="txt"><b>${esc(p.naam)}</b><span>${esc(p.bewerkt)} · ${p.objecten} objecten</span></span>
+    <span class="dot" aria-hidden="true">${IC.pin}</span>
+    <span class="txt"><b>${esc(p.naam)}</b><span>${esc(p.bewerkt)}</span></span>
   </button>`;
 }
 
@@ -477,24 +479,40 @@ function filter(list){
   return list.filter(p => (p.naam + " " + p.cat + " " + (p.eigenaar||"")).toLowerCase().includes(z));
 }
 
-function render(){
-  const mine = filter(mijnProjecten);
-  const shared = filter(gedeeldMetMij);
+function sorteer(list){
+  const l = [...list];
+  if(sortering === "naam") l.sort((a,b)=>a.naam.localeCompare(b.naam,"nl"));
+  else if(sortering === "objecten") l.sort((a,b)=>b.objecten-a.objecten);
+  else l.sort((a,b)=>b.ts-a.ts);
+  return l;
+}
 
-  // Recent: alles samen, mockup toont gewoon de eerste 3 "meest recente"
-  const alles = [...mijnProjecten, ...gedeeldMetMij];
-  const recent = [alles.find(p=>p.id==="p1"), alles.find(p=>p.id==="s1"), alles.find(p=>p.id==="p2")].filter(Boolean);
+function laneHTML(list, expanded, kaart, laneKey, leeg){
+  if(!list.length) return leeg;
+  const zichtbaar = (expanded || zoekterm) ? list : list.slice(0, LANE_LIMIT);
+  let html = zichtbaar.map(kaart).join("");
+  if(!expanded && !zoekterm && list.length > LANE_LIMIT){
+    html += `<button class="show-more" data-expand="${laneKey}">Toon alle ${list.length} projecten</button>`;
+  }
+  return html;
+}
+
+function render(){
+  const mine = sorteer(filter(mijnProjecten));
+  const shared = sorteer(filter(gedeeldMetMij));
+
+  // Recent: de 3 laatst bewerkte over beide lanes heen
+  const recent = [...mijnProjecten, ...gedeeldMetMij].sort((a,b)=>b.ts-a.ts).slice(0,3);
   $("#recentRow").innerHTML = recent.map(recentKaart).join("");
   $("#laneRecent").style.display = zoekterm ? "none" : "";
 
-  $("#laneMine").innerHTML = mine.length ? mine.map(eigenKaart).join("")
-    : `<div class="empty"><b>${zoekterm ? "Geen eigen projecten gevonden" : "Nog geen projecten"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Start je eerste project met de blauwe knop hierboven."}</div>`;
-  $("#laneShared").innerHTML = shared.length ? shared.map(gedeeldeKaart).join("")
-    : `<div class="empty"><b>${zoekterm ? "Niets gevonden in gedeelde projecten" : "Nog niets met je gedeeld"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Projecten die collega's met je delen verschijnen hier vanzelf."}</div>`;
+  $("#laneMine").innerHTML = laneHTML(mine, mineExpanded, eigenKaart, "mine",
+    `<div class="empty"><b>${zoekterm ? "Geen eigen projecten gevonden" : "Nog geen projecten"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Start je eerste project met de blauwe knop hierboven."}</div>`);
+  $("#laneShared").innerHTML = laneHTML(shared, sharedExpanded, gedeeldeKaart, "shared",
+    `<div class="empty"><b>${zoekterm ? "Niets gevonden in gedeelde projecten" : "Nog niets met je gedeeld"}</b>${zoekterm ? "Probeer een andere zoekterm." : "Projecten die collega's met je delen verschijnen hier vanzelf."}</div>`);
 
   $("#nMine").textContent = mine.length;
   $("#nShared").textContent = shared.length;
-  $("#countPill").textContent = `${mijnProjecten.length + gedeeldMetMij.length} projecten`;
 }
 
 /* ── deel-modal ── */
@@ -517,7 +535,7 @@ function renderAccess(){
   $("#accessList").innerHTML = p.gedeeldMet.length ? p.gedeeldMet.map(em => {
     const c = collegaByEmail(em);
     return `<div class="access-row">
-      <span class="avatar sm" style="background:${avatarKleur(c.naam)}">${initialen(c.naam)}</span>
+      <span class="avatar sm">${initialen(c.naam)}</span>
       <span><span class="nm">${esc(c.naam)}</span><br><span class="em">${esc(c.email)}</span></span>
       <span class="role">Bekijken &amp; exporteren</span>
       <button class="revoke" data-revoke="${esc(em)}">Intrekken</button>
@@ -549,7 +567,7 @@ function shareZoek(){
   if(hits.length){
     sugg.innerHTML = hits.map(c => `
       <button data-share-add="${esc(c.email)}">
-        <span class="avatar sm" style="background:${avatarKleur(c.naam)}">${initialen(c.naam)}</span>
+        <span class="avatar sm">${initialen(c.naam)}</span>
         <span><span class="nm">${esc(c.naam)}</span><br><span class="em">${esc(c.email)}</span></span>
         <span class="add">+ Delen</span>
       </button>`).join("");
@@ -573,7 +591,7 @@ function openDelete(id){
 
 /* ── globale click-afhandeling ── */
 document.addEventListener("click", e => {
-  const el = e.target.closest("[data-actie],[data-close],[data-share-add],[data-revoke]");
+  const el = e.target.closest("[data-actie],[data-close],[data-share-add],[data-revoke],[data-expand]");
 
   // Kebab-menu sluiten bij klik ernaast
   if(openMenuId && !e.target.closest(".menu") && !e.target.closest(".kebab")){
@@ -583,6 +601,12 @@ document.addEventListener("click", e => {
 
   if(el.hasAttribute("data-close")){
     el.closest(".overlay").classList.remove("open");
+    return;
+  }
+  if(el.hasAttribute("data-expand")){
+    if(el.getAttribute("data-expand") === "mine") mineExpanded = true;
+    else sharedExpanded = true;
+    render();
     return;
   }
   if(el.hasAttribute("data-share-add")){
@@ -639,7 +663,7 @@ document.addEventListener("click", e => {
       break;
     case "dupliceer":
       openMenuId = null;
-      { const kopie = { ...p, id:"p"+(teller++), naam:p.naam+" (kopie)", bewerkt:"Zojuist", gedeeldMet:[] };
+      { const kopie = { ...p, id:"p"+(teller++), naam:p.naam+" (kopie)", bewerkt:"Zojuist", ts:tsTeller++, gedeeldMet:[] };
         mijnProjecten.unshift(kopie); render();
         toast(`"${p.naam}" gedupliceerd — de kopie staat bovenaan bij Mijn projecten.`); }
       break;
@@ -668,13 +692,19 @@ $("#btnRenameConfirm").addEventListener("click", saveRename);
 $("#renameInput").addEventListener("keydown", e => { if(e.key === "Enter") saveRename(); });
 
 $("#btnNieuw").addEventListener("click", () => {
-  const nieuw = { id:"p"+(teller++), naam:"Nieuw project", cat:"Nog geen categorie", bewerkt:"Zojuist", objecten:0, gedeeldMet:[] };
+  const nieuw = { id:"p"+(teller++), naam:"Nieuw project", cat:"Nog geen categorie", bewerkt:"Zojuist", ts:tsTeller++, objecten:0, gedeeldMet:[] };
   mijnProjecten.unshift(nieuw);
   render();
   toast("Nieuw project aangemaakt — in het echte product open je nu direct de werkruimte.");
 });
 
+$("#howToggle").addEventListener("click", () => {
+  const open = $("#howSteps").classList.toggle("open");
+  $("#howToggle").setAttribute("aria-expanded", open);
+});
+
 $("#zoek").addEventListener("input", e => { zoekterm = e.target.value.trim(); render(); });
+$("#sorteer").addEventListener("change", e => { sortering = e.target.value; render(); });
 $("#shareInput").addEventListener("input", shareZoek);
 
 document.addEventListener("keydown", e => {
