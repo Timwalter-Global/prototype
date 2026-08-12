@@ -499,27 +499,24 @@
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#5a6472" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="flex:none;transition:transform .15s;transform:rotate({{ secPerRot }}deg)"><path d="M6 9l6 6 6-6"></path></svg>
                 </button>
                 <sc-if value="{{ secPerOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="padding:0 14px 16px;display:flex;flex-direction:column;gap:12px">
-                    <div>
-                      <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;margin-bottom:6px">Jaar</div>
-                      <div style="display:flex;gap:5px">
-                        <sc-for list="{{ perJaren }}" as="pj" hint-placeholder-count="2">
-                          <button onClick="{{ pj.onToggle }}" style="padding:5px 14px;border:1px solid {{ pj.border }};border-radius:999px;background:{{ pj.bg }};font-family:inherit;font-size:11.5px;font-weight:600;color:{{ pj.fg }};cursor:pointer">{{ pj.label }}</button>
-                        </sc-for>
+                  <div style="padding:0 14px 16px;display:flex;flex-direction:column;gap:10px">
+                    <sc-if value="{{ perLeeg }}" hint-placeholder-val="{{ true }}">
+                      <div style="font-size:11.5px;color:#8a93a0;line-height:1.5">Nog geen periode gekozen.</div>
+                    </sc-if>
+                    <sc-if value="{{ perGevuld }}" hint-placeholder-val="{{ false }}">
+                      <div style="display:flex;flex-direction:column;gap:6px">
+                        <sc-if value="{{ perHeeftRange }}" hint-placeholder-val="{{ false }}">
+                          <div style="display:flex;align-items:center;gap:8px">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#195AA6" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+                            <span style="font-size:12px;font-weight:700;color:#1c2530">{{ perRangeLabel }}</span>
+                          </div>
+                        </sc-if>
+                        <sc-if value="{{ perHeeftDagen }}" hint-placeholder-val="{{ false }}">
+                          <div style="font-size:11.5px;color:#5a6472">Dagen: <span style="font-weight:700;color:#1c2530">{{ perDagenLabel }}</span></div>
+                        </sc-if>
                       </div>
-                    </div>
-                    <div>
-                      <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;margin-bottom:6px">Datum</div>
-                      <input type="date" value="{{ perDatum }}" onChange="{{ onPerDatum }}" style="width:100%;box-sizing:border-box;padding:7px 10px;border:1px solid #d6dbe3;border-radius:8px;font-family:inherit;font-size:12px;color:#2b3440;background:#fff;outline:none">
-                    </div>
-                    <div>
-                      <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;margin-bottom:6px">Dag van de week</div>
-                      <div style="display:flex;flex-wrap:wrap;gap:5px">
-                        <sc-for list="{{ perDagen }}" as="pd" hint-placeholder-count="7">
-                          <button onClick="{{ pd.onToggle }}" style="padding:5px 10px;border:1px solid {{ pd.border }};border-radius:999px;background:{{ pd.bg }};font-family:inherit;font-size:11.5px;font-weight:600;color:{{ pd.fg }};cursor:pointer">{{ pd.label }}</button>
-                        </sc-for>
-                      </div>
-                    </div>
+                    </sc-if>
+                    <button onClick="{{ onPerOpen }}" style="width:100%;padding:9px 0;border:1px solid #195AA6;border-radius:8px;background:#fff;font-family:inherit;font-size:12px;font-weight:700;color:#195AA6;cursor:pointer" style-hover="background:#eaf1f9">{{ perKnopLabel }}</button>
                     <div style="font-size:10px;color:#8a93a0;line-height:1.5;text-wrap:pretty">De periode wordt in dit prototype nog niet toegepast op de selectie — de objecten en cijfers veranderen er niet door.</div>
                   </div>
                 </sc-if>
@@ -917,6 +914,81 @@
     </div>
   </sc-if>
 
+  <sc-if value="{{ perOpen }}" hint-placeholder-val="{{ false }}">
+    <div onClick="{{ onPerCancel }}" style="position:fixed;inset:0;z-index:1000;background:rgba(21,32,45,.42);display:flex;align-items:center;justify-content:center">
+      <div onClick="{{ stopProp }}" data-screen-label="Periode kiezen" style="width:620px;max-width:94vw;max-height:90vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(15,30,50,.3);overflow:hidden;display:flex;flex-direction:column">
+        <div style="display:flex;align-items:flex-start;justify-content:space-between;gap:10px;padding:20px 24px 6px;flex:none">
+          <div>
+            <div style="font-size:16px;font-weight:800;color:#1c2530">Periode kiezen</div>
+            <div style="font-size:11.5px;color:#5a6472;margin-top:3px">Klik een startdatum en daarna een einddatum, of gebruik de snelkeuzes.</div>
+          </div>
+          <button onClick="{{ onPerCancel }}" title="Sluiten" style="width:24px;height:24px;border:none;border-radius:50%;background:#f1f3f6;color:#5a6472;cursor:pointer;font-size:14px;line-height:1;padding:0;flex:none" style-hover="background:#e3e7ec">×</button>
+        </div>
+        <div style="flex:1;min-height:0;overflow-y:auto;padding:12px 24px;display:flex;flex-direction:column;gap:14px">
+          <div style="display:flex;gap:10px">
+            <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid {{ perVanBorder }};border-radius:8px;background:#fff">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5a6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+              <div>
+                <div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0">Startdatum</div>
+                <div style="font-size:12px;font-weight:700;color:{{ perVanKleur }}">{{ perVanLabel }}</div>
+              </div>
+            </div>
+            <div style="flex:1;display:flex;align-items:center;gap:8px;padding:8px 12px;border:1px solid {{ perTotBorder }};border-radius:8px;background:#fff">
+              <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#5a6472" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><rect x="3" y="4" width="18" height="18" rx="2"></rect><path d="M16 2v4"></path><path d="M8 2v4"></path><path d="M3 10h18"></path></svg>
+              <div>
+                <div style="font-size:9px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0">Einddatum</div>
+                <div style="font-size:12px;font-weight:700;color:{{ perTotKleur }}">{{ perTotLabel }}</div>
+              </div>
+            </div>
+          </div>
+          <div style="display:flex;gap:22px;align-items:flex-start">
+            <sc-for list="{{ perKalenders }}" as="kal" hint-placeholder-count="2">
+              <div style="flex:1;min-width:0">
+                <div style="display:flex;align-items:center;margin-bottom:8px">
+                  <sc-if value="{{ kal.toontPrev }}" hint-placeholder-val="{{ true }}"><button onClick="{{ onKalPrev }}" title="Vorige maand" style="width:24px;height:24px;border:none;border-radius:6px;background:none;color:#2b3440;cursor:pointer;font-size:15px;font-weight:700;padding:0" style-hover="background:#f1f3f6">‹</button></sc-if>
+                  <sc-if value="{{ kal.toontPrevNiet }}" hint-placeholder-val="{{ false }}"><span style="width:24px"></span></sc-if>
+                  <span style="flex:1;text-align:center;font-size:12px;font-weight:700;color:#1c2530">{{ kal.titel }}</span>
+                  <sc-if value="{{ kal.toontNext }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onKalNext }}" title="Volgende maand" style="width:24px;height:24px;border:none;border-radius:6px;background:none;color:#2b3440;cursor:pointer;font-size:15px;font-weight:700;padding:0" style-hover="background:#f1f3f6">›</button></sc-if>
+                  <sc-if value="{{ kal.toontNextNiet }}" hint-placeholder-val="{{ true }}"><span style="width:24px"></span></sc-if>
+                </div>
+                <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:1px">
+                  <sc-for list="{{ kal.koppen }}" as="kk"><div style="text-align:center;font-size:10px;font-weight:700;color:#8a93a0;padding:3px 0">{{ kk }}</div></sc-for>
+                  <sc-for list="{{ kal.cellen }}" as="cel" hint-placeholder-count="42">
+                    <button onClick="{{ cel.onClick }}" style="height:28px;border:none;border-radius:{{ cel.radius }};background:{{ cel.bg }};font-family:inherit;font-size:11px;font-weight:{{ cel.gewicht }};color:{{ cel.kleur }};cursor:{{ cel.cursor }};padding:0">{{ cel.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="border-top:1px solid #eceff3;padding-top:12px;display:flex;flex-direction:column;gap:10px">
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;width:120px;flex:none">Snel selecteren</span>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                <sc-for list="{{ perSnel }}" as="ps" hint-placeholder-count="4">
+                  <button onClick="{{ ps.onKies }}" style="padding:4px 11px;border:1px solid #d6dbe3;border-radius:999px;background:#fff;font-family:inherit;font-size:11px;font-weight:600;color:#5a6472;cursor:pointer" style-hover="border-color:#195AA6;color:#195AA6">{{ ps.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+            <div style="display:flex;align-items:center;gap:8px">
+              <span style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;width:120px;flex:none">Dag van de week</span>
+              <div style="display:flex;flex-wrap:wrap;gap:5px">
+                <sc-for list="{{ perDraftDagen }}" as="pd" hint-placeholder-count="7">
+                  <button onClick="{{ pd.onToggle }}" style="padding:4px 10px;border:1px solid {{ pd.border }};border-radius:999px;background:{{ pd.bg }};font-family:inherit;font-size:11px;font-weight:600;color:{{ pd.fg }};cursor:pointer">{{ pd.label }}</button>
+                </sc-for>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div style="padding:14px 24px 20px;display:flex;align-items:center;gap:10px;flex:none;border-top:1px solid #eceff3">
+          <button onClick="{{ onPerWis }}" style="background:none;border:none;padding:4px 2px;font-family:inherit;font-size:11.5px;font-weight:700;color:#c0392b;cursor:pointer" style-hover="text-decoration:underline">Wis periode</button>
+          <div style="flex:1"></div>
+          <button onClick="{{ onPerCancel }}" style="padding:9px 16px;border:1px solid #d6dbe3;border-radius:8px;background:#fff;font-family:inherit;font-size:12px;font-weight:600;color:#5a6472;cursor:pointer" style-hover="background:#f1f3f6">Annuleren</button>
+          <button onClick="{{ onPerApply }}" style="padding:9px 18px;border:none;border-radius:8px;background:#195AA6;font-family:inherit;font-size:12px;font-weight:700;color:#fff;cursor:pointer" style-hover="background:#1E69C0">Toepassen</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
   <sc-if value="{{ spotplanOpen }}" hint-placeholder-val="{{ false }}">
     <div onClick="{{ onSpotplanClose }}" style="position:fixed;inset:0;z-index:1000;background:rgba(21,32,45,.42);display:flex;align-items:center;justify-content:center">
       <div onClick="{{ stopProp }}" data-screen-label="Spotplan controle" style="width:560px;max-width:94vw;max-height:88vh;background:#fff;border-radius:14px;box-shadow:0 20px 60px rgba(15,30,50,.3);overflow:hidden;display:flex;flex-direction:column">
@@ -935,7 +1007,7 @@
             </div>
           </sc-for>
           <sc-if value="{{ spotplanPeriodeLeeg }}" hint-placeholder-val="{{ false }}">
-            <div style="font-size:11px;color:#c0392b;font-weight:600;line-height:1.5;text-wrap:pretty">Vul eerst een periode in (jaar, datum of dag van de week) via het filter Periode — daarna kun je het spotplan aanmaken.</div>
+            <div style="font-size:11px;color:#c0392b;font-weight:600;line-height:1.5;text-wrap:pretty">Vul eerst een periode in (een start- en einddatum of dagen van de week) via het filter Periode — daarna kun je het spotplan aanmaken.</div>
           </sc-if>
         </div>
         <div style="padding:14px 24px 20px;display:flex;justify-content:flex-end;gap:10px;flex:none;border-top:1px solid #eceff3">
@@ -1138,7 +1210,8 @@ class Component extends DCLogic {
     profileOpen: false, copied: false,
     exportOpen: false, exportFmt: 'xlsx', exportTab: 'data', exportDone: false,
     dgTabelOpen: false, dgTabelZoek: '', dgSortKol: 'index', dgSortRicht: 'desc',
-    periode: { jaar: null, datum: '', dagen: [] }, spotplanOpen: false, snapshotTick: 0, snapshotBezig: false,
+    periode: { van: '', tot: '', dagen: [] }, spotplanOpen: false, snapshotTick: 0, snapshotBezig: false,
+    perOpen: false, perDraft: null, perKal: { jaar: 2026, maand: 7 },
     shareOpen: false, linkCopied: false, shareLink: '',
     toast: ''
   };
@@ -1149,6 +1222,7 @@ class Component extends DCLogic {
       if (e.key !== 'Escape') return;
       if (this.state.dgTabelOpen) this.setState({ dgTabelOpen: false });
       else if (this.state.spotplanOpen) this.setState({ spotplanOpen: false });
+      else if (this.state.perOpen) this.setState({ perOpen: false, perDraft: null });
     };
     window.addEventListener('keydown', this._esc);
     import('./data.js').then(m => {
@@ -1243,6 +1317,43 @@ class Component extends DCLogic {
   fmtKm(m) { return (Math.round(m / 10) / 100).toLocaleString('nl-NL', { maximumFractionDigits: 2 }); }
   fmtEuro(n) { return '€ ' + (n || 0).toLocaleString('nl-NL'); }
   fmtDatum(iso) { const [j, m, d] = iso.split('-'); return d + '-' + m + '-' + j; }
+  _perKlik(iso) {
+    const d = this.state.perDraft || { van: '', tot: '', dagen: [] };
+    let van = d.van, tot = d.tot;
+    if (!van || (van && tot)) { van = iso; tot = ''; }
+    else if (iso >= van) tot = iso;
+    else { tot = van; van = iso; }
+    this.setState({ perDraft: Object.assign({}, d, { van, tot }) });
+  }
+  _kalender(jaar, maand) {
+    const namen = ['januari', 'februari', 'maart', 'april', 'mei', 'juni', 'juli', 'augustus', 'september', 'oktober', 'november', 'december'];
+    const d = this.state.perDraft || { van: '', tot: '', dagen: [] };
+    const iso = (j, m, dag) => j + '-' + String(m + 1).padStart(2, '0') + '-' + String(dag).padStart(2, '0');
+    const offset = (new Date(jaar, maand, 1).getDay() + 6) % 7;
+    const inMaand = new Date(jaar, maand + 1, 0).getDate();
+    const vorige = new Date(jaar, maand, 0).getDate();
+    const cellen = [];
+    for (let i = 0; i < 42; i++) {
+      const dag = i - offset + 1;
+      if (dag < 1 || dag > inMaand) {
+        cellen.push({ label: String(dag < 1 ? vorige + dag : dag - inMaand), bg: 'transparent', kleur: '#c3c9d2', gewicht: '400', radius: '6px', cursor: 'default', onClick: () => {} });
+        continue;
+      }
+      const dz = iso(jaar, maand, dag);
+      const start = d.van && dz === d.van, eind = d.tot && dz === d.tot;
+      const binnen = d.van && d.tot && dz > d.van && dz < d.tot;
+      cellen.push({
+        label: String(dag),
+        bg: (start || eind) ? '#195AA6' : binnen ? '#eaf1f9' : 'transparent',
+        kleur: (start || eind) ? '#fff' : binnen ? '#1B4B89' : '#2b3440',
+        gewicht: (start || eind) ? '800' : binnen ? '600' : '400',
+        radius: start && !d.tot ? '6px' : start ? '6px 0 0 6px' : eind ? '0 6px 6px 0' : binnen ? '0' : '6px',
+        cursor: 'pointer',
+        onClick: () => this._perKlik(dz)
+      });
+    }
+    return { titel: namen[maand] + ' ' + jaar, koppen: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'], cellen };
+  }
   varWaarde(v) { return v.type === 'bereik' ? this.fmtEuro(v.van) + ' – ' + this.fmtEuro(v.tot) : (v.waarden || []).join(' of '); }
   _bedragVal(i, veld, waarde) {
     const d = this.state.bedragDraft;
@@ -1440,15 +1551,18 @@ class Component extends DCLogic {
     if (s.manualSel.length) chips.push({ label: 'Objecten · ' + s.manualSel.length + ' handmatig', onRemove: () => this.setState({ manualSel: [] }) });
     if (s.activeRonde) chips.push({ label: s.activeRonde.type === 'standaard' ? 'Ronde · ' + s.activeRonde.vlakken.toLocaleString('nl-NL') + ' vlakken' : 'Ronde · eigen · ' + s.activeRonde.vlakken.toLocaleString('nl-NL') + ' vlakken' + (s.activeRonde.sot ? ' · SOT ' + s.activeRonde.sot + '%' : ''), onRemove: () => this.setState({ activeRonde: null }) });
     const perPatch = p => this.setState({ periode: Object.assign({}, this.state.periode, p) });
-    if (s.periode.jaar) chips.push({ label: 'Periode · ' + s.periode.jaar, onRemove: () => perPatch({ jaar: null }) });
-    if (s.periode.datum) chips.push({ label: 'Periode · ' + this.fmtDatum(s.periode.datum), onRemove: () => perPatch({ datum: '' }) });
+    const perHeeftRange = !!(s.periode.van && s.periode.tot);
+    const perRangeLabel = perHeeftRange
+      ? (s.periode.van === s.periode.tot ? this.fmtDatum(s.periode.van) : this.fmtDatum(s.periode.van) + ' t/m ' + this.fmtDatum(s.periode.tot))
+      : '';
+    if (perHeeftRange) chips.push({ label: 'Periode · ' + perRangeLabel, onRemove: () => perPatch({ van: '', tot: '' }) });
     if (s.periode.dagen.length) chips.push({ label: 'Periode · ' + s.periode.dagen.join(', '), onRemove: () => perPatch({ dagen: [] }) });
-    const periodeIngevuld = !!(s.periode.jaar || s.periode.datum || s.periode.dagen.length);
+    const periodeIngevuld = perHeeftRange || s.periode.dagen.length > 0;
     const periodeDelen = [
-      s.periode.jaar ? 'jaar ' + s.periode.jaar : null,
-      s.periode.datum ? this.fmtDatum(s.periode.datum) : null,
+      perHeeftRange ? perRangeLabel : null,
       s.periode.dagen.length ? s.periode.dagen.join(', ') : null
     ].filter(Boolean);
+    const pd = s.perDraft || { van: '', tot: '', dagen: [] };
     const spotRij = (label, waarde) => ({
       label, waarde: waarde || 'geen selectie',
       border: '#eceff3', bg: waarde ? '#fbfcfd' : '#fff',
@@ -1608,7 +1722,7 @@ class Component extends DCLogic {
       onBack: () => this.setState({ screen: 'projects', detailId: null, profileOpen: false }),
 
       chips, hasChips: chips.length > 0, noChips: chips.length === 0,
-      onWisAlles: () => this.setState({ selDg: [], dgIndex: {}, previewOn: false, selGeo: { provincie: [], gemeente: [], pc4: [] }, selNw: [], selBrands: {}, selPoi: [], selPoiSpec: [], selPoiLists: [], adhocPois: [], poiModes: {}, manualSel: [], poiZoek: '', activeRegio: null, activeRonde: null, periode: { jaar: null, datum: '', dagen: [] } }),
+      onWisAlles: () => this.setState({ selDg: [], dgIndex: {}, previewOn: false, selGeo: { provincie: [], gemeente: [], pc4: [] }, selNw: [], selBrands: {}, selPoi: [], selPoiSpec: [], selPoiLists: [], adhocPois: [], poiModes: {}, manualSel: [], poiZoek: '', activeRegio: null, activeRonde: null, periode: { van: '', tot: '', dagen: [] } }),
 
       panelOpen: s.panelOpen, panelClosed: !s.panelOpen,
       onTogglePanel: () => this.setState({ panelOpen: !this.state.panelOpen }),
@@ -1624,17 +1738,49 @@ class Component extends DCLogic {
       onSecPer: () => this.setState({ secties: Object.assign({}, this.state.secties, { per: !this.state.secties.per }) }),
       secPerOpen: s.secties.per, secPerRot: s.secties.per ? 180 : 0,
       hasPerBadge: periodeIngevuld,
-      perBadge: String((s.periode.jaar ? 1 : 0) + (s.periode.datum ? 1 : 0) + s.periode.dagen.length),
-      perJaren: ['2026', '2027'].map(j => {
-        const aan = s.periode.jaar === j;
-        return { label: j, bg: aan ? '#195AA6' : '#fff', fg: aan ? '#fff' : '#5a6472', border: aan ? '#195AA6' : '#d6dbe3',
-          onToggle: () => perPatch({ jaar: aan ? null : j }) };
+      perBadge: String((perHeeftRange ? 1 : 0) + (s.periode.dagen.length ? 1 : 0)),
+      perLeeg: !periodeIngevuld, perGevuld: periodeIngevuld,
+      perHeeftRange, perRangeLabel,
+      perHeeftDagen: s.periode.dagen.length > 0, perDagenLabel: s.periode.dagen.join(', '),
+      perKnopLabel: periodeIngevuld ? 'Periode aanpassen' : 'Periode kiezen',
+      perOpen: s.perOpen,
+      onPerOpen: () => {
+        const van = this.state.periode.van;
+        const kal = van ? { jaar: +van.slice(0, 4), maand: +van.slice(5, 7) - 1 } : { jaar: 2026, maand: 7 };
+        this.setState({ perOpen: true, perDraft: Object.assign({}, this.state.periode), perKal: kal });
+      },
+      onPerCancel: () => this.setState({ perOpen: false, perDraft: null }),
+      onPerApply: () => {
+        const d = this.state.perDraft || { van: '', tot: '', dagen: [] };
+        const van = d.van, tot = d.tot || d.van;
+        this.setState({ periode: { van, tot: van ? tot : '', dagen: d.dagen }, perOpen: false, perDraft: null });
+      },
+      onPerWis: () => this.setState({ perDraft: { van: '', tot: '', dagen: [] } }),
+      perVanLabel: pd.van ? this.fmtDatum(pd.van) : 'kies in de kalender',
+      perVanKleur: pd.van ? '#1c2530' : '#9aa3b0',
+      perVanBorder: (!pd.van) ? '#195AA6' : '#d6dbe3',
+      perTotLabel: pd.tot ? this.fmtDatum(pd.tot) : (pd.van ? 'kies in de kalender' : '—'),
+      perTotKleur: pd.tot ? '#1c2530' : '#9aa3b0',
+      perTotBorder: (pd.van && !pd.tot) ? '#195AA6' : '#d6dbe3',
+      perKalenders: [0, 1].map(i => {
+        const m = s.perKal.maand + i, jaar = s.perKal.jaar + Math.floor(m / 12), maand = ((m % 12) + 12) % 12;
+        return Object.assign(this._kalender(jaar, maand), {
+          toontPrev: i === 0, toontPrevNiet: i !== 0,
+          toontNext: i === 1, toontNextNiet: i !== 1
+        });
       }),
-      perDatum: s.periode.datum, onPerDatum: e => perPatch({ datum: e.target.value }),
-      perDagen: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'].map(d => {
-        const aan = s.periode.dagen.includes(d);
-        return { label: d, bg: aan ? '#195AA6' : '#fff', fg: aan ? '#fff' : '#5a6472', border: aan ? '#195AA6' : '#d6dbe3',
-          onToggle: () => perPatch({ dagen: this.tg(this.state.periode.dagen, d) }) };
+      onKalPrev: () => { const k = this.state.perKal, m = k.maand - 1; this.setState({ perKal: { jaar: k.jaar + Math.floor(m / 12), maand: ((m % 12) + 12) % 12 } }); },
+      onKalNext: () => { const k = this.state.perKal, m = k.maand + 1; this.setState({ perKal: { jaar: k.jaar + Math.floor(m / 12), maand: ((m % 12) + 12) % 12 } }); },
+      perSnel: [
+        { label: 'Heel 2026', van: '2026-01-01', tot: '2026-12-31', kal: { jaar: 2026, maand: 0 } },
+        { label: 'Q4 2026', van: '2026-10-01', tot: '2026-12-31', kal: { jaar: 2026, maand: 9 } },
+        { label: 'Heel 2027', van: '2027-01-01', tot: '2027-12-31', kal: { jaar: 2027, maand: 0 } },
+        { label: 'Q1 2027', van: '2027-01-01', tot: '2027-03-31', kal: { jaar: 2027, maand: 0 } }
+      ].map(q => ({ label: q.label, onKies: () => this.setState({ perDraft: Object.assign({}, this.state.perDraft || { dagen: [] }, { van: q.van, tot: q.tot }), perKal: q.kal }) })),
+      perDraftDagen: ['Ma', 'Di', 'Wo', 'Do', 'Vr', 'Za', 'Zo'].map(dg => {
+        const aan = pd.dagen.includes(dg);
+        return { label: dg, bg: aan ? '#195AA6' : '#fff', fg: aan ? '#fff' : '#5a6472', border: aan ? '#195AA6' : '#d6dbe3',
+          onToggle: () => { const cur = this.state.perDraft || { van: '', tot: '', dagen: [] }; this.setState({ perDraft: Object.assign({}, cur, { dagen: this.tg(cur.dagen, dg) }) }); } };
       }),
       hasVlBadge: !!s.activeRonde,
       tabVlStd: s.vlakkenTab === 'standaard', tabVlZelf: s.vlakkenTab === 'zelf',
