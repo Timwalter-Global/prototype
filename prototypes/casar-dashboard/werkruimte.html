@@ -2165,39 +2165,65 @@ class Component extends DCLogic {
 </script>
 <!-- OVERZICHT-BRUG-START -->
 <script>
-/* Brug met de nieuwe overzichtspagina (index.html):
+/* Brug met de nieuwe overzichtspagina (index.html). Het oude
+   projectenoverzicht in deze SPA mag nooit meer in beeld komen:
    - ?project=<naam> opent direct dat demoproject in de werkruimte
-     (onbekende naam: het eerste project), zodat testers het oude
-     overzichtsscherm niet eerst te zien krijgen.
+     (onbekende naam: het eerste project).
+   - ?nieuw=1 start direct een vers project in de werkruimte.
+   - Zonder brug-parameter, of als doorschakelen mislukt, ga je terug
+     naar de nieuwe overzichtspagina in plaats van het oude scherm.
    - "Terug naar projecten" verwijst terug naar de nieuwe overzichtspagina.
-   Faalt dit script, dan verschijnt gewoon het oude overzichtsscherm. */
+   Het oude scherm blijft tijdens het doorschakelen verborgen. */
 (function () {
   document.addEventListener('click', function (e) {
     var terug = e.target && e.target.closest && e.target.closest('[data-comment-anchor="c99a903a5b-button"]');
     if (terug) { e.preventDefault(); e.stopPropagation(); location.href = './'; }
   }, true);
 
-  var naam = null;
-  try { naam = new URLSearchParams(location.search).get('project'); } catch (err) {}
-  if (naam === null) return;
+  var naam = null, nieuw = false;
+  try {
+    var params = new URLSearchParams(location.search);
+    naam = params.get('project');
+    nieuw = params.get('nieuw') !== null;
+  } catch (err) {}
+  if (naam === null && !nieuw) { location.replace('./'); return; }
+
+  /* Oude overzichtsscherm verbergen zolang we aan het doorschakelen zijn. */
+  var stijl = document.createElement('style');
+  stijl.textContent = '[data-screen-label="Projectenoverzicht"]{visibility:hidden}';
+  document.documentElement.appendChild(stijl);
+
   var klaar = false;
-  var obs = new MutationObserver(probeer);
   function probeer() {
     if (klaar) return;
     var scherm = document.querySelector('[data-screen-label="Projectenoverzicht"]');
     if (!scherm) return;
-    var knoppen = scherm.querySelectorAll('button');
-    var doel = null;
-    knoppen.forEach(function (k) {
-      if (!doel && naam && k.textContent.indexOf(naam) !== -1) doel = k;
+    /* Pas doorklikken als de app echt geladen is: projectkaarten tonen dan
+       een objectenaantal ("412 objecten"). Eerder klikken doet niets,
+       omdat de klik-handlers dan nog leeg zijn. */
+    var kaarten = [];
+    scherm.querySelectorAll('button').forEach(function (k) {
+      if (/\d\s*objecten/.test(k.textContent)) kaarten.push(k);
     });
-    /* Alleen projectkaarten bevatten "objecten"; val daarop terug bij een onbekende naam. */
-    if (!doel) knoppen.forEach(function (k) { if (!doel && k.textContent.indexOf('objecten') !== -1) doel = k; });
+    if (!kaarten.length) return;
+    var doel = null;
+    if (nieuw) {
+      /* De "+ Nieuw project"-knop van het oude scherm start een vers project. */
+      scherm.querySelectorAll('button').forEach(function (k) {
+        if (!doel && k.textContent.indexOf('Nieuw project') !== -1 && !/\d\s*objecten/.test(k.textContent)) doel = k;
+      });
+    } else {
+      /* Alleen op projectkaarten matchen — nooit op de "+ Nieuw project"-knop,
+         anders strandt een project dat toevallig zo heet op het oude scherm. */
+      kaarten.forEach(function (k) { if (!doel && naam && k.textContent.indexOf(naam) !== -1) doel = k; });
+      if (!doel) doel = kaarten[0];
+    }
     if (doel) { klaar = true; obs.disconnect(); doel.click(); }
   }
+  var obs = new MutationObserver(probeer);
   obs.observe(document.documentElement, { childList: true, subtree: true });
   probeer();
-  setTimeout(function () { if (!klaar) obs.disconnect(); }, 8000);
+  setTimeout(function () { if (!klaar) { obs.disconnect(); location.replace('./'); } }, 8000);
 })();
 </script>
 <!-- OVERZICHT-BRUG-END -->

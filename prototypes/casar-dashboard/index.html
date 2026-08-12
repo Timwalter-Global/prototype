@@ -760,11 +760,9 @@ function saveRename(){
 $("#btnRenameConfirm").addEventListener("click", saveRename);
 $("#renameInput").addEventListener("keydown", e => { if(e.key === "Enter") saveRename(); });
 
+/* Nieuw project: direct door naar de werkruimte als vers project. */
 $("#btnNieuw").addEventListener("click", () => {
-  const nieuw = { id:"p"+(teller++), naam:"Nieuw project", cat:"Nog geen categorie", bewerkt:"Zojuist", ts:tsTeller++, objecten:0, gedeeldMet:[] };
-  mijnProjecten.unshift(nieuw);
-  render();
-  toast("Nieuw project aangemaakt — in het echte product open je nu direct de werkruimte.");
+  location.href = "werkruimte.html?nieuw=1";
 });
 
 $("#howToggle").addEventListener("click", () => {
