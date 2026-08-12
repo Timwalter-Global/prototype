@@ -37,12 +37,14 @@ function pinIcon(kind) {
 
 function MapView(props) {
   const { objects = [], pois = [], poiRadius = 0, poiDashed = false, mode = 'pan', grayscale = true,
-    selectedProvincies = [], selectedGemeenten = [], pc4Centers = [] } = props;
+    selectedProvincies = [], selectedGemeenten = [], pc4Centers = [],
+    geoLayer = 'gemeente', geoPickable = [], geoSelected = [] } = props;
   const divRef = useRef(null);
   const mapRef = useRef(null);
   const layerRef = useRef(null);
   const poiRef = useRef(null);
   const hlRef = useRef(null);
+  const pickRef = useRef(null);
   const propsRef = useRef(props);
   propsRef.current = props;
   const [ready, setReady] = useState(false);
@@ -57,7 +59,10 @@ function MapView(props) {
       L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap contributors' }).addTo(map);
       const pane = map.createPane('ap-hl');
       pane.style.zIndex = 350;
+      const pickPane = map.createPane('ap-pick');
+      pickPane.style.zIndex = 360;
       hlRef.current = L.layerGroup().addTo(map);
+      pickRef.current = L.layerGroup().addTo(map);
       layerRef.current = L.layerGroup().addTo(map);
       poiRef.current = L.layerGroup().addTo(map);
       mapRef.current = map;
@@ -79,11 +84,11 @@ function MapView(props) {
         weight: o.selected ? 2.5 : 1,
         fillColor: o.dimmed ? '#c3c9d2' : o.color,
         fillOpacity: o.dimmed ? 0.45 : 0.92,
-        interactive: mode !== 'lasso'
+        interactive: mode === 'pan'
       });
       m.on('click', () => {
         const p = propsRef.current;
-        if (p.mode !== 'lasso' && p.onObjectClick) p.onObjectClick(o.id);
+        if (p.mode === 'pan' && p.onObjectClick) p.onObjectClick(o.id);
       });
       m.addTo(lg);
     });
@@ -145,6 +150,80 @@ function MapView(props) {
     })();
     return () => { cancelled = true; };
   }, [ready, selectedProvincies.join('|'), selectedGemeenten.join('|'), pc4Centers.map(c => c.lat + ',' + c.lng).join('|')]);
+
+  // Handmatig gebieden aanklikken op de kaart (modus 'geo')
+  useEffect(() => {
+    const lg = pickRef.current;
+    if (!ready || !lg) return;
+    lg.clearLayers();
+    if (mode !== 'geo') return;
+    let cancelled = false;
+    const gekozen = new Set(geoSelected);
+    // PC4-cirkels zijn klein: die krijgen wat meer vulling, anders zie je ze niet op landelijk zoomniveau
+    const rond = geoLayer === 'pc4';
+    const styleFor = aan => aan
+      ? { color: '#195AA6', weight: 2.5, dashArray: null, fillColor: '#195AA6', fillOpacity: 0 }
+      : rond
+        ? { color: '#195AA6', weight: 1.2, dashArray: null, fillColor: '#195AA6', fillOpacity: 0.12 }
+        : { color: '#5a6472', weight: 1, dashArray: '3 3', fillColor: '#195AA6', fillOpacity: 0.02 };
+    const wire = (lyr, naam) => {
+      lyr.setStyle(styleFor(gekozen.has(naam)));
+      lyr.on('mouseover', () => lyr.setStyle({ color: '#195AA6', weight: 2, dashArray: null, fillOpacity: 0.28 }));
+      lyr.on('mouseout', () => lyr.setStyle(styleFor(gekozen.has(naam))));
+      lyr.on('click', ev => {
+        L.DomEvent.stop(ev);
+        const p = propsRef.current;
+        if (p.onGeoPick) p.onGeoPick(naam);
+      });
+      lyr.bindTooltip(naam, { sticky: true, direction: 'top', opacity: 0.95 });
+      lyr.addTo(lg);
+    };
+    // Terugval wanneer de CBS-grenzen niet geladen kunnen worden: kader om de objecten van het gebied
+    const bboxFallback = () => {
+      const veld = geoLayer === 'provincie' ? 'provincie' : 'gemeente';
+      geoPickable.forEach(g => {
+        const objs = (propsRef.current.objects || []).filter(o => o[veld] === g.name);
+        if (!objs.length) return;
+        const lats = objs.map(o => o.lat), lngs = objs.map(o => o.lng);
+        wire(L.rectangle([
+          [Math.min(...lats) - 0.05, Math.min(...lngs) - 0.07],
+          [Math.max(...lats) + 0.05, Math.max(...lngs) + 0.07]
+        ], { pane: 'ap-pick' }), g.name);
+      });
+    };
+    (async () => {
+      if (geoLayer === 'pc4') {
+        geoPickable.forEach(g => wire(L.circle([g.lat, g.lng], { radius: 1400, pane: 'ap-pick' }), g.name));
+        return;
+      }
+      const j = await loadGeo(geoLayer === 'provincie' ? 'prov' : 'gem');
+      if (cancelled) return;
+      if (!j) { bboxFallback(); return; }
+      const opStatnaam = {};
+      geoPickable.forEach(g => { opStatnaam[GEO_ALIAS[g.name] || g.name] = g.name; });
+      const gevonden = new Set();
+      j.features.forEach(f => {
+        const naam = opStatnaam[f.properties.statnaam];
+        if (!naam) return;
+        gevonden.add(naam);
+        wire(L.geoJSON(f, { pane: 'ap-pick' }), naam);
+      });
+      if (!gevonden.size) bboxFallback();
+    })();
+    return () => { cancelled = true; };
+  }, [ready, mode, geoLayer, geoPickable.map(g => g.name).join('|'), geoSelected.join('|')]);
+
+  // Esc verlaat de handmatige gebiedsselectie
+  useEffect(() => {
+    if (!ready || mode !== 'geo') return;
+    const onKey = e => {
+      if (e.key !== 'Escape') return;
+      const p = propsRef.current;
+      if (p.onGeoExit) p.onGeoExit();
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [ready, mode]);
 
   useEffect(() => {
     const map = mapRef.current;
