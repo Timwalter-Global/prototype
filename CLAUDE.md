@@ -111,8 +111,9 @@ Stappen:
    go-live er niet op.
 7. Voeg op de landingspagina `index.html` een entry toe aan de
    `PROTOTYPES`-array tussen de markers `// PROTOTYPES-CONFIG-START` en
-   `// PROTOTYPES-CONFIG-END`: titel, categorie, beschrijving (één zin met
-   testscenario voor de tester), testtijd, type, url en thumb. Voor `thumb`
+   `// PROTOTYPES-CONFIG-END`: titel, categorie, beschrijving (kort en
+   praktisch: wat doet het prototype en wat is de waarde ervan voor ons —
+   geen testscenario), testtijd, type, url en thumb. Voor `thumb`
    verwijs je naar een template in het `THUMBS`-object; maak zo nodig een
    nieuw, herkenbaar miniatuurtemplate — geen generieke afbeelding of icoon.
    Geen LIVE-badges of livegang-datums op de kaarten; de contactkaart staat
