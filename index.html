@@ -120,6 +120,21 @@
   .arch-card .sub{font-size:12px;color:#8A93A5}
   .arch-card .open-link{margin-left:auto;flex:0 0 auto;font-size:12.5px;font-weight:700;color:var(--main)}
 
+  /* ───────── Sectie 3: producten in ontwikkeling ─────────
+     Bewust een andere kaartstijl dan de prototypes: geen mini-browservenster,
+     geen testtijd en geen "Start met testen" — deze producten draaien op een
+     eigen omgeving (inloggen vereist) en zijn hier niet te testen. */
+  .products{padding:0 0 56px}
+  .products-head{margin-bottom:16px}
+  .products-head h2{color:var(--dark);font-size:24px;font-weight:800;letter-spacing:-.3px}
+  .products-head .sub{font-size:13.5px;margin-top:3px;max-width:680px}
+  .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
+  .product{background:linear-gradient(150deg,#F3F8FC,#fff 60%);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-s);display:flex;flex-direction:column}
+  .product .badge{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);background:#EAF6FC;border:1px solid #CBE9F7;border-radius:999px;padding:4px 12px;margin-bottom:12px}
+  .product h3{color:var(--dark);font-size:19px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px}
+  .product p{font-size:13.5px;line-height:1.55;flex:1}
+  .product .cta{display:inline-block;width:auto;align-self:flex-start;margin-top:16px;padding:12px 24px}
+
   footer{border-top:1px solid var(--border);background:#fff;padding:16px 0;font-size:12.5px;color:#8A93A5;text-align:center}
 
   /* Overlays & modals */
@@ -219,6 +234,16 @@
   </div>
 </div></div>
 
+<!-- Sectie 3: producten in ontwikkeling -->
+<div class="products"><div class="wrap">
+  <div class="products-head">
+    <div class="section-eyebrow">In ontwikkeling</div>
+    <h2>Andere producten die we nu bouwen</h2>
+    <div class="sub">Naast de prototypes hierboven werken we aan volwaardige producten. Die worden op een eigen omgeving gebouwd en zijn hier niet te testen — je hebt er inloggegevens voor nodig. Wil je meer weten of meedenken? Neem contact op met Tim.</div>
+  </div>
+  <div class="products-grid" id="products-grid"></div>
+</div></div>
+
 <footer>global &nbsp;·&nbsp; Testomgeving voor prototypes · alleen bedoeld voor feedbackdoeleinden</footer>
 
 <!-- Onboarding pop-up -->
@@ -304,6 +329,24 @@
     }
   ];
   // ARCHIEF-CONFIG-END
+
+  /* ── Producten in ontwikkeling: geen prototypes maar volwaardige producten,
+     gebouwd op een eigen domein door een andere partij (inloggen vereist).
+     Alleen ter info, met een contactknop voor wie wil meedenken. ── */
+  // PRODUCTS-CONFIG-START
+  const PRODUCTS = [
+    {
+      titel: 'Opportunity Engine',
+      beschrijving: 'Eén tool waarmee salesteams direct aan de slag kunnen met het opvolgen van programmatic leads, suspects en andere kansen. Alle informatie staat overzichtelijk bij elkaar, zodat je een kans binnen 5 minuten kunt opvolgen.',
+      status: 'In ontwikkeling'
+    },
+    {
+      titel: 'Audience platform',
+      beschrijving: 'Een platform waarmee je out-of-home-campagnes creëert op basis van een doelgroep die je zelf samenstelt. Binnen 5 minuten staat de campagne compleet: klaar om voor te stellen aan de klant of direct in te boeken in Broadsign.',
+      status: 'In ontwikkeling'
+    }
+  ];
+  // PRODUCTS-CONFIG-END
 
   /* Miniatuurmockups: per type een eigen, herkenbare invulling van het
      mini-browservenster. */
@@ -416,6 +459,15 @@
       archToggle.setAttribute('aria-expanded', open);
     });
   }
+
+  /* ── Producten in ontwikkeling: infokaarten met contactknop ── */
+  document.getElementById('products-grid').innerHTML = PRODUCTS.map(p => `
+    <div class="product">
+      <span class="badge">${p.status}</span>
+      <h3>${p.titel}</h3>
+      <p>${p.beschrijving}</p>
+      <a class="cta" href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Meer weten over ' + p.titel)}&body=${encodeURIComponent('Hoi Tim,\n\nIk wil graag meer weten over ' + p.titel + ' of help graag mee.\n\nGroeten,\n')}">Meer weten? Mail Tim</a>
+    </div>`).join('');
 
   /* ── Onboarding pop-up: maximaal één keer per sessie ── */
   const OB_KEY = 'feedbackOnboardingGezien';

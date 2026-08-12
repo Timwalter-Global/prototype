@@ -43,6 +43,13 @@ toon: Nederlands, "je", energiek en informeel). Behoud die stijl bij
 aanpassingen aan de landingspagina. Prototypes zelf vallen hier nadrukkelijk
 **niet** onder — die blijven exact zoals aangeleverd.
 
+De landingspagina heeft naast de prototypekaarten ook een sectie **"Andere
+producten die we nu bouwen"** (`PRODUCTS`-array tussen
+`// PRODUCTS-CONFIG-START` en `// PRODUCTS-CONFIG-END` in `index.html`).
+Dat zijn volwaardige producten die elders, op een eigen domein, worden
+gebouwd (inloggen vereist): geen prototypes, geen Usersnap, geen testknop —
+alleen een beschrijving en een mailknop naar Tim voor wie wil meedenken.
+
 ## Prototype livezetten
 
 Nodig van de gebruiker:
