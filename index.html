@@ -10,49 +10,78 @@
 <style>
   :root{
     --main:#195AA6; --dark:#1B4B89; --mid:#0B78BE; --bright:#5BC4E8;
-    --grey:#575756; --canvas:#F3F5F9; --panel:#FFFFFF; --border:#DDE2EC;
+    --grey:#575756;
+    --ink:#4A4A48; --muted:#8A93A5;
+    --canvas:#F7F5F0; --panel:#FFFFFF;
+    --border:#E4E1D8; --border-cool:#DDE2EC;
+    --tint:#EAF1FA; --tint-warm:#F4F0E7;
     --radius:16px;
-    --shadow-s:0 1px 3px rgba(27,75,137,.08);
-    --shadow-m:0 6px 20px rgba(27,75,137,.12);
-    --shadow-l:0 18px 44px rgba(27,75,137,.20);
+    --shadow-s:0 1px 3px rgba(43,58,82,.07);
+    --shadow-m:0 8px 24px rgba(43,58,82,.11);
+    --shadow-l:0 18px 44px rgba(43,58,82,.20);
   }
   *{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:"Century Gothic",Poppins,sans-serif;background:var(--canvas);color:var(--grey);font-size:15px;line-height:1.55}
+  body{font-family:"Century Gothic",Poppins,sans-serif;background:var(--canvas);color:var(--ink);font-size:15px;line-height:1.55}
   .wrap{max-width:1120px;margin:0 auto;padding:0 28px}
   button{font-family:inherit;cursor:pointer}
   a{color:inherit;text-decoration:none}
   :focus-visible{outline:3px solid var(--mid);outline-offset:2px;border-radius:4px}
 
   /* ───────── Topbar ───────── */
-  .topbar{background:#fff;border-bottom:1px solid var(--border)}
+  .topbar{background:rgba(255,255,255,.9);backdrop-filter:blur(8px);border-bottom:1px solid var(--border)}
   .topbar .wrap{display:flex;align-items:center;gap:14px;height:56px}
   .logo{font-weight:800;color:var(--main);font-size:20px;letter-spacing:-.5px}
   .topbar .divider{width:1px;height:22px;background:var(--border)}
-  .topbar .crumb{font-size:13.5px;color:var(--grey)}
+  .topbar .crumb{font-size:13.5px;color:var(--ink)}
 
   /* ───────── Hero ───────── */
   .hero{position:relative;overflow:hidden;background:linear-gradient(115deg,var(--dark) 0%,var(--main) 55%,var(--mid) 100%);color:#fff;padding:40px 0 44px}
-  .hero .frames{position:absolute;inset:0;opacity:.14;pointer-events:none}
-  .hero .frames span{position:absolute;border:2px solid #fff;border-radius:6px}
+  /* Decoratieve kaders: links en in het midden, zodat ze niet achter de
+     dummy-kaart rechts verdwijnen. Elk kader pulseert zachtjes in opaciteit. */
+  .hero .frames{position:absolute;inset:0;opacity:.13;pointer-events:none}
+  .hero .frames span{position:absolute;border:2px solid #fff;border-radius:6px;opacity:.55;animation:frameGlow 7s ease-in-out infinite}
+  .hero .frames span:nth-child(2){animation-delay:1.4s}
+  .hero .frames span:nth-child(3){animation-delay:2.8s}
+  .hero .frames span:nth-child(4){animation-delay:4.2s}
+  .hero .frames span:nth-child(5){animation-delay:5.6s}
+  @keyframes frameGlow{0%,100%{opacity:.55}50%{opacity:1}}
+  .hero .wrap{position:relative;display:grid;grid-template-columns:1fr 320px;gap:40px;align-items:center}
   .hero h1{font-size:33px;font-weight:800;letter-spacing:-.5px;line-height:1.15;max-width:640px}
-  .hero p{margin-top:10px;font-size:16px;opacity:.92;max-width:600px}
-  .hero p b{color:var(--bright);font-weight:700}
-  .hero .dummy-note{display:inline-block;margin-top:16px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.4);border-radius:12px;padding:10px 16px;font-size:13.5px;opacity:1;max-width:600px}
+  .hero-copy p{margin-top:10px;font-size:16px;opacity:.92;max-width:600px}
+  .hero-copy p b{color:var(--bright);font-weight:700}
+  .dummy-card{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.32);border-radius:16px;backdrop-filter:blur(6px);padding:18px 20px}
+  .dummy-card .icon{display:grid;place-items:center;width:40px;height:40px;border-radius:10px;background:rgba(255,255,255,.2);font-size:20px;margin-bottom:10px}
+  .dummy-card h3{font-size:15.5px;font-weight:800;letter-spacing:-.2px;margin-bottom:4px}
+  .dummy-card p{font-size:13px;line-height:1.55;opacity:.92}
+  @media (max-width:900px){
+    .hero .wrap{grid-template-columns:1fr;gap:24px}
+    .hero h1{font-size:26px}
+    .dummy-card{max-width:420px}
+  }
 
-  /* ───────── Sectie 1: stappen ───────── */
-  .steps{margin-top:-26px;position:relative;z-index:2}
-  .steps-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
-  .step{background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);padding:16px 18px;box-shadow:var(--shadow-m);display:flex;gap:13px;align-items:flex-start}
-  .step .num{flex:0 0 30px;height:30px;border-radius:50%;background:var(--main);color:#fff;font-weight:700;font-size:14px;display:grid;place-items:center}
-  .step h3{color:var(--dark);font-size:15px;font-weight:700;margin-bottom:3px}
-  .step p{font-size:13.5px;line-height:1.5}
+  /* ───────── Sectie 1: compacte stepper met accordeon ───────── */
+  .steps{padding:16px 0}
+  .stepper{display:flex;align-items:center;gap:10px}
+  .step-btn{display:inline-flex;align-items:center;gap:10px;background:none;border:none;padding:6px 8px;border-radius:10px;font-size:14.5px}
+  .step-btn .num{flex:0 0 28px;width:28px;height:28px;border-radius:50%;background:var(--main);color:#fff;font-weight:700;font-size:13px;display:grid;place-items:center}
+  .step-btn .lbl{font-weight:700;color:var(--dark);white-space:nowrap}
+  .step-btn .chev{font-size:10px;color:var(--muted);transition:transform .2s}
+  .step-btn[aria-expanded="true"] .chev{transform:rotate(180deg)}
+  .step-line{flex:1;height:2px;border-radius:999px;background:linear-gradient(90deg,var(--border-cool),var(--bright),var(--border-cool))}
+  .step-panel{margin-top:10px;background:var(--tint);border-left:4px solid var(--bright);border-radius:12px;padding:12px 18px;font-size:13.5px}
+  .step-panel b{color:var(--dark)}
+  .step-panel.show{animation:fadeIn .25s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(-4px)}to{opacity:1;transform:none}}
   .section-eyebrow{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:6px}
+  @media (max-width:640px){
+    .stepper{flex-direction:column;align-items:flex-start;gap:4px}
+    .step-line{display:none}
+  }
 
   /* ───────── Sectie 2: carousel ───────── */
-  .choose{padding:38px 0 54px}
+  .choose{padding:24px 0 54px}
   .choose-head{display:flex;align-items:flex-end;justify-content:space-between;margin-bottom:16px}
   .choose-head h2{color:var(--dark);font-size:24px;font-weight:800;letter-spacing:-.3px}
-  .choose-head .sub{font-size:13.5px;margin-top:3px}
   /* Pijlen staan naast de laatst zichtbare kaart: zo is te zien dat er meer achter zit. */
   .car-shell{position:relative}
   .car-nav{position:absolute;top:50%;right:-92px;transform:translateY(-50%);display:flex;gap:8px;z-index:3}
@@ -67,11 +96,13 @@
   @media (max-width:900px){
     .car-nav{top:-48px;right:2px}
   }
-  .carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x mandatory;padding:6px 4px 22px;scrollbar-width:none}
+  .carousel{display:flex;gap:18px;overflow-x:auto;scroll-snap-type:x proximity;padding:6px 4px 22px;scrollbar-width:none;cursor:grab}
   .carousel::-webkit-scrollbar{display:none}
-  .proto{scroll-snap-align:start;flex:0 0 340px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-s);transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column}
+  .carousel.dragging{cursor:grabbing;scroll-snap-type:none;user-select:none}
+  .carousel.dragging .proto{pointer-events:none}
+  .proto{scroll-snap-align:start;flex:0 0 340px;background:var(--panel);border:1px solid var(--border);border-radius:var(--radius);overflow:hidden;box-shadow:var(--shadow-s);transition:transform .18s,box-shadow .18s;display:flex;flex-direction:column;cursor:pointer}
   .proto:hover{transform:translateY(-4px);box-shadow:var(--shadow-m)}
-  .proto-visual{display:block;height:132px;position:relative;overflow:hidden;background:linear-gradient(130deg,var(--dark),var(--main) 70%,var(--mid));cursor:pointer}
+  .proto-visual{display:block;height:132px;position:relative;overflow:hidden;background:linear-gradient(130deg,var(--dark),var(--main) 70%,var(--mid))}
   /* mini browservenster: transparante mockup van de landingspagina */
   .thumb{position:absolute;left:50%;bottom:-10px;transform:translateX(-50%);width:78%;background:rgba(255,255,255,.94);border-radius:8px 8px 0 0;box-shadow:0 10px 26px rgba(10,25,50,.35);overflow:hidden;transition:transform .2s}
   .proto:hover .thumb{transform:translateX(-50%) translateY(-5px)}
@@ -86,38 +117,39 @@
   .tmap{flex:2;height:34px;border-radius:3px;background:#D9E6F2;position:relative}
   .tmap i{position:absolute;width:5px;height:5px;border-radius:50%;background:var(--main)}
   .tlist{flex:1;display:flex;flex-direction:column;gap:4px}
-  .proto-visual .tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.16);border:1px solid rgba(255,255,255,.35);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
+  .proto-visual .tag{position:absolute;top:12px;left:12px;background:rgba(255,255,255,.18);border:1px solid rgba(255,255,255,.4);backdrop-filter:blur(3px);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:3px 10px;border-radius:999px;text-transform:uppercase}
   .proto-body{padding:18px 18px 20px;display:flex;flex-direction:column;flex:1}
   .proto-body h3{color:var(--dark);font-size:19px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px}
   .proto-body p{font-size:13.5px;line-height:1.55;flex:1}
   .proto-meta{display:flex;gap:8px;margin:13px 0}
-  .chip{font-size:12px;font-weight:600;color:var(--main);background:#EAF1FA;border-radius:999px;padding:4px 11px;display:inline-flex;align-items:center;gap:5px}
+  .chip{font-size:12px;font-weight:600;color:var(--main);background:var(--tint);border-radius:999px;padding:4px 11px;display:inline-flex;align-items:center;gap:5px}
   .cta{display:block;width:100%;text-align:center;border:none;border-radius:12px;background:var(--main);color:#fff;font-weight:700;font-size:15px;padding:13px 0;transition:background .15s,transform .1s}
+  .proto:hover .cta{background:var(--dark)}
   .cta:hover{background:var(--dark)}
   .cta:active{transform:scale(.98)}
-  .proto.soon{border-style:dashed;background:transparent;box-shadow:none}
+  .proto.soon{border-style:dashed;background:transparent;box-shadow:none;cursor:default}
   .proto.soon:hover{transform:none}
-  .proto.soon .inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:#9AA3B5;padding:30px;text-align:center;font-size:13.5px}
+  .proto.soon .inner{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--muted);padding:30px;text-align:center;font-size:13.5px}
   .dots{display:flex;gap:7px;justify-content:center}
-  .dots span{width:8px;height:8px;border-radius:50%;background:#C6CEDD;transition:background .2s}
-  .dots span.on{background:var(--main)}
+  .dots span{width:8px;height:8px;border-radius:50%;background:#CFC9BC;transition:background .2s,width .2s}
+  .dots span.on{width:20px;border-radius:999px;background:var(--main)}
 
   /* ───────── Archief: bewust bescheiden, onder de carousel ───────── */
   .archive-wrap{margin-top:26px;text-align:center}
-  .archive-toggle{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:10px 20px;font-size:13.5px;font-weight:600;color:var(--grey);transition:border-color .15s,color .15s}
+  .archive-toggle{display:inline-flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--border);border-radius:999px;padding:10px 20px;font-size:13.5px;font-weight:600;color:var(--ink);transition:border-color .15s,color .15s}
   .archive-toggle:hover{border-color:var(--main);color:var(--main)}
   .archive-toggle .arrow{display:inline-block;font-size:11px;transition:transform .2s}
   .archive-toggle[aria-expanded="true"] .arrow{transform:rotate(180deg)}
   .archive{display:none;margin-top:18px;text-align:left}
   .archive.open{display:block}
-  .archive .note{font-size:12.5px;color:#8A93A5;margin-bottom:12px;text-align:center}
+  .archive .note{font-size:12.5px;color:var(--muted);margin-bottom:12px;text-align:center}
   .archive-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:12px}
   .arch-card{display:flex;align-items:center;gap:12px;background:#fff;border:1px solid var(--border);border-radius:12px;padding:12px 14px;box-shadow:var(--shadow-s);transition:transform .15s,box-shadow .15s}
   .arch-card:hover{transform:translateY(-2px);box-shadow:var(--shadow-m)}
-  .arch-card .icoon{flex:0 0 34px;height:34px;border-radius:9px;background:#EAF1FA;color:var(--main);display:grid;place-items:center;font-size:15px}
+  .arch-card .icoon{flex:0 0 34px;height:34px;border-radius:9px;background:var(--tint);color:var(--main);display:grid;place-items:center;font-size:15px}
   .arch-card .tekst{min-width:0}
   .arch-card h4{color:var(--dark);font-size:13.5px;font-weight:700;line-height:1.3;margin-bottom:2px}
-  .arch-card .sub{font-size:12px;color:#8A93A5}
+  .arch-card .sub{font-size:12px;color:var(--muted)}
   .arch-card .open-link{margin-left:auto;flex:0 0 auto;font-size:12.5px;font-weight:700;color:var(--main)}
 
   /* ───────── Sectie 3: producten in ontwikkeling ─────────
@@ -127,22 +159,23 @@
   .products{padding:0 0 56px}
   .products-head{margin-bottom:16px}
   .products-head h2{color:var(--dark);font-size:24px;font-weight:800;letter-spacing:-.3px}
-  .products-head .sub{font-size:13.5px;margin-top:3px;max-width:680px}
+  .products-head .sub{font-size:13.5px;margin-top:3px}
+  .mail-link{color:var(--main);font-weight:700;text-decoration:underline;text-underline-offset:3px;transition:color .15s}
+  .mail-link:hover{color:var(--dark)}
   .products-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:18px}
-  .product{background:linear-gradient(150deg,#F3F8FC,#fff 60%);border:1px solid var(--border);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-s);display:flex;flex-direction:column}
+  .product{background:linear-gradient(150deg,#F3F8FC,#fff 60%);border:1px solid var(--border-cool);border-radius:var(--radius);padding:22px 24px;box-shadow:var(--shadow-s);display:flex;flex-direction:column}
   .product .badge{align-self:flex-start;font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--mid);background:#EAF6FC;border:1px solid #CBE9F7;border-radius:999px;padding:4px 12px;margin-bottom:12px}
   .product h3{color:var(--dark);font-size:19px;font-weight:800;letter-spacing:-.2px;margin-bottom:6px}
   .product p{font-size:13.5px;line-height:1.55;flex:1}
-  .product .cta{display:inline-block;width:auto;align-self:flex-start;margin-top:16px;padding:12px 24px}
 
-  footer{border-top:1px solid var(--border);background:#fff;padding:16px 0;font-size:12.5px;color:#8A93A5;text-align:center}
+  footer{border-top:1px solid var(--border);background:#fff;padding:16px 0;font-size:12.5px;color:var(--muted);text-align:center}
 
   /* Overlays & modals */
   .overlay{position:fixed;inset:0;background:rgba(23,40,66,.45);display:none;align-items:center;justify-content:center;z-index:60;padding:20px}
   .overlay.open{display:flex}
   .modal{background:#fff;border-radius:18px;box-shadow:var(--shadow-l);width:100%;max-width:520px;padding:28px 30px;position:relative;animation:pop .22s ease}
   @keyframes pop{from{opacity:0;transform:translateY(10px) scale(.98)}to{opacity:1;transform:none}}
-  .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:#9AA3B5}
+  .modal .close{position:absolute;top:14px;right:16px;background:none;border:none;font-size:20px;color:var(--muted)}
   .modal h2{color:var(--dark);font-size:21px;font-weight:800;margin-bottom:4px}
   .modal .lead{font-size:14px;margin-bottom:14px}
   .ob-note{background:#EAF1F9;border-left:4px solid var(--sky,#5BC4E8);border-radius:12px;padding:12px 16px;font-size:13.5px;margin-bottom:14px}
@@ -159,7 +192,6 @@
   .ob-cta:hover{background:var(--dark)}
 
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
-  @media (max-width:860px){.steps-grid{grid-template-columns:1fr}.hero h1{font-size:26px}}
   @media (max-width:480px){.proto{flex:0 0 calc(100vw - 76px)}}
 </style>
 </head>
@@ -171,36 +203,42 @@
 </div></div>
 
 <div class="hero">
-  <div class="frames">
-    <span style="top:18%;left:6%;width:70px;height:110px"></span>
-    <span style="top:52%;left:15%;width:120px;height:70px"></span>
-    <span style="top:12%;right:9%;width:90px;height:60px"></span>
-    <span style="top:48%;right:4%;width:64px;height:100px"></span>
-    <span style="top:70%;right:20%;width:110px;height:64px"></span>
+  <div class="frames" aria-hidden="true">
+    <span style="top:16%;left:5%;width:70px;height:110px"></span>
+    <span style="top:58%;left:12%;width:120px;height:70px"></span>
+    <span style="top:12%;left:32%;width:90px;height:60px"></span>
+    <span style="top:64%;left:40%;width:110px;height:64px"></span>
+    <span style="top:28%;left:52%;width:64px;height:100px"></span>
   </div>
   <div class="wrap">
-    <h1>Help onze prototypes beter te maken</h1>
-    <p>Kies een prototype, probeer het uit en laat je feedback direct achter via de <b>Feedback</b> knop. Test er zoveel je wilt; feedback geven kan doorlopend.</p>
-    <p class="dummy-note">Alle prototypes zijn gevuld met <b>dummy data</b> — de cijfers en gegevens zijn dus niet echt. Je beoordeelt het prototype zelf: gebruiksgemak, duidelijkheid en functies.</p>
+    <div class="hero-copy">
+      <h1>Help onze prototypes beter te maken</h1>
+      <p>Kies een prototype, probeer het uit en laat je feedback direct achter via de <b>Feedback</b> knop. Test er zoveel je wilt; feedback geven kan doorlopend.</p>
+    </div>
+    <aside class="dummy-card">
+      <span class="icon" aria-hidden="true">🧪</span>
+      <h3>Alles is dummy data</h3>
+      <p>De cijfers en gegevens in de prototypes zijn niet echt. Je beoordeelt het prototype zelf: gebruiksgemak, duidelijkheid en functionaliteit.</p>
+    </aside>
   </div>
 </div>
 
-<!-- Sectie 1: drie stappen -->
+<!-- Sectie 1: compacte stepper met gedeeld detailpaneel (accordeon) -->
 <div class="steps"><div class="wrap">
-  <div class="steps-grid">
-    <div class="step"><span class="num">1</span><div>
-      <h3>Kies je prototype</h3>
-      <p>Selecteer hieronder een prototype. Alles mag getest worden.</p>
-    </div></div>
-    <div class="step"><span class="num">2</span><div>
-      <h3>Probeer het uit</h3>
-      <p>Klik rond zoals je normaal zou doen. Het is een prototype met dummy data, dus niet alles hoeft te werken en de gegevens zijn niet echt.</p>
-    </div></div>
-    <div class="step"><span class="num">3</span><div>
-      <h3>Geef je feedback</h3>
-      <p>Zie je iets? Gebruik de Feedback knop rechts in beeld om je opmerking direct achter te laten.</p>
-    </div></div>
+  <div class="stepper" role="group" aria-label="Zo werkt het testen in drie stappen">
+    <button class="step-btn" data-step="0" aria-expanded="false" aria-controls="step-panel">
+      <span class="num" aria-hidden="true">1</span><span class="lbl">Kies je prototype</span><span class="chev" aria-hidden="true">▼</span>
+    </button>
+    <span class="step-line" aria-hidden="true"></span>
+    <button class="step-btn" data-step="1" aria-expanded="false" aria-controls="step-panel">
+      <span class="num" aria-hidden="true">2</span><span class="lbl">Probeer het uit</span><span class="chev" aria-hidden="true">▼</span>
+    </button>
+    <span class="step-line" aria-hidden="true"></span>
+    <button class="step-btn" data-step="2" aria-expanded="false" aria-controls="step-panel">
+      <span class="num" aria-hidden="true">3</span><span class="lbl">Geef je feedback</span><span class="chev" aria-hidden="true">▼</span>
+    </button>
   </div>
+  <div class="step-panel" id="step-panel" hidden></div>
 </div></div>
 
 <!-- Sectie 2: carousel -->
@@ -209,7 +247,6 @@
     <div>
       <div class="section-eyebrow">Nu te testen</div>
       <h2>Kies een prototype</h2>
-      <div class="sub">Klik op <b>Start met testen</b> om een prototype te openen.</div>
     </div>
   </div>
 
@@ -239,7 +276,7 @@
   <div class="products-head">
     <div class="section-eyebrow">In ontwikkeling</div>
     <h2>Andere producten die we nu bouwen</h2>
-    <div class="sub">Naast de prototypes hierboven werken we aan volwaardige producten. Die worden op een eigen omgeving gebouwd en zijn hier niet te testen — je hebt er inloggegevens voor nodig. Wil je meer weten of meedenken? Neem contact op met Tim.</div>
+    <div class="sub">Naast de prototypes hierboven werken we aan volwaardige producten. Die worden op een eigen omgeving gebouwd en zijn hier niet te testen; je hebt er inloggegevens voor nodig. Wil je meedenken of meer weten? <a class="mail-link" id="products-mail" href="#">Mail Tim</a>.</div>
   </div>
   <div class="products-grid" id="products-grid"></div>
 </div></div>
@@ -289,8 +326,8 @@
     },
     {
       titel: 'AdViewer 2.0',
-      categorie: 'Sales, marketing & bureaus/adverteerders',
-      beschrijving: 'Upload een creatieve uiting en zie meteen hoe die eruitziet op de objecten van Global, van abri tot snelwegmast. Voor zowel intern gebruik als voor klanten — en daarmee verzamelen we meteen leads.',
+      categorie: 'Sales & marketing',
+      beschrijving: 'Upload een creatieve uiting en zie meteen hoe die eruitziet op de objecten van Global, van abri tot snelwegmast. Voor intern gebruik, bureaus en adverteerders; daarmee verzamelen we meteen leads.',
       testtijd: '± 10 min',
       type: 'Previews',
       url: 'prototypes/adviewer2/',
@@ -332,7 +369,7 @@
 
   /* ── Producten in ontwikkeling: geen prototypes maar volwaardige producten,
      gebouwd op een eigen domein door een andere partij (inloggen vereist).
-     Alleen ter info, met een contactknop voor wie wil meedenken. ── */
+     Alleen ter info, met een maillink in de intro voor wie wil meedenken. ── */
   // PRODUCTS-CONFIG-START
   const PRODUCTS = [
     {
@@ -386,21 +423,51 @@
       <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#C3D6EC"></span><span class="tsk" style="flex:1;height:6px"></span></div>`
   };
 
+  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  /* ── Stepper: één gedeeld detailpaneel, accordeon (één stap tegelijk open) ── */
+  const STAPPEN = [
+    { label: 'Kies je prototype', detail: 'Selecteer hieronder een prototype. Alles mag getest worden, zo vaak je wilt.' },
+    { label: 'Probeer het uit', detail: 'Klik rond zoals je normaal zou doen. Het is een prototype met dummy data, dus niet alles hoeft te werken en de gegevens zijn niet echt.' },
+    { label: 'Geef je feedback', detail: 'Zie je iets? Gebruik de Feedback knop rechts in beeld om je opmerking direct achter te laten, eventueel met screenshot of opname.' }
+  ];
+  const stepBtns = document.querySelectorAll('.step-btn');
+  const stepPanel = document.getElementById('step-panel');
+  let openStep = -1;
+  stepBtns.forEach(btn => btn.addEventListener('click', () => {
+    const i = +btn.dataset.step;
+    if (openStep === i) { /* nogmaals klikken sluit */
+      openStep = -1;
+      stepPanel.hidden = true;
+      btn.setAttribute('aria-expanded', 'false');
+      return;
+    }
+    openStep = i;
+    stepBtns.forEach(b => b.setAttribute('aria-expanded', String(+b.dataset.step === i)));
+    const s = STAPPEN[i];
+    stepPanel.innerHTML = `<b>${s.label}.</b> ${s.detail}`;
+    stepPanel.hidden = false;
+    stepPanel.classList.remove('show');
+    void stepPanel.offsetWidth; /* herstart de fade ook bij wisselen van stap */
+    stepPanel.classList.add('show');
+  }));
+
+  /* ── Kaarten: hele kaart klikbaar (role=link + data-url), CTA is een span ── */
   const car = document.getElementById('carousel');
 
   const cardsHtml = PROTOTYPES.map((p, i) => `
-    <div class="proto">
-      <a class="proto-visual" href="${p.url}" target="_blank" rel="noopener" data-proto="${i}" aria-label="Open ${p.titel}">
+    <div class="proto" role="link" tabindex="0" data-url="${p.url}" data-proto="${i}" aria-label="Open ${p.titel}">
+      <span class="proto-visual">
         <span class="tag">${p.categorie}</span>
         <div class="thumb"><div class="bar"><i></i><i></i><i></i></div>
           <div class="cnt">${THUMBS[p.thumb] || ''}</div>
         </div>
-      </a>
+      </span>
       <div class="proto-body">
         <h3>${p.titel}</h3>
         <p>${p.beschrijving}</p>
         <div class="proto-meta"><span class="chip">⏱ ${p.testtijd}</span><span class="chip">${p.type}</span></div>
-        <a class="cta" href="${p.url}" target="_blank" rel="noopener" data-proto="${i}">Start met testen</a>
+        <span class="cta" aria-hidden="true">Start met testen</span>
       </div>
     </div>`).join('') + `
     <div class="proto soon">
@@ -416,7 +483,6 @@
   /* ── Carousel: pijlknoppen, dots, toetsenbord ── */
   const dotsEl = document.getElementById('dots');
   const cards = car.querySelectorAll('.proto');
-  const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   const STEP = 358; /* kaartbreedte + gap */
   cards.forEach((_, i) => { const d = document.createElement('span'); if (i === 0) d.className = 'on'; dotsEl.appendChild(d); });
   function slide(dir){ car.scrollBy({ left: dir * STEP, behavior: reduceMotion ? 'auto' : 'smooth' }); }
@@ -441,6 +507,107 @@
     if (e.key === 'ArrowRight') { e.preventDefault(); slide(1); }
   });
 
+  /* ── Slepen met de muis (desktop): mobiel swipet al native ──
+     Pas vanaf 6px beweging telt het als slepen; de carousel krijgt dan de
+     class "dragging" (grabbing-cursor, snap uit, kaarten klikken niet mee).
+     Een klik direct na slepen opent nooit een prototype. */
+  let dragPointer = null, dragging = false, suppressClick = false, dragStartX = 0, dragScrollStart = 0;
+  car.addEventListener('pointerdown', e => {
+    if (e.pointerType !== 'mouse') return;
+    dragPointer = e.pointerId;
+    dragStartX = e.clientX;
+    dragScrollStart = car.scrollLeft;
+    dragging = false;
+  });
+  car.addEventListener('pointermove', e => {
+    if (dragPointer === null || e.pointerId !== dragPointer) return;
+    const dx = e.clientX - dragStartX;
+    if (!dragging && Math.abs(dx) > 6) {
+      dragging = true;
+      suppressClick = true;
+      car.classList.add('dragging');
+      try { car.setPointerCapture(dragPointer); } catch (err) {}
+    }
+    if (dragging) car.scrollLeft = dragScrollStart - dx;
+  });
+  function endDrag(e){
+    if (dragPointer === null || e.pointerId !== dragPointer) return;
+    dragPointer = null;
+    if (dragging) {
+      dragging = false;
+      /* class pas in het volgende frame weghalen: de klik die op het loslaten
+         volgt, mag geen prototype openen */
+      requestAnimationFrame(() => {
+        car.classList.remove('dragging');
+        suppressClick = false;
+      });
+    }
+  }
+  car.addEventListener('pointerup', endDrag);
+  car.addEventListener('pointercancel', endDrag);
+
+  /* ── Openen van een prototype, met onboarding-intercept ── */
+  const OB_KEY = 'feedbackOnboardingGezien';
+  const ovOnboard = document.getElementById('ov-onboard');
+  let pendingUrl = null, lastFocus = null;
+
+  /* Markeer als gezien voor de prototypepagina zelf (zie
+     assets/feedback-onboarding.js), zodat de uitleg daar niet
+     direct nóg een keer verschijnt. */
+  function markSlugSeen(absUrl){
+    const m = absUrl.match(/\/prototypes\/([^\/]+)\//);
+    if (m) { try { localStorage.setItem('feedbackOnboardingGezien:' + m[1], '1'); } catch (e) {} }
+  }
+  function isFullyVisible(card){
+    const r = card.getBoundingClientRect(), c = car.getBoundingClientRect();
+    return r.left >= c.left - 4 && r.right <= c.right + 4;
+  }
+  function openProto(card){
+    const p = PROTOTYPES[+card.dataset.proto];
+    const abs = new URL(card.dataset.url, location.href).href;
+    if (!sessionStorage.getItem(OB_KEY)) {
+      pendingUrl = abs;
+      document.getElementById('ob-proto').textContent = p.titel;
+      lastFocus = card;
+      ovOnboard.classList.add('open');
+      sessionStorage.setItem(OB_KEY, '1');
+      document.getElementById('ob-start').focus();
+      return;
+    }
+    /* al gezien: direct door, mét localStorage-sync */
+    markSlugSeen(abs);
+    window.open(abs, '_blank', 'noopener');
+  }
+  car.querySelectorAll('.proto[data-url]').forEach(card => {
+    card.addEventListener('click', () => {
+      if (suppressClick) return; /* klik direct na slepen */
+      if (!isFullyVisible(card)) {
+        /* deels zichtbare kaart: eerst in beeld scrollen, niet openen */
+        card.scrollIntoView({ inline: 'nearest', block: 'nearest', behavior: reduceMotion ? 'auto' : 'smooth' });
+        return;
+      }
+      openProto(card);
+    });
+    card.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); openProto(card); }
+    });
+  });
+  document.getElementById('ob-start').addEventListener('click', () => {
+    closeOnboard();
+    if (pendingUrl) {
+      markSlugSeen(pendingUrl);
+      window.open(pendingUrl, '_blank', 'noopener');
+    }
+    pendingUrl = null;
+  });
+  document.getElementById('ob-close').addEventListener('click', closeOnboard);
+  ovOnboard.addEventListener('click', e => { if (e.target === ovOnboard) closeOnboard(); });
+  function closeOnboard(){
+    ovOnboard.classList.remove('open');
+    if (lastFocus) { lastFocus.focus(); lastFocus = null; }
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOnboard(); });
+
   /* ── Archief: knop met uitklapbare rij kleine kaarten ── */
   const archiveWrap = document.getElementById('archive-wrap');
   if (ARCHIEF.length) {
@@ -460,52 +627,15 @@
     });
   }
 
-  /* ── Producten in ontwikkeling: infokaarten met contactknop ── */
+  /* ── Producten in ontwikkeling: infokaarten, contact via de maillink in de intro ── */
+  document.getElementById('products-mail').href =
+    `mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Meedenken over producten in ontwikkeling')}`;
   document.getElementById('products-grid').innerHTML = PRODUCTS.map(p => `
     <div class="product">
       <span class="badge">${p.status}</span>
       <h3>${p.titel}</h3>
       <p>${p.beschrijving}</p>
-      <a class="cta" href="mailto:${CONTACT_EMAIL}?subject=${encodeURIComponent('Meer weten over ' + p.titel)}&body=${encodeURIComponent('Hoi Tim,\n\nIk wil graag meer weten over ' + p.titel + ' of help graag mee.\n\nGroeten,\n')}">Meer weten? Mail Tim</a>
     </div>`).join('');
-
-  /* ── Onboarding pop-up: maximaal één keer per sessie ── */
-  const OB_KEY = 'feedbackOnboardingGezien';
-  const ovOnboard = document.getElementById('ov-onboard');
-  let pendingUrl = null, lastFocus = null;
-
-  document.querySelectorAll('a[data-proto]').forEach(link => {
-    link.addEventListener('click', e => {
-      if (sessionStorage.getItem(OB_KEY)) return; /* al gezien: direct door */
-      e.preventDefault();
-      const p = PROTOTYPES[+link.dataset.proto];
-      pendingUrl = link.href;
-      document.getElementById('ob-proto').textContent = p.titel;
-      lastFocus = link;
-      ovOnboard.classList.add('open');
-      sessionStorage.setItem(OB_KEY, '1');
-      document.getElementById('ob-start').focus();
-    });
-  });
-  document.getElementById('ob-start').addEventListener('click', () => {
-    closeOnboard();
-    if (pendingUrl) {
-      /* Markeer als gezien voor de prototypepagina zelf (zie
-         assets/feedback-onboarding.js), zodat de uitleg daar niet
-         direct nóg een keer verschijnt. */
-      const m = pendingUrl.match(/\/prototypes\/([^\/]+)\//);
-      if (m) { try { localStorage.setItem('feedbackOnboardingGezien:' + m[1], '1'); } catch (e) {} }
-      window.open(pendingUrl, '_blank', 'noopener');
-    }
-    pendingUrl = null;
-  });
-  document.getElementById('ob-close').addEventListener('click', closeOnboard);
-  ovOnboard.addEventListener('click', e => { if (e.target === ovOnboard) closeOnboard(); });
-  function closeOnboard(){
-    ovOnboard.classList.remove('open');
-    if (lastFocus) { lastFocus.focus(); lastFocus = null; }
-  }
-  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeOnboard(); });
 </script>
 </body>
 </html>
