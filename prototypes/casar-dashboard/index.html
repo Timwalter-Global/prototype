@@ -61,23 +61,35 @@
         <button onClick="{{ onBack }}" style="display:flex;align-items:center;gap:7px;padding:9px 12px;border:1px solid #195AA6;border-radius:8px;background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:#195AA6;cursor:pointer" style-hover="background:#eaf1f9" data-comment-anchor="c99a903a5b-button"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M15 18l-6-6 6-6"></path></svg>Terug naar projecten</button>
         <div style="width:1px;height:22px;background:#e3e7ec"></div>
         <div>
-          <div style="font-size:14px;font-weight:700;color:#1c2530">{{ projectNaam }}</div>
-          <div style="font-size:10.5px;color:#8a93a0">Audience Platform · wireframe</div>
+          <sc-if value="{{ naamEditClosed }}" hint-placeholder-val="{{ true }}">
+            <button onClick="{{ onNaamStart }}" title="Projectnaam wijzigen" style="display:flex;align-items:center;gap:7px;padding:3px 6px;margin-left:-6px;border:none;border-radius:6px;background:none;font-family:inherit;cursor:pointer" style-hover="background:#f1f3f6">
+              <span style="font-size:14px;font-weight:700;color:#1c2530">{{ projectNaam }}</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#8a93a0" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="flex:none"><path d="M12 20h9"></path><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4z"></path></svg>
+            </button>
+          </sc-if>
+          <sc-if value="{{ naamEditOpen }}" hint-placeholder-val="{{ false }}">
+            <div style="display:flex;align-items:center;gap:6px">
+              <input value="{{ naamEditVal }}" onChange="{{ onNaamChange }}" onBlur="{{ onNaamSave }}" onKeyDown="{{ onNaamKey }}" placeholder="Naam van project…" style="width:260px;padding:5px 8px;border:1px solid #195AA6;border-radius:6px;font-family:inherit;font-size:14px;font-weight:700;color:#1c2530;background:#fff;outline:none">
+              <span style="font-size:10.5px;color:#8a93a0;white-space:nowrap">Enter om op te slaan</span>
+            </div>
+          </sc-if>
         </div>
         <div style="flex:1"></div>
         <button onClick="{{ onShareOpen }}" style="display:flex;align-items:center;gap:8px;padding:9px 14px;border:1px solid #195AA6;border-radius:8px;background:#fff;font-family:inherit;font-size:12.5px;font-weight:700;color:#195AA6;cursor:pointer" style-hover="background:#eaf1f9"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 12v7a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1v-7"></path><path d="M12 3v12"></path><path d="M8 7l4-4 4 4"></path></svg>Deel maplink</button>
         <button onClick="{{ onExportOpen }}" style="display:flex;align-items:center;gap:8px;padding:9px 14px;border:none;border-radius:8px;background:#195AA6;font-family:inherit;font-size:12.5px;font-weight:700;color:#fff;cursor:pointer" style-hover="background:#1E69C0"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 4v11"></path><path d="M7 11l5 5 5-5"></path><path d="M5 20h14"></path></svg>Exporteer locatielijst</button>
       </div>
 
-      <div style="min-height:46px;flex:none;display:flex;align-items:center;gap:12px;padding:8px 16px;background:#f7f8fa;border-bottom:1px solid #dfe3e9">
-        <span style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a93a0;flex:none">Actieve selecties</span>
-        <sc-if value="{{ noChips }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#8a93a0">Nog geen selecties — kies een doelgroep, gebied of netwerk. Elke selectie werkt direct door op de kaart en de resultaten.</span></sc-if>
-        <div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0">
+      <div style="min-height:46px;flex:none;display:flex;align-items:flex-start;gap:12px;padding:8px 16px;background:#f7f8fa;border-bottom:1px solid #dfe3e9">
+        <div style="flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:2px;padding-top:3px">
+          <span style="font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.08em;color:#8a93a0">Actieve selecties</span>
+          <sc-if value="{{ hasChips }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onWisAlles }}" style="background:none;border:none;padding:0;font-family:inherit;font-size:11.5px;font-weight:700;color:#0B78BE;cursor:pointer" style-hover="text-decoration:underline">Wis alle selecties</button></sc-if>
+        </div>
+        <sc-if value="{{ noChips }}" hint-placeholder-val="{{ true }}"><span style="font-size:12px;color:#8a93a0;padding-top:2px">Nog geen selecties — kies een doelgroep, gebied of netwerk. Elke selectie werkt direct door op de kaart en de resultaten.</span></sc-if>
+        <div style="display:flex;flex-wrap:wrap;gap:6px;flex:1;min-width:0;padding-top:1px">
           <sc-for list="{{ chips }}" as="chip" hint-placeholder-count="0">
             <span style="display:inline-flex;align-items:center;gap:5px;padding:4px 6px 4px 10px;background:#eaf1f9;border:1px solid #cddcee;border-radius:999px;font-size:11.5px;font-weight:600;color:#1B4B89">{{ chip.label }}<button onClick="{{ chip.onRemove }}" title="Verwijderen" style="width:16px;height:16px;display:inline-flex;align-items:center;justify-content:center;border:none;border-radius:50%;background:transparent;color:#1B4B89;cursor:pointer;font-size:13px;line-height:1;padding:0" style-hover="background:#d5e3f3">×</button></span>
           </sc-for>
         </div>
-        <sc-if value="{{ hasChips }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onWisAlles }}" style="flex:none;background:none;border:none;padding:4px 2px;font-family:inherit;font-size:11.5px;font-weight:700;color:#0B78BE;cursor:pointer" style-hover="text-decoration:underline">Wis alle selecties</button></sc-if>
       </div>
 
       <div style="flex:1;display:flex;min-height:0">
@@ -270,7 +282,7 @@
                         <button onClick="{{ onComposeBack }}" style="background:none;border:none;padding:2px 0;font-family:inherit;font-size:11px;font-weight:700;color:#0B78BE;cursor:pointer" style-hover="text-decoration:underline">‹ Opgeslagen doelgroepen</button>
                         <sc-if value="{{ hasCustomVars }}" hint-placeholder-val="{{ false }}"><button onClick="{{ onResetVars }}" style="background:none;border:none;padding:2px 0;font-family:inherit;font-size:11px;font-weight:700;color:#5a6472;cursor:pointer" style-hover="color:#c0392b">Reset variabelen</button></sc-if>
                       </div>
-                      <div style="font-size:11px;color:#8a93a0;line-height:1.5;text-wrap:pretty">Kies variabelen en stel per variabele een conditie in. Sla het resultaat op als eigen doelgroep.</div>
+                      <div style="font-size:11px;color:#8a93a0;line-height:1.5;text-wrap:pretty">Kies variabelen en vink per variabele één of meer waarden aan. Sla het resultaat op als eigen doelgroep.</div>
                       <sc-for list="{{ cbsCats }}" as="cat" hint-placeholder-count="4">
                         <div>
                           <div style="font-size:10px;font-weight:700;letter-spacing:.06em;text-transform:uppercase;color:#8a93a0;margin-bottom:6px">{{ cat.cat }}</div>
@@ -284,22 +296,35 @@
                       <sc-if value="{{ hasCustomVars }}" hint-placeholder-val="{{ false }}">
                         <div style="display:flex;flex-direction:column;gap:8px;border-top:1px solid #eceff3;padding-top:12px">
                           <sc-for list="{{ customVars }}" as="cv" hint-placeholder-count="1">
-                            <div style="display:flex;align-items:center;gap:8px">
-                              <span style="flex:1;min-width:0;font-size:12px;font-weight:600;color:#1c2530">{{ cv.naam }}</span>
-                              <select value="{{ cv.conditie }}" onChange="{{ cv.onCond }}" style="max-width:140px;padding:5px 6px;border:1px solid #d6dbe3;border-radius:6px;font-family:inherit;font-size:11px;color:#2b3440;background:#fff">
-                                <sc-for list="{{ cv.condities }}" as="c"><option value="{{ c }}">{{ c }}</option></sc-for>
-                              </select>
-                              <button onClick="{{ cv.onRemove }}" title="Verwijderen" style="width:20px;height:20px;border:none;border-radius:50%;background:#f1f3f6;color:#5a6472;cursor:pointer;font-size:13px;line-height:1;padding:0;flex:none" style-hover="background:#e3e7ec">×</button>
+                            <div style="border:1px solid {{ cv.randKleur }};border-radius:8px;padding:8px 10px;display:flex;flex-direction:column;gap:7px">
+                              <div style="display:flex;align-items:center;gap:8px">
+                                <span style="flex:1;min-width:0;font-size:12px;font-weight:700;color:#1c2530">{{ cv.naam }}</span>
+                                <button onClick="{{ cv.onRemove }}" title="Verwijderen" style="width:20px;height:20px;border:none;border-radius:50%;background:#f1f3f6;color:#5a6472;cursor:pointer;font-size:13px;line-height:1;padding:0;flex:none" style-hover="background:#e3e7ec">×</button>
+                              </div>
+                              <sc-if value="{{ cv.isKeuze }}" hint-placeholder-val="{{ true }}">
+                                <div style="display:flex;flex-wrap:wrap;gap:5px">
+                                  <sc-for list="{{ cv.opties }}" as="op" hint-placeholder-count="3">
+                                    <button onClick="{{ op.onToggle }}" style="padding:4px 9px;border:1px solid {{ op.border }};border-radius:999px;background:{{ op.bg }};font-family:inherit;font-size:11px;font-weight:600;color:{{ op.fg }};cursor:pointer">{{ op.label }}</button>
+                                  </sc-for>
+                                </div>
+                                <sc-if value="{{ cv.leeg }}" hint-placeholder-val="{{ false }}"><div style="font-size:10.5px;font-weight:600;color:#c0392b">Kies minimaal één waarde</div></sc-if>
+                              </sc-if>
+                              <sc-if value="{{ cv.isBereik }}" hint-placeholder-val="{{ false }}">
+                                <div style="display:flex;align-items:center;gap:6px">
+                                  <span style="font-size:11px;color:#5a6472;flex:none">van</span>
+                                  <input type="text" inputmode="numeric" value="{{ cv.vanVal }}" onChange="{{ cv.onVan }}" onBlur="{{ cv.onBereikBlur }}" style="flex:1;min-width:0;padding:5px 8px;border:1px solid #d6dbe3;border-radius:6px;font-family:inherit;font-size:11.5px;font-weight:600;color:#1c2530;background:#fff;text-align:right;outline:none">
+                                  <span style="font-size:11px;color:#5a6472;flex:none">tot</span>
+                                  <input type="text" inputmode="numeric" value="{{ cv.totVal }}" onChange="{{ cv.onTot }}" onBlur="{{ cv.onBereikBlur }}" style="flex:1;min-width:0;padding:5px 8px;border:1px solid #d6dbe3;border-radius:6px;font-family:inherit;font-size:11.5px;font-weight:600;color:#1c2530;background:#fff;text-align:right;outline:none">
+                                </div>
+                              </sc-if>
                             </div>
                           </sc-for>
                           <button onClick="{{ onTogglePreview }}" style="width:100%;padding:8px 0;border:1px solid #195AA6;border-radius:8px;font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer;background:{{ previewBg }};color:{{ previewFg }}">{{ previewLabel }}</button>
                           <sc-if value="{{ previewOnVal }}" hint-placeholder-val="{{ false }}"><div style="font-size:10px;color:#195AA6;font-weight:600;line-height:1.5;text-wrap:pretty">De resultaten rechts tellen deze conceptdoelgroep nu mee — nog niet opgeslagen.</div></sc-if>
-                          <div style="font-size:11px;font-weight:700;color:#1c2530;margin-top:2px">Geef je doelgroep een naam en sla op — pas daarna kun je deze gebruiken.</div>
                           <div style="display:flex;gap:8px">
                             <input value="{{ customNaam }}" onChange="{{ onCustomNaam }}" placeholder="Naam van doelgroep…" style="flex:1;min-width:0;padding:8px 10px;border:1px solid #d6dbe3;border-radius:8px;font-family:inherit;font-size:12px;color:#2b3440;outline:none">
                             <button onClick="{{ onSaveCustom }}" style="padding:8px 12px;border:none;border-radius:8px;background:#195AA6;color:#fff;font-family:inherit;font-size:11.5px;font-weight:700;cursor:pointer" style-hover="background:#1E69C0">Opslaan</button>
                           </div>
-                          <div style="font-size:10.5px;color:#8a93a0;line-height:1.5">Opgeslagen doelgroepen verschijnen hier én in de lijst bij Standaard doelgroepen.</div>
                         </div>
                       </sc-if>
                       </sc-if>
@@ -921,13 +946,13 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;demoStaat&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;leeg&quot;,&quot;gevuld&quot;],&quot;default&quot;:&quot;leeg&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Wireframe&quot;,&quot;description&quot;:&quot;Start met een leeg project of met voorbeeldselecties (werkt bij laden)&quot;},&quot;kaartKleur&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;grijstinten&quot;,&quot;kleur&quot;],&quot;default&quot;:&quot;grijstinten&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;Kaart&quot;},&quot;toonLegenda&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;Kaart&quot;}}">
 class Component extends DCLogic {
   state = {
-    screen: 'projects', projectNaam: '', projSearch: '',
+    screen: 'projects', projectNaam: '', projSearch: '', projectId: null, naamEdit: null, projectenLijst: [],
     panelOpen: true,
     secties: { dg: true, geo: false, nw: false, poi: false, vl: false },
     openField: null, fieldSearch: {},
     dgTab: 'standaard', composeOpen: false, unsavedOpen: false, pendingLeave: null,
     selDg: [], dgIndex: {},
-    customVars: [], customNaam: '', savedDg: [], previewOn: false, dgBeheerOpen: false,
+    customVars: [], customNaam: '', savedDg: [], previewOn: false, dgBeheerOpen: false, bedragDraft: null,
     geoLayer: 'gemeente', selGeo: { provincie: [], gemeente: [], pc4: [] },
     regios: [], regioInputOpen: false, regioNaam: '', regioBeheerOpen: false, activeRegio: null,
     selNw: [], famOpen: { 'Analoog': true, 'Digitaal': true },
@@ -951,10 +976,10 @@ class Component extends DCLogic {
     import('./data.js').then(m => {
       this.D = m;
       const regios = [{ naam: 'Steden 100.000+', layer: 'gemeente', values: m.CITIES.filter(c => c.inw >= 100).map(c => c.n), vast: true }];
-      const st = { regios };
+      const st = { regios, projectenLijst: m.PROJECTS.map((p, i) => Object.assign({ id: 'demo-' + i }, p)) };
       if ((this.props.demoStaat ?? 'leeg') === 'gevuld') {
         Object.assign(st, {
-          screen: 'workspace', projectNaam: 'Retail Q3 – landelijke campagne',
+          screen: 'workspace', projectNaam: 'Retail Q3 – landelijke campagne', projectId: 'demo-0',
           selDg: ['boodschappers', 'jonge-gezinnen'], selNw: ['supermarkten', 'winkelcentra'],
           selGeo: { provincie: [], gemeente: ['Amsterdam', 'Rotterdam', 'Utrecht', 'Eindhoven'], pc4: [] },
           secties: { dg: true, geo: true, nw: true, poi: false }
@@ -1004,6 +1029,19 @@ class Component extends DCLogic {
   _m2t(m) { return Math.round(100 * Math.log(Math.max(100, m) / 100) / Math.log(500)); }
   fmtDist(m) { return m < 1000 ? m + ' meter' : (Math.round(m / 100) / 10).toLocaleString('nl-NL') + ' km'; }
   fmtKm(m) { return (Math.round(m / 10) / 100).toLocaleString('nl-NL', { maximumFractionDigits: 2 }); }
+  fmtEuro(n) { return '€ ' + (n || 0).toLocaleString('nl-NL'); }
+  varWaarde(v) { return v.type === 'bereik' ? this.fmtEuro(v.van) + ' – ' + this.fmtEuro(v.tot) : (v.waarden || []).join(' of '); }
+  _bedragVal(i, veld, waarde) {
+    const d = this.state.bedragDraft;
+    return d && d.i === i && d.veld === veld ? d.txt : this.fmtEuro(waarde);
+  }
+  _onBedrag(i, veld, e) {
+    const txt = e.target.value;
+    const n = Math.min(2000000, Number(txt.replace(/[^0-9]/g, '') || 0));
+    const arr = this.state.customVars.slice();
+    arr[i] = Object.assign({}, arr[i], { [veld]: n });
+    this.setState({ customVars: arr, bedragDraft: { i, veld, txt } });
+  }
   _poiParse(raw) { const n = parseFloat(String(raw == null ? '' : raw).replace(',', '.').trim()); return isFinite(n) ? n : null; }
   _poiInRange(n) { return this.state.poiMode === 'afstand' ? (n >= 0.1 && n <= 50) : (n >= 1 && n <= 30); }
   _poiClamp(n) {
@@ -1075,7 +1113,7 @@ class Component extends DCLogic {
     const ken = sel.filter(g => g.kenmerk).map(g => g.naam + ' ' + g.kenmerk + '.');
     if (ken.length) p.push(ken.join(' '));
     if (eff.length) p.push('De doelgroep is het sterkst te bereiken via ' + (top.length ? top.join(' en ') : 'het landelijke netwerk') + ' (' + this.fmt(eff.length) + ' objecten in de huidige selectie). De hoogste dichtheid ligt in ' + (topGem.length ? topGem.join(', ') : 'de Randstad') + '.');
-    if (s.customVars.length) p.push('Eigen condities: ' + s.customVars.map(v => v.naam + ' = ' + v.conditie).join(' · ') + '.');
+    if (s.customVars.length) p.push('Eigen condities: ' + s.customVars.map(v => v.naam + ' = ' + this.varWaarde(v)).join(' · ') + '.');
     return p;
   }
 
@@ -1084,10 +1122,12 @@ class Component extends DCLogic {
     const on = 'inset 0 0 0 0 transparent', tabOn = '#fff', tabOff = 'transparent', shOn = '0 1px 2px rgba(27,75,137,.18)';
     if (!D) return { showProjects: s.screen === 'projects', showWorkspace: false, projecten: [], projSearch: s.projSearch, onProjSearch: e => this.setState({ projSearch: e.target.value }), onNieuwProject: () => {}, chips: [], noChips: true, hasChips: false };
 
-    const projecten = D.PROJECTS.filter(p => p.naam.toLowerCase().includes(s.projSearch.toLowerCase())).map(p => ({
-      naam: p.naam, meta: p.klant + ' · laatst bewerkt: ' + p.bewerkt, objecten: p.objecten,
-      onOpen: () => this.setState({ screen: 'workspace', projectNaam: p.naam })
-    }));
+    const projecten = s.projectenLijst
+      .filter(p => p.naam.toLowerCase().includes(s.projSearch.toLowerCase()))
+      .map(p => ({
+        naam: p.naam, meta: p.klant + ' · laatst bewerkt: ' + p.bewerkt, objecten: p.objecten,
+        onOpen: () => this.setState({ screen: 'workspace', projectNaam: p.naam, projectId: p.id || null, naamEdit: null })
+      }));
 
     const b = this.base();
     const baseIds = new Set(b.map(o => o.id));
@@ -1294,8 +1334,28 @@ class Component extends DCLogic {
       showProjects: s.screen === 'projects', showWorkspace: s.screen === 'workspace',
       projecten, projSearch: s.projSearch,
       onProjSearch: e => this.setState({ projSearch: e.target.value }),
-      onNieuwProject: () => this.setState({ screen: 'workspace', projectNaam: 'Naamloos project' }),
+      onNieuwProject: () => {
+        const id = 'proj-' + Date.now();
+        this.setState({
+          screen: 'workspace', projectNaam: 'Naamloos project', projectId: id, naamEdit: null,
+          projectenLijst: [{ id, naam: 'Naamloos project', klant: 'Eigen project', bewerkt: 'zojuist', objecten: 0 }].concat(this.state.projectenLijst)
+        });
+      },
       projectNaam: s.projectNaam,
+      naamEditOpen: s.naamEdit !== null, naamEditClosed: s.naamEdit === null, naamEditVal: s.naamEdit || '',
+      onNaamStart: () => this.setState({ naamEdit: this.state.projectNaam }),
+      onNaamChange: e => this.setState({ naamEdit: e.target.value }),
+      onNaamSave: () => {
+        if (this.state.naamEdit === null) return;
+        const naam = this.state.naamEdit.trim() || 'Naamloos project';
+        const id = this.state.projectId;
+        this.setState({
+          projectNaam: naam, naamEdit: null,
+          projectenLijst: this.state.projectenLijst.map(p => p.id === id ? Object.assign({}, p, { naam }) : p)
+        });
+        this.toastMsg('Projectnaam opgeslagen');
+      },
+      onNaamKey: e => { if (e.key === 'Enter') e.target.blur(); else if (e.key === 'Escape') { this.setState({ naamEdit: null }); e.target.blur(); } },
       onBack: () => this.setState({ screen: 'projects', detailId: null, profileOpen: false }),
 
       chips, hasChips: chips.length > 0, noChips: chips.length === 0,
@@ -1390,21 +1450,48 @@ class Component extends DCLogic {
         cat: cat.cat,
         vars: cat.vars.filter(v => !s.customVars.some(cv => cv.naam === v.naam)).map(v => ({
           naam: v.naam,
-          onAdd: () => this.setState({ customVars: this.state.customVars.concat([{ naam: v.naam, conditie: v.condities[0], condities: v.condities }]) })
+          onAdd: () => this.setState({ customVars: this.state.customVars.concat([
+            v.type === 'bereik'
+              ? { naam: v.naam, type: 'bereik', van: v.van, tot: v.tot }
+              : { naam: v.naam, waarden: [v.condities[0]], condities: v.condities }
+          ]) })
         }))
       })),
       hasCustomVars: s.customVars.length > 0,
-      customVars: s.customVars.map((cv, i) => ({
-        naam: cv.naam, conditie: cv.conditie, condities: cv.condities,
-        onCond: e => { const arr = this.state.customVars.slice(); arr[i] = Object.assign({}, arr[i], { conditie: e.target.value }); this.setState({ customVars: arr }); },
-        onRemove: () => this.setState({ customVars: this.state.customVars.filter((_, j) => j !== i) })
-      })),
+      customVars: s.customVars.map((cv, i) => {
+        const bereik = cv.type === 'bereik';
+        const leeg = !bereik && !(cv.waarden || []).length;
+        const patch = p => { const arr = this.state.customVars.slice(); arr[i] = Object.assign({}, arr[i], p); this.setState({ customVars: arr }); };
+        return {
+          naam: cv.naam, isBereik: bereik, isKeuze: !bereik, leeg,
+          randKleur: leeg ? '#f0c9c4' : '#eceff3',
+          opties: (cv.condities || []).map(c => {
+            const aan = (cv.waarden || []).includes(c);
+            return {
+              label: (aan ? '✓ ' : '') + c, bg: aan ? '#195AA6' : '#fff',
+              fg: aan ? '#fff' : '#5a6472', border: aan ? '#195AA6' : '#d6dbe3',
+              onToggle: () => patch({ waarden: this.tg(cv.waarden || [], c) })
+            };
+          }),
+          vanVal: this._bedragVal(i, 'van', cv.van), totVal: this._bedragVal(i, 'tot', cv.tot),
+          onVan: e => this._onBedrag(i, 'van', e), onTot: e => this._onBedrag(i, 'tot', e),
+          onBereikBlur: () => {
+            const arr = this.state.customVars.slice(), v = arr[i];
+            const van = Math.min(v.van, v.tot), tot = Math.max(v.van, v.tot);
+            arr[i] = Object.assign({}, v, { van, tot });
+            this.setState({ customVars: arr, bedragDraft: null });
+          },
+          onRemove: () => this.setState({ customVars: this.state.customVars.filter((_, j) => j !== i) })
+        };
+      }),
       customNaam: s.customNaam, onCustomNaam: e => this.setState({ customNaam: e.target.value }),
       onSaveCustom: () => {
         const cvs = this.state.customVars;
         if (!cvs.length) { this.toastMsg('Kies eerst één of meer variabelen'); return; }
+        const zonder = cvs.find(v => v.type !== 'bereik' && !(v.waarden || []).length);
+        if (zonder) { this.toastMsg('Kies minimaal één waarde bij ' + zonder.naam); return; }
         const naam = this.state.customNaam.trim() || 'Eigen doelgroep ' + (this.state.savedDg.length + 1);
-        const g = { id: 'eigen-' + Date.now(), naam, pct: Math.max(5, 18 - cvs.length * 2), custom: true, vars: cvs.length, varsList: cvs.map(v => ({ naam: v.naam, conditie: v.conditie, condities: v.condities })), kenmerk: 'is samengesteld uit ' + cvs.map(v => v.naam.toLowerCase() + ' (' + v.conditie + ')').join(', ') };
+        const g = { id: 'eigen-' + Date.now(), naam, pct: Math.max(5, 18 - cvs.length * 2), custom: true, vars: cvs.length, varsList: cvs.map(v => Object.assign({}, v)), kenmerk: 'is samengesteld uit ' + cvs.map(v => v.naam.toLowerCase() + ' (' + this.varWaarde(v) + ')').join(', ') };
         this.setState({ savedDg: this.state.savedDg.concat([g]), selDg: this.state.selDg.concat([g.id]), customNaam: '', customVars: [], previewOn: false, composeOpen: false, dgTab: 'opgeslagen' });
         this.toastMsg('Doelgroep "' + naam + '" opgeslagen en geselecteerd');
       },

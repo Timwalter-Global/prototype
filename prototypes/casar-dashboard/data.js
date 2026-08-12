@@ -109,7 +109,8 @@ export const CBS_VARIABELEN = [
   ]},
   {cat:"Inkomen",vars:[
     {naam:"Huishoudinkomen",condities:["< €30.000","€30.000 – €45.000","€45.000 – €70.000","> €70.000"]},
-    {naam:"Koopkrachtklasse",condities:["Laag","Midden","Hoog"]}
+    {naam:"Koopkrachtklasse",condities:["Laag","Midden","Hoog"]},
+    {naam:"WOZ-waarde",type:"bereik",van:250000,tot:450000}
   ]},
   {cat:"Gezinssituatie",vars:[
     {naam:"Huishoudgrootte",condities:["1 persoon","2 personen","3 of meer"]},
