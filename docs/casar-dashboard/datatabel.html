@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex, nofollow" />
+<title>Casar-dashboard · Datatabel (werkdocument)</title>
+<script src="./supabase-js-2.112.3.min.js"></script>
+<style>
+  :root{
+    --blauw:#195AA6; --blauw-licht:#0B78BE; --blauw-donker:#1B4B89;
+    --cyaan:#5BC4E8; --grijs:#575756;
+    --canvas:#f4f6f9; --lijn:#e0e4ea; --lijn-licht:#eceff3;
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:"Century Gothic",Poppins,sans-serif;background:var(--canvas);color:var(--grijs);font-size:15px;line-height:1.55}
+  .wrap{max-width:1320px;margin:0 auto;padding:40px 32px 80px}
+  .topbar{position:sticky;top:0;z-index:50;display:flex;align-items:center;gap:14px;margin:-40px -32px 28px;padding:14px 32px;background:rgba(244,246,249,.94);backdrop-filter:blur(4px);border-bottom:1px solid var(--lijn)}
+  .topbar .kicker{flex:1}
+  .kicker{font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:var(--blauw-licht)}
+  #status{display:inline-flex;align-items:center;gap:7px;padding:6px 14px;border-radius:999px;font-size:12px;font-weight:700;background:#e8f2ea;color:#1f6b3d;border:1px solid #bfe3cb;white-space:nowrap}
+  #status.saving{background:#eaf3fb;color:var(--blauw-donker);border-color:#cde3f4}
+  #status.error{background:#fbeeee;color:#c0392b;border-color:#efc9c4}
+  #status .dot{width:8px;height:8px;border-radius:50%;background:currentColor;flex:none}
+  h1{margin:6px 0 8px;font-size:28px;color:var(--blauw-donker)}
+  .intro{max-width:860px;margin:0 0 14px}
+  .notitie{max-width:860px;margin:0 0 8px;padding:14px 18px;background:#eaf3fb;border:1px solid #cde3f4;border-radius:10px;font-size:13.5px;color:var(--blauw-donker)}
+  .notitie strong{color:var(--blauw)}
+  #laadfout{display:none;max-width:860px;margin:16px 0;padding:14px 18px;background:#fbeeee;border:1px solid #efc9c4;border-radius:10px;font-size:13.5px;color:#c0392b}
+  h2{margin:44px 0 6px;font-size:19px;color:var(--blauw)}
+  .sectie-sub{margin:0 0 14px;font-size:13.5px;color:#7a7a79;max-width:860px}
+  .tabel-scroll{overflow-x:auto;border:1px solid var(--lijn);border-radius:12px;background:#fff;box-shadow:0 2px 10px rgba(27,75,137,.06)}
+  table{width:100%;border-collapse:collapse;font-size:13px;min-width:1120px}
+  th{background:var(--blauw);color:#fff;text-align:left;padding:11px 14px;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;white-space:nowrap}
+  th.bron-kop{background:var(--blauw-donker)}
+  td{padding:0;border-bottom:1px solid var(--lijn-licht);vertical-align:top}
+  tr:last-child td{border-bottom:none}
+  .cel{min-height:100%;padding:11px 14px;color:#3c4450;outline:none;white-space:pre-wrap;overflow-wrap:break-word;min-width:0}
+  .cel:hover{background:#f4f8fc}
+  .cel:focus{background:#fff;box-shadow:inset 0 0 0 2px var(--blauw-licht);border-radius:4px}
+  td.var .cel{font-weight:700;color:#1c2530}
+  td.vb .cel{font-family:Consolas,Menlo,monospace;font-size:12px;color:var(--blauw-donker)}
+  td.vb{background:#f6f9fc}
+  td.bron .cel{font-size:12.5px}
+  td.bron .cel:empty{background:#fdf6e4}
+  td.bron .cel:empty::before{content:"nog invullen…";color:#b39544;font-style:italic;pointer-events:none}
+  td.acties{width:36px;text-align:center;vertical-align:middle}
+  .verwijder{width:22px;height:22px;border:none;border-radius:50%;background:transparent;color:#b9c3cf;cursor:pointer;font-size:14px;line-height:1;padding:0}
+  .verwijder:hover{background:#fbeeee;color:#c0392b}
+  .rij-toevoegen{margin-top:10px;display:inline-flex;align-items:center;gap:7px;padding:8px 16px;border:1px dashed var(--blauw);border-radius:999px;background:#fff;color:var(--blauw);font-family:inherit;font-size:12.5px;font-weight:700;cursor:pointer}
+  .rij-toevoegen:hover{background:#eaf3fb}
+  footer{margin-top:52px;font-size:12px;color:#9aa3b0;max-width:860px;line-height:1.6}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="kicker">Casar 2.0 · Audience Platform · Werkdocument</div>
+    <span id="status"><span class="dot"></span><span id="status-tekst">Laden…</span></span>
+  </div>
+  <h1>Datatabel — welke data voedt het dashboard?</h1>
+  <p class="intro">Dit is het gezamenlijke werkdocument met alle datavariabelen die nodig zijn om het Casar-dashboard met echte data te vullen. <strong>Klik op een cel om te typen</strong> — elke wijziging wordt automatisch opgeslagen en is direct zichtbaar voor iedereen die dit document open heeft.</p>
+  <div class="notitie"><strong>De kolom Bron staat bewust open.</strong> Vul per variabele in waar de data vandaan moet komen. Rijen toevoegen kan onderaan elke sectie; verwijderen met het kruisje achter een rij.</div>
+  <div id="laadfout">De tabel kan nu niet geladen worden. Controleer je internetverbinding en herlaad de pagina. Lukt het dan nog niet, meld het bij Tim.</div>
+  <div id="secties"></div>
+  <footer>Werkdocument bij het Casar-dashboard-prototype (Audience Platform). Wijzigingen worden centraal opgeslagen (Supabase) en zijn zichtbaar voor iedereen met de link — er is geen versiegeschiedenis, dus overschrijven is definitief.</footer>
+</div>
+
+<script>
+(function () {
+  "use strict";
+
+  var SUPABASE_URL = "https://oenfktekinmrsehfzdva.supabase.co";
+  var SUPABASE_KEY = "sb_publishable_mgbVOTLLpxUBvnv8BOXDKQ_cPN9AJxx";
+  var DOC = "casar-dashboard";
+  var TABEL = "datatabel_rows";
+
+  var SECTIES = [
+    { key: "A", titel: "A · Objecten & netwerken", sub: "De kern van het dashboard: elk out-of-home object op de kaart, met alles wat het objectdetail, de filters en de export nodig hebben." },
+    { key: "B", titel: "B · Bereik & contacten (BRO)", sub: "De cijfers achter de KPI's “Huishoudens”, “Doelgroep %” en “Doelgroepindex” en het contactencijfer in het objectdetail." },
+    { key: "C", titel: "C · Segmentatie — eigen doelgroepen samenstellen", sub: "De bouwstenen achter “Nieuwe doelgroep samenstellen” en het gegenereerde doelgroepprofiel." },
+    { key: "D", titel: "D · Geografie & kaart", sub: "Alles wat de kaartlagen en het geografiefilter nodig hebben." },
+    { key: "E", titel: "E · POI's, afstand & reistijd", sub: "Het POI-filter, de POI-punten op de kaart en de afstand-/reistijdkolommen in de export." },
+    { key: "F", titel: "F · Vlakken, rondes & inzet", sub: "De sectie “Vlakken”: standaard rondes en zelf samengestelde inzet." },
+    { key: "G", titel: "G · Applicatiedata (door gebruikers aangemaakt)", sub: "Geen brondata, maar wél op te slaan: alles wat gebruikers in het platform zelf aanmaken." }
+  ];
+  var KOLOMMEN = [
+    { veld: "variabele",    kop: "Datavariabele", klasse: "var",  breedte: "14%" },
+    { veld: "omschrijving", kop: "Omschrijving",  klasse: "oms",  breedte: "26%" },
+    { veld: "gewenste_data",kop: "Gewenste data", klasse: "data", breedte: "26%" },
+    { veld: "voorbeeld",    kop: "Voorbeeld",     klasse: "vb",   breedte: "16%" },
+    { veld: "bron",         kop: "Bron — in te vullen", klasse: "bron", breedte: "18%" }
+  ];
+
+  if (!window.supabase || !window.supabase.createClient) {
+    document.getElementById("laadfout").style.display = "block";
+    document.getElementById("status").className = "error";
+    document.getElementById("status-tekst").textContent = "Niet verbonden";
+    return;
+  }
+  var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+  var rijen = new Map();          // id -> rijdata
+  var bezigMetOpslaan = 0;
+  var wachtrijTimers = new Map(); // "id:veld" -> timeout
+
+  var statusEl = document.getElementById("status");
+  var statusTekstEl = document.getElementById("status-tekst");
+
+  function zetStatus(soort, tekst) {
+    statusEl.className = soort === "ok" ? "" : soort;
+    statusTekstEl.textContent = tekst;
+  }
+  function statusKlaar() {
+    if (bezigMetOpslaan === 0) zetStatus("ok", "Alle wijzigingen opgeslagen");
+  }
+
+  /* ---------- opslaan ---------- */
+
+  function slaCelOp(id, veld, waarde) {
+    var rij = rijen.get(id);
+    if (!rij || rij[veld] === waarde) return;
+    rij[veld] = waarde;
+    bezigMetOpslaan++;
+    zetStatus("saving", "Bezig met opslaan…");
+    var patch = {}; patch[veld] = waarde;
+    sb.from(TABEL).update(patch).eq("id", id).then(function (res) {
+      bezigMetOpslaan--;
+      if (res.error) zetStatus("error", "Opslaan mislukt — pas de cel opnieuw aan");
+      else statusKlaar();
+    }, function () {
+      bezigMetOpslaan--;
+      zetStatus("error", "Opslaan mislukt (geen verbinding) — pas de cel opnieuw aan");
+    });
+  }
+
+  function planOpslaan(id, veld, waarde, direct) {
+    var sleutel = id + ":" + veld;
+    if (wachtrijTimers.has(sleutel)) clearTimeout(wachtrijTimers.get(sleutel));
+    if (direct) { wachtrijTimers.delete(sleutel); slaCelOp(id, veld, waarde); return; }
+    wachtrijTimers.set(sleutel, setTimeout(function () {
+      wachtrijTimers.delete(sleutel);
+      slaCelOp(id, veld, waarde);
+    }, 1200));
+  }
+
+  /* ---------- rendering ---------- */
+
+  function maakCel(rij, kolom) {
+    var td = document.createElement("td");
+    td.className = kolom.klasse;
+    var cel = document.createElement("div");
+    cel.className = "cel";
+    try { cel.contentEditable = "plaintext-only"; } catch (e) {}
+    if (cel.contentEditable !== "plaintext-only") cel.contentEditable = "true";
+    cel.spellcheck = false;
+    cel.dataset.id = rij.id;
+    cel.dataset.veld = kolom.veld;
+    cel.textContent = rij[kolom.veld] || "";
+    cel.addEventListener("input", function () {
+      planOpslaan(rij.id, kolom.veld, cel.textContent, false);
+    });
+    cel.addEventListener("blur", function () {
+      planOpslaan(rij.id, kolom.veld, cel.textContent, true);
+    });
+    cel.addEventListener("paste", function (ev) {
+      if (cel.contentEditable === "plaintext-only") return;
+      ev.preventDefault();
+      var tekst = (ev.clipboardData || window.clipboardData).getData("text");
+      document.execCommand("insertText", false, tekst);
+    });
+    td.appendChild(cel);
+    return td;
+  }
+
+  function maakRijElement(rij) {
+    var tr = document.createElement("tr");
+    tr.dataset.id = rij.id;
+    KOLOMMEN.forEach(function (kolom) { tr.appendChild(maakCel(rij, kolom)); });
+    var acties = document.createElement("td");
+    acties.className = "acties";
+    var knop = document.createElement("button");
+    knop.className = "verwijder";
+    knop.title = "Rij verwijderen";
+    knop.textContent = "×";
+    knop.addEventListener("click", function () {
+      var naam = rijen.get(rij.id) && rijen.get(rij.id).variabele;
+      if (!confirm("Rij “" + (naam || "zonder naam") + "” definitief verwijderen?")) return;
+      bezigMetOpslaan++;
+      zetStatus("saving", "Bezig met opslaan…");
+      sb.from(TABEL).delete().eq("id", rij.id).then(function (res) {
+        bezigMetOpslaan--;
+        if (res.error) { zetStatus("error", "Verwijderen mislukt — probeer opnieuw"); return; }
+        verwijderRijLokaal(rij.id);
+        statusKlaar();
+      }, function () {
+        bezigMetOpslaan--;
+        zetStatus("error", "Verwijderen mislukt (geen verbinding) — probeer opnieuw");
+      });
+    });
+    acties.appendChild(knop);
+    tr.appendChild(acties);
+    return tr;
+  }
+
+  function verwijderRijLokaal(id) {
+    rijen.delete(id);
+    var tr = document.querySelector('tr[data-id="' + id + '"]');
+    if (tr) tr.remove();
+    statusKlaar();
+  }
+
+  function werkRijLokaalBij(rij) {
+    var bestaand = rijen.get(rij.id);
+    rijen.set(rij.id, rij);
+    var tr = document.querySelector('tr[data-id="' + rij.id + '"]');
+    if (!tr) { voegRijToeAanSectie(rij); return; }
+    KOLOMMEN.forEach(function (kolom) {
+      var cel = tr.querySelector('.cel[data-veld="' + kolom.veld + '"]');
+      if (!cel || cel === document.activeElement) return;
+      var nieuw = rij[kolom.veld] || "";
+      if (cel.textContent !== nieuw) cel.textContent = nieuw;
+    });
+  }
+
+  function voegRijToeAanSectie(rij) {
+    var tbody = document.querySelector('tbody[data-sectie="' + rij.sectie + '"]');
+    if (!tbody) return;
+    tbody.appendChild(maakRijElement(rij));
+  }
+
+  function renderAlles(alleRijen) {
+    var container = document.getElementById("secties");
+    container.textContent = "";
+    SECTIES.forEach(function (sectie) {
+      var kop = document.createElement("h2");
+      kop.textContent = sectie.titel;
+      var sub = document.createElement("p");
+      sub.className = "sectie-sub";
+      sub.textContent = sectie.sub;
+      var scroll = document.createElement("div");
+      scroll.className = "tabel-scroll";
+      var tabel = document.createElement("table");
+      var colgroup = document.createElement("colgroup");
+      KOLOMMEN.forEach(function (kolom) {
+        var col = document.createElement("col");
+        col.style.width = kolom.breedte;
+        colgroup.appendChild(col);
+      });
+      colgroup.appendChild(document.createElement("col"));
+      tabel.appendChild(colgroup);
+      var thead = document.createElement("thead");
+      var koprij = document.createElement("tr");
+      KOLOMMEN.forEach(function (kolom) {
+        var th = document.createElement("th");
+        if (kolom.veld === "bron") th.className = "bron-kop";
+        th.textContent = kolom.kop;
+        koprij.appendChild(th);
+      });
+      koprij.appendChild(document.createElement("th"));
+      thead.appendChild(koprij);
+      tabel.appendChild(thead);
+      var tbody = document.createElement("tbody");
+      tbody.dataset.sectie = sectie.key;
+      alleRijen.filter(function (r) { return r.sectie === sectie.key; })
+        .forEach(function (r) { tbody.appendChild(maakRijElement(r)); });
+      tabel.appendChild(tbody);
+      scroll.appendChild(tabel);
+
+      var toevoegKnop = document.createElement("button");
+      toevoegKnop.className = "rij-toevoegen";
+      toevoegKnop.textContent = "+ Rij toevoegen";
+      toevoegKnop.addEventListener("click", function () {
+        var maxPositie = 0;
+        rijen.forEach(function (r) { if (r.sectie === sectie.key && r.positie > maxPositie) maxPositie = r.positie; });
+        bezigMetOpslaan++;
+        zetStatus("saving", "Bezig met opslaan…");
+        sb.from(TABEL)
+          .insert({ doc: DOC, sectie: sectie.key, positie: maxPositie + 1, variabele: "", omschrijving: "", gewenste_data: "", voorbeeld: "", bron: "" })
+          .select().single()
+          .then(function (res) {
+            bezigMetOpslaan--;
+            if (res.error || !res.data) { zetStatus("error", "Rij toevoegen mislukt — probeer opnieuw"); return; }
+            if (!rijen.has(res.data.id)) { rijen.set(res.data.id, res.data); voegRijToeAanSectie(res.data); }
+            statusKlaar();
+            var tr = document.querySelector('tr[data-id="' + res.data.id + '"]');
+            var eersteCel = tr && tr.querySelector(".cel");
+            if (eersteCel) eersteCel.focus();
+          }, function () {
+            bezigMetOpslaan--;
+            zetStatus("error", "Rij toevoegen mislukt (geen verbinding) — probeer opnieuw");
+          });
+      });
+
+      container.appendChild(kop);
+      container.appendChild(sub);
+      container.appendChild(scroll);
+      container.appendChild(toevoegKnop);
+    });
+  }
+
+  /* ---------- realtime ---------- */
+
+  function startRealtime() {
+    sb.channel("datatabel-live")
+      .on("postgres_changes", { event: "*", schema: "public", table: TABEL }, function (melding) {
+        if (melding.eventType === "DELETE") {
+          if (melding.old && melding.old.id) verwijderRijLokaal(melding.old.id);
+          return;
+        }
+        var rij = melding.new;
+        if (!rij || rij.doc !== DOC) return;
+        werkRijLokaalBij(rij);
+      })
+      .subscribe();
+  }
+
+  /* ---------- laden ---------- */
+
+  sb.from(TABEL).select("*").eq("doc", DOC)
+    .order("sectie", { ascending: true })
+    .order("positie", { ascending: true })
+    .then(function (res) {
+      if (res.error) {
+        document.getElementById("laadfout").style.display = "block";
+        zetStatus("error", "Niet verbonden");
+        return;
+      }
+      (res.data || []).forEach(function (r) { rijen.set(r.id, r); });
+      renderAlles(res.data || []);
+      zetStatus("ok", "Alle wijzigingen opgeslagen");
+      startRealtime();
+    }, function () {
+      document.getElementById("laadfout").style.display = "block";
+      zetStatus("error", "Niet verbonden");
+    });
+
+  window.addEventListener("beforeunload", function (ev) {
+    if (bezigMetOpslaan > 0 || wachtrijTimers.size > 0) {
+      wachtrijTimers.forEach(function (timer, sleutel) {
+        clearTimeout(timer);
+        var deel = sleutel.split(":");
+        var id = deel.slice(0, deel.length - 1).join(":");
+        var veld = deel[deel.length - 1];
+        var cel = document.querySelector('.cel[data-id="' + id + '"][data-veld="' + veld + '"]');
+        if (cel) slaCelOp(id, veld, cel.textContent);
+      });
+      ev.preventDefault();
+      ev.returnValue = "";
+    }
+  });
+})();
+</script>
+</body>
+</html>

@@ -1638,5 +1638,21 @@ class Component extends DCLogic {
 <!-- FEEDBACK-ONBOARDING-START -->
 <script src="../../assets/feedback-onboarding.js"></script>
 <!-- FEEDBACK-ONBOARDING-END -->
+<!-- DATABRONNEN-ADMIN-START -->
+<script>
+(function () {
+  var knop = document.createElement('a');
+  knop.href = '../../docs/casar-dashboard/datatabel.html';
+  knop.target = '_blank';
+  knop.rel = 'noopener';
+  knop.textContent = '⚙ Databronnen';
+  knop.title = 'Admin: werkdocument met de datavariabelen die dit dashboard voeden';
+  knop.style.cssText = 'position:fixed;left:10px;bottom:10px;z-index:650;display:inline-flex;align-items:center;gap:6px;padding:6px 13px;border-radius:999px;background:rgba(28,37,48,.72);color:#fff;font:600 11px Montserrat,system-ui,sans-serif;text-decoration:none;box-shadow:0 2px 8px rgba(15,30,50,.25)';
+  knop.onmouseenter = function () { knop.style.background = '#195AA6'; };
+  knop.onmouseleave = function () { knop.style.background = 'rgba(28,37,48,.72)'; };
+  document.body.appendChild(knop);
+})();
+</script>
+<!-- DATABRONNEN-ADMIN-END -->
 </body>
 </html>
