@@ -20,7 +20,7 @@
   .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--donker);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 42px}
   .zij .wie b{display:block;font-size:14px;line-height:1.25}
   .zij .wie small{font-size:11px;opacity:.75;word-break:break-all}
-  .zij .kopje{font-size:10.5px;letter-spacing:1.4px;text-transform:uppercase;opacity:.55;padding:12px 10px 6px}
+  .zij .kopje{font-size:10.5px;letter-spacing:1.8px;text-transform:uppercase;color:var(--licht);font-weight:800;opacity:.95;padding:12px 10px 6px}
   .zij nav{display:flex;flex-direction:column;gap:3px}
   .zij nav button{display:flex;align-items:center;gap:11px;border:none;background:none;width:100%;text-align:left;font-family:inherit;font-size:14px;color:#fff;padding:11px 12px;border-radius:11px;cursor:pointer;font-weight:700}
   .zij nav button svg{flex:0 0 19px;stroke:rgba(255,255,255,.85)}
@@ -33,11 +33,11 @@
   .zij .voet{border-top:1px solid rgba(255,255,255,.16);padding-top:10px;margin-top:14px}
   /* ------- hoofd ------- */
   .hoofd{margin-left:var(--zijbreed);padding:26px 34px 60px;max-width:1080px}
-  .balk{display:flex;align-items:flex-start;justify-content:space-between;gap:16px;margin-bottom:20px}
-  .balk h1{color:var(--nacht);font-size:25px;font-weight:800}
-  .balk p{margin-top:4px;font-size:14px;max-width:620px}
-  .balk .viewerknop{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;background:var(--blauw);color:#fff;text-decoration:none;font-weight:700;font-size:13.5px;padding:11px 20px;border-radius:999px;white-space:nowrap}
-  .balk .viewerknop:hover{background:var(--donker)}
+  .balk{display:flex;align-items:center;justify-content:space-between;gap:16px;margin-bottom:20px;background:linear-gradient(96deg,var(--donker) 30%,#14538F 75%,#1A5C9E);border-radius:20px;padding:20px 24px}
+  .balk h1{color:#fff;font-size:23px;font-weight:800;text-transform:uppercase;letter-spacing:.02em}
+  .balk p{margin-top:4px;font-size:13.5px;max-width:620px;color:rgba(255,255,255,.75)}
+  .balk .viewerknop{flex:0 0 auto;display:inline-flex;align-items:center;gap:8px;background:var(--licht);color:var(--donker);text-decoration:none;font-weight:800;font-size:13.5px;padding:11px 20px;border-radius:999px;white-space:nowrap;box-shadow:0 6px 18px rgba(91,196,232,.35)}
+  .balk .viewerknop:hover{background:#7DD2EE}
   .paneel{background:#fff;border:1px solid var(--lijn);border-radius:16px;padding:22px}
   /* ------- uploads ------- */
   .rooster{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:18px}
@@ -101,7 +101,7 @@
   table{width:100%;border-collapse:collapse;font-size:14px}
   th{text-align:left;color:var(--donker);font-size:12.5px;letter-spacing:.3px;border-bottom:2px solid var(--lijn);padding:9px 10px}
   td{border-bottom:1px solid var(--lijn);padding:11px 10px;color:var(--nacht);word-break:break-all}
-  .tag{background:#E4F5E6;color:#1E7C33;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;white-space:nowrap}
+  .tag{background:#2E9E63;color:#fff;font-size:12px;font-weight:700;border-radius:999px;padding:4px 11px;white-space:nowrap}
   .deelrij{display:flex;gap:10px;flex-wrap:wrap;align-items:flex-end;background:#F1F6FC;border:1px solid var(--lijn);border-radius:12px;padding:14px;margin-bottom:18px}
   .deelrij .veld{flex:1;min-width:190px;margin:0}
   /* ------- deel de tool ------- */
@@ -135,7 +135,7 @@
   .a-kop b{color:var(--nacht);font-size:15px}
   .a-regel{display:flex;gap:10px;font-size:13.5px;color:var(--nacht);padding:5px 0;border-top:1px solid var(--lijn)}
   .a-regel span{flex:0 0 84px;color:#8b93a3;font-size:12.5px;font-weight:700;padding-top:1px}
-  .tag.wacht{background:#FDF3E0;color:#9A6A00}
+  .tag.wacht{background:#F0A03C;color:#fff}
   .toast{position:fixed;top:20px;left:50%;transform:translateX(-50%);background:var(--nacht);color:#fff;padding:11px 22px;border-radius:999px;font-size:14px;z-index:60;box-shadow:0 8px 22px rgba(0,0,0,.3)}
   button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--fel);outline-offset:2px}
   @media(max-width:900px){
