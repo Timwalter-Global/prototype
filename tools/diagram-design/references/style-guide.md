@@ -2,7 +2,7 @@
 
 **The single source of truth for colors, typography, and tokens.** Every diagram draws from this — not from hex values inlined in other reference files. If you want to change the visual skin of Schematic, change this file.
 
-Default skin is a cool editorial palette — white-smoke paper, jet-black ink, atomic-tangerine accent, blue-slate muted. It's designed to look good out of the box; swap these values (or run [`onboarding.md`](onboarding.md)) and every new diagram inherits the new skin without touching any type-specific logic.
+Current skin is the **Global Media & Entertainment Nederland** huisstijl — wit papier, near-black ink, Main Blue accent, Global-grijs muted, Century Gothic als enige naamsfamilie. Swap these values (or run [`onboarding.md`](onboarding.md)) and every new diagram inherits the new skin without touching any type-specific logic.
 
 To generate your own from a website URL, see [`onboarding.md`](onboarding.md).
 
@@ -16,24 +16,33 @@ Every token is referred to by **semantic role**, not by its hex value. Type refe
 
 | Role | Purpose | Default (light) | Default (dark) |
 |---|---|---|---|
-| `paper` | Page background, default node fill | `#f5f5f5` (white-smoke) | `#2d3142` (jet-black) |
-| `paper-2` | Diagram container bg, secondary fill | `#ececec` | `#393e53` |
-| `ink` | Primary text, primary stroke | `#2d3142` (jet-black) | `#f5f5f5` (white-smoke) |
-| `muted` | Secondary text, default arrow stroke | `#4f5d75` (blue-slate) | `#bfc0c0` (silver) |
-| `soft` | Sublabels, boundary labels | `#7a8399` | `#8e98ac` |
-| `rule` | Hairline borders | `rgba(45,49,66,0.12)` | `rgba(245,245,245,0.12)` |
-| `rule-solid` | Stronger borders, baselines | `#bfc0c0` (silver) | `rgba(191,192,192,0.25)` |
-| `accent` | Focal / 1–2 max per diagram | `#eb6c36` (atomic-tangerine) | `#f08a59` |
-| `accent-tint` | Fill for accent-bordered boxes | `rgba(235,108,54,0.08)` | `rgba(240,138,89,0.10)` |
-| `link` | HTTP/API calls, external arrows | `#2e5aa8` | `#6a95d8` |
+| `paper` | Page background, default node fill | `#FFFFFF` (wit) | `#1D1D1B` |
+| `paper-2` | Diagram container bg, kaarten, secondary fill | `#F2F6FA` (lichte tint van Main Blue) | `#282826` |
+| `ink` | Primary text, primary stroke | `#1D1D1B` | `#FFFFFF` |
+| `muted` | Secondary text, default arrow stroke | `#575756` (Global grijs) | `#B4B4B3` |
+| `soft` | Sublabels, boundary labels | `#6E6E6D` | `#8F8F8E` |
+| `rule` | Hairline borders (1px) | `#D6DEE7` | `rgba(255,255,255,0.14)` |
+| `rule-solid` | Stronger borders, baselines | `#B9C6D4` | `rgba(214,222,231,0.30)` |
+| `accent` | Focal / 1–2 max per diagram | `#195AA6` (Main Blue) | `#5BC4E8` (Sky Blue) |
+| `accent-tint` | Fill for accent-bordered boxes | `rgba(25,90,166,0.08)` | `rgba(91,196,232,0.10)` |
+| `link` | HTTP/API calls, external arrows | `#1B4B89` (donkerblauw) | `#6FA8DC` |
 
-> **Brand palette source:** this skin maps to a five-color brand palette — `jet-black #2d3142`, `silver #bfc0c0`, `white-smoke #f5f5f5`, `atomic-tangerine #eb6c36`, `blue-slate #4f5d75`. The `soft`, `rule`, and `link` tokens are derived (lighter slate, ink-at-opacity, and a saturated variant in the blue-slate hue family) to cover roles the brand palette doesn't name directly.
+> **Brand palette source:** Global Media & Entertainment Nederland — `Main Blue #195AA6`, `#0B78BE`, `donkerblauw #1B4B89`, `Sky Blue #5BC4E8`, `grijs #575756`, ink `#1D1D1B`, wit `#FFFFFF`; typografie Century Gothic. De tokens `soft`, `rule`, `rule-solid` en de dark-kolom zijn afgeleid: `soft` is een lichtere stap van Global-grijs die op wit nog WCAG AA haalt voor sublabels (5.1:1); `rule`/`rule-solid` zijn koele blauwgrijzen uit de Main Blue-familie voor randen; en op dark paper schuift `accent` naar Sky Blue omdat Main Blue daar onleesbaar wordt (`#195AA6` op `#1D1D1B` ≈ 1.9:1, `#5BC4E8` ≈ 8.5:1). `link` is gekozen als `#1B4B89` boven `#0B78BE` vanwege contrast op wit (8.7:1 vs 4.7:1).
+
+### Aanvullende Global-vulkleuren (alleen vlakken en balken)
+
+| Kleur | Gebruik | Tekst erop |
+|---|---|---|
+| `#0B78BE` | Vulkleur in vlakken, balken en series | wit `#FFFFFF` (4.7:1) |
+| `#5BC4E8` | Vulkleur in vlakken, balken en series | `ink #1D1D1B` (8.4:1) |
+
+**Nooit als tekstkleur op wit of `paper-2`.** `#5BC4E8` haalt op wit maar 2.0:1; `#0B78BE` zit met 4.7:1 op de AA-grens en is als tekst niet te onderscheiden van `link`. Voor tekst en betekenisdragende lijnen: `ink`, `muted`, `accent` of `link`.
 
 > **Note:** The pre-baked example HTML files in `assets/` were built under an earlier skin. Regenerating them against the current `style-guide.md` is a v5.1 task. New diagrams the skill produces will use the tokens above.
 
 ### Inversion rule (light → dark)
 
-Any `rgba(28,25,23, X)` in light becomes `rgba(250,247,242, X)` in dark. Same opacities, RGB flipped. The accent gets a slight hue-shift brighter to read on dark paper.
+Any `rgba(29,29,27, X)` in light becomes `rgba(255,255,255, X)` in dark. Same opacities, RGB flipped. The accent switches to Sky Blue (`#5BC4E8`) to read on dark paper.
 
 ### Series palette (multi-series chart types only)
 
@@ -73,20 +82,26 @@ A self-contained palette for the terminal-window primitive (see [primitive-termi
 
 | Role | Family | Size | Weight | Usage |
 |---|---|---|---|---|
-| `title` | Instrument Serif | 1.75rem | 400 | Page H1 |
-| `node-name` | Geist (sans) | 12px | 600 | Human-readable labels |
-| `sublabel` | Geist Mono | 9px | 400 | Port, protocol, URL, field type |
+| `title` | Century Gothic | 1.75rem | 700 | Page H1 (Global-koppen zijn bold) |
+| `node-name` | Century Gothic | 12px | 700 | Human-readable labels |
+| `sublabel` | Century Gothic | 9px | 400 | Leesbare sublabels; **technische inhoud (poort, protocol, URL, veldtype) blijft Geist Mono** |
 | `eyebrow` | Geist Mono | 7–8px | 500, tracked 0.18em, uppercase | Type tags, axis labels |
 | `arrow-label` | Geist Mono | 8px | 400, tracked 0.06em | Arrow annotations |
-| `callout` | Instrument Serif *italic* | 14px | 400 | Editorial asides only |
+| `callout` | Century Gothic *italic* | 14px | 400 | Editorial asides only |
 
 ### Font stack
 
-```html
-<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Geist:wght@400;500;600&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+```css
+font-family: "Century Gothic", "Questrial", "Didact Gothic", "Avant Garde", sans-serif;
 ```
 
-**Load-bearing rule:** Mono is for *technical* content (ports, commands, URLs, field types). Names go in Geist sans. Page title is Instrument Serif. Italic Instrument Serif is reserved for annotation callouts (see [primitive-annotation.md](primitive-annotation.md)). **Never JetBrains Mono** as a blanket "dev" font.
+```html
+<link href="https://fonts.googleapis.com/css2?family=Questrial&family=Didact+Gothic&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+```
+
+Century Gothic is een lokaal geïnstalleerd font (geen webfont). Questrial en Didact Gothic laden via Google Fonts als visueel verwante fallbacks voor machines zonder Century Gothic; beide bestaan alleen in gewicht 400, dus bold wordt daar door de browser gesynthetiseerd.
+
+**Load-bearing rule:** Mono is for *technical* content (ports, commands, URLs, field types) — Geist Mono blijft voor `eyebrow`, `arrow-label` en technische sublabels. Namen, titels en callouts (italic) gaan in Century Gothic. **Never JetBrains Mono** as a blanket "dev" font.
 
 ---
 
@@ -111,7 +126,7 @@ Semantic role combinations — reference these by name in type specs.
 | Type | Fill | Stroke |
 |---|---|---|
 | `focal` (1–2 max) | `accent-tint` | `accent` |
-| `backend` | `#ffffff` (white) | `ink` |
+| `backend` | `#ffffff` (= `paper`) | `ink` |
 | `store` | `ink @ 0.05` | `muted` |
 | `external` | `ink @ 0.03` | `ink @ 0.30` |
 | `input` | `muted @ 0.10` | `soft` |
@@ -133,7 +148,7 @@ Three options:
 - **Contrast**: `ink` must hit WCAG AA on `paper`. `muted` must hit AA on `paper` for 11px+ text.
 - **One accent**: pick one color for `accent`. Two accents erases the focal signal.
 - **No rainbow palette**: if your brand ships 8 colors, pick 3 (paper, ink, accent). The rest become `muted` variants.
-- **Serif + sans + mono**: three families, not more. If brand typography is all sans, keep Instrument Serif for `title` and `callout` anyway — the contrast is load-bearing.
-- **Paper is warm-neutral, not pure white**: pure white turns the design sterile. Pick a cream, bone, or light grey with a hint of warmth.
+- **Sans + mono**: de Global-huisstijl is bewust volledig sans — Century Gothic draagt `title`, `node-name`, `sublabel` en `callout` (italic); Geist Mono blijft voor technische inhoud. Voeg geen derde familie toe.
+- **Paper is zuiver wit**: bewuste afwijking van de upstream-default (warm-neutraal) — Global's huisstijl is wit; `paper-2 #F2F6FA` geeft kaarten en containers diepte.
 - **Dot pattern is optional, not default**: the 22×22 dot pattern is an opt-in "dotted paper" variant (good for long-form editorial hero diagrams). The default background is a clean `paper` fill, no pattern. When the pattern is enabled, it should sit at ~10% opacity of `ink` on `paper` — visible but quiet.
 - **Container is clean by default**: the diagram sits directly on the page paper, no secondary container background or border. A framed variant (`paper-2` bg + `rule` border + 8px radius + padding) is available as an opt-in for card-heavy layouts, but don't reach for it by default — the extra chrome fights the figure.

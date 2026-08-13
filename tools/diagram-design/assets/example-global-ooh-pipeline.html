@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>OOH-campagnepipeline — Architectuur</title>
+  <link href="https://fonts.googleapis.com/css2?family=Questrial&family=Didact+Gothic&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    /* ── Tokens (Global Media & Entertainment huisstijl) ────────── */
+    :root {
+      --color-paper:       #FFFFFF;
+      --color-paper-2:     #F2F6FA;
+      --color-ink:         #1D1D1B;
+      --color-muted:       #575756;
+      --color-soft:        #6E6E6D;
+      --color-rule:        #D6DEE7;
+      --color-rule-solid:  #B9C6D4;
+      --color-accent:      #195AA6;
+      --color-accent-tint: rgba(25,90,166,0.08);
+      --color-link:        #1B4B89;
+      --font-sans:   'Century Gothic', 'Questrial', 'Didact Gothic', 'Avant Garde', sans-serif;
+      --font-title:  'Century Gothic', 'Questrial', 'Didact Gothic', 'Avant Garde', sans-serif;
+      --font-mono:   'Geist Mono', ui-monospace, Menlo, monospace;
+    }
+
+    body {
+      font-family: var(--font-sans);
+      background: var(--color-paper);
+      min-height: 100vh;
+      padding: 3rem 2rem;
+      color: var(--color-ink);
+    }
+
+    .container { max-width: 1200px; margin: 0 auto; }
+
+    .header { margin-bottom: 2.5rem; }
+
+    .header-eyebrow {
+      font-family: var(--font-mono);
+      font-size: 0.66rem;
+      font-weight: 500;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--color-muted);
+      margin-bottom: 0.75rem;
+    }
+
+    h1 {
+      font-family: var(--font-title);
+      font-size: clamp(1.75rem, 3vw + 1rem, 2.5rem);
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      line-height: 1.1;
+      color: var(--color-ink);
+      margin-bottom: 0.5rem;
+    }
+
+    .subtitle {
+      font-family: var(--font-sans);
+      font-size: 1rem;
+      line-height: 1.55;
+      color: var(--color-muted);
+      max-width: 52ch;
+    }
+
+    .diagram-container {
+      background: transparent;
+      border: none;
+      padding: 0;
+      overflow-x: auto;
+    }
+
+    svg { width: 100%; min-width: 900px; display: block; }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 1rem;
+      margin-top: 1.5rem;
+    }
+
+    .card {
+      background: var(--color-paper-2);
+      border-radius: 6px;
+      border: 1px solid var(--color-rule);
+      padding: 1.25rem;
+    }
+
+    .card-header {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.875rem;
+      padding-bottom: 0.875rem;
+      border-bottom: 1px solid rgba(29,29,27,0.08);
+    }
+
+    .card-dot {
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      flex-shrink: 0;
+    }
+    .card-dot.ink    { background: var(--color-ink); }
+    .card-dot.muted  { background: var(--color-muted); }
+    .card-dot.accent { background: var(--color-accent); }
+
+    .card h3 {
+      font-family: var(--font-sans);
+      font-size: 0.875rem;
+      font-weight: 700;
+      color: var(--color-ink);
+      letter-spacing: -0.005em;
+    }
+
+    .card ul {
+      list-style: none;
+      color: var(--color-muted);
+      font-size: 0.8125rem;
+      line-height: 1.55;
+    }
+
+    .card li {
+      margin-bottom: 0.3rem;
+      padding-left: 0.875rem;
+      position: relative;
+    }
+
+    .card li::before {
+      content: '—';
+      position: absolute;
+      left: 0;
+      color: rgba(29,29,27,0.25);
+      font-size: 0.75rem;
+    }
+
+    .footer {
+      margin-top: 2rem;
+      padding-top: 1.5rem;
+      border-top: 1px solid rgba(29,29,27,0.10);
+      font-family: var(--font-mono);
+      font-size: 0.72rem;
+      letter-spacing: 0.06em;
+      color: var(--color-soft);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+
+    <div class="header">
+      <p class="header-eyebrow">Architectuur · Out-of-home</p>
+      <h1>OOH-campagnepipeline</h1>
+      <p class="subtitle">Van briefing tot bewijs van uitzending: hoe een campagne door planning, boeking, content, playout en rapportage stroomt.</p>
+    </div>
+
+    <div class="diagram-container">
+      <svg viewBox="0 0 1000 700" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="global-ooh-pipeline-title global-ooh-pipeline-desc">
+        <title id="global-ooh-pipeline-title">OOH-campagnepipeline</title>
+        <desc id="global-ooh-pipeline-desc">Architectuurdiagram: een mediabureau levert briefing en creaties aan; planning, boeking, contentbeheer, playout en rapportage vormen samen het Global OOH-platform dat het schermennetwerk aanstuurt en rapportage teruglevert.</desc>
+        <defs>
+          <marker id="arrow" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#575756"/>
+          </marker>
+          <marker id="arrow-accent" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#195AA6"/>
+          </marker>
+          <marker id="arrow-link" markerWidth="8" markerHeight="6" refX="7" refY="3" orient="auto">
+            <polygon points="0 0, 8 3, 0 6" fill="#1B4B89"/>
+          </marker>
+        </defs>
+
+        <rect width="100%" height="100%" fill="#FFFFFF"/>
+
+        <!-- ── Pijlen eerst (schilderen achter de boxen) ─────────── -->
+
+        <!-- Mediabureau → Campagneplanning -->
+        <line x1="140" y1="147" x2="206" y2="147" stroke="#1B4B89" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="173" y="139" fill="#1B4B89" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">briefing</text>
+
+        <!-- Campagneplanning → Boeking -->
+        <line x1="340" y1="147" x2="406" y2="147" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+        <!-- Boeking → Campagnedata -->
+        <line x1="540" y1="147" x2="616" y2="147" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+        <!-- Mediabureau → Contentbeheer (creaties) -->
+        <path d="M 85 174 L 85 308 Q 85 326 103 326 L 206 326"
+              fill="none" stroke="#1B4B89" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="148" y="318" fill="#1B4B89" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">creaties</text>
+
+        <!-- Contentbeheer → Playout-engine -->
+        <line x1="340" y1="327" x2="426" y2="327" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+
+        <!-- Campagnedata → Playout-engine (planning & slots) -->
+        <path d="M 690 174 L 690 226 Q 690 244 672 244 L 523 244 Q 505 244 505 262 L 505 288"
+              fill="none" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="598" y="238" fill="#575756" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">planning &amp; slots</text>
+
+        <!-- Playout-engine → Schermennetwerk (focale flow) -->
+        <line x1="580" y1="327" x2="848" y2="327" stroke="#195AA6" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+        <text x="714" y="319" fill="#195AA6" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">playlists · content</text>
+
+        <!-- Schermennetwerk → Rapportage (playout-logs) -->
+        <path d="M 916 358 L 916 491 Q 916 509 898 509 L 584 509"
+              fill="none" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="750" y="501" fill="#575756" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">playout-logs</text>
+
+        <!-- Rapportage → Mediabureau -->
+        <path d="M 430 509 L 78 509 Q 60 509 60 491 L 60 178"
+              fill="none" stroke="#1B4B89" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="250" y="501" fill="#1B4B89" font-size="8" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.06em">rapportage</text>
+
+        <!-- ── Platformgrens ─────────────────────────────────────── -->
+        <rect x="170" y="60" width="650" height="540" rx="8" fill="transparent" stroke="rgba(29,29,27,0.18)" stroke-width="1" stroke-dasharray="6,4"/>
+        <text x="182" y="77" fill="#575756" font-size="8" font-weight="500" font-family="'Geist Mono', monospace" letter-spacing="0.12em">GLOBAL OOH-PLATFORM</text>
+
+        <!-- ── Mediabureau (extern) ──────────────────────────────── -->
+        <rect x="30" y="120" width="110" height="54" rx="6" fill="#FFFFFF"/>
+        <rect x="30" y="120" width="110" height="54" rx="6" fill="rgba(29,29,27,0.03)" stroke="rgba(29,29,27,0.30)" stroke-width="1"/>
+        <rect x="38" y="126" width="26" height="12" rx="2" fill="transparent" stroke="rgba(29,29,27,0.22)" stroke-width="0.8"/>
+        <text x="51" y="135" fill="#6E6E6D" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">EXT</text>
+        <text x="85" y="150" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Mediabureau</text>
+        <text x="85" y="165" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Briefing &amp; creaties</text>
+
+        <!-- ── 01 Campagneplanning ───────────────────────────────── -->
+        <rect x="210" y="120" width="130" height="54" rx="6" fill="#FFFFFF"/>
+        <rect x="210" y="120" width="130" height="54" rx="6" fill="#FFFFFF" stroke="#1D1D1B" stroke-width="1"/>
+        <text x="334" y="168" fill="rgba(29,29,27,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">01</text>
+        <rect x="218" y="126" width="30" height="12" rx="2" fill="transparent" stroke="rgba(29,29,27,0.40)" stroke-width="0.8"/>
+        <text x="233" y="135" fill="#1D1D1B" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">PLAN</text>
+        <text x="275" y="150" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Campagneplanning</text>
+        <text x="275" y="165" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Inventaris &amp; bereik</text>
+
+        <!-- ── 02 Boeking ────────────────────────────────────────── -->
+        <rect x="410" y="120" width="130" height="54" rx="6" fill="#FFFFFF"/>
+        <rect x="410" y="120" width="130" height="54" rx="6" fill="#FFFFFF" stroke="#1D1D1B" stroke-width="1"/>
+        <text x="534" y="168" fill="rgba(29,29,27,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">02</text>
+        <rect x="418" y="126" width="30" height="12" rx="2" fill="transparent" stroke="rgba(29,29,27,0.40)" stroke-width="0.8"/>
+        <text x="433" y="135" fill="#1D1D1B" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">BOEK</text>
+        <text x="475" y="150" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Boeking</text>
+        <text x="475" y="165" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Contract &amp; inkoop</text>
+
+        <!-- ── Campagnedata (store) ──────────────────────────────── -->
+        <rect x="620" y="120" width="140" height="54" rx="6" fill="#FFFFFF"/>
+        <rect x="620" y="120" width="140" height="54" rx="6" fill="rgba(29,29,27,0.05)" stroke="#575756" stroke-width="1"/>
+        <rect x="628" y="126" width="22" height="12" rx="2" fill="transparent" stroke="rgba(87,87,86,0.50)" stroke-width="0.8"/>
+        <text x="639" y="135" fill="#575756" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DB</text>
+        <text x="690" y="150" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Campagnedata</text>
+        <text x="690" y="165" fill="#575756" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">campagnes · slots</text>
+
+        <!-- ── 03 Contentbeheer (aanlevering) ────────────────────── -->
+        <rect x="210" y="300" width="130" height="54" rx="6" fill="#FFFFFF"/>
+        <rect x="210" y="300" width="130" height="54" rx="6" fill="rgba(87,87,86,0.10)" stroke="#6E6E6D" stroke-width="1"/>
+        <text x="334" y="348" fill="rgba(29,29,27,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">03</text>
+        <rect x="218" y="306" width="26" height="12" rx="2" fill="transparent" stroke="rgba(110,110,109,0.4)" stroke-width="0.8"/>
+        <text x="231" y="315" fill="#6E6E6D" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">CRE</text>
+        <text x="275" y="330" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Contentbeheer</text>
+        <text x="275" y="345" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Aanleveren &amp; valideren</text>
+
+        <!-- ── 04 Playout-engine (focal) ─────────────────────────── -->
+        <rect x="430" y="292" width="150" height="70" rx="6" fill="#FFFFFF"/>
+        <rect x="430" y="292" width="150" height="70" rx="6" fill="rgba(25,90,166,0.08)" stroke="#195AA6" stroke-width="1.2"/>
+        <text x="574" y="356" fill="rgba(29,29,27,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">04</text>
+        <rect x="438" y="298" width="30" height="12" rx="2" fill="transparent" stroke="rgba(25,90,166,0.50)" stroke-width="0.8"/>
+        <text x="453" y="307" fill="#195AA6" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">PLAY</text>
+        <text x="505" y="328" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Playout-engine</text>
+        <text x="505" y="344" fill="#575756" font-size="9" font-family="'Geist Mono', monospace" text-anchor="middle">scheduler · 24/7</text>
+
+        <!-- ── 05 Rapportage ─────────────────────────────────────── -->
+        <rect x="430" y="480" width="150" height="58" rx="6" fill="#FFFFFF"/>
+        <rect x="430" y="480" width="150" height="58" rx="6" fill="#FFFFFF" stroke="#1D1D1B" stroke-width="1"/>
+        <text x="574" y="532" fill="rgba(29,29,27,0.06)" font-size="32" font-weight="600" font-family="'Geist Mono', monospace" text-anchor="end">05</text>
+        <rect x="438" y="486" width="30" height="12" rx="2" fill="transparent" stroke="rgba(29,29,27,0.40)" stroke-width="0.8"/>
+        <text x="453" y="495" fill="#1D1D1B" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">RAPP</text>
+        <text x="505" y="512" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Rapportage</text>
+        <text x="505" y="527" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Dashboards &amp; uitzendbewijs</text>
+
+        <!-- ── Schermennetwerk (extern, rechts) ──────────────────── -->
+        <rect x="852" y="296" width="128" height="62" rx="6" fill="#FFFFFF"/>
+        <rect x="852" y="296" width="128" height="62" rx="6" fill="rgba(29,29,27,0.03)" stroke="rgba(29,29,27,0.30)" stroke-width="1"/>
+        <rect x="860" y="302" width="34" height="12" rx="2" fill="transparent" stroke="rgba(29,29,27,0.22)" stroke-width="0.8"/>
+        <text x="877" y="311" fill="#6E6E6D" font-size="7" font-family="'Geist Mono', monospace" text-anchor="middle" letter-spacing="0.08em">DOOH</text>
+        <text x="916" y="330" fill="#1D1D1B" font-size="12" font-weight="700" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Schermennetwerk</text>
+        <text x="916" y="345" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif" text-anchor="middle">Masten &amp; schermen</text>
+
+        <!-- ── Legenda (buiten de platformgrens) ─────────────────── -->
+        <text x="170" y="628" fill="#1D1D1B" font-size="9" font-weight="500" font-family="'Geist Mono', monospace" letter-spacing="0.12em">LEGENDA</text>
+
+        <rect x="170" y="640" width="14" height="10" rx="2" fill="rgba(25,90,166,0.08)" stroke="#195AA6" stroke-width="1"/>
+        <text x="190" y="649" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Focal / playout</text>
+
+        <rect x="320" y="640" width="14" height="10" rx="2" fill="#FFFFFF" stroke="#1D1D1B" stroke-width="1"/>
+        <text x="340" y="649" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Systeem</text>
+
+        <rect x="470" y="640" width="14" height="10" rx="2" fill="rgba(29,29,27,0.05)" stroke="#575756" stroke-width="1"/>
+        <text x="490" y="649" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Data</text>
+
+        <rect x="620" y="640" width="14" height="10" rx="2" fill="rgba(29,29,27,0.03)" stroke="rgba(29,29,27,0.30)" stroke-width="1"/>
+        <text x="640" y="649" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Extern</text>
+
+        <rect x="770" y="640" width="14" height="10" rx="2" fill="rgba(87,87,86,0.10)" stroke="#6E6E6D" stroke-width="1"/>
+        <text x="790" y="649" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Aanlevering</text>
+
+        <line x1="170" y1="673" x2="184" y2="673" stroke="#1B4B89" stroke-width="1.2" marker-end="url(#arrow-link)"/>
+        <text x="190" y="677" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Extern koppelvlak</text>
+
+        <line x1="320" y1="673" x2="334" y2="673" stroke="#195AA6" stroke-width="1.2" marker-end="url(#arrow-accent)"/>
+        <text x="340" y="677" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Playout-flow</text>
+
+        <line x1="470" y1="673" x2="484" y2="673" stroke="#575756" stroke-width="1.2" marker-end="url(#arrow)"/>
+        <text x="490" y="677" fill="#575756" font-size="9" font-family="'Century Gothic', 'Questrial', 'Didact Gothic', sans-serif">Interne verbinding</text>
+
+      </svg>
+    </div>
+
+    <div class="cards">
+      <div class="card">
+        <div class="card-header">
+          <span class="card-dot ink"></span>
+          <h3>Planning &amp; boeking</h3>
+        </div>
+        <ul>
+          <li>Mediabureau levert briefing en doelstellingen aan</li>
+          <li>Planning reserveert inventaris en berekent bereik</li>
+          <li>Boeking legt contract, tarieven en looptijd vast</li>
+          <li>Campagnedata is de bron voor de playout-planning</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-dot accent"></span>
+          <h3>Content &amp; playout</h3>
+        </div>
+        <ul>
+          <li>Creaties worden aangeleverd en gevalideerd op spec</li>
+          <li>Playout-engine bouwt per scherm een playlist</li>
+          <li>Uitlevering draait 24/7 naar het schermennetwerk</li>
+        </ul>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <span class="card-dot muted"></span>
+          <h3>Rapportage</h3>
+        </div>
+        <ul>
+          <li>Playout-logs komen per scherm terug binnen</li>
+          <li>Dashboards tonen bereik en uitzendbewijs</li>
+          <li>Rapportage gaat terug naar het mediabureau</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer">
+      <span>Global OOH · Campagnepipeline</span>
+      <span>Augustus 2026</span>
+    </div>
+
+  </div>
+</body>
+</html>
