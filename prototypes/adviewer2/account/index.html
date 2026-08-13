@@ -16,7 +16,8 @@
   .zij .merk{font-weight:800;font-size:18px;letter-spacing:.3px;padding:0 10px}
   .auth-logo{display:block;height:34px;width:auto;margin:26px 0 0 30px}
   .zij .merk small{display:block;font-weight:400;font-size:11.5px;opacity:.65;letter-spacing:1.2px;text-transform:uppercase;margin-top:2px}
-  .zij .wie{display:flex;gap:11px;align-items:center;background:rgba(255,255,255,.10);border-radius:14px;padding:12px;margin:18px 0 16px}
+  .zij .zij-upload{display:flex;align-items:center;justify-content:center;gap:9px;background:var(--licht);color:var(--donker);text-decoration:none;border-radius:14px;font-weight:800;font-size:14px;padding:14px 12px;margin:18px 0 16px;box-shadow:0 6px 18px rgba(91,196,232,.35);transition:background .18s,transform .18s}
+  .zij .zij-upload:hover{background:#7DD2EE;transform:translateY(-1px)}
   .avatar{width:42px;height:42px;border-radius:50%;background:#fff;color:var(--donker);font-weight:800;font-size:15px;display:flex;align-items:center;justify-content:center;flex:0 0 42px}
   .zij .wie b{display:block;font-size:14px;line-height:1.25}
   .zij .wie small{font-size:11px;opacity:.75;word-break:break-all}
@@ -278,7 +279,7 @@
       '<aside class="zij">' +
         '<img class="logo" src="../../../assets/global-logo.png" alt="Global">' +
         '<div class="merk">AdViewer 2.0<small>Mijn account</small></div>' +
-        '<div class="wie"><span class="avatar">' + esc(initialen()) + '</span><span><b>' + esc(db.user.naam) + '</b><small>' + esc(db.user.email) + '</small></span></div>' +
+        '<a class="zij-upload" href="../">+ Nieuwe upload in de viewer</a>' +
         '<div class="kopje">Mijn werk</div>' +
         '<nav>' +
           navKnop('overzicht', 'Overzicht', null) +
@@ -311,8 +312,7 @@
       (tel != null ? '<span class="tel">' + tel + '</span>' : '') + '</button>';
   }
   function kop(titel, tekst) {
-    return '<div class="balk"><div><h1>' + titel + '</h1><p>' + tekst + '</p></div>' +
-      '<a class="viewerknop" href="../">+ Nieuwe upload in de viewer</a></div>';
+    return '<div class="balk"><div><h1>' + titel + '</h1><p>' + tekst + '</p></div></div>';
   }
 
   /* ---------- overzicht ---------- */
