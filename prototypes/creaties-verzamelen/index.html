@@ -80,11 +80,9 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <div style="width:1px;height:26px;background:#D5E0EC"></div>
         <div>
           <div style="font-weight:800;color:#195AA6;font-size:17px;line-height:1.2;letter-spacing:0.01em">{{ appName }}</div>
-          <div style="font-size:11px;color:#6B7280">Weergave voor het profiel waarmee je bent ingelogd</div>
         </div>
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #E4ECF5;border-radius:999px;padding:5px 14px 5px 6px;box-shadow:0 1px 4px rgba(27,75,137,.07)">
-        <span style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;padding-left:6px">Ingelogd als</span>
         <div style="width:28px;height:28px;border-radius:50%;background:{{ meBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">{{ meInit }}</div>
         <div style="font-size:13px;color:#374151"><strong style="color:#1B4B89">{{ meName }}</strong></div>
         <span style="background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700">{{ meRole }}</span>
@@ -210,7 +208,7 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             </div>
           </sc-for>
           <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">Geen dossiers binnen deze filters. Wie pakt wat anders op?</div>
+            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">Geen dossiers binnen deze filters.</div>
           </sc-if>
         </div>
       </div>
@@ -277,14 +275,12 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap" data-comment-anchor="8c9b478617-div">
           <span style="background:{{ d.routeBg }};color:{{ d.routeFg }};border-radius:6px;padding:2px 10px;font-size:11.5px;font-weight:600">Route: {{ d.route }}</span>
-          <span style="font-size:11.5px;color:#6B7280">Klik op de tracker voor de procesflow</span>
         </div>
       </div>
 
       <div style="display:flex;align-items:center;gap:14px;margin:34px 0 16px" data-comment-anchor="3411453943-div">
-        <div style="flex:1;height:1px;background:#C9D6E4"></div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid #C9D6E4;border-radius:999px;padding:5px 16px;background:#F7FAFD;font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;display:block"><circle cx="7" cy="7" r="5.7"></circle><path d="M7 6.4v3.4"></path><path d="M7 4.2v.1" stroke-linecap="round" stroke-width="2"></path></svg>Meer info</div>
-        <div style="flex:1;height:1px;background:#C9D6E4"></div>
+        <div style="font-size:11px;font-weight:700;letter-spacing:0.09em;text-transform:uppercase;color:#9CA3AF;white-space:nowrap">Meer info</div>
+        <div style="flex:1;height:1px;background:#E4ECF5"></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:16px">
 
@@ -393,7 +389,7 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       <div style="width:1px;height:24px;background:#D5E0EC"></div>
       <div>
         <div style="font-weight:800;color:#1B4B89;font-size:18px;line-height:1.2">Procesmonitor</div>
-        <div style="font-size:11.5px;color:#6B7280">Waar zit het werk in het proces · live afgeleid uit de dossiers</div>
+        <div style="font-size:11.5px;color:#6B7280">Waar het werk in het proces zit</div>
       </div>
       <button onClick="{{ monBack }}" style="margin-left:auto;border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer">‹ Naar teamcockpit</button>
     </div>
@@ -431,14 +427,14 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       </div>
       <div style="margin-top:4px;border-top:1px solid #EEF3F9;padding-top:12px">
         <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF;margin-bottom:4px">Mutaties</div>
-        <div style="font-size:11.5px;color:#6B7280;margin-bottom:8px">Komen in elke fase binnen vanuit Salesforce: <strong style="color:#374151">Vervallen</strong> stopt het dossier en alle communicatie; <strong style="color:#374151">Gewijzigd</strong> past de deadline en bewaking automatisch aan, waarna het dossier verdergaat in zijn actuele fase.</div>
+        <div style="font-size:11.5px;color:#6B7280;margin-bottom:8px"><strong style="color:#374151">Vervallen</strong> stopt het dossier en de communicatie; <strong style="color:#374151">Gewijzigd</strong> herberekent de deadline en bewaking.</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <sc-for list="{{ monMuts }}" as="st" hint-placeholder-count="2">
             <button onClick="{{ st.click }}" style="display:inline-flex;align-items:center;gap:7px;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600;cursor:{{ st.cur }};font-family:inherit">{{ st.label }}<span style="background:{{ st.nBg }};color:{{ st.nFg }};border-radius:999px;padding:0 8px;font-size:11px;font-weight:800;line-height:1.6">{{ st.n }}</span></button>
           </sc-for>
         </div>
       </div>
-      <div style="font-size:12px;color:#6B7280;margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px">Klik op een stap met teller voor de uitleg en de lijst van uitingen die er nu zitten. Alleen aantallen · geen grafieken of doorlooptijden.</div>
+      <div style="font-size:12px;color:#6B7280;margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px">Klik op een stap met teller voor de lijst van uitingen.</div>
     </div>
   </div>
   </sc-if>
