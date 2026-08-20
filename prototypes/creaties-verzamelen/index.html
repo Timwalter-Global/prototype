@@ -1548,7 +1548,7 @@ class Component extends DCLogic {
   toast(m){ clearTimeout(this._tt); this.setState({toast:m}); this._tt=setTimeout(()=>this.setState({toast:''}),2800); }
   oosFn(){ this.toast('Buiten scope van dit prototype'); }
   openSpec(row,src){ if(!row)return; const id=row.spec||specIdOfFmt(row.oms||''); this.setState({specOpen:{id:id,net:row.net||'',src:src}}); }
-  whoChip(w){ if(w==='sys')return {who:'⚙ AUTO',bg:'#BBDDF5',fg:'#1B4B89'}; if(String(w).indexOf('ext:')===0)return {who:String(w).slice(4),bg:'#E5E7EB',fg:'#374151'}; const p=PPL[w];return {who:p.n+' · '+p.r,bg:p.bg,fg:'#fff'}; }
+  whoChip(w){ if(w==='sys')return {who:'⚙ auto',bg:'#EFF3F7',fg:'#8393A5'}; if(String(w).indexOf('ext:')===0)return {who:String(w).slice(4),bg:'#E5E7EB',fg:'#374151'}; const p=PPL[w];return {who:p.n+' · '+p.r,bg:p.bg,fg:'#fff'}; }
   mailCtx(d){ const nd=BASE.map(d2=>this.viewD(d2)).filter(d2=>d2.tone==='red');
     const rp=[];(d.matrix||[]).forEach(r=>{const inf=this.rowInfo(r,false);
       if(inf.key==='nog'||inf.key==='nieuw'){const miss=Math.max(1,inf.exp-inf.ing);rp.push('nog '+miss+' van '+inf.exp+' creatie'+(inf.exp>1?'s':'')+' voor '+r.oms);}
@@ -1856,13 +1856,13 @@ class Component extends DCLogic {
         const wc=this.whoChip(e.w); const m=e.tp==='com'?mailFor(e,cur):null;
         const dk=e.t+'|'+e.x;
         return {t:e.t,who:wc.who,bg:wc.bg,fg:wc.fg,x:e.x,tp:e.tp,isCom:e.tp==='com',
-          xFg:m?'#1B4B89':'#1F2937',xW:m?'600':'400',cur:(m||e.det)?'pointer':'default',
+          xFg:m?'#1B4B89':(e.w==='sys'?'#8393A5':'#1F2937'),xW:m?'600':'400',cur:(m||e.det)?'pointer':'default',
           hasDet:!!e.det,det:e.det||'',detOpen:!!e.det&&s.tlDet===dk,detChev:s.tlDet===dk?'▴':'▾',
           inTag:e.dir==='in',click:()=>{ if(m)this.openMsg(e,cur); else if(e.det)this.setState(st=>({tlDet:st.tlDet===dk?null:dk})); }};
       });
       tlShown=s.tlFlt==='alle'?tl:tl.filter(r=>r.tp===s.tlFlt);
       const tlCnt=k=>k==='alle'?tl.length:tl.filter(r=>r.tp===k).length;
-      tlChips=[['alle','Alles'],['com','Communicatie'],['status','Statuswijzigingen'],['actie','Acties']].map(c=>{const on=s.tlFlt===c[0];
+      tlChips=[['alle','Alles'],['com','Berichten'],['status','Status'],['actie','Acties']].map(c=>{const on=s.tlFlt===c[0];
         return {label:c[1],on:on,n:String(tlCnt(c[0])),pick:()=>this.setState({tlFlt:c[0]}),bd:on?'#1B4B89':'#D5E0EC',bg:on?'#1B4B89':'#fff',fg:on?'#fff':'#6B7280'};});
       const lastComE=cur.tl.slice().reverse().find(e2=>{ if(e2.tp!=='com')return false; const m2x=mailFor(e2,cur); return m2x&&(m2x.aud==='ext'||e2.dir==='in'); });
       if(lastComE){ const lm=mailFor(lastComE,cur);
