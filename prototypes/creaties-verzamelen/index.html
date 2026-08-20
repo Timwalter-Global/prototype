@@ -35,39 +35,39 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
 </helmet>
 <div style="min-height:100vh;font-family:'Montserrat','Century Gothic',sans-serif;color:#1F2937;font-size:14px;line-height:1.5">
   <sc-if value="{{ consoleVisible }}" hint-placeholder-val="{{ true }}">
-  <div data-id="console" style="position:sticky;top:0;z-index:80;background:#0F2B50;color:#fff;padding:6px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;font-size:11.5px;box-shadow:0 2px 10px rgba(15,43,80,.35)">
-    <div title="Geen onderdeel van het product" style="font-size:9px;letter-spacing:0.12em;font-weight:700;color:#8FB0D8;text-transform:uppercase;white-space:nowrap;border:1px solid #35507A;border-radius:999px;padding:3px 10px">Demo console</div>
+  <div data-id="console" style="position:sticky;top:0;z-index:80;background:#0F2B50;color:#fff;padding:6px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;font-size:12px;box-shadow:0 2px 10px rgba(15,43,80,.35)">
+    <div title="Geen onderdeel van het product" style="font-size:10px;letter-spacing:0.12em;font-weight:700;color:#8FB0D8;text-transform:uppercase;white-space:nowrap;border:1px solid #35507A;border-radius:999px;padding:3px 10px">Demo console</div>
     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-      <span style="color:#7E9CC4;font-weight:500;font-size:11px">Perspectief</span>
+      <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Perspectief</span>
       <sc-for list="{{ perspBtns }}" as="b" hint-placeholder-count="2">
-        <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
+        <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;cursor:pointer">{{ b.label }}</button>
       </sc-for>
     </div>
     <sc-if value="{{ isIntern }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11px">Rol</span>
+        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Rol</span>
         <sc-for list="{{ roleBtns }}" as="b" hint-placeholder-count="5">
-          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer">{{ b.label }}</button>
+          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
     </sc-if>
     <sc-if value="{{ isExtern }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11px">Partij</span>
+        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Partij</span>
         <sc-for list="{{ partyBtns }}" as="b" hint-placeholder-count="3">
-          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer">{{ b.label }}</button>
+          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11px">Staat</span>
+        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Staat</span>
         <sc-for list="{{ stateBtns }}" as="b" hint-placeholder-count="4">
-          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11px;font-weight:600;cursor:pointer">{{ b.label }}</button>
+          <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
     </sc-if>
     <div style="margin-left:auto;display:flex;gap:8px">
-      <button onClick="{{ openMails }}" style="border:1px solid #35507A;background:#0F2A4E;color:#CFE0F4;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer">Mailvoorbeelden</button>
-      <button onClick="{{ resetDemo }}" style="border:1px solid #35507A;background:transparent;color:#8FB0D8;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;cursor:pointer">Reset demo</button>
+      <button onClick="{{ openMails }}" style="border:1px solid #35507A;background:#0F2A4E;color:#CFE0F4;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Mailvoorbeelden</button>
+      <button onClick="{{ resetDemo }}" style="border:1px solid #35507A;background:transparent;color:#8FB0D8;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Reset demo</button>
     </div>
   </div>
   </sc-if>
@@ -80,49 +80,49 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <div style="width:1px;height:26px;background:#D5E0EC"></div>
         <div>
           <div style="font-weight:800;color:#195AA6;font-size:17px;line-height:1.2;letter-spacing:0.01em">{{ appName }}</div>
-          <div style="font-size:10.5px;color:#6B7280">Weergave voor het profiel waarmee je bent ingelogd</div>
+          <div style="font-size:11px;color:#6B7280">Weergave voor het profiel waarmee je bent ingelogd</div>
         </div>
       </div>
       <div style="margin-left:auto;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid #E4ECF5;border-radius:999px;padding:5px 14px 5px 6px;box-shadow:0 1px 4px rgba(27,75,137,.07)">
-        <span style="font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;padding-left:6px">Ingelogd als</span>
-        <div style="width:28px;height:28px;border-radius:50%;background:{{ meBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:12.5px">{{ meInit }}</div>
-        <div style="font-size:12.5px;color:#374151"><strong style="color:#1B4B89">{{ meName }}</strong></div>
-        <span style="background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700">{{ meRole }}</span>
+        <span style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;padding-left:6px">Ingelogd als</span>
+        <div style="width:28px;height:28px;border-radius:50%;background:{{ meBg }};color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px">{{ meInit }}</div>
+        <div style="font-size:13px;color:#374151"><strong style="color:#1B4B89">{{ meName }}</strong></div>
+        <span style="background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700">{{ meRole }}</span>
       </div>
     </div>
 
     <sc-if value="{{ isI1 }}" hint-placeholder-val="{{ true }}">
     <div data-id="i1" data-screen-label="I1 Teamcockpit" data-comment-anchor="8fb55cc624-div">
       <sc-if value="{{ femkeBlock }}" hint-placeholder-val="{{ false }}">
-        <div style="background:#EAF2FB;border:1px solid #C9D6E4;border-radius:12px;padding:12px 18px;margin-bottom:16px;font-size:13px;color:#1B4B89"><strong>Jouw wachtrij:</strong> {{ femkeCount }} beoordelingen wachten op Marketing — {{ femkeList }} — bovenaan gemarkeerd.</div>
+        <div style="background:#EAF2FB;border:1px solid #C9D6E4;border-radius:12px;padding:12px 18px;margin-bottom:16px;font-size:13.5px;color:#1B4B89"><strong>Jouw wachtrij:</strong> {{ femkeCount }} beoordelingen wachten op Marketing — {{ femkeList }} — bovenaan gemarkeerd.</div>
       </sc-if>
       <div style="display:grid;grid-template-columns:minmax(185px,1fr) minmax(290px,1.9fr) minmax(185px,1fr);gap:10px;margin-bottom:16px;align-items:stretch;max-width:1040px" data-comment-anchor="f41f3db0d5-div">
         <button onClick="{{ nc.pick }}" style-hover="border-color:#B91C1C;box-shadow:0 4px 16px rgba(185,28,28,.14)" style="text-align:left;background:{{ nc.bg }};border:1.5px solid {{ nc.bd }};border-radius:12px;padding:0;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;overflow:hidden">
           <div style="display:flex;align-items:center;gap:7px;width:100%;background:#FDECEC;padding:6px 12px">
             <span style="width:7px;height:7px;border-radius:50%;background:#B91C1C;flex-shrink:0"></span>
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#B91C1C">Buiten tijdsnorm</span>
+            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#B91C1C">Buiten tijdsnorm</span>
             <svg width="14" height="14" fill="{{ nc.icoFill }}" stroke="{{ nc.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
           </div>
           <div style="display:flex;align-items:center;gap:9px;padding:8px 12px 9px;flex-wrap:wrap;flex:1;align-content:center">
             <span style="font-size:22px;font-weight:800;color:#B91C1C;line-height:1">{{ nc.count }}</span>
-            <span style="font-size:11px;color:#6B7280;font-weight:500;line-height:1.3">Deadline verstreken · directe actie</span>
-            <sc-if value="{{ nc.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ nc.filterBg }};color:#fff;border-radius:999px;padding:2px 10px;font-size:9.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
+            <span style="font-size:11.5px;color:#6B7280;font-weight:500;line-height:1.3">Deadline verstreken · directe actie</span>
+            <sc-if value="{{ nc.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ nc.filterBg }};color:#fff;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
           </div>
         </button>
         <div style="background:#fff;border:1px solid #E4ECF5;border-radius:12px;box-shadow:0 2px 12px rgba(27,75,137,.06);overflow:hidden">
           <div style="display:flex;align-items:baseline;gap:7px;background:#EAF2FB;padding:6px 12px">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89">Intern aan zet</span>
-            <span style="font-size:11px;color:#0B78BE;font-weight:600">taken voor het Global team</span>
+            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89">Intern aan zet</span>
+            <span style="font-size:11.5px;color:#0B78BE;font-weight:600">taken voor het Global team</span>
           </div>
           <div style="display:flex;flex-direction:column;gap:4px;padding:7px 9px 9px">
             <sc-for list="{{ internRows }}" as="c" hint-placeholder-count="3">
               <button onClick="{{ c.pick }}" style-hover="border-color:#0B78BE;background:#F2F7FC" style="display:flex;align-items:center;gap:9px;padding:5px 10px;border-radius:999px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;width:100%">
                 <span style="font-size:15px;font-weight:800;color:#1B4B89;min-width:20px">{{ c.count }}</span>
-                <span style="font-size:12px;font-weight:600;color:#374151">{{ c.label }}</span>
+                <span style="font-size:12.5px;font-weight:600;color:#374151">{{ c.label }}</span>
                 <sc-for list="{{ c.badges }}" as="b" hint-placeholder-count="0">
-                  <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10px;font-weight:700;white-space:nowrap">{{ b.txt }}</span>
+                  <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ b.txt }}</span>
                 </sc-for>
-                <sc-if value="{{ c.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ c.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:9px;font-weight:700;white-space:nowrap">✓ Filter aan</span></sc-if>
+                <sc-if value="{{ c.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ c.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:10px;font-weight:700;white-space:nowrap">✓ Filter aan</span></sc-if>
                 <svg width="14" height="14" fill="{{ c.icoFill }}" stroke="{{ c.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
               </button>
             </sc-for>
@@ -130,79 +130,79 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </div>
         <button onClick="{{ extRow.pick }}" style-hover="border-color:#0B78BE;box-shadow:0 4px 16px rgba(27,75,137,.12)" style="text-align:left;background:{{ extRow.bg }};border:1.5px solid {{ extRow.bd }};border-radius:12px;padding:0;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;overflow:hidden" data-comment-anchor="e50b900d4c-button">
           <div style="display:flex;align-items:baseline;gap:7px;width:100%;background:#F3F4F6;padding:6px 12px;flex-wrap:wrap" data-comment-anchor="e4e52fcee0-div">
-            <span style="font-size:10.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#575756;white-space:nowrap">Onze partners aan zet</span>
-            <span style="font-size:11px;color:#6B7280;font-weight:600;white-space:nowrap">wacht op externe partij</span>
+            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#575756;white-space:nowrap">Onze partners aan zet</span>
+            <span style="font-size:11.5px;color:#6B7280;font-weight:600;white-space:nowrap">wacht op externe partij</span>
             <svg width="14" height="14" fill="{{ extRow.icoFill }}" stroke="{{ extRow.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block;align-self:center"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
           </div>
           <div style="display:flex;align-items:center;gap:9px;padding:8px 12px 9px;flex-wrap:wrap;flex:1;align-content:center">
             <span style="font-size:22px;font-weight:800;color:#1B4B89;line-height:1">{{ extRow.count }}</span>
-            <sc-if value="{{ extRow.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ extRow.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:9.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
+            <sc-if value="{{ extRow.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ extRow.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
             <sc-for list="{{ extRow.badges }}" as="b" hint-placeholder-count="0">
-              <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10px;font-weight:700">{{ b.txt }}</span>
+              <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700">{{ b.txt }}</span>
             </sc-for>
           </div>
         </button>
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px" data-comment-anchor="239fce1a6f-div">
         <div style="position:relative">
-          <button onClick="{{ advToggle }}" style="border:1px solid #E4ECF5;border-radius:999px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563;cursor:pointer;display:flex;align-items:center;gap:7px" data-comment-anchor="4e5bfdc57d-select">{{ advLabel }}<span style="font-size:9px;color:#6B7280">▼</span></button>
+          <button onClick="{{ advToggle }}" style="border:1px solid #E4ECF5;border-radius:999px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563;cursor:pointer;display:flex;align-items:center;gap:7px" data-comment-anchor="4e5bfdc57d-select">{{ advLabel }}<span style="font-size:10px;color:#6B7280">▼</span></button>
           <sc-if value="{{ advOpen }}" hint-placeholder-val="{{ false }}">
             <div onClick="{{ advClose }}" style="position:fixed;inset:0;z-index:70"></div>
             <div style="position:absolute;top:calc(100% + 5px);left:0;z-index:71;background:#fff;border:1px solid #D5E0EC;border-radius:12px;box-shadow:0 12px 34px rgba(27,75,137,.18);padding:8px;width:250px">
-              <input value="{{ advQ }}" onChange="{{ setAdvQ }}" placeholder="Zoek adverteerder (min. 2 letters)" autoFocus="{{ true }}" style="width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:7px 10px;font-family:inherit;font-size:12.5px;color:#1F2937">
+              <input value="{{ advQ }}" onChange="{{ setAdvQ }}" placeholder="Zoek adverteerder (min. 2 letters)" autoFocus="{{ true }}" style="width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:7px 10px;font-family:inherit;font-size:13px;color:#1F2937">
               <div style="display:flex;flex-direction:column;gap:2px;margin-top:6px;max-height:225px;overflow:auto">
                 <sc-for list="{{ advOpts }}" as="a" hint-placeholder-count="6">
-                  <button onClick="{{ a.pick }}" style-hover="background:#EAF2FB" style="border:none;background:{{ a.bg }};color:{{ a.fg }};font-weight:{{ a.w }};border-radius:999px;padding:7px 10px;font-size:12.5px;text-align:left;cursor:pointer;font-family:inherit">{{ a.label }}</button>
+                  <button onClick="{{ a.pick }}" style-hover="background:#EAF2FB" style="border:none;background:{{ a.bg }};color:{{ a.fg }};font-weight:{{ a.w }};border-radius:999px;padding:7px 10px;font-size:13px;text-align:left;cursor:pointer;font-family:inherit">{{ a.label }}</button>
                 </sc-for>
               </div>
             </div>
           </sc-if>
         </div>
-        <input value="{{ fltOrd }}" onChange="{{ setFltOrd }}" placeholder="Zoek op ordernummer…" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563;width:170px">
-        <select value="{{ fltBur }}" onChange="{{ setFltBur }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563">
+        <input value="{{ fltOrd }}" onChange="{{ setFltOrd }}" placeholder="Zoek op ordernummer…" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563;width:170px">
+        <select value="{{ fltBur }}" onChange="{{ setFltBur }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
           <option value="alle">Mediabureau: alle</option><option value="NovaMedia">NovaMedia</option><option value="AdVista">AdVista</option><option value="direct">Geen (direct)</option>
         </select>
-        <select value="{{ fltStake }}" onChange="{{ setFltStake }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltStake }}" onChange="{{ setFltStake }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
           <option value="alle">Stakeholder: alle</option><option value="sandra">Sandra (AM)</option><option value="bo">Bo (CM)</option><option value="yusuf">Yusuf (CM)</option><option value="kim">Kim (Ad Ops)</option><option value="femke">Femke (Marketing)</option><option value="ext">Extern</option>
         </select>
-        <select value="{{ fltStatus }}" onChange="{{ setFltStatus }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltStatus }}" onChange="{{ setFltStatus }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
           <option value="alle">Status: alle</option><option value="Wacht op aanlevering">Wacht op aanlevering</option><option value="In controle">In controle</option><option value="Afgekeurd">Afgekeurd</option><option value="Wacht op klantbevestiging">Wacht op klantbevestiging</option><option value="Aangemaakt">Aangemaakt</option><option value="Goedgekeurd">Goedgekeurd</option>
         </select>
-        <select value="{{ fltRoute }}" onChange="{{ setFltRoute }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltRoute }}" onChange="{{ setFltRoute }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
           <option value="alle">Route: alle</option><option value="Preferred">Preferred</option><option value="Partnerproces">Partnerproces</option>
         </select>
         <sc-if value="{{ isCMRole }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ toggleMyTasks }}" style="border:1px solid {{ myTasksBd }};background:{{ myTasksBg }};color:{{ myTasksFg }};border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Mijn taken</button>
+          <button onClick="{{ toggleMyTasks }}" style="border:1px solid {{ myTasksBd }};background:{{ myTasksBg }};color:{{ myTasksFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Mijn taken</button>
         </sc-if>
-        <button onClick="{{ toggleGroup }}" style="margin-left:auto;border:1px solid {{ groupBd }};background:{{ groupBg }};color:{{ groupFg }};border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit">Groepeer per bureau</button>
+        <button onClick="{{ toggleGroup }}" style="margin-left:auto;border:1px solid {{ groupBd }};background:{{ groupBg }};color:{{ groupFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Groepeer per bureau</button>
       </div>
       <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;box-shadow:0 2px 10px rgba(27,75,137,.06);overflow-x:auto">
         <div style="min-width:1180px">
           <div style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:12px 18px;border-bottom:1px solid #E4ECF5;background:#FAFCFE" data-comment-anchor="2bcfec1786-div">
             <sc-for list="{{ headCols }}" as="h" hint-placeholder-count="8">
-              <button onClick="{{ h.sort }}" style-hover="color:#0B78BE" style="border:none;background:none;padding:0;text-align:left;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:{{ h.fg }};cursor:pointer;display:flex;align-items:center;gap:4px">{{ h.label }}<span style="font-size:9px;line-height:1">{{ h.arrow }}</span></button>
+              <button onClick="{{ h.sort }}" style-hover="color:#0B78BE" style="border:none;background:none;padding:0;text-align:left;font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:{{ h.fg }};cursor:pointer;display:flex;align-items:center;gap:4px">{{ h.label }}<span style="font-size:10px;line-height:1">{{ h.arrow }}</span></button>
             </sc-for>
           </div>
           <sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
             <div onClick="{{ r.open }}" style-hover="background:#F5F9FD" style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:13px 18px;border-bottom:1px solid #EEF3F9;cursor:pointer;align-items:center;background:{{ r.rowBg }};opacity:{{ r.dim }}">
               <div style="font-weight:600;color:#1B4B89">{{ r.camp }}</div>
-              <div><div>{{ r.klant }}</div><div style="font-size:11.5px;color:#6B7280">{{ r.sub }}</div>
-                <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:3px;background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:600">{{ r.badge }}</div></sc-if>
+              <div><div>{{ r.klant }}</div><div style="font-size:12px;color:#6B7280">{{ r.sub }}</div>
+                <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:3px;background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600">{{ r.badge }}</div></sc-if>
               </div>
-              <div style="font-size:12px;color:#374151;font-variant-numeric:tabular-nums">{{ r.ord }}</div>
-              <div style="font-size:12.5px">{{ r.taak }}</div>
+              <div style="font-size:12.5px;color:#374151;font-variant-numeric:tabular-nums">{{ r.ord }}</div>
+              <div style="font-size:13px">{{ r.taak }}</div>
               <div>
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
                   <sc-for list="{{ r.owners }}" as="o" hint-placeholder-count="1">
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:{{ o.pillBg }};border:1px solid {{ o.pillBd }};border-radius:999px;padding:3px 10px 3px 4px;font-size:12px;font-weight:600;color:{{ o.pillFg }};white-space:nowrap"><span style="width:20px;height:20px;border-radius:50%;background:{{ o.bg }};color:{{ o.fg }};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">{{ o.init }}</span>{{ o.name }}<sc-if value="{{ o.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:8.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;opacity:0.6;margin-left:2px">{{ o.tag }}</span></sc-if></span>
+                    <span style="display:inline-flex;align-items:center;gap:6px;background:{{ o.pillBg }};border:1px solid {{ o.pillBd }};border-radius:999px;padding:3px 10px 3px 4px;font-size:12.5px;font-weight:600;color:{{ o.pillFg }};white-space:nowrap"><span style="width:20px;height:20px;border-radius:50%;background:{{ o.bg }};color:{{ o.fg }};display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0">{{ o.init }}</span>{{ o.name }}<sc-if value="{{ o.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;opacity:0.6;margin-left:2px">{{ o.tag }}</span></sc-if></span>
                   </sc-for>
                 </div>
               </div>
-              <div><span style="background:{{ r.tijdBg }};color:{{ r.tijdFg }};border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;white-space:nowrap">{{ r.tijd }}</span></div>
+              <div><span style="background:{{ r.tijdBg }};color:{{ r.tijdFg }};border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap">{{ r.tijd }}</span></div>
               <div style="position:relative">
-                <span onMouseEnter="{{ r.rtIn }}" onMouseLeave="{{ r.rtOut }}" style="font-size:12px;color:#6B7280;white-space:nowrap;border-bottom:1px dashed #C9D6E4;cursor:help">{{ r.route }}</span>
+                <span onMouseEnter="{{ r.rtIn }}" onMouseLeave="{{ r.rtOut }}" style="font-size:12.5px;color:#6B7280;white-space:nowrap;border-bottom:1px dashed #C9D6E4;cursor:help">{{ r.route }}</span>
                 <sc-if value="{{ r.rtOpen }}" hint-placeholder-val="{{ false }}">
-                  <div style="position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);width:290px;background:#0F2B50;color:#fff;border-radius:10px;padding:11px 13px;font-size:11px;line-height:1.55;z-index:60;box-shadow:0 10px 30px rgba(15,43,80,.35)">
+                  <div style="position:absolute;top:calc(100% + 7px);left:50%;transform:translateX(-50%);width:290px;background:#0F2B50;color:#fff;border-radius:10px;padding:11px 13px;font-size:11.5px;line-height:1.55;z-index:60;box-shadow:0 10px 30px rgba(15,43,80,.35)">
                     <div><strong style="color:#5BC4E8">Preferred (voorkeur)</strong> · de externe partij levert zelf aan via de unieke aanleverlink.</div>
                     <div style="margin-top:6px"><strong style="color:#5BC4E8">Partnerproces</strong> · aanlevering afgestemd op het werkproces van de externe partner.</div>
                     <div style="margin-top:6px"><strong style="color:#5BC4E8">Back-up</strong> · Global uploadt de uiting zelf namens de klant.</div>
@@ -210,30 +210,30 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
                 </sc-if>
               </div>
               <div>
-                <span style="display:inline-flex;align-items:center;gap:6px;background:{{ r.stBg }};color:{{ r.stFg }};border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:700;line-height:1.3"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.stFg }};flex-shrink:0"></span>{{ r.status }}</span>
+                <span style="display:inline-flex;align-items:center;gap:6px;background:{{ r.stBg }};color:{{ r.stFg }};border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;line-height:1.3"><span style="width:7px;height:7px;border-radius:50%;background:{{ r.stFg }};flex-shrink:0"></span>{{ r.status }}</span>
               </div>
             </div>
           </sc-for>
           <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13px">Geen dossiers binnen deze filters. Wie pakt wat anders op?</div>
+            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">Geen dossiers binnen deze filters. Wie pakt wat anders op?</div>
           </sc-if>
         </div>
       </div>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px">
-        <div style="font-size:12px;color:#6B7280">{{ pgInfo }}</div>
+        <div style="font-size:12.5px;color:#6B7280">{{ pgInfo }}</div>
         <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
           <div style="display:flex;align-items:center;gap:5px">
-            <span style="font-size:12px;color:#6B7280">Per pagina:</span>
+            <span style="font-size:12.5px;color:#6B7280">Per pagina:</span>
             <sc-for list="{{ ppBtns }}" as="pp" hint-placeholder-count="2">
-              <button onClick="{{ pp.pick }}" style="border:1px solid {{ pp.bd }};background:{{ pp.bg }};color:{{ pp.fg }};border-radius:999px;padding:4px 10px;font-size:12px;font-weight:600;cursor:pointer">{{ pp.n }}</button>
+              <button onClick="{{ pp.pick }}" style="border:1px solid {{ pp.bd }};background:{{ pp.bg }};color:{{ pp.fg }};border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:600;cursor:pointer">{{ pp.n }}</button>
             </sc-for>
           </div>
           <div style="display:flex;align-items:center;gap:5px">
-            <button onClick="{{ pgPrev }}" disabled="{{ pgPrevDis }}" style="border:1px solid #D5E0EC;background:#fff;color:{{ pgPrevFg }};border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer">‹ Vorige</button>
+            <button onClick="{{ pgPrev }}" disabled="{{ pgPrevDis }}" style="border:1px solid #D5E0EC;background:#fff;color:{{ pgPrevFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer">‹ Vorige</button>
             <sc-for list="{{ pgBtns }}" as="pb" hint-placeholder-count="3">
-              <button onClick="{{ pb.pick }}" style="border:1px solid {{ pb.bd }};background:{{ pb.bg }};color:{{ pb.fg }};border-radius:999px;min-width:30px;padding:4px 8px;font-size:12px;font-weight:700;cursor:pointer">{{ pb.n }}</button>
+              <button onClick="{{ pb.pick }}" style="border:1px solid {{ pb.bd }};background:{{ pb.bg }};color:{{ pb.fg }};border-radius:999px;min-width:30px;padding:4px 8px;font-size:12.5px;font-weight:700;cursor:pointer">{{ pb.n }}</button>
             </sc-for>
-            <button onClick="{{ pgNext }}" disabled="{{ pgNextDis }}" style="border:1px solid #D5E0EC;background:#fff;color:{{ pgNextFg }};border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600;cursor:pointer">Volgende ›</button>
+            <button onClick="{{ pgNext }}" disabled="{{ pgNextDis }}" style="border:1px solid #D5E0EC;background:#fff;color:{{ pgNextFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer">Volgende ›</button>
           </div>
         </div>
       </div>
@@ -242,24 +242,24 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
 
     <sc-if value="{{ isI2 }}" hint-placeholder-val="{{ false }}">
     <div data-id="i2" data-screen-label="I2 Dossierscherm" data-comment-anchor="539c02e10f-div">
-      <button onClick="{{ backToBoard }}" style="border:none;background:none;color:#1B4B89;font-size:13px;font-weight:600;cursor:pointer;padding:0 0 12px;font-family:inherit">‹ Terug naar teamcockpit</button>
+      <button onClick="{{ backToBoard }}" style="border:none;background:none;color:#1B4B89;font-size:13.5px;font-weight:600;cursor:pointer;padding:0 0 12px;font-family:inherit">‹ Terug naar teamcockpit</button>
       <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:18px 22px;box-shadow:0 4px 18px rgba(27,75,137,.08)" data-comment-anchor="d00b1d45a4-div">
         <div style="display:flex;align-items:center;gap:14px;flex-wrap:wrap">
           <div>
             <div style="font-size:21px;font-weight:800;color:#1B4B89">{{ d.camp }}</div>
-            <div style="color:#6B7280;font-size:13px">{{ d.klant }} · {{ d.sub }} · Ordernummer <strong style="color:#1B4B89;font-variant-numeric:tabular-nums">{{ d.ord }}</strong></div>
-            <div style="margin-top:7px"><span style="display:inline-flex;align-items:center;background:{{ d.tijdBg }};color:{{ d.tijdFg }};border-radius:999px;padding:4px 13px;font-size:12.5px;font-weight:700">{{ d.tijd }}</span></div>
+            <div style="color:#6B7280;font-size:13.5px">{{ d.klant }} · {{ d.sub }} · Ordernummer <strong style="color:#1B4B89;font-variant-numeric:tabular-nums">{{ d.ord }}</strong></div>
+            <div style="margin-top:7px"><span style="display:inline-flex;align-items:center;background:{{ d.tijdBg }};color:{{ d.tijdFg }};border-radius:999px;padding:4px 13px;font-size:13px;font-weight:700">{{ d.tijd }}</span></div>
           </div>
           <sc-if value="{{ stripShow }}" hint-placeholder-val="{{ false }}">
             <div data-id="antwoordstrook" style="margin-left:auto;background:{{ stripBg }};border:1px solid {{ stripBd }};border-left:4px solid {{ stripAccent }};border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;max-width:520px">
               <div style="flex:1;min-width:180px;display:flex;flex-direction:column;gap:2px">
-                <div style="font-size:9.5px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:{{ stripEyeFg }};white-space:nowrap">{{ stripEyebrow }}</div>
+                <div style="font-size:10.5px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:{{ stripEyeFg }};white-space:nowrap">{{ stripEyebrow }}</div>
                 <div style="font-size:13.5px;font-weight:700;color:#1B4B89">{{ stripTitle }}</div>
-                <sc-if value="{{ stripFactShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#575756">{{ stripFact }}</div></sc-if>
-                <sc-if value="{{ stripParShow }}" hint-placeholder-val="{{ false }}"><div style="display:inline-flex;align-items:center;gap:6px;margin-top:3px;border:1.5px dashed #C9D6E4;border-radius:999px;padding:2px 10px;font-size:11px;color:#575756;font-weight:600;align-self:flex-start">{{ stripPar }}</div></sc-if>
+                <sc-if value="{{ stripFactShow }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#575756">{{ stripFact }}</div></sc-if>
+                <sc-if value="{{ stripParShow }}" hint-placeholder-val="{{ false }}"><div style="display:inline-flex;align-items:center;gap:6px;margin-top:3px;border:1.5px dashed #C9D6E4;border-radius:999px;padding:2px 10px;font-size:11.5px;color:#575756;font-weight:600;align-self:flex-start">{{ stripPar }}</div></sc-if>
               </div>
               <sc-if value="{{ stripBtn }}" hint-placeholder-val="{{ false }}">
-                <button onClick="{{ stripClick }}" style="border:{{ stripBtnBd }};background:{{ stripBtnBg }};color:{{ stripBtnFg }};border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:{{ stripBtnShadow }};flex-shrink:0">{{ stripBtn }}</button>
+                <button onClick="{{ stripClick }}" style="border:{{ stripBtnBd }};background:{{ stripBtnBg }};color:{{ stripBtnFg }};border-radius:999px;padding:7px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit;box-shadow:{{ stripBtnShadow }};flex-shrink:0">{{ stripBtn }}</button>
               </sc-if>
             </div>
           </sc-if>
@@ -267,7 +267,7 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       </div>
 
       <sc-if value="{{ dMelding }}" hint-placeholder-val="{{ false }}">
-        <div style="background:#F3F4F6;border:1px solid #E5E7EB;border-radius:14px;padding:14px 20px;margin-top:14px;font-size:13px;color:#6B7280;font-weight:600">{{ dMelding }}</div>
+        <div style="background:#F3F4F6;border:1px solid #E5E7EB;border-radius:14px;padding:14px 20px;margin-top:14px;font-size:13.5px;color:#6B7280;font-weight:600">{{ dMelding }}</div>
       </sc-if>
 
       <div onClick="{{ openFlow }}" role="button" tabIndex="0" title="Klik voor de procesflow" style-hover="box-shadow:0 6px 22px rgba(27,75,137,.12)" style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:18px 22px 14px;margin-top:14px;box-shadow:0 4px 18px rgba(27,75,137,.08);cursor:pointer;transition:box-shadow .15s">
@@ -275,20 +275,20 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
           <sc-for list="{{ phases }}" as="p" hint-placeholder-count="6">
             <div style="flex:1;min-width:110px;text-align:center;position:relative">
               <div style="height:1.5px;background:{{ p.lineBg }};position:absolute;top:13px;left:{{ p.lineLeft }};right:{{ p.lineRight }};z-index:0"></div>
-              <div style="width:{{ p.size }};height:{{ p.size }};border-radius:50%;background:{{ p.bg }};color:{{ p.fg }};border:2px solid {{ p.bd }};box-shadow:{{ p.ring }};display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;position:relative;z-index:1">{{ p.mark }}</div>
-              <div style="font-size:11px;margin-top:4px;color:{{ p.tFg }};font-weight:{{ p.tW }}">{{ p.name }}</div>
+              <div style="width:{{ p.size }};height:{{ p.size }};border-radius:50%;background:{{ p.bg }};color:{{ p.fg }};border:2px solid {{ p.bd }};box-shadow:{{ p.ring }};display:inline-flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;position:relative;z-index:1">{{ p.mark }}</div>
+              <div style="font-size:11.5px;margin-top:4px;color:{{ p.tFg }};font-weight:{{ p.tW }}">{{ p.name }}</div>
             </div>
           </sc-for>
         </div>
         <div style="display:flex;align-items:center;gap:8px;margin-top:8px;justify-content:center;flex-wrap:wrap" data-comment-anchor="8c9b478617-div">
-          <span style="background:{{ d.routeBg }};color:{{ d.routeFg }};border-radius:6px;padding:2px 10px;font-size:11px;font-weight:600">Route: {{ d.route }}</span>
-          <span style="font-size:11px;color:#6B7280">Klik op de tracker voor de procesflow</span>
+          <span style="background:{{ d.routeBg }};color:{{ d.routeFg }};border-radius:6px;padding:2px 10px;font-size:11.5px;font-weight:600">Route: {{ d.route }}</span>
+          <span style="font-size:11.5px;color:#6B7280">Klik op de tracker voor de procesflow</span>
         </div>
       </div>
 
       <div style="display:flex;align-items:center;gap:14px;margin:34px 0 16px" data-comment-anchor="3411453943-div">
         <div style="flex:1;height:1px;background:#C9D6E4"></div>
-        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid #C9D6E4;border-radius:999px;padding:5px 16px;background:#F7FAFD;font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;display:block"><circle cx="7" cy="7" r="5.7"></circle><path d="M7 6.4v3.4"></path><path d="M7 4.2v.1" stroke-linecap="round" stroke-width="2"></path></svg>Meer info</div>
+        <div style="display:inline-flex;align-items:center;gap:7px;border:1px solid #C9D6E4;border-radius:999px;padding:5px 16px;background:#F7FAFD;font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;white-space:nowrap"><svg width="13" height="13" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="1.5" style="flex-shrink:0;display:block"><circle cx="7" cy="7" r="5.7"></circle><path d="M7 6.4v3.4"></path><path d="M7 4.2v.1" stroke-linecap="round" stroke-width="2"></path></svg>Meer info</div>
         <div style="flex:1;height:1px;background:#C9D6E4"></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:16px">
@@ -296,9 +296,9 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       <sc-if value="{{ hasMatrix }}" hint-placeholder-val="{{ false }}">
       <div style-hover="transform:translateY(-1px)" style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:20px 22px;transition:transform .15s" data-comment-anchor="93d8503bfb-div">
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:10px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280" data-comment-anchor="ba1c0f60b8-div">Aan te leveren uitingen</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280" data-comment-anchor="ba1c0f60b8-div">Aan te leveren uitingen</div>
           <div style="margin-left:auto;display:flex;align-items:center;gap:8px">
-            <span style="font-size:12px;color:#374151;font-weight:600;white-space:nowrap">Aangeleverd: {{ mxDel }} van {{ mxTot }}</span>
+            <span style="font-size:12.5px;color:#374151;font-weight:600;white-space:nowrap">Aangeleverd: {{ mxDel }} van {{ mxTot }}</span>
             <span style="width:70px;height:6px;border-radius:999px;background:#EAF2FB;overflow:hidden;display:inline-block;flex-shrink:0"><span style="display:block;height:100%;width:{{ mxPct }};background:#1B4B89;border-radius:999px"></span></span>
           </div>
         </div>
@@ -306,34 +306,34 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
           <sc-for list="{{ mxRows }}" as="mx" hint-placeholder-count="2">
             <div style="border-top:1px solid #EEF3F9">
               <div style="padding:9px 0">
-                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:12.5px">
-                  <span style="width:158px;flex-shrink:0"><span style="background:{{ mx.stBg }};color:{{ mx.stFg }};border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap;display:inline-block">{{ mx.st }}</span></span>
+                <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;font-size:13px">
+                  <span style="width:158px;flex-shrink:0"><span style="background:{{ mx.stBg }};color:{{ mx.stFg }};border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap;display:inline-block">{{ mx.st }}</span></span>
                   <div style="font-weight:600;color:#1B4B89;min-width:150px">{{ mx.oms }}</div>
-                  <span style="font-size:11.5px;color:#6B7280;flex:1;min-width:160px;overflow-wrap:anywhere;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap"><span>Bestand: {{ mx.file }}</span><sc-if value="{{ mx.backup }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 8px;font-size:9.5px;font-weight:700;white-space:nowrap">{{ mx.backup }}</span></sc-if></span>
+                  <span style="font-size:12px;color:#6B7280;flex:1;min-width:160px;overflow-wrap:anywhere;display:inline-flex;align-items:center;gap:6px;flex-wrap:wrap"><span>Bestand: {{ mx.file }}</span><sc-if value="{{ mx.backup }}" hint-placeholder-val="{{ false }}"><span style="display:inline-block;background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ mx.backup }}</span></sc-if></span>
                   <sc-for list="{{ mx.ords }}" as="oc" hint-placeholder-count="1">
-                    <span style="background:#EAF2FB;color:#1B4B89;border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap">{{ oc.x }}</span>
+                    <span style="background:#EAF2FB;color:#1B4B89;border-radius:6px;padding:2px 8px;font-size:11px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap">{{ oc.x }}</span>
                   </sc-for>
-                  <sc-if value="{{ mx.cnt }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:44px;height:5px;border-radius:999px;background:#EAF2FB;overflow:hidden;display:inline-block"><span style="display:block;height:100%;width:{{ mx.cntPct }};background:#1B4B89;border-radius:999px"></span></span><span style="font-size:10.5px;font-weight:700;color:#1B4B89">{{ mx.cnt }}</span></span></sc-if>
-                  <button onClick="{{ mx.openSpec }}" style-hover="background:#EAF2FB" style="border:none;background:none;color:#1B4B89;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:3px 8px;border-radius:7px;white-space:nowrap;transition:background .15s"><svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" style="flex-shrink:0;display:block"><path d="M7.5 1H2.2C1.5 1 1 1.5 1 2.2v9.6c0 .7.5 1.2 1.2 1.2h7.6c.7 0 1.2-.5 1.2-1.2V4.5L7.5 1Z"></path><path d="M7.5 1v3.5H11"></path></svg>Specificaties</button>
+                  <sc-if value="{{ mx.cnt }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;gap:6px;white-space:nowrap"><span style="width:44px;height:5px;border-radius:999px;background:#EAF2FB;overflow:hidden;display:inline-block"><span style="display:block;height:100%;width:{{ mx.cntPct }};background:#1B4B89;border-radius:999px"></span></span><span style="font-size:11px;font-weight:700;color:#1B4B89">{{ mx.cnt }}</span></span></sc-if>
+                  <button onClick="{{ mx.openSpec }}" style-hover="background:#EAF2FB" style="border:none;background:none;color:#1B4B89;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:5px;padding:3px 8px;border-radius:7px;white-space:nowrap;transition:background .15s"><svg width="12" height="14" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" style="flex-shrink:0;display:block"><path d="M7.5 1H2.2C1.5 1 1 1.5 1 2.2v9.6c0 .7.5 1.2 1.2 1.2h7.6c.7 0 1.2-.5 1.2-1.2V4.5L7.5 1Z"></path><path d="M7.5 1v3.5H11"></path></svg>Specificaties</button>
                   <sc-if value="{{ buShow }}" hint-placeholder-val="{{ false }}">
-                    <button onClick="{{ buOpen }}" disabled="{{ buBtnDis }}" style="border:1px solid {{ buBd }};background:{{ buBg }};color:{{ buFg }};border-radius:7px;padding:3px 10px;font-size:11px;font-weight:600;cursor:{{ buCur }};font-family:inherit;white-space:nowrap;transition:all .15s">Uploaden namens klant</button>
+                    <button onClick="{{ buOpen }}" disabled="{{ buBtnDis }}" style="border:1px solid {{ buBd }};background:{{ buBg }};color:{{ buFg }};border-radius:7px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:{{ buCur }};font-family:inherit;white-space:nowrap;transition:all .15s">Uploaden namens klant</button>
                   </sc-if>
                 </div>
               </div>
               </div>
               <sc-if value="{{ mx.guard }}" hint-placeholder-val="{{ false }}">
-                <div style="display:inline-flex;align-items:center;gap:6px;background:#FBF0E4;border:1px solid #EBD3B3;color:#B45309;border-radius:999px;padding:2px 10px;font-size:10px;font-weight:700;margin-bottom:9px">{{ mx.guard }}</div>
+                <div style="display:inline-flex;align-items:center;gap:6px;background:#FBF0E4;border:1px solid #EBD3B3;color:#B45309;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;margin-bottom:9px">{{ mx.guard }}</div>
               </sc-if>
               <sc-if value="{{ mx.reden }}" hint-placeholder-val="{{ false }}">
-                <div style="font-size:11.5px;color:#B91C1C;padding:0 0 9px">Reden afkeuring: {{ mx.reden }}</div>
+                <div style="font-size:12px;color:#B91C1C;padding:0 0 9px">Reden afkeuring: {{ mx.reden }}</div>
               </sc-if>
             </div>
           </sc-for>
         </div>
         <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:10px;border-top:1px solid #EEF3F9;padding-top:10px">
-          <sc-if value="{{ buNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#6B7280">{{ buNote }}</div></sc-if>
+          <sc-if value="{{ buNote }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#6B7280">{{ buNote }}</div></sc-if>
           <sc-if value="{{ deelliveShow }}" hint-placeholder-val="{{ false }}">
-            <button onClick="{{ deelliveOpenFn }}" style="margin-left:auto;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer">Deellivegang aanvragen</button>
+            <button onClick="{{ deelliveOpenFn }}" style="margin-left:auto;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:6px 14px;font-size:12.5px;font-weight:600;cursor:pointer">Deellivegang aanvragen</button>
           </sc-if>
         </div>
       </div>
@@ -341,45 +341,45 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
 
         <div style="display:grid;grid-template-columns:1.6fr 1fr;gap:16px;align-items:start">
           <div style="background:#FAFBFD;border:1px solid #E7EDF4;border-radius:16px;padding:20px 22px" data-comment-anchor="7f2fe7b33e-div">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:10px">Tijdlijn · event log</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:10px">Tijdlijn · event log</div>
           <sc-if value="{{ lastMsgHas }}" hint-placeholder-val="{{ false }}">
             <button onClick="{{ lastMsgClick }}" style-hover="border-color:#9CB8D6" style="width:100%;display:flex;align-items:center;gap:9px;background:#EAF2FB;border:1px solid #C9DEF2;border-radius:999px;padding:8px 12px;margin-bottom:10px;cursor:pointer;font-family:inherit;text-align:left;transition:border-color .15s">
               <svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="#1B4B89" stroke-width="1.3" style="flex-shrink:0;display:block"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg>
-              <span style="font-size:12px;color:#1B4B89;line-height:1.4"><strong>Laatste bericht:</strong> {{ lastMsgTxt }}</span>
+              <span style="font-size:12.5px;color:#1B4B89;line-height:1.4"><strong>Laatste bericht:</strong> {{ lastMsgTxt }}</span>
               <span style="margin-left:auto;color:#1B4B89;font-size:15px;font-weight:700;line-height:1">›</span>
             </button>
           </sc-if>
           <sc-if value="{{ lastMsgNone }}" hint-placeholder-val="{{ false }}">
-            <div style="display:flex;align-items:center;gap:9px;background:#F8FAFD;border:1px dashed #E4ECF5;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:12px;color:#9CA3AF"><svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="#C9D6E4" stroke-width="1.3" style="flex-shrink:0;display:block"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg>Nog geen berichten verstuurd</div>
+            <div style="display:flex;align-items:center;gap:9px;background:#F8FAFD;border:1px dashed #E4ECF5;border-radius:10px;padding:8px 12px;margin-bottom:10px;font-size:12.5px;color:#9CA3AF"><svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="#C9D6E4" stroke-width="1.3" style="flex-shrink:0;display:block"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg>Nog geen berichten verstuurd</div>
           </sc-if>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-bottom:12px">
             <sc-for list="{{ tlChips }}" as="c" hint-placeholder-count="4">
-              <button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};border-radius:999px;padding:3px 12px;font-size:11px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">{{ c.label }}<sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}"><span style="background:rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:0 7px;font-size:10px;font-weight:700">{{ c.n }}</span></sc-if></button>
+              <button onClick="{{ c.pick }}" style="border:1.5px solid {{ c.bd }};background:{{ c.bg }};color:{{ c.fg }};border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:6px">{{ c.label }}<sc-if value="{{ c.on }}" hint-placeholder-val="{{ false }}"><span style="background:rgba(255,255,255,.25);color:#fff;border-radius:999px;padding:0 7px;font-size:10.5px;font-weight:700">{{ c.n }}</span></sc-if></button>
             </sc-for>
           </div>
           <div style="display:flex;flex-direction:column;gap:11px">
             <sc-for list="{{ tl }}" as="e" hint-placeholder-count="4">
               <div onClick="{{ e.click }}" style="display:flex;gap:10px;align-items:flex-start;cursor:{{ e.cur }}">
-                <div style="font-size:11px;color:#6B7280;min-width:78px;padding-top:3px">{{ e.t }}</div>
-                <span style="display:inline-flex;align-items:center;gap:4px;background:{{ e.bg }};color:{{ e.fg }};border-radius:999px;padding:2px 9px;font-size:10.5px;font-weight:600;white-space:nowrap">{{ e.who }}</span>
-                <div style="font-size:12.5px;color:{{ e.xFg }};font-weight:{{ e.xW }};flex:1"><sc-if value="{{ e.isCom }}" hint-placeholder-val="{{ false }}"><svg width="13" height="10" viewBox="0 0 14 11" fill="none" stroke="currentColor" stroke-width="1.3" style="display:inline-block;vertical-align:-1px;margin-right:5px"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg></sc-if>{{ e.x }}<sc-if value="{{ e.inTag }}" hint-placeholder-val="{{ false }}"><span style="margin-left:7px;background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 8px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Inkomend</span></sc-if><sc-if value="{{ e.hasDet }}" hint-placeholder-val="{{ false }}"><span style="margin-left:7px;color:#1B4B89;font-size:10px;font-weight:700">{{ e.detChev }}</span></sc-if><sc-if value="{{ e.detOpen }}" hint-placeholder-val="{{ false }}"><div style="margin-top:5px;background:#F5F8FC;border:1px solid #E4ECF5;border-radius:8px;padding:7px 10px;font-size:11.5px;color:#6B7280;font-weight:400">{{ e.det }}</div></sc-if></div>
+                <div style="font-size:11.5px;color:#6B7280;min-width:78px;padding-top:3px">{{ e.t }}</div>
+                <span style="display:inline-flex;align-items:center;gap:4px;background:{{ e.bg }};color:{{ e.fg }};border-radius:999px;padding:2px 9px;font-size:11px;font-weight:600;white-space:nowrap">{{ e.who }}</span>
+                <div style="font-size:13px;color:{{ e.xFg }};font-weight:{{ e.xW }};flex:1"><sc-if value="{{ e.isCom }}" hint-placeholder-val="{{ false }}"><svg width="13" height="10" viewBox="0 0 14 11" fill="none" stroke="currentColor" stroke-width="1.3" style="display:inline-block;vertical-align:-1px;margin-right:5px"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg></sc-if>{{ e.x }}<sc-if value="{{ e.inTag }}" hint-placeholder-val="{{ false }}"><span style="margin-left:7px;background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Inkomend</span></sc-if><sc-if value="{{ e.hasDet }}" hint-placeholder-val="{{ false }}"><span style="margin-left:7px;color:#1B4B89;font-size:10.5px;font-weight:700">{{ e.detChev }}</span></sc-if><sc-if value="{{ e.detOpen }}" hint-placeholder-val="{{ false }}"><div style="margin-top:5px;background:#F5F8FC;border:1px solid #E4ECF5;border-radius:8px;padding:7px 10px;font-size:12px;color:#6B7280;font-weight:400">{{ e.det }}</div></sc-if></div>
               </div>
             </sc-for>
           </div>
           </div>
           <div style="background:#FAFBFD;border:1px solid #E7EDF4;border-radius:16px;padding:16px 20px" data-comment-anchor="8256975323-div">
-            <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:10px" data-comment-anchor="bc0bff1b73-div">Andere lopende uitvragen bij deze klant</div>
-            <sc-if value="{{ noOthers }}" hint-placeholder-val="{{ true }}"><div style="font-size:13px;color:#6B7280">Geen andere lopende uitvragen.</div></sc-if>
+            <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:10px" data-comment-anchor="bc0bff1b73-div">Andere lopende uitvragen bij deze klant</div>
+            <sc-if value="{{ noOthers }}" hint-placeholder-val="{{ true }}"><div style="font-size:13.5px;color:#6B7280">Geen andere lopende uitvragen.</div></sc-if>
             <div style="display:flex;flex-direction:column;gap:8px">
             <sc-for list="{{ others }}" as="ot" hint-placeholder-count="1">
               <button onClick="{{ ot.open }}" style-hover="border-color:#9CB8D6" style="border:1px solid #E4ECF5;background:#fff;border-radius:11px;padding:10px 12px;cursor:pointer;font-family:inherit;text-align:left;display:flex;flex-direction:column;gap:7px;width:100%;transition:border-color .15s">
                 <span style="display:flex;align-items:center;gap:10px;width:100%">
-                  <span style="flex:1;min-width:0;font-size:12.5px;color:#1B4B89;line-height:1.35"><span style="font-weight:700">{{ ot.camp }}</span><span style="color:#6B7280;font-weight:500"> · {{ ot.klant }}</span></span>
-                  <span style="border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:3px 10px;font-size:11px;font-weight:600;white-space:nowrap;flex-shrink:0">Meer info ›</span>
+                  <span style="flex:1;min-width:0;font-size:13px;color:#1B4B89;line-height:1.35"><span style="font-weight:700">{{ ot.camp }}</span><span style="color:#6B7280;font-weight:500"> · {{ ot.klant }}</span></span>
+                  <span style="border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;white-space:nowrap;flex-shrink:0">Meer info ›</span>
                 </span>
                 <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-                  <span style="background:{{ ot.stBg }};color:{{ ot.stFg }};border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ ot.st }}</span>
-                  <sc-if value="{{ ot.tijd }}" hint-placeholder-val="{{ false }}"><span style="font-size:10.5px;color:#6B7280;font-weight:600;white-space:nowrap">{{ ot.tijd }}</span></sc-if>
+                  <span style="background:{{ ot.stBg }};color:{{ ot.stFg }};border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap">{{ ot.st }}</span>
+                  <sc-if value="{{ ot.tijd }}" hint-placeholder-val="{{ false }}"><span style="font-size:11px;color:#6B7280;font-weight:600;white-space:nowrap">{{ ot.tijd }}</span></sc-if>
                 </span>
               </button>
             </sc-for>
@@ -398,15 +398,15 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       <div style="width:1px;height:24px;background:#D5E0EC"></div>
       <div>
         <div style="font-weight:800;color:#1B4B89;font-size:18px;line-height:1.2">Procesmonitor</div>
-        <div style="font-size:11px;color:#6B7280">Waar zit het werk in het proces · live afgeleid uit de dossiers</div>
+        <div style="font-size:11.5px;color:#6B7280">Waar zit het werk in het proces · live afgeleid uit de dossiers</div>
       </div>
-      <button onClick="{{ monBack }}" style="margin-left:auto;border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:6px 16px;font-size:12.5px;font-weight:600;cursor:pointer">‹ Naar teamcockpit</button>
+      <button onClick="{{ monBack }}" style="margin-left:auto;border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:6px 16px;font-size:13px;font-weight:600;cursor:pointer">‹ Naar teamcockpit</button>
     </div>
     <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:14px 20px;box-shadow:0 2px 10px rgba(27,75,137,.06);display:flex;align-items:center;gap:14px;flex-wrap:wrap">
       <div style="font-size:15px;font-weight:700;color:#1B4B89">{{ monTotU }} actieve uitingen in {{ monTotD }} dossiers</div>
       <div style="margin-left:auto;display:flex;gap:8px">
-        <span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600">afgerond: {{ monTotAf }}</span>
-        <span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600">vervallen: {{ monTotVv }}</span>
+        <span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600">afgerond: {{ monTotAf }}</span>
+        <span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600">vervallen: {{ monTotVv }}</span>
       </div>
     </div>
     <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:20px 24px;margin-top:14px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
@@ -414,19 +414,19 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <sc-for list="{{ monSecs }}" as="ms" hint-placeholder-count="6">
           <div style="display:flex;gap:14px">
             <div style="display:flex;flex-direction:column;align-items:center">
-              <div style="width:26px;height:26px;border-radius:50%;background:#0B78BE;color:#fff;border:2px solid #0B78BE;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">{{ ms.nr }}</div>
+              <div style="width:26px;height:26px;border-radius:50%;background:#0B78BE;color:#fff;border:2px solid #0B78BE;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;flex-shrink:0">{{ ms.nr }}</div>
               <sc-if value="{{ ms.line }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;background:#BFD7F0;min-height:14px"></div></sc-if>
             </div>
             <div style="flex:1;padding:3px 0 18px">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                 <div style="font-size:13.5px;font-weight:700;color:#1B4B89">{{ ms.name }}</div>
-                <span style="background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:1px 10px;font-size:10.5px;font-weight:700">{{ ms.tot }}</span>
+                <span style="background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:1px 10px;font-size:11px;font-weight:700">{{ ms.tot }}</span>
               </div>
               <div style="display:flex;gap:6px;row-gap:8px;flex-wrap:wrap;margin-top:6px;align-items:center">
                 <sc-for list="{{ ms.steps }}" as="st" hint-placeholder-count="4">
                   <span style="display:inline-flex;align-items:center;gap:6px">
-                    <button onClick="{{ st.click }}" style="display:inline-flex;align-items:center;gap:7px;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11px;font-weight:600;cursor:{{ st.cur }};font-family:inherit">{{ st.label }}<sc-if value="{{ st.has }}" hint-placeholder-val="{{ false }}"><span style="background:{{ st.nBg }};color:{{ st.nFg }};border-radius:999px;padding:0 8px;font-size:10.5px;font-weight:800;line-height:1.6">{{ st.n }}</span></sc-if></button>
-                    <sc-if value="{{ st.arrow }}" hint-placeholder-val="{{ true }}"><span style="color:#9CB8D6;font-size:12px;font-weight:800">→</span></sc-if>
+                    <button onClick="{{ st.click }}" style="display:inline-flex;align-items:center;gap:7px;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600;cursor:{{ st.cur }};font-family:inherit">{{ st.label }}<sc-if value="{{ st.has }}" hint-placeholder-val="{{ false }}"><span style="background:{{ st.nBg }};color:{{ st.nFg }};border-radius:999px;padding:0 8px;font-size:11px;font-weight:800;line-height:1.6">{{ st.n }}</span></sc-if></button>
+                    <sc-if value="{{ st.arrow }}" hint-placeholder-val="{{ true }}"><span style="color:#9CB8D6;font-size:12.5px;font-weight:800">→</span></sc-if>
                   </span>
                 </sc-for>
               </div>
@@ -435,15 +435,15 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </sc-for>
       </div>
       <div style="margin-top:4px;border-top:1px solid #EEF3F9;padding-top:12px">
-        <div style="font-size:10px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF;margin-bottom:4px">Mutaties</div>
-        <div style="font-size:11px;color:#6B7280;margin-bottom:8px">Komen in elke fase binnen vanuit Salesforce: <strong style="color:#374151">Vervallen</strong> stopt het dossier en alle communicatie; <strong style="color:#374151">Gewijzigd</strong> past de deadline en bewaking automatisch aan, waarna het dossier verdergaat in zijn actuele fase.</div>
+        <div style="font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF;margin-bottom:4px">Mutaties</div>
+        <div style="font-size:11.5px;color:#6B7280;margin-bottom:8px">Komen in elke fase binnen vanuit Salesforce: <strong style="color:#374151">Vervallen</strong> stopt het dossier en alle communicatie; <strong style="color:#374151">Gewijzigd</strong> past de deadline en bewaking automatisch aan, waarna het dossier verdergaat in zijn actuele fase.</div>
         <div style="display:flex;gap:6px;flex-wrap:wrap">
           <sc-for list="{{ monMuts }}" as="st" hint-placeholder-count="2">
-            <button onClick="{{ st.click }}" style="display:inline-flex;align-items:center;gap:7px;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11px;font-weight:600;cursor:{{ st.cur }};font-family:inherit">{{ st.label }}<span style="background:{{ st.nBg }};color:{{ st.nFg }};border-radius:999px;padding:0 8px;font-size:10.5px;font-weight:800;line-height:1.6">{{ st.n }}</span></button>
+            <button onClick="{{ st.click }}" style="display:inline-flex;align-items:center;gap:7px;background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600;cursor:{{ st.cur }};font-family:inherit">{{ st.label }}<span style="background:{{ st.nBg }};color:{{ st.nFg }};border-radius:999px;padding:0 8px;font-size:11px;font-weight:800;line-height:1.6">{{ st.n }}</span></button>
           </sc-for>
         </div>
       </div>
-      <div style="font-size:11.5px;color:#6B7280;margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px">Klik op een stap met teller voor de uitleg en de lijst van uitingen die er nu zitten. Alleen aantallen · geen grafieken of doorlooptijden.</div>
+      <div style="font-size:12px;color:#6B7280;margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px">Klik op een stap met teller voor de uitleg en de lijst van uitingen die er nu zitten. Alleen aantallen · geen grafieken of doorlooptijden.</div>
     </div>
   </div>
   </sc-if>
@@ -455,14 +455,14 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       <div style="font-weight:800;color:#195AA6;font-size:15px">{{ appName }}</div>
       <div style="margin-left:auto;display:flex;gap:4px;background:#fff;border:1px solid #C9D6E4;border-radius:999px;padding:3px">
         <sc-for list="{{ langBtns }}" as="b" hint-placeholder-count="2">
-          <button onClick="{{ b.pick }}" style="border:none;background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600;cursor:pointer">{{ b.label }}</button>
+          <button onClick="{{ b.pick }}" style="border:none;background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 12px;font-size:12.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
     </div>
     <sc-if value="{{ extOverview }}" hint-placeholder-val="{{ false }}">
       <div style="margin:10px 0 14px">
         <div style="font-size:23px;font-weight:800;color:#1B4B89">{{ tx.ovTitle }}</div>
-        <div style="font-size:13px;color:#6B7280;margin-top:3px">{{ tx.ovSub }} <strong style="color:#1B4B89">{{ ext.partyName }}</strong></div>
+        <div style="font-size:13.5px;color:#6B7280;margin-top:3px">{{ tx.ovSub }} <strong style="color:#1B4B89">{{ ext.partyName }}</strong></div>
       </div>
       <sc-if value="{{ ovActKop }}" hint-placeholder-val="{{ true }}">
         <div style="display:flex;align-items:center;gap:10px;background:#EAF2FB;border:1px solid #C9DEF2;border-radius:12px;padding:11px 16px;margin-bottom:16px">
@@ -471,7 +471,7 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </div>
       </sc-if>
       <div style="display:flex;align-items:center;gap:10px;margin:2px 0 10px">
-        <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ tx.grpAct }} ({{ ovActN }})</div>
+        <div style="font-size:11.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ tx.grpAct }} ({{ ovActN }})</div>
         <div style="flex:1;height:1px;background:#C9DEF2"></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
@@ -479,29 +479,29 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
           <button onClick="{{ o.open }}" style-hover="border-color:#0B78BE;box-shadow:0 6px 18px rgba(27,75,137,.13)" style="text-align:left;display:flex;flex-direction:column;gap:7px;background:#fff;border:1.5px solid #D8E5F2;border-left:4px solid #0B78BE;border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .15s;font-family:inherit;width:100%">
             <span style="display:flex;align-items:center;gap:12px;width:100%">
               <span style="flex:1;min-width:0;font-size:14.5px;font-weight:700;color:#1B4B89">{{ o.camp }}</span>
-              <span style="background:{{ o.stBg }};color:{{ o.stFg }};border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;white-space:nowrap">{{ o.st }}</span>
+              <span style="background:{{ o.stBg }};color:{{ o.stFg }};border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;white-space:nowrap">{{ o.st }}</span>
               <span style="color:#0B78BE;font-size:18px;font-weight:700;line-height:1">›</span>
             </span>
-            <span style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px">
+            <span style="display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px">
               <span style="color:#6B7280">{{ o.net }}</span>
               <span style="color:{{ o.dlFg }};font-weight:{{ o.dlW }}">{{ o.dl }}</span>
             </span>
             <sc-if value="{{ o.teller }}" hint-placeholder-val="{{ false }}">
-              <span style="display:flex;align-items:center;gap:8px;font-size:12px;color:#1B4B89;font-weight:600">
+              <span style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#1B4B89;font-weight:600">
                 <span style="width:60px;height:5px;border-radius:999px;background:#EAF2FB;overflow:hidden;display:inline-block;flex-shrink:0"><span style="display:block;height:100%;width:{{ o.tellerPct }};background:#0B78BE;border-radius:999px"></span></span>{{ o.teller }}
               </span>
             </sc-if>
             <sc-if value="{{ o.guard }}" hint-placeholder-val="{{ false }}">
-              <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;color:#B45309"><span style="width:7px;height:7px;border-radius:50%;background:#B45309"></span>{{ o.guard }}</span>
+              <span style="align-self:flex-start;display:inline-flex;align-items:center;gap:7px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;color:#B45309"><span style="width:7px;height:7px;border-radius:50%;background:#B45309"></span>{{ o.guard }}</span>
             </sc-if>
           </button>
         </sc-for>
       </div>
       <sc-if value="{{ ovActEmpty }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:12px;padding:12px 16px;font-size:12.5px;color:#9CA3AF">{{ tx.noActNow }}</div>
+        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:12px;padding:12px 16px;font-size:13px;color:#9CA3AF">{{ tx.noActNow }}</div>
       </sc-if>
       <div style="display:flex;align-items:center;gap:10px;margin:22px 0 10px">
-        <div style="font-size:11px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#9CA3AF">{{ tx.grpNo }} ({{ ovRestN }})</div>
+        <div style="font-size:11.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#9CA3AF">{{ tx.grpNo }} ({{ ovRestN }})</div>
         <div style="flex:1;height:1px;background:#DDE6F0"></div>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
@@ -509,29 +509,29 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
           <button onClick="{{ o.open }}" style-hover="border-color:#0B78BE;box-shadow:0 6px 18px rgba(27,75,137,.13)" style="text-align:left;display:flex;flex-direction:column;gap:7px;background:#fff;border:1.5px solid #E4ECF5;border-radius:14px;padding:14px 18px;cursor:pointer;transition:all .15s;font-family:inherit;width:100%;opacity:0.72">
             <span style="display:flex;align-items:center;gap:12px;width:100%">
               <span style="flex:1;min-width:0;font-size:14.5px;font-weight:700;color:#1B4B89">{{ o.camp }}</span>
-              <span style="background:{{ o.stBg }};color:{{ o.stFg }};border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;white-space:nowrap">{{ o.st }}</span>
+              <span style="background:{{ o.stBg }};color:{{ o.stFg }};border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;white-space:nowrap">{{ o.st }}</span>
               <span style="color:#9CA3AF;font-size:18px;font-weight:700;line-height:1">›</span>
             </span>
-            <span style="display:flex;gap:14px;flex-wrap:wrap;font-size:12px">
+            <span style="display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px">
               <span style="color:#6B7280">{{ o.net }}</span>
               <span style="color:{{ o.dlFg }};font-weight:{{ o.dlW }}">{{ o.dl }}</span>
             </span>
           </button>
         </sc-for>
       </div>
-      <div style="margin-top:14px;font-size:12px;color:#6B7280">{{ tx.ovNote }}</div>
+      <div style="margin-top:14px;font-size:12.5px;color:#6B7280">{{ tx.ovNote }}</div>
     </sc-if>
     <sc-if value="{{ extDetail }}" hint-placeholder-val="{{ true }}">
-    <button onClick="{{ backToOv }}" style="border:none;background:none;color:#0B78BE;font-size:13px;font-weight:600;cursor:pointer;padding:0 0 12px;font-family:inherit">‹ {{ tx.back }}</button>
-    <div style="font-size:12px;color:#6B7280;margin-bottom:14px">{{ tx.persLink }} <strong style="color:#1B4B89">{{ ext.partyName }}</strong></div>
+    <button onClick="{{ backToOv }}" style="border:none;background:none;color:#0B78BE;font-size:13.5px;font-weight:600;cursor:pointer;padding:0 0 12px;font-family:inherit">‹ {{ tx.back }}</button>
+    <div style="font-size:12.5px;color:#6B7280;margin-bottom:14px">{{ tx.persLink }} <strong style="color:#1B4B89">{{ ext.partyName }}</strong></div>
     <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:22px 26px;box-shadow:0 6px 22px rgba(27,75,137,.10)">
       <div style="display:flex;align-items:flex-start;gap:14px;flex-wrap:wrap;padding-bottom:14px;border-bottom:1px solid #EEF3F9;margin-bottom:14px">
         <div style="flex:1;min-width:220px">
-          <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ tx.specTitle }}</div>
+          <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ tx.specTitle }}</div>
           <div style="font-size:21px;font-weight:700;color:#1B4B89;line-height:1.25;margin-top:4px">{{ ext.camp }}</div>
-          <div style="font-size:12.5px;color:#6B7280;margin-top:3px">{{ tx.network }}: {{ ext.netwerk }}</div>
+          <div style="font-size:13px;color:#6B7280;margin-top:3px">{{ tx.network }}: {{ ext.netwerk }}</div>
         </div>
-        <span style="background:#EAF2FB;border-radius:999px;padding:6px 14px;font-size:12.5px;color:{{ ext.dlFg }};font-weight:700;white-space:nowrap">{{ ext.deadline }}</span>
+        <span style="background:#EAF2FB;border-radius:999px;padding:6px 14px;font-size:13px;color:{{ ext.dlFg }};font-weight:700;white-space:nowrap">{{ ext.deadline }}</span>
       </div>
       <div style="display:flex;flex-direction:column;gap:10px">
         <sc-for list="{{ ext.rows }}" as="ar" hint-placeholder-count="2">
@@ -539,28 +539,28 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             <div style="display:flex;align-items:flex-start;gap:10px;flex-wrap:wrap">
               <div style="flex:1;min-width:200px">
                 <div style="font-size:13.5px;font-weight:700;color:#1B4B89">{{ ar.name }}</div>
-                <button onClick="{{ ar.openSpec }}" style-hover="background:rgba(11,120,190,.08)" style="margin-top:3px;border:none;background:none;color:#0B78BE;font-size:11px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;padding:2px 8px 2px 0;border-radius:6px;display:inline-flex;align-items:center;gap:5px;transition:background .15s"><svg width="11" height="13" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" style="flex-shrink:0;display:block"><path d="M7.5 1H2.2C1.5 1 1 1.5 1 2.2v9.6c0 .7.5 1.2 1.2 1.2h7.6c.7 0 1.2-.5 1.2-1.2V4.5L7.5 1Z"></path><path d="M7.5 1v3.5H11"></path></svg>{{ tx.specLink }}</button>
+                <button onClick="{{ ar.openSpec }}" style-hover="background:rgba(11,120,190,.08)" style="margin-top:3px;border:none;background:none;color:#0B78BE;font-size:11.5px;font-weight:700;cursor:pointer;font-family:inherit;white-space:nowrap;padding:2px 8px 2px 0;border-radius:6px;display:inline-flex;align-items:center;gap:5px;transition:background .15s"><svg width="11" height="13" viewBox="0 0 12 14" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" style="flex-shrink:0;display:block"><path d="M7.5 1H2.2C1.5 1 1 1.5 1 2.2v9.6c0 .7.5 1.2 1.2 1.2h7.6c.7 0 1.2-.5 1.2-1.2V4.5L7.5 1Z"></path><path d="M7.5 1v3.5H11"></path></svg>{{ tx.specLink }}</button>
               </div>
-              <span style="background:{{ ar.stBg }};color:{{ ar.stFg }};border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700;white-space:nowrap">{{ ar.st }}</span>
+              <span style="background:{{ ar.stBg }};color:{{ ar.stFg }};border-radius:999px;padding:3px 12px;font-size:12px;font-weight:700;white-space:nowrap">{{ ar.st }}</span>
             </div>
             <div style="display:flex;align-items:center;gap:10px;margin-top:10px;flex-wrap:wrap">
               <span style="flex:0 0 auto;width:110px;height:6px;border-radius:999px;background:#EAF2FB;overflow:hidden;position:relative;display:inline-block">
                 <span style="position:absolute;top:0;bottom:0;left:0;width:{{ ar.barReady }};background:#EBD3B3;border-radius:999px"></span>
                 <span style="position:absolute;top:0;bottom:0;left:0;width:{{ ar.barIng }};background:#0B78BE;border-radius:999px"></span>
               </span>
-              <span style="font-size:12.5px;font-weight:700;color:#1B4B89">{{ ar.prog }}</span>
-              <button onClick="{{ ar.openUM }}" style="margin-left:auto;border:{{ ar.btnBd }};background:{{ ar.btnBg }};color:{{ ar.btnFg }};border-radius:999px;padding:8px 16px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:{{ ar.btnSh }};font-family:inherit">{{ ar.btn }}</button>
+              <span style="font-size:13px;font-weight:700;color:#1B4B89">{{ ar.prog }}</span>
+              <button onClick="{{ ar.openUM }}" style="margin-left:auto;border:{{ ar.btnBd }};background:{{ ar.btnBg }};color:{{ ar.btnFg }};border-radius:999px;padding:8px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:{{ ar.btnSh }};font-family:inherit">{{ ar.btn }}</button>
             </div>
             <sc-if value="{{ ar.guard }}" hint-placeholder-val="{{ false }}">
-              <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:9px;padding:8px 12px;font-size:12px;font-weight:600;color:#B45309">{{ ar.guard }}</div>
+              <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:9px;padding:8px 12px;font-size:12.5px;font-weight:600;color:#B45309">{{ ar.guard }}</div>
             </sc-if>
             <sc-if value="{{ ar.hasReasons }}" hint-placeholder-val="{{ false }}">
               <div style="margin-top:10px;background:#FDECEC;border:1px solid #F2C4C4;border-radius:9px;padding:10px 14px">
-                <div style="font-size:12px;font-weight:700;color:#B91C1C;margin-bottom:5px">{{ tx.cTitle }}</div>
+                <div style="font-size:12.5px;font-weight:700;color:#B91C1C;margin-bottom:5px">{{ tx.cTitle }}</div>
                 <sc-for list="{{ ar.reasons }}" as="rd" hint-placeholder-count="2">
-                  <div style="font-size:12px;color:#1F2937;margin-bottom:3px">• {{ rd.x }}</div>
+                  <div style="font-size:12.5px;color:#1F2937;margin-bottom:3px">• {{ rd.x }}</div>
                 </sc-for>
-                <div style="font-size:11.5px;color:#6B7280;margin-top:5px">{{ tx.cContact }}</div>
+                <div style="font-size:12px;color:#6B7280;margin-top:5px">{{ tx.cContact }}</div>
               </div>
             </sc-if>
           </div>
@@ -569,40 +569,40 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     </div>
 
     <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:18px 22px 14px;margin-top:14px;box-shadow:0 2px 12px rgba(27,75,137,.07)">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:10px">{{ tx.statusTitle }}</div>
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:10px">{{ tx.statusTitle }}</div>
       <div style="display:flex;overflow-x:auto">
         <sc-for list="{{ ext.chain }}" as="s" hint-placeholder-count="5">
           <div style="flex:1;min-width:100px;text-align:center;position:relative">
             <div style="height:2px;background:{{ s.lineBg }};position:absolute;top:11px;left:{{ s.lineLeft }};right:{{ s.lineRight }};z-index:0"></div>
-            <div style="width:22px;height:22px;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }};display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;position:relative;z-index:1">{{ s.mark }}</div>
-            <div style="font-size:10.5px;margin-top:4px;color:{{ s.tFg }};font-weight:{{ s.tW }}">{{ s.label }}</div>
+            <div style="width:22px;height:22px;border-radius:50%;background:{{ s.bg }};color:{{ s.fg }};border:2px solid {{ s.bd }};display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;position:relative;z-index:1">{{ s.mark }}</div>
+            <div style="font-size:11px;margin-top:4px;color:{{ s.tFg }};font-weight:{{ s.tW }}">{{ s.label }}</div>
           </div>
         </sc-for>
       </div>
-      <div style="text-align:center;font-size:12px;color:#1B4B89;font-weight:600;margin-top:8px">{{ tx.aanZet }}: {{ ext.aanZet }}</div>
+      <div style="text-align:center;font-size:12.5px;color:#1B4B89;font-weight:600;margin-top:8px">{{ tx.aanZet }}: {{ ext.aanZet }}</div>
     </div>
 
     <div style="display:flex;align-items:center;gap:12px;margin:24px 0 12px">
-      <div style="font-size:10px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9CA3AF;white-space:nowrap">{{ tx.terInfo }}</div>
+      <div style="font-size:10.5px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#9CA3AF;white-space:nowrap">{{ tx.terInfo }}</div>
       <div style="flex:1;height:1px;background:#DDE6F0"></div>
     </div>
 
     <div style="background:#FAFBFD;border:1px solid #E7EDF4;border-radius:14px;padding:16px 20px">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ tx.msgs }}</div>
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ tx.msgs }}</div>
       <sc-if value="{{ ext.noMsgs }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#9CA3AF">{{ tx.noMsgsTxt }}</div>
+        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:10px;padding:10px 14px;font-size:13px;color:#9CA3AF">{{ tx.noMsgsTxt }}</div>
       </sc-if>
       <div style="display:flex;flex-direction:column;gap:6px">
         <sc-for list="{{ ext.msgs }}" as="mg" hint-placeholder-count="1">
           <div style="border:1px solid {{ mg.bd }};background:{{ mg.bg }};border-radius:10px;overflow:hidden">
             <button onClick="{{ mg.toggle }}" style="width:100%;border:none;background:none;padding:9px 14px;display:flex;align-items:center;gap:9px;cursor:pointer;font-family:inherit;text-align:left">
               <svg width="14" height="11" viewBox="0 0 14 11" fill="none" stroke="#0B78BE" stroke-width="1.3" style="flex-shrink:0;display:block"><rect x="0.7" y="0.7" width="12.6" height="9.6" rx="1.6"></rect><path d="M1 1.6 L7 6 L13 1.6"></path></svg>
-              <span style="font-size:12.5px;font-weight:600;color:#1B4B89;flex:1;line-height:1.4">{{ mg.sub }}</span>
-              <span style="font-size:11px;color:#6B7280;white-space:nowrap">{{ mg.t }}</span>
-              <span style="color:#6B7280;font-size:11px;min-width:10px;text-align:right">{{ mg.chev }}</span>
+              <span style="font-size:13px;font-weight:600;color:#1B4B89;flex:1;line-height:1.4">{{ mg.sub }}</span>
+              <span style="font-size:11.5px;color:#6B7280;white-space:nowrap">{{ mg.t }}</span>
+              <span style="color:#6B7280;font-size:11.5px;min-width:10px;text-align:right">{{ mg.chev }}</span>
             </button>
             <sc-if value="{{ mg.open }}" hint-placeholder-val="{{ true }}">
-              <div style="padding:0 14px 11px 37px;font-size:12px;color:#1F2937;line-height:1.6;white-space:pre-line">{{ mg.body }}</div>
+              <div style="padding:0 14px 11px 37px;font-size:12.5px;color:#1F2937;line-height:1.6;white-space:pre-line">{{ mg.body }}</div>
             </sc-if>
           </div>
         </sc-for>
@@ -610,17 +610,17 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     </div>
 
     <div style="background:#FAFBFD;border:1px solid #E7EDF4;border-radius:14px;padding:16px 20px;margin-top:12px">
-      <div style="font-size:12px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ tx.versions }}</div>
+      <div style="font-size:12.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ tx.versions }}</div>
       <sc-if value="{{ ext.noVers }}" hint-placeholder-val="{{ false }}">
-        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#9CA3AF">{{ tx.noVersTxt }}</div>
+        <div style="border:1px dashed #E4ECF5;background:#F8FAFD;border-radius:10px;padding:10px 14px;font-size:13px;color:#9CA3AF">{{ tx.noVersTxt }}</div>
       </sc-if>
       <div style="display:flex;flex-direction:column;gap:7px">
         <sc-for list="{{ ext.vers }}" as="v" hint-placeholder-count="1">
-          <div style="display:flex;align-items:center;gap:8px;font-size:12.5px;color:#6B7280;flex-wrap:wrap">
+          <div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#6B7280;flex-wrap:wrap">
             <strong style="color:#1B4B89">{{ v.v }}</strong>
             <span style="font-weight:600;color:#374151;word-break:break-all">{{ v.f }}</span>
-            <span style="font-size:11px">{{ v.sub }}</span>
-            <span style="margin-left:auto;background:{{ v.bg }};color:{{ v.fg }};border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:600;white-space:nowrap">{{ v.st }}</span>
+            <span style="font-size:11.5px">{{ v.sub }}</span>
+            <span style="margin-left:auto;background:{{ v.bg }};color:{{ v.fg }};border-radius:999px;padding:1px 9px;font-size:11px;font-weight:600;white-space:nowrap">{{ v.st }}</span>
           </div>
         </sc-for>
       </div>
@@ -629,10 +629,10 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <sc-if value="{{ ext.showForward }}" hint-placeholder-val="{{ false }}">
       <div style="margin-top:12px;background:#FAFBFD;border:1px solid #E7EDF4;border-radius:14px;padding:14px 20px">
         <sc-if value="{{ ext.notForwarded }}" hint-placeholder-val="{{ true }}">
-          <button onClick="{{ ext.doForward }}" style="border:1.5px solid #0B78BE;background:#fff;color:#0B78BE;border-radius:999px;padding:8px 18px;font-size:13px;font-weight:600;cursor:pointer">{{ tx.forward }} ›</button>
+          <button onClick="{{ ext.doForward }}" style="border:1.5px solid #0B78BE;background:#fff;color:#0B78BE;border-radius:999px;padding:8px 18px;font-size:13.5px;font-weight:600;cursor:pointer">{{ tx.forward }} ›</button>
         </sc-if>
         <sc-if value="{{ ext.forwarded }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#EAF2FB;border-radius:10px;padding:10px 16px;font-size:13px;color:#1B4B89;font-weight:600">✓ {{ tx.forwardDone }}</div>
+          <div style="background:#EAF2FB;border-radius:10px;padding:10px 16px;font-size:13.5px;color:#1B4B89;font-weight:600">✓ {{ tx.forwardDone }}</div>
         </sc-if>
       </div>
     </sc-if>
@@ -645,31 +645,31 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="upload-popup" data-screen-label="Beheer uploads" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(640px,94vw);max-height:88vh;overflow:auto;background:#fff;border-radius:18px;z-index:94;box-shadow:0 24px 70px rgba(15,43,80,.35);padding:22px 26px;animation:fadeUp 0.22s ease">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div style="flex:1;min-width:0">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ tx.umKicker }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ tx.umKicker }}</div>
           <div style="font-size:17px;font-weight:700;color:#1B4B89;margin-top:2px">{{ umTitle }}</div>
-          <div style="font-size:12.5px;font-weight:600;color:#575756;margin-top:5px">{{ umSub }}</div>
+          <div style="font-size:13px;font-weight:600;color:#575756;margin-top:5px">{{ umSub }}</div>
         </div>
         <button onClick="{{ umClose }}" aria-label="Sluiten" style="border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer;flex-shrink:0">✕</button>
       </div>
       <sc-if value="{{ umConfirm }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:12px;background:#E7F3EB;border:1px solid #A8D5B5;border-radius:10px;padding:9px 14px;font-size:12.5px;font-weight:600;color:#15803D;animation:fadeUp 0.25s ease">✓ {{ umConfirm }}</div>
+        <div style="margin-top:12px;background:#E7F3EB;border:1px solid #A8D5B5;border-radius:10px;padding:9px 14px;font-size:13px;font-weight:600;color:#15803D;animation:fadeUp 0.25s ease">✓ {{ umConfirm }}</div>
       </sc-if>
       <div style="margin-top:14px;border:1px solid #E4ECF5;border-radius:12px;padding:14px 16px;background:#FAFBFD">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-bottom:10px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ tx.umSpecs }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ tx.umSpecs }}</div>
           <sc-if value="{{ umChkRun }}" hint-placeholder-val="{{ false }}">
-            <span style="display:inline-flex;align-items:center;gap:7px;font-size:11.5px;font-weight:600;color:#1B4B89"><span style="width:12px;height:12px;border:2.5px solid #EAF2FB;border-top-color:#0B78BE;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0"></span>{{ tx.checking2 }}</span>
+            <span style="display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:600;color:#1B4B89"><span style="width:12px;height:12px;border:2.5px solid #EAF2FB;border-top-color:#0B78BE;border-radius:50%;animation:spin 0.8s linear infinite;flex-shrink:0"></span>{{ tx.checking2 }}</span>
           </sc-if>
           <sc-if value="{{ umChkOk }}" hint-placeholder-val="{{ false }}">
-            <span style="background:#E7F3EB;color:#15803D;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700">✓ {{ tx.chkOk }}</span>
+            <span style="background:#E7F3EB;color:#15803D;border-radius:999px;padding:2px 10px;font-size:11.5px;font-weight:700">✓ {{ tx.chkOk }}</span>
           </sc-if>
         </div>
         <div style="display:flex;flex-direction:column;gap:7px">
           <sc-for list="{{ umSpecs }}" as="k" hint-placeholder-count="4">
             <div style="display:flex;gap:9px;align-items:flex-start">
-              <span style="width:17px;height:17px;border-radius:50%;background:{{ k.icoBg }};color:{{ k.icoFg }};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0;margin-top:1px">{{ k.ico }}</span>
-              <span style="flex:1;font-size:12.5px;color:#1F2937;line-height:1.5">{{ k.x }}
-                <sc-if value="{{ k.note }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:12px;font-weight:700;color:#B91C1C;margin-top:2px">{{ k.note }}</span></sc-if>
+              <span style="width:17px;height:17px;border-radius:50%;background:{{ k.icoBg }};color:{{ k.icoFg }};display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0;margin-top:1px">{{ k.ico }}</span>
+              <span style="flex:1;font-size:13px;color:#1F2937;line-height:1.5">{{ k.x }}
+                <sc-if value="{{ k.note }}" hint-placeholder-val="{{ false }}"><span style="display:block;font-size:12.5px;font-weight:700;color:#B91C1C;margin-top:2px">{{ k.note }}</span></sc-if>
               </span>
             </div>
           </sc-for>
@@ -677,35 +677,35 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       </div>
       <div style="margin-top:12px;border:2px dashed #C9D6E4;border-radius:14px;padding:20px 18px;text-align:center;background:#FAFCFE">
         <div style="font-size:22px;color:#0B78BE;line-height:1">↑</div>
-        <div style="font-size:13px;color:#6B7280;margin:6px 0 12px">{{ tx.dropMulti }}</div>
+        <div style="font-size:13.5px;color:#6B7280;margin:6px 0 12px">{{ tx.dropMulti }}</div>
         <sc-if value="{{ umWhoShow }}" hint-placeholder-val="{{ false }}">
-          <input value="{{ umWho }}" onChange="{{ setUmWho }}" placeholder="{{ tx.who }}" style="width:min(280px,100%);border:1px solid #C9D6E4;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12.5px;color:#1F2937;margin:0 auto 10px;display:block">
+          <input value="{{ umWho }}" onChange="{{ setUmWho }}" placeholder="{{ tx.who }}" style="width:min(280px,100%);border:1px solid #C9D6E4;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px;color:#1F2937;margin:0 auto 10px;display:block">
         </sc-if>
-        <button onClick="{{ umChoose }}" style="border:none;background:#195AA6;color:#fff;border-radius:999px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ tx.choose }}</button>
+        <button onClick="{{ umChoose }}" style="border:none;background:#195AA6;color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ tx.choose }}</button>
       </div>
       <div style="display:flex;flex-direction:column;gap:8px;margin-top:14px">
         <sc-for list="{{ umItems }}" as="it" hint-placeholder-count="2">
           <div style="border:1px solid {{ it.bd }};background:{{ it.bg }};border-radius:12px;padding:10px 14px;display:flex;align-items:center;gap:10px;flex-wrap:wrap">
             <span style="flex:1;min-width:170px;display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-              <span style="font-size:12.5px;font-weight:700;color:#1B4B89;word-break:break-all">{{ it.f }}</span>
-              <sc-if value="{{ it.per }}" hint-placeholder-val="{{ false }}"><span style="background:#EAF2FB;color:#1B4B89;border-radius:999px;padding:1px 9px;font-size:10px;font-weight:700;white-space:nowrap">{{ it.per }}</span></sc-if>
-              <span style="background:{{ it.stBg }};color:{{ it.stFg }};border-radius:999px;padding:1px 9px;font-size:10px;font-weight:700;white-space:nowrap">{{ it.stL }}</span>
+              <span style="font-size:13px;font-weight:700;color:#1B4B89;word-break:break-all">{{ it.f }}</span>
+              <sc-if value="{{ it.per }}" hint-placeholder-val="{{ false }}"><span style="background:#EAF2FB;color:#1B4B89;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ it.per }}</span></sc-if>
+              <span style="background:{{ it.stBg }};color:{{ it.stFg }};border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ it.stL }}</span>
             </span>
             <sc-if value="{{ it.hasActions }}" hint-placeholder-val="{{ false }}">
               <span style="display:flex;gap:8px;flex-wrap:wrap">
-                <sc-if value="{{ it.canSubmit }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.submit }}" style="border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ tx.submitBtn }}</button></sc-if>
-                <sc-if value="{{ it.canReplace }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.replace }}" style="border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">{{ tx.replaceBtn }}</button></sc-if>
-                <sc-if value="{{ it.canDel }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.del }}" style="border:1px solid #E5E7EB;background:#fff;color:#6B7280;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">{{ tx.removeBtn }}</button></sc-if>
-                <sc-if value="{{ it.canNewVer }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.newVer }}" style="border:1.5px solid #0B78BE;background:#fff;color:#0B78BE;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">{{ tx.newVer }}</button></sc-if>
+                <sc-if value="{{ it.canSubmit }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.submit }}" style="border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ tx.submitBtn }}</button></sc-if>
+                <sc-if value="{{ it.canReplace }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.replace }}" style="border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">{{ tx.replaceBtn }}</button></sc-if>
+                <sc-if value="{{ it.canDel }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.del }}" style="border:1px solid #E5E7EB;background:#fff;color:#6B7280;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">{{ tx.removeBtn }}</button></sc-if>
+                <sc-if value="{{ it.canNewVer }}" hint-placeholder-val="{{ false }}"><button onClick="{{ it.newVer }}" style="border:1.5px solid #0B78BE;background:#fff;color:#0B78BE;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">{{ tx.newVer }}</button></sc-if>
               </span>
             </sc-if>
           </div>
         </sc-for>
       </div>
       <sc-if value="{{ umSubAllShow }}" hint-placeholder-val="{{ false }}">
-        <button onClick="{{ umSubAll }}" style="margin-top:10px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:10px 16px;font-size:13px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ umSubAllLabel }}</button>
+        <button onClick="{{ umSubAll }}" style="margin-top:10px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:10px 16px;font-size:13.5px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">{{ umSubAllLabel }}</button>
       </sc-if>
-      <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:9px;font-size:11.5px;color:#6B7280">{{ tx.submitNote }}</div>
+      <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:9px;font-size:12px;color:#6B7280">{{ tx.submitNote }}</div>
     </div>
   </sc-if>
 
@@ -714,117 +714,117 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="{{ taskDataId }}" data-screen-label="Taakvenster" style="position:fixed;top:0;right:0;bottom:0;width:min(480px,100vw);background:#fff;z-index:90;overflow-y:auto;box-shadow:-14px 0 44px rgba(27,75,137,.22);animation:slideIn 0.22s ease;padding:22px 24px 40px">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ taskKicker }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ taskKicker }}</div>
           <div style="font-size:17px;font-weight:700;color:#1B4B89;margin-top:2px">{{ taskTitle }}</div>
-          <div style="font-size:12px;color:#6B7280">{{ taskSub }}</div>
+          <div style="font-size:12.5px;color:#6B7280">{{ taskSub }}</div>
         </div>
         <button onClick="{{ closeTask }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer">✕</button>
       </div>
       <sc-if value="{{ lockOn }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:12px;background:#F3F4F6;border-radius:9px;padding:9px 14px;font-size:12.5px;color:#6B7280;font-weight:600">{{ lockNote }}</div>
+        <div style="margin-top:12px;background:#F3F4F6;border-radius:9px;padding:9px 14px;font-size:13px;color:#6B7280;font-weight:600">{{ lockNote }}</div>
       </sc-if>
       <div style="margin-top:16px;opacity:{{ lockOp }};pointer-events:{{ lockPe }}">
 
         <sc-if value="{{ isT1 }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#FBF0E4;border:1px solid #EBD3B3;border-radius:10px;padding:12px 16px;font-size:13px;color:#B45309;font-weight:600">De koppeling is niet eenduidig: twee actieve ordernummers gevonden voor Bergwater.</div>
+          <div style="background:#FBF0E4;border:1px solid #EBD3B3;border-radius:10px;padding:12px 16px;font-size:13.5px;color:#B45309;font-weight:600">De koppeling is niet eenduidig: twee actieve ordernummers gevonden voor Bergwater.</div>
           <div style="display:flex;flex-direction:column;gap:10px;margin-top:14px">
             <sc-for list="{{ t1Opts }}" as="o" hint-placeholder-count="2">
               <label style="display:flex;gap:12px;border:1.5px solid {{ o.bd }};background:{{ o.bg }};border-radius:12px;padding:12px 14px;cursor:pointer;align-items:flex-start">
                 <input type="radio" name="t1ord" checked="{{ o.on }}" onChange="{{ o.pick }}" style="margin-top:3px;accent-color:#0B78BE">
-                <span><span style="font-weight:700;color:#1B4B89;display:block">{{ o.nr }}</span><span style="font-size:12.5px;color:#6B7280">{{ o.det }}</span></span>
+                <span><span style="font-weight:700;color:#1B4B89;display:block">{{ o.nr }}</span><span style="font-size:13px;color:#6B7280">{{ o.det }}</span></span>
               </label>
             </sc-for>
           </div>
           <div style="margin-top:16px;border-top:1px solid #EEF3F9;padding-top:12px">
-            <div style="font-size:13px;font-weight:700;color:#1B4B89">Stap 2 · Aanlevermatrix samenstellen</div>
-            <div style="font-size:11.5px;color:#6B7280;margin-top:2px">Voorgestelde regels voor {{ t1Keuze }} · vink aan wat nodig is.</div>
+            <div style="font-size:13.5px;font-weight:700;color:#1B4B89">Stap 2 · Aanlevermatrix samenstellen</div>
+            <div style="font-size:12px;color:#6B7280;margin-top:2px">Voorgestelde regels voor {{ t1Keuze }} · vink aan wat nodig is.</div>
             <div style="display:flex;flex-direction:column;gap:6px;margin-top:10px">
               <sc-for list="{{ t1MxRows }}" as="mr" hint-placeholder-count="1">
-                <label style="display:flex;align-items:center;gap:9px;border:1.5px solid {{ mr.bd }};background:{{ mr.bg }};border-radius:10px;padding:9px 12px;font-size:12.5px;cursor:pointer">
+                <label style="display:flex;align-items:center;gap:9px;border:1.5px solid {{ mr.bd }};background:{{ mr.bg }};border-radius:10px;padding:9px 12px;font-size:13px;cursor:pointer">
                   <input type="checkbox" checked="{{ mr.on }}" onChange="{{ mr.toggle }}" style="accent-color:#0B78BE"><span style="flex:1">{{ mr.oms }}</span>
-                  <span style="display:inline-flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:10.5px;color:#6B7280">Verwacht aantal creaties</span><input type="number" min="1" value="{{ mr.exp }}" onChange="{{ mr.setExp }}" style="width:52px;border:1px solid #C9D6E4;border-radius:7px;padding:4px 6px;font-family:inherit;font-size:12px;color:#1F2937;text-align:center"></span>
+                  <span style="display:inline-flex;align-items:center;gap:6px;flex-shrink:0"><span style="font-size:11px;color:#6B7280">Verwacht aantal creaties</span><input type="number" min="1" value="{{ mr.exp }}" onChange="{{ mr.setExp }}" style="width:52px;border:1px solid #C9D6E4;border-radius:7px;padding:4px 6px;font-family:inherit;font-size:12.5px;color:#1F2937;text-align:center"></span>
                 </label>
               </sc-for>
             </div>
             <sc-if value="{{ t1CanAdd }}" hint-placeholder-val="{{ true }}">
-              <button onClick="{{ t1AddRow }}" style="margin-top:8px;border:1px dashed #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">+ Regel toevoegen (still)</button>
+              <button onClick="{{ t1AddRow }}" style="margin-top:8px;border:1px dashed #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">+ Regel toevoegen (still)</button>
             </sc-if>
           </div>
           <button onClick="{{ t1Confirm }}" style="margin-top:16px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">Matrix bevestigen en dossier starten</button>
-          <button onClick="{{ oos }}" style="margin-top:8px;width:100%;border:none;background:none;color:#0B78BE;font-size:12.5px;font-weight:600;cursor:pointer">Geen van beide klopt · corrigeren</button>
-          <div style="margin-top:14px;border-top:1px solid #EEF3F9;padding-top:10px;font-size:11.5px;color:#6B7280">De matrix is vanaf nu de bewakingsbasis: het dossier kan nooit doorschuiven zolang een regel openstaat. Je keuzes worden gelogd.</div>
+          <button onClick="{{ oos }}" style="margin-top:8px;width:100%;border:none;background:none;color:#0B78BE;font-size:13px;font-weight:600;cursor:pointer">Geen van beide klopt · corrigeren</button>
+          <div style="margin-top:14px;border-top:1px solid #EEF3F9;padding-top:10px;font-size:12px;color:#6B7280">De matrix is vanaf nu de bewakingsbasis: het dossier kan nooit doorschuiven zolang een regel openstaat. Je keuzes worden gelogd.</div>
         </sc-if>
 
         <sc-if value="{{ isT2 }}" hint-placeholder-val="{{ false }}">
           <div style="border:1px solid #C9D6E4;border-radius:12px;overflow:hidden">
-            <div style="background:#F5F8FC;padding:10px 16px;font-size:12px;color:#6B7280;border-bottom:1px solid #E4ECF5">Aan: <strong style="color:#1F2937">{{ t2To }}</strong><br>Onderwerp: <strong style="color:#1F2937">{{ t2Subject }}</strong></div>
+            <div style="background:#F5F8FC;padding:10px 16px;font-size:12.5px;color:#6B7280;border-bottom:1px solid #E4ECF5">Aan: <strong style="color:#1F2937">{{ t2To }}</strong><br>Onderwerp: <strong style="color:#1F2937">{{ t2Subject }}</strong></div>
             <div style="padding:14px 16px">
-              <textarea value="{{ t2Body }}" onChange="{{ setT2Body }}" rows="7" style="width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:10px;font-family:inherit;font-size:12.5px;color:#1F2937;resize:vertical"></textarea>
-              <div style="margin-top:10px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">Specificaties (uit profiel)</div>
+              <textarea value="{{ t2Body }}" onChange="{{ setT2Body }}" rows="7" style="width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:10px;font-family:inherit;font-size:13px;color:#1F2937;resize:vertical"></textarea>
+              <div style="margin-top:10px;font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280">Specificaties (uit profiel)</div>
               <div style="display:flex;flex-direction:column;gap:4px;margin-top:6px">
                 <sc-for list="{{ t2Specs }}" as="sp" hint-placeholder-count="2">
-                  <div style="background:#EAF2FB;border-radius:8px;padding:7px 12px;font-size:12px;color:#1B4B89">{{ sp.x }}</div>
+                  <div style="background:#EAF2FB;border-radius:8px;padding:7px 12px;font-size:12.5px;color:#1B4B89">{{ sp.x }}</div>
                 </sc-for>
               </div>
-              <div style="margin-top:10px;font-size:12px;color:#0B78BE;font-weight:600">Unieke aanleverlink: aanleveren.global.com/x7f3-9kq2</div>
+              <div style="margin-top:10px;font-size:12.5px;color:#0B78BE;font-weight:600">Unieke aanleverlink: aanleveren.global.com/x7f3-9kq2</div>
               <sc-if value="{{ t2Partner }}" hint-placeholder-val="{{ false }}">
-                <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:8px;padding:8px 12px;font-size:12px;color:#B45309;font-weight:600">Afspraak uit partnerprofiel NovaMedia: aanlevering via wekelijkse batch.</div>
+                <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#B45309;font-weight:600">Afspraak uit partnerprofiel NovaMedia: aanlevering via wekelijkse batch.</div>
               </sc-if>
             </div>
           </div>
-          <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13px;cursor:pointer">
+          <label style="display:flex;align-items:center;gap:8px;margin-top:14px;font-size:13.5px;cursor:pointer">
             <input type="checkbox" checked="{{ t2Afwijken }}" onChange="{{ toggleAfwijken }}" style="accent-color:#0B78BE">Afwijken van standaard
           </label>
           <sc-if value="{{ t2Afwijken }}" hint-placeholder-val="{{ false }}">
-            <input value="{{ t2Reden }}" onChange="{{ setT2Reden }}" placeholder="Reden (verplicht, wordt gelogd)" style="margin-top:8px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12.5px">
+            <input value="{{ t2Reden }}" onChange="{{ setT2Reden }}" placeholder="Reden (verplicht, wordt gelogd)" style="margin-top:8px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px">
           </sc-if>
           <button onClick="{{ t2Send }}" style="margin-top:16px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">Versturen</button>
-          <div style="text-align:center;font-size:11.5px;color:#6B7280;margin-top:6px">Verzending en statusovergang in één handeling</div>
+          <div style="text-align:center;font-size:12px;color:#6B7280;margin-top:6px">Verzending en statusovergang in één handeling</div>
         </sc-if>
 
         <sc-if value="{{ isT3 }}" hint-placeholder-val="{{ false }}">
           <div style="height:120px;border-radius:12px;background:#0B78BE;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px">
-            <div style="font-weight:700;font-size:15px">Festivalzomer</div><div style="font-size:12px;opacity:0.85">1080x1920 · motion · v1 via Studio Klaver</div>
+            <div style="font-weight:700;font-size:15px">Festivalzomer</div><div style="font-size:12.5px;opacity:0.85">1080x1920 · motion · v1 via Studio Klaver</div>
           </div>
           <div style="margin-top:14px;border:1px solid #C9D6E4;border-radius:12px;overflow:hidden">
-            <button onClick="{{ toggleTech }}" style="width:100%;border:none;background:#E7F3EB;color:#15803D;padding:11px 16px;text-align:left;font-size:13px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px">✓ Automatische technische controle: alles groen, gelogd<span style="margin-left:auto;color:#6B7280;font-weight:400;font-size:11px">{{ techToggleLabel }}</span></button>
+            <button onClick="{{ toggleTech }}" style="width:100%;border:none;background:#E7F3EB;color:#15803D;padding:11px 16px;text-align:left;font-size:13.5px;font-weight:600;cursor:pointer;display:flex;align-items:center;gap:8px">✓ Automatische technische controle: alles groen, gelogd<span style="margin-left:auto;color:#6B7280;font-weight:400;font-size:11.5px">{{ techToggleLabel }}</span></button>
             <sc-if value="{{ t3TechOpen }}" hint-placeholder-val="{{ false }}">
-              <div style="padding:10px 18px;font-size:12.5px;color:#6B7280;display:flex;flex-direction:column;gap:4px;background:#fff">
+              <div style="padding:10px 18px;font-size:13px;color:#6B7280;display:flex;flex-direction:column;gap:4px;background:#fff">
                 <div>✓ Formaat 1080x1920 · correct</div><div>✓ Duur 8 sec · binnen max 10 sec</div><div>✓ Geen geluidsspoor</div><div>✓ Bestandsformaat en bitrate · correct</div>
               </div>
             </sc-if>
           </div>
           <div style="margin-top:12px;border:1px solid #C9D6E4;border-radius:12px;padding:14px 16px">
-            <div style="font-size:13px;font-weight:700;color:#1B4B89;margin-bottom:8px">Taboecontrole · per locatieprofiel</div>
+            <div style="font-size:13.5px;font-weight:700;color:#1B4B89;margin-bottom:8px">Taboecontrole · per locatieprofiel</div>
             <sc-for list="{{ t3Taboe }}" as="tb" hint-placeholder-count="3">
-              <label style="display:flex;align-items:flex-start;gap:9px;font-size:12.5px;padding:5px 0;cursor:pointer"><input type="checkbox" checked="{{ tb.on }}" onChange="{{ tb.toggle }}" style="accent-color:#15803D;margin-top:2px">{{ tb.label }}</label>
+              <label style="display:flex;align-items:flex-start;gap:9px;font-size:13px;padding:5px 0;cursor:pointer"><input type="checkbox" checked="{{ tb.on }}" onChange="{{ tb.toggle }}" style="accent-color:#15803D;margin-top:2px">{{ tb.label }}</label>
             </sc-for>
           </div>
           <div style="margin-top:12px;border:1px solid #C9D6E4;border-radius:12px;padding:14px 16px">
-            <div style="font-size:13px;font-weight:700;color:#1B4B89;margin-bottom:8px">Variantencontrole · netwerk × variant</div>
-            <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px;font-size:12px">
+            <div style="font-size:13.5px;font-weight:700;color:#1B4B89;margin-bottom:8px">Variantencontrole · netwerk × variant</div>
+            <div style="display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:6px;font-size:12.5px">
               <div></div><div style="color:#6B7280;text-align:center">1080x1920 motion</div><div style="color:#6B7280;text-align:center">1080x1920 still</div>
               <sc-for list="{{ t3Var }}" as="row" hint-placeholder-count="2">
                 <div style="font-weight:600;color:#1B4B89;display:flex;align-items:center">{{ row.net }}</div>
                 <sc-for list="{{ row.cells }}" as="cell" hint-placeholder-count="2">
-                  <button onClick="{{ cell.toggle }}" style="border:1px solid {{ cell.bd }};background:{{ cell.bg }};color:{{ cell.fg }};border-radius:999px;padding:6px;font-size:12.5px;font-weight:700;cursor:pointer">{{ cell.mark }}</button>
+                  <button onClick="{{ cell.toggle }}" style="border:1px solid {{ cell.bd }};background:{{ cell.bg }};color:{{ cell.fg }};border-radius:999px;padding:6px;font-size:13px;font-weight:700;cursor:pointer">{{ cell.mark }}</button>
                 </sc-for>
               </sc-for>
             </div>
           </div>
-          <div style="margin-top:12px;background:#F5F8FC;border:1px dashed #C9D6E4;border-radius:12px;padding:11px 16px;font-size:12px"><strong style="color:#1B4B89">Parallel: representativiteitstoets</strong> — <span style="color:{{ t3ParFg }};font-weight:600">{{ t3ParStatus }}</span> · bij CM Bo</div>
+          <div style="margin-top:12px;background:#F5F8FC;border:1px dashed #C9D6E4;border-radius:12px;padding:11px 16px;font-size:12.5px"><strong style="color:#1B4B89">Parallel: representativiteitstoets</strong> — <span style="color:{{ t3ParFg }};font-weight:600">{{ t3ParStatus }}</span> · bij CM Bo</div>
           <sc-if value="{{ t3AfkeurOpen }}" hint-placeholder-val="{{ false }}">
             <div style="margin-top:12px;border:1.5px solid #F2C4C4;background:#FDECEC;border-radius:12px;padding:14px 16px">
-              <div style="font-size:13px;font-weight:700;color:#B91C1C;margin-bottom:8px">Afkeurredenen (per sectie, gebundeld)</div>
+              <div style="font-size:13.5px;font-weight:700;color:#B91C1C;margin-bottom:8px">Afkeurredenen (per sectie, gebundeld)</div>
               <sc-for list="{{ t3Redenen }}" as="rd" hint-placeholder-count="3">
-                <label style="display:flex;align-items:center;gap:9px;font-size:12.5px;padding:4px 0;cursor:pointer"><input type="checkbox" checked="{{ rd.on }}" onChange="{{ rd.toggle }}" style="accent-color:#B91C1C">{{ rd.label }}</label>
+                <label style="display:flex;align-items:center;gap:9px;font-size:13px;padding:4px 0;cursor:pointer"><input type="checkbox" checked="{{ rd.on }}" onChange="{{ rd.toggle }}" style="accent-color:#B91C1C">{{ rd.label }}</label>
               </sc-for>
-              <input value="{{ t3Toel }}" onChange="{{ setT3Toel }}" placeholder="Toelichting" style="margin-top:8px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:12.5px">
-              <button onClick="{{ t3RejectConfirm }}" style="margin-top:10px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer">Afkeuren met gebundelde redenen</button>
+              <input value="{{ t3Toel }}" onChange="{{ setT3Toel }}" placeholder="Toelichting" style="margin-top:8px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:8px 12px;font-family:inherit;font-size:13px">
+              <button onClick="{{ t3RejectConfirm }}" style="margin-top:10px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13.5px;font-weight:600;cursor:pointer">Afkeuren met gebundelde redenen</button>
             </div>
           </sc-if>
           <sc-if value="{{ t3Done }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:12px;background:{{ t3DoneBg }};border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;color:{{ t3DoneFg }}">{{ t3DoneLabel }}</div>
+            <div style="margin-top:12px;background:{{ t3DoneBg }};border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;color:{{ t3DoneFg }}">{{ t3DoneLabel }}</div>
           </sc-if>
           <div style="display:flex;gap:10px;margin-top:16px">
             <button onClick="{{ t3Approve }}" style="flex:1;border:none;background:#15803D;color:#fff;border-radius:999px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Goedkeuren</button>
@@ -834,47 +834,47 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
 
         <sc-if value="{{ isT4 }}" hint-placeholder-val="{{ false }}">
           <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
-            <div style="height:150px;border-radius:12px;background:#0B78BE;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:8px"><div style="font-weight:700;font-size:14px">Festivalzomer</div><div style="font-size:11px;opacity:0.85">1080x1920 · motion · v1</div></div>
+            <div style="height:150px;border-radius:12px;background:#0B78BE;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;text-align:center;padding:8px"><div style="font-weight:700;font-size:14px">Festivalzomer</div><div style="font-size:11.5px;opacity:0.85">1080x1920 · motion · v1</div></div>
             <div style="background:#FBF0E4;border:1px solid #EBD3B3;border-radius:12px;padding:12px 14px">
-              <div style="font-size:12px;font-weight:700;color:#B45309">Automatische toets: VEREIST AANDACHT</div>
-              <div style="font-size:12px;color:#1F2937;margin-top:6px">1. Logo wijkt af van het geregistreerde merkprofiel (kleurstelling).</div>
-              <div style="font-size:12px;color:#1F2937;margin-top:4px">2. Slogan komt niet overeen met de aangemelde campagne-informatie.</div>
+              <div style="font-size:12.5px;font-weight:700;color:#B45309">Automatische toets: VEREIST AANDACHT</div>
+              <div style="font-size:12.5px;color:#1F2937;margin-top:6px">1. Logo wijkt af van het geregistreerde merkprofiel (kleurstelling).</div>
+              <div style="font-size:12.5px;color:#1F2937;margin-top:4px">2. Slogan komt niet overeen met de aangemelde campagne-informatie.</div>
             </div>
           </div>
-          <div style="margin-top:12px;background:#F5F8FC;border:1px dashed #C9D6E4;border-radius:12px;padding:11px 16px;font-size:12px"><strong style="color:#1B4B89">Parallel: beoordeling Ad Ops</strong> — <span style="color:{{ t4ParFg }};font-weight:600">{{ t4ParStatus }}</span> · bij Kim</div>
+          <div style="margin-top:12px;background:#F5F8FC;border:1px dashed #C9D6E4;border-radius:12px;padding:11px 16px;font-size:12.5px"><strong style="color:#1B4B89">Parallel: beoordeling Ad Ops</strong> — <span style="color:{{ t4ParFg }};font-weight:600">{{ t4ParStatus }}</span> · bij Kim</div>
           <sc-if value="{{ t4AfkeurOpen }}" hint-placeholder-val="{{ false }}">
-            <input value="{{ t4Reden }}" onChange="{{ setT4Reden }}" placeholder="Reden van afkeuring (verplicht)" style="margin-top:12px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12.5px">
-            <button onClick="{{ t4RejectConfirm }}" style="margin-top:8px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer">Afkeuren bevestigen</button>
+            <input value="{{ t4Reden }}" onChange="{{ setT4Reden }}" placeholder="Reden van afkeuring (verplicht)" style="margin-top:12px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px">
+            <button onClick="{{ t4RejectConfirm }}" style="margin-top:8px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13.5px;font-weight:600;cursor:pointer">Afkeuren bevestigen</button>
           </sc-if>
           <sc-if value="{{ t4DoorOpen }}" hint-placeholder-val="{{ false }}">
-            <input value="{{ t4Note }}" onChange="{{ setT4Note }}" placeholder="Notitie voor Marketing" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12.5px">
-            <button onClick="{{ t4DoorConfirm }}" style="margin-top:8px;width:100%;border:none;background:#1B4B89;color:#fff;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer">Doorverwijzen bevestigen</button>
+            <input value="{{ t4Note }}" onChange="{{ setT4Note }}" placeholder="Notitie voor Marketing" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px">
+            <button onClick="{{ t4DoorConfirm }}" style="margin-top:8px;width:100%;border:none;background:#1B4B89;color:#fff;border-radius:999px;padding:9px;font-size:13.5px;font-weight:600;cursor:pointer">Doorverwijzen bevestigen</button>
           </sc-if>
           <sc-if value="{{ t4Done }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:12px;background:{{ t4DoneBg }};border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;color:{{ t4DoneFg }}">{{ t4DoneLabel }}</div>
+            <div style="margin-top:12px;background:{{ t4DoneBg }};border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;color:{{ t4DoneFg }}">{{ t4DoneLabel }}</div>
           </sc-if>
           <div style="display:flex;gap:10px;margin-top:16px">
             <button onClick="{{ t4Voldaan }}" style="flex:1;border:none;background:#15803D;color:#fff;border-radius:999px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Voldaan</button>
             <button onClick="{{ t4RejectStart }}" style="flex:1;border:1.5px solid #B91C1C;background:#fff;color:#B91C1C;border-radius:999px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Afkeuren</button>
           </div>
-          <button onClick="{{ t4DoorStart }}" style="margin-top:8px;width:100%;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:9px;font-size:12.5px;font-weight:600;cursor:pointer">Doorverwijzen naar Marketing</button>
-          <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:8px;font-size:11.5px;color:#6B7280">Doorlooptijd per substap: automatische toets 0 min · CM loopt (4 uur) — gelogd.</div>
+          <button onClick="{{ t4DoorStart }}" style="margin-top:8px;width:100%;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer">Doorverwijzen naar Marketing</button>
+          <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:8px;font-size:12px;color:#6B7280">Doorlooptijd per substap: automatische toets 0 min · CM loopt (4 uur) — gelogd.</div>
         </sc-if>
 
         <sc-if value="{{ isT5 }}" hint-placeholder-val="{{ false }}">
-          <div style="height:130px;border-radius:12px;background:#1B4B89;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px"><div style="font-weight:700;font-size:15px">Founders week</div><div style="font-size:12px;opacity:0.85">1080x1920 · motion · v1</div></div>
-          <div style="margin-top:12px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:12px;padding:12px 16px;font-size:12.5px">
+          <div style="height:130px;border-radius:12px;background:#1B4B89;color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px"><div style="font-weight:700;font-size:15px">Founders week</div><div style="font-size:12.5px;opacity:0.85">1080x1920 · motion · v1</div></div>
+          <div style="margin-top:12px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:12px;padding:12px 16px;font-size:13px">
             <div style="font-weight:700;color:#B45309;margin-bottom:6px">Aandachtspunten automatische toets</div>
             <div>1. Nieuwe merkstijl, niet eerder vertoond op het netwerk.</div>
             <div style="margin-top:3px">2. Engelstalige tagline in combinatie met evenementbranding.</div>
           </div>
-          <div style="margin-top:12px;background:#EAF2FB;border-radius:12px;padding:12px 16px;font-size:12.5px"><strong style="color:#1B4B89">Notitie van CM Yusuf:</strong> "Twijfel over de merkuiting in combinatie met de festivalbranding — graag jullie blik. Kon dit niet zelfstandig beoordelen."</div>
+          <div style="margin-top:12px;background:#EAF2FB;border-radius:12px;padding:12px 16px;font-size:13px"><strong style="color:#1B4B89">Notitie van CM Yusuf:</strong> "Twijfel over de merkuiting in combinatie met de festivalbranding — graag jullie blik. Kon dit niet zelfstandig beoordelen."</div>
           <sc-if value="{{ t5AfkeurOpen }}" hint-placeholder-val="{{ false }}">
-            <input value="{{ t5Reden }}" onChange="{{ setT5Reden }}" placeholder="Reden van afkeuring (verplicht)" style="margin-top:12px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12.5px">
-            <button onClick="{{ t5RejectConfirm }}" style="margin-top:8px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13px;font-weight:600;cursor:pointer">Afkeuren bevestigen</button>
+            <input value="{{ t5Reden }}" onChange="{{ setT5Reden }}" placeholder="Reden van afkeuring (verplicht)" style="margin-top:12px;width:100%;border:1px solid #F2C4C4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px">
+            <button onClick="{{ t5RejectConfirm }}" style="margin-top:8px;width:100%;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px;font-size:13.5px;font-weight:600;cursor:pointer">Afkeuren bevestigen</button>
           </sc-if>
           <sc-if value="{{ t5Done }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:12px;background:{{ t5DoneBg }};border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;color:{{ t5DoneFg }}">{{ t5DoneLabel }}</div>
+            <div style="margin-top:12px;background:{{ t5DoneBg }};border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;color:{{ t5DoneFg }}">{{ t5DoneLabel }}</div>
           </sc-if>
           <div style="display:flex;gap:10px;margin-top:16px">
             <button onClick="{{ t5Voldaan }}" style="flex:1;border:none;background:#15803D;color:#fff;border-radius:999px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Voldaan</button>
@@ -883,43 +883,43 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </sc-if>
 
         <sc-if value="{{ isT6 }}" hint-placeholder-val="{{ false }}">
-          <div style="background:#EAF2FB;border-radius:10px;padding:10px 14px;font-size:12.5px;color:#1B4B89">Aanleverende partij: <strong>AdVista (mediabureau)</strong>, bepaald uit de afzenderregistratie.</div>
-          <div style="margin-top:14px;font-size:13px;font-weight:700;color:#1B4B89">Verstuur bevestiging aan</div>
+          <div style="background:#EAF2FB;border-radius:10px;padding:10px 14px;font-size:13px;color:#1B4B89">Aanleverende partij: <strong>AdVista (mediabureau)</strong>, bepaald uit de afzenderregistratie.</div>
+          <div style="margin-top:14px;font-size:13.5px;font-weight:700;color:#1B4B89">Verstuur bevestiging aan</div>
           <div style="display:flex;flex-direction:column;gap:8px;margin-top:8px">
             <sc-for list="{{ t6Contacts }}" as="c" hint-placeholder-count="2">
               <label style="display:flex;gap:10px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};border-radius:10px;padding:10px 14px;cursor:pointer;align-items:center">
                 <input type="radio" name="t6c" checked="{{ c.on }}" onChange="{{ c.pick }}" style="accent-color:#0B78BE">
-                <span><span style="font-weight:600;color:#1B4B89;display:block;font-size:13px">{{ c.email }}</span><span style="font-size:11.5px;color:#6B7280">{{ c.sub }} · keuze wordt gelogd</span></span>
+                <span><span style="font-weight:600;color:#1B4B89;display:block;font-size:13.5px">{{ c.email }}</span><span style="font-size:12px;color:#6B7280">{{ c.sub }} · keuze wordt gelogd</span></span>
               </label>
             </sc-for>
           </div>
           <div style="margin-top:14px;border:1px solid #C9D6E4;border-radius:12px;overflow:hidden">
-            <div style="background:#F5F8FC;padding:10px 16px;font-size:12px;color:#6B7280;border-bottom:1px solid #E4ECF5">Onderwerp: <strong style="color:#1F2937">Bevestiging: Nazomer nights staat gepland</strong></div>
-            <div style="padding:14px 16px;font-size:12.5px;color:#1F2937;line-height:1.7">Beste team AdVista,<br><br>Goed nieuws: de creaties voor <strong>Nazomer nights</strong> (Stadslicht Events) zijn goedgekeurd.<br><br>• Startdatum: <strong>1 september 2026</strong><br>• Netwerk: <strong>Winkelcentra</strong><br><br>Vervolgstappen: wij koppelen het materiaal aan de planning en zetten alles klaar. Je hoeft niets meer te doen.<br><br><strong style="color:#15803D">Hierna gaat jouw campagne live.</strong></div>
+            <div style="background:#F5F8FC;padding:10px 16px;font-size:12.5px;color:#6B7280;border-bottom:1px solid #E4ECF5">Onderwerp: <strong style="color:#1F2937">Bevestiging: Nazomer nights staat gepland</strong></div>
+            <div style="padding:14px 16px;font-size:13px;color:#1F2937;line-height:1.7">Beste team AdVista,<br><br>Goed nieuws: de creaties voor <strong>Nazomer nights</strong> (Stadslicht Events) zijn goedgekeurd.<br><br>• Startdatum: <strong>1 september 2026</strong><br>• Netwerk: <strong>Winkelcentra</strong><br><br>Vervolgstappen: wij koppelen het materiaal aan de planning en zetten alles klaar. Je hoeft niets meer te doen.<br><br><strong style="color:#15803D">Hierna gaat jouw campagne live.</strong></div>
           </div>
           <sc-if value="{{ t6Sent }}" hint-placeholder-val="{{ false }}">
-            <div style="margin-top:12px;background:#E7F3EB;border-radius:10px;padding:10px 16px;font-size:13px;font-weight:600;color:#15803D">✓ Verstuurd en afgerond · gelogd</div>
+            <div style="margin-top:12px;background:#E7F3EB;border-radius:10px;padding:10px 16px;font-size:13.5px;font-weight:600;color:#15803D">✓ Verstuurd en afgerond · gelogd</div>
           </sc-if>
           <button onClick="{{ t6Send }}" style="margin-top:16px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:11px;font-size:14px;font-weight:600;cursor:pointer;box-shadow:0 3px 10px rgba(11,120,190,.3)">Versturen en afronden</button>
         </sc-if>
 
         <sc-if value="{{ isBU }}" hint-placeholder-val="{{ false }}">
-          <div style="font-size:13px;color:#1F2937;line-height:1.6">Je uploadt namens <strong style="color:#1B4B89">{{ buParty }}</strong>. De aanleverlink blijft de voorkeursroute; deze upload wordt geregistreerd als back-up.</div>
-          <div style="margin-top:14px;font-size:13px;font-weight:700;color:#1B4B89">Oorspronkelijk kanaal <span style="color:#B91C1C">*</span></div>
+          <div style="font-size:13.5px;color:#1F2937;line-height:1.6">Je uploadt namens <strong style="color:#1B4B89">{{ buParty }}</strong>. De aanleverlink blijft de voorkeursroute; deze upload wordt geregistreerd als back-up.</div>
+          <div style="margin-top:14px;font-size:13.5px;font-weight:700;color:#1B4B89">Oorspronkelijk kanaal <span style="color:#B91C1C">*</span></div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
             <sc-for list="{{ buKanalen }}" as="k" hint-placeholder-count="5">
-              <button onClick="{{ k.pick }}" style="border:1.5px solid {{ k.bd }};background:{{ k.bg }};color:{{ k.fg }};border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">{{ k.label }}</button>
+              <button onClick="{{ k.pick }}" style="border:1.5px solid {{ k.bd }};background:{{ k.bg }};color:{{ k.fg }};border-radius:999px;padding:5px 14px;font-size:13px;font-weight:600;cursor:pointer;font-family:inherit">{{ k.label }}</button>
             </sc-for>
           </div>
-          <sc-if value="{{ buKanaalLeeg }}" hint-placeholder-val="{{ false }}"><div style="font-size:11.5px;color:#6B7280;margin-top:6px">Verplicht: zonder kanaal blijft de uploadknop gedempt.</div></sc-if>
-          <input value="{{ buToel }}" onChange="{{ setBuToel }}" placeholder="Toelichting (optioneel)" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:12.5px;color:#1F2937">
-          <div style="margin-top:14px;font-size:13px;font-weight:700;color:#1B4B89">Koppel aan matrixregel</div>
+          <sc-if value="{{ buKanaalLeeg }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:#6B7280;margin-top:6px">Verplicht: zonder kanaal blijft de uploadknop gedempt.</div></sc-if>
+          <input value="{{ buToel }}" onChange="{{ setBuToel }}" placeholder="Toelichting (optioneel)" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:9px 12px;font-family:inherit;font-size:13px;color:#1F2937">
+          <div style="margin-top:14px;font-size:13.5px;font-weight:700;color:#1B4B89">Koppel aan matrixregel</div>
           <div style="display:flex;flex-direction:column;gap:6px;margin-top:8px">
             <sc-for list="{{ buRegels }}" as="r" hint-placeholder-count="1">
-              <label style="display:flex;align-items:center;gap:9px;border:1.5px solid {{ r.bd }};background:{{ r.bg }};border-radius:10px;padding:9px 12px;font-size:12.5px;cursor:pointer">
+              <label style="display:flex;align-items:center;gap:9px;border:1.5px solid {{ r.bd }};background:{{ r.bg }};border-radius:10px;padding:9px 12px;font-size:13px;cursor:pointer">
                 <input type="radio" name="buregel" checked="{{ r.on }}" onChange="{{ r.pick }}" style="accent-color:#0B78BE">
                 <span style="flex:1;color:#1B4B89;font-weight:600">{{ r.oms }}</span>
-                <span style="background:{{ r.stBg }};color:{{ r.stFg }};border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ r.st }}</span>
+                <span style="background:{{ r.stBg }};color:{{ r.stFg }};border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700;white-space:nowrap">{{ r.st }}</span>
               </label>
             </sc-for>
           </div>
@@ -927,32 +927,32 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             <sc-if value="{{ buIdle }}" hint-placeholder-val="{{ false }}">
               <div style="border:2px dashed #C9D6E4;border-radius:14px;padding:26px 18px;text-align:center;background:#FAFCFE">
                 <div style="font-size:24px;color:#0B78BE;line-height:1">↑</div>
-                <div style="font-size:13px;color:#6B7280;margin:8px 0 12px">Sleep het bestand hierheen of kies een bestand</div>
+                <div style="font-size:13.5px;color:#6B7280;margin:8px 0 12px">Sleep het bestand hierheen of kies een bestand</div>
                 <button onClick="{{ buUpload }}" disabled="{{ buUpDis }}" style="border:none;background:{{ buUpBg }};color:{{ buUpFg }};border-radius:999px;padding:10px 22px;font-size:13.5px;font-weight:600;cursor:{{ buUpCur }};box-shadow:{{ buUpShadow }}">Uploaden namens de klant (demo)</button>
               </div>
             </sc-if>
             <sc-if value="{{ buChecking }}" hint-placeholder-val="{{ false }}">
               <div style="border:2px solid #C9D6E4;border-radius:14px;padding:26px 18px;text-align:center;background:#FAFCFE">
                 <div style="width:26px;height:26px;border:3px solid #EAF2FB;border-top-color:#0B78BE;border-radius:50%;margin:0 auto;animation:spin 0.8s linear infinite"></div>
-                <div style="font-size:13px;color:#1B4B89;font-weight:600;margin-top:12px">Automatische technische controle loopt…</div>
+                <div style="font-size:13.5px;color:#1B4B89;font-weight:600;margin-top:12px">Automatische technische controle loopt…</div>
               </div>
             </sc-if>
             <sc-if value="{{ buOk }}" hint-placeholder-val="{{ false }}">
               <div style="border:2px solid #A8D5B5;border-radius:14px;padding:22px 18px;text-align:center;background:#E7F3EB;animation:fadeUp 0.3s ease">
                 <div style="font-size:15px;font-weight:700;color:#15803D">✓ Voldoet aan de specificaties</div>
-                <div style="font-size:12.5px;color:#1F2937;margin-top:6px">Geregistreerd als back-up · oorspronkelijk kanaal: {{ buOkKanaal }}. De regel is vervuld en gedraagt zich verder als een reguliere aanlevering.</div>
-                <button onClick="{{ buUpload }}" style="margin-top:12px;border:1px solid #C9D6E4;background:#fff;color:#6B7280;border-radius:999px;padding:7px 16px;font-size:12px;font-weight:600;cursor:pointer">Demo: upload nog een bestand (toont afkeuring)</button>
+                <div style="font-size:13px;color:#1F2937;margin-top:6px">Geregistreerd als back-up · oorspronkelijk kanaal: {{ buOkKanaal }}. De regel is vervuld en gedraagt zich verder als een reguliere aanlevering.</div>
+                <button onClick="{{ buUpload }}" style="margin-top:12px;border:1px solid #C9D6E4;background:#fff;color:#6B7280;border-radius:999px;padding:7px 16px;font-size:12.5px;font-weight:600;cursor:pointer">Demo: upload nog een bestand (toont afkeuring)</button>
               </div>
             </sc-if>
             <sc-if value="{{ buFail }}" hint-placeholder-val="{{ false }}">
               <div style="border:2px solid #F2C4C4;border-radius:14px;padding:22px 18px;text-align:center;background:#FDECEC;animation:fadeUp 0.3s ease">
                 <div style="font-size:15px;font-weight:700;color:#B91C1C">✕ Niet aan de specificaties voldaan</div>
-                <div style="font-size:12.5px;color:#1F2937;margin-top:6px">De motion-file duurt 14 seconden; het maximum voor dit netwerk is 10 seconden.</div>
-                <button onClick="{{ buRetry }}" style="margin-top:12px;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px 20px;font-size:13px;font-weight:600;cursor:pointer">Opnieuw aanleveren</button>
+                <div style="font-size:13px;color:#1F2937;margin-top:6px">De motion-file duurt 14 seconden; het maximum voor dit netwerk is 10 seconden.</div>
+                <button onClick="{{ buRetry }}" style="margin-top:12px;border:none;background:#B91C1C;color:#fff;border-radius:999px;padding:9px 20px;font-size:13.5px;font-weight:600;cursor:pointer">Opnieuw aanleveren</button>
               </div>
             </sc-if>
           </div>
-          <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px;font-size:11.5px;color:#6B7280">Uitvoerder: {{ buMe }} · wordt automatisch gelogd. Geen extra bevestiging nodig: dit venster ís de registratie.</div>
+          <div style="margin-top:12px;border-top:1px solid #EEF3F9;padding-top:10px;font-size:12px;color:#6B7280">Uitvoerder: {{ buMe }} · wordt automatisch gelogd. Geen extra bevestiging nodig: dit venster ís de registratie.</div>
         </sc-if>
       </div>
     </div>
@@ -963,13 +963,13 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="i9" data-screen-label="I9 Flowoverlay" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(700px,94vw);max-height:86vh;overflow:auto;background:#fff;border-radius:18px;z-index:94;box-shadow:0 24px 70px rgba(15,43,80,.35);padding:24px 28px;animation:fadeUp 0.22s ease" data-comment-anchor="3bd6809df8-div">
       <div style="display:flex;align-items:flex-start;gap:12px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Procesflow</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Procesflow</div>
           <div style="font-size:19px;font-weight:800;color:#1B4B89;margin-top:2px">{{ flowCamp }}</div>
-          <div style="font-size:12px;color:#6B7280;margin-top:2px">Route: <strong style="color:#1B4B89">{{ flowRoute }}</strong></div>
+          <div style="font-size:12.5px;color:#6B7280;margin-top:2px">Route: <strong style="color:#1B4B89">{{ flowRoute }}</strong></div>
         </div>
         <button onClick="{{ closeFlow }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer">✕</button>
       </div>
-      <div style="display:flex;gap:16px;margin-top:14px;font-size:11px;color:#6B7280;align-items:center;flex-wrap:wrap">
+      <div style="display:flex;gap:16px;margin-top:14px;font-size:11.5px;color:#6B7280;align-items:center;flex-wrap:wrap">
         <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#15803D"></span>Afgerond</span>
         <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#0B78BE"></span>Nu bezig</span>
         <span style="display:inline-flex;align-items:center;gap:5px"><span style="width:10px;height:10px;border-radius:50%;background:#fff;border:1.5px solid #C9D6E4"></span>Komt nog</span>
@@ -979,17 +979,17 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <sc-for list="{{ flowRows }}" as="f" hint-placeholder-count="6">
           <div style="display:flex;gap:14px">
             <div style="display:flex;flex-direction:column;align-items:center">
-              <div style="width:26px;height:26px;border-radius:50%;background:{{ f.bg }};color:{{ f.fg }};border:2px solid {{ f.bd }};display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;flex-shrink:0">{{ f.mark }}</div>
+              <div style="width:26px;height:26px;border-radius:50%;background:{{ f.bg }};color:{{ f.fg }};border:2px solid {{ f.bd }};display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:800;flex-shrink:0">{{ f.mark }}</div>
               <sc-if value="{{ f.line }}" hint-placeholder-val="{{ true }}"><div style="width:2px;flex:1;background:{{ f.lineBg }};min-height:14px"></div></sc-if>
             </div>
             <div onClick="{{ f.info }}" role="button" tabIndex="0" title="Klik voor uitleg over deze fase" style="flex:1;padding:3px 0 16px;cursor:pointer">
               <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
                 <div style-hover="color:#0B78BE" style="font-size:13.5px;font-weight:700;color:{{ f.tFg }}">{{ f.name }}</div>
-                <sc-if value="{{ f.here }}" hint-placeholder-val="{{ false }}"><span style="background:#0B78BE;color:#fff;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700">Dit dossier is hier</span></sc-if>
+                <sc-if value="{{ f.here }}" hint-placeholder-val="{{ false }}"><span style="background:#0B78BE;color:#fff;border-radius:999px;padding:2px 10px;font-size:11px;font-weight:700">Dit dossier is hier</span></sc-if>
               </div>
               <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:6px">
                 <sc-for list="{{ f.steps }}" as="st" hint-placeholder-count="3">
-                  <span style="background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11px;font-weight:600;opacity:{{ st.op }}">{{ st.label }}</span>
+                  <span style="background:{{ st.bg }};color:{{ st.fg }};border:1px solid {{ st.bd }};border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600;opacity:{{ st.op }}">{{ st.label }}</span>
                 </sc-for>
               </div>
             </div>
@@ -997,16 +997,16 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         </sc-for>
       </div>
       <div style="margin-top:6px;border-top:1px solid #EEF3F9;padding-top:14px" data-comment-anchor="ee00621c01-div">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Statusmodel</div>
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">Statusmodel</div>
         <div style="display:flex;gap:6px;row-gap:9px;flex-wrap:wrap;align-items:center">
           <sc-for list="{{ statusChips }}" as="sc" hint-placeholder-count="12">
             <span style="display:inline-flex;align-items:center;gap:6px">
-              <sc-if value="{{ sc.mut }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;margin-left:4px;padding-left:12px;border-left:1px solid #D5E0EC;font-size:9.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">Mutaties</span></sc-if>
-              <span style="background:{{ sc.bg }};color:{{ sc.fg }};border:{{ sc.bd }};border-radius:999px;padding:3px 11px;font-size:11px;font-weight:{{ sc.w }};white-space:nowrap">{{ sc.label }}</span>
+              <sc-if value="{{ sc.mut }}" hint-placeholder-val="{{ false }}"><span style="display:inline-flex;align-items:center;margin-left:4px;padding-left:12px;border-left:1px solid #D5E0EC;font-size:10.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#9CA3AF">Mutaties</span></sc-if>
+              <span style="background:{{ sc.bg }};color:{{ sc.fg }};border:{{ sc.bd }};border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:{{ sc.w }};white-space:nowrap">{{ sc.label }}</span>
             </span>
           </sc-for>
         </div>
-        <div style="font-size:11.5px;color:#6B7280;margin-top:8px">Het volledige statusmodel. Elk dossier heeft één actuele status met één eigenaar aan zet.</div>
+        <div style="font-size:12px;color:#6B7280;margin-top:8px">Het volledige statusmodel. Elk dossier heeft één actuele status met één eigenaar aan zet.</div>
       </div>
     </div>
   </sc-if>
@@ -1016,15 +1016,15 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="fase-info" data-screen-label="Fase-uitleg" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(460px,92vw);max-height:80vh;overflow:auto;background:#fff;border-radius:16px;z-index:97;box-shadow:0 24px 70px rgba(15,43,80,.4);padding:22px 24px;animation:fadeUp 0.2s ease">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Fase {{ fiNr }} · wat gebeurt hier</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Fase {{ fiNr }} · wat gebeurt hier</div>
           <div style="font-size:16px;font-weight:800;color:#1B4B89;margin-top:2px">{{ fiTitle }}</div>
         </div>
         <button onClick="{{ closeFaseInfo }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:28px;height:28px;font-size:14px;cursor:pointer">✕</button>
       </div>
-      <div style="font-size:13px;color:#1F2937;line-height:1.65;margin-top:10px">{{ fiWat }}</div>
+      <div style="font-size:13.5px;color:#1F2937;line-height:1.65;margin-top:10px">{{ fiWat }}</div>
       <div style="display:flex;flex-direction:column;gap:5px;margin-top:12px">
         <sc-for list="{{ fiStappen }}" as="fs" hint-placeholder-count="3">
-          <div style="font-size:12.5px;color:#1B4B89;background:#EAF2FB;border-radius:8px;padding:7px 12px">{{ fs.x }}</div>
+          <div style="font-size:13px;color:#1B4B89;background:#EAF2FB;border-radius:8px;padding:7px 12px">{{ fs.x }}</div>
         </sc-for>
       </div>
     </div>
@@ -1035,14 +1035,14 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="deellive" data-screen-label="Deellivegang" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(440px,92vw);background:#fff;border-radius:16px;z-index:97;box-shadow:0 24px 70px rgba(15,43,80,.4);padding:22px 24px;animation:fadeUp 0.2s ease">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Bewuste gate</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Bewuste gate</div>
           <div style="font-size:16px;font-weight:800;color:#1B4B89;margin-top:2px">Deellivegang aanvragen</div>
         </div>
         <button onClick="{{ dlClose }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:28px;height:28px;font-size:14px;cursor:pointer">✕</button>
       </div>
-      <div style="font-size:13px;color:#1F2937;line-height:1.65;margin-top:10px">Alleen de goedgekeurde regels uit de aanlevermatrix gaan live. De openstaande en afgekeurde regels blijven bewaakt: herinneringen en controle lopen door tot de matrix compleet is.</div>
-      <textarea value="{{ dlReden }}" onChange="{{ setDlReden }}" rows="3" placeholder="Reden (verplicht, wordt gelogd)" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:10px;font-family:inherit;font-size:12.5px;color:#1F2937;resize:vertical"></textarea>
-      <div style="font-size:11.5px;color:#6B7280;margin-top:8px">Dit is een bewust besluit en wordt gelogd.</div>
+      <div style="font-size:13.5px;color:#1F2937;line-height:1.65;margin-top:10px">Alleen de goedgekeurde regels uit de aanlevermatrix gaan live. De openstaande en afgekeurde regels blijven bewaakt: herinneringen en controle lopen door tot de matrix compleet is.</div>
+      <textarea value="{{ dlReden }}" onChange="{{ setDlReden }}" rows="3" placeholder="Reden (verplicht, wordt gelogd)" style="margin-top:12px;width:100%;border:1px solid #C9D6E4;border-radius:8px;padding:10px;font-family:inherit;font-size:13px;color:#1F2937;resize:vertical"></textarea>
+      <div style="font-size:12px;color:#6B7280;margin-top:8px">Dit is een bewust besluit en wordt gelogd.</div>
       <button onClick="{{ dlConfirm }}" style="margin-top:12px;width:100%;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:11px;font-size:13.5px;font-weight:600;cursor:pointer">Deellivegang vastleggen</button>
     </div>
   </sc-if>
@@ -1052,28 +1052,28 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="mon-detail" data-screen-label="Monitor stapdetail" style="position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(540px,94vw);max-height:82vh;overflow:auto;background:#fff;border-radius:16px;z-index:97;box-shadow:0 24px 70px rgba(15,43,80,.4);padding:22px 24px;animation:fadeUp 0.2s ease">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Procesmonitor · stap</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Procesmonitor · stap</div>
           <div style="font-size:16px;font-weight:800;color:#1B4B89;margin-top:2px">{{ monSelTitle }}</div>
         </div>
         <button onClick="{{ monSelClose }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:28px;height:28px;font-size:14px;cursor:pointer">✕</button>
       </div>
-      <div style="font-size:12.5px;color:#1F2937;line-height:1.6;margin-top:10px">{{ monSelUitleg }}</div>
+      <div style="font-size:13px;color:#1F2937;line-height:1.6;margin-top:10px">{{ monSelUitleg }}</div>
       <div style="display:flex;align-items:center;gap:8px;margin-top:16px;border-top:1px solid #EEF3F9;padding-top:12px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280">Wat er nu zit</div>
-        <span style="background:#1B4B89;color:#fff;border-radius:999px;padding:0 9px;font-size:10.5px;font-weight:800;line-height:1.7">{{ monSelCount }}</span>
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#6B7280">Wat er nu zit</div>
+        <span style="background:#1B4B89;color:#fff;border-radius:999px;padding:0 9px;font-size:11px;font-weight:800;line-height:1.7">{{ monSelCount }}</span>
       </div>
       <sc-if value="{{ monSelEmpty }}" hint-placeholder-val="{{ false }}">
-        <div style="font-size:13px;color:#6B7280;margin-top:10px">Geen uitingen in deze stap.</div>
+        <div style="font-size:13.5px;color:#6B7280;margin-top:10px">Geen uitingen in deze stap.</div>
       </sc-if>
       <div style="display:flex;flex-direction:column;margin-top:6px">
         <sc-for list="{{ monSelRows }}" as="mr" hint-placeholder-count="3">
           <div style="display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid #EEF3F9">
             <div style="flex:1;min-width:0">
-              <div style="font-size:12.5px;font-weight:600;color:#1B4B89">{{ mr.oms }}</div>
-              <div style="font-size:11px;color:#6B7280;margin-top:1px">{{ mr.sub }}</div>
+              <div style="font-size:13px;font-weight:600;color:#1B4B89">{{ mr.oms }}</div>
+              <div style="font-size:11.5px;color:#6B7280;margin-top:1px">{{ mr.sub }}</div>
             </div>
-            <span style="background:{{ mr.stBg }};color:{{ mr.stFg }};border-radius:999px;padding:2px 10px;font-size:10px;font-weight:700;white-space:nowrap">{{ mr.st }}</span>
-            <button onClick="{{ mr.open }}" style="border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:4px 11px;font-size:11.5px;font-weight:600;cursor:pointer;white-space:nowrap">Open dossier ›</button>
+            <span style="background:{{ mr.stBg }};color:{{ mr.stFg }};border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ mr.st }}</span>
+            <button onClick="{{ mr.open }}" style="border:1px solid #C9D6E4;background:#fff;color:#0B78BE;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap">Open dossier ›</button>
           </div>
         </sc-for>
       </div>
@@ -1089,41 +1089,41 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       </div>
       <div style="display:flex;gap:14px;align-items:flex-start;flex-wrap:wrap">
         <div style="flex:1;min-width:270px;max-width:330px;background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M1 · Interne taakmail</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M1 · Interne taakmail</div>
           <div style="font-weight:700;color:#1B4B89;font-size:13.5px;margin-top:6px">{{ ovM1sub }}</div>
-          <div style="font-size:12px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM1body }}</div>
-          <button onClick="{{ mailDeeplink }}" style="margin-top:12px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">Open in {{ appName }}</button>
+          <div style="font-size:12.5px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM1body }}</div>
+          <button onClick="{{ mailDeeplink }}" style="margin-top:12px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">Open in {{ appName }}</button>
         </div>
         <div style="flex:1;min-width:270px;max-width:330px;background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M2 · Externe uitvraagmail</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M2 · Externe uitvraagmail</div>
           <div style="font-weight:700;color:#1B4B89;font-size:13.5px;margin-top:6px">{{ ovM2sub }}</div>
-          <div style="font-size:12px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM2body }}</div>
-          <div style="background:#EAF2FB;border-radius:8px;padding:7px 11px;font-size:11px;color:#1B4B89;margin-top:8px">{{ ovSpec1 }}</div>
-          <div style="background:#EAF2FB;border-radius:8px;padding:7px 11px;font-size:11px;color:#1B4B89;margin-top:5px">{{ ovSpec2 }}</div>
-          <button onClick="{{ oos }}" style="margin-top:10px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">Open jouw aanleverpagina</button>
-          <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:8px;padding:7px 11px;font-size:11px;color:#B45309;font-weight:600">Afspraak uit partnerprofiel NovaMedia: aanlevering via wekelijkse batch.</div>
+          <div style="font-size:12.5px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM2body }}</div>
+          <div style="background:#EAF2FB;border-radius:8px;padding:7px 11px;font-size:11.5px;color:#1B4B89;margin-top:8px">{{ ovSpec1 }}</div>
+          <div style="background:#EAF2FB;border-radius:8px;padding:7px 11px;font-size:11.5px;color:#1B4B89;margin-top:5px">{{ ovSpec2 }}</div>
+          <button onClick="{{ oos }}" style="margin-top:10px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">Open jouw aanleverpagina</button>
+          <div style="margin-top:10px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:8px;padding:7px 11px;font-size:11.5px;color:#B45309;font-weight:600">Afspraak uit partnerprofiel NovaMedia: aanlevering via wekelijkse batch.</div>
         </div>
         <div style="flex:1;min-width:270px;max-width:330px;background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M3 · Herinneringen (oplopende urgentie)</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M3 · Herinneringen (oplopende urgentie)</div>
           <div style="border:1px solid #EEF3F9;border-radius:10px;padding:10px 12px;margin-top:8px">
-            <div style="font-weight:700;color:#1B4B89;font-size:12.5px">{{ ovM3aSub }}</div>
-            <div style="font-size:11.5px;color:#1F2937;margin-top:4px;line-height:1.6;white-space:pre-line">{{ ovM3aBody }}</div>
+            <div style="font-weight:700;color:#1B4B89;font-size:13px">{{ ovM3aSub }}</div>
+            <div style="font-size:12px;color:#1F2937;margin-top:4px;line-height:1.6;white-space:pre-line">{{ ovM3aBody }}</div>
           </div>
           <div style="border:1.5px solid #F2C4C4;background:#FDECEC;border-radius:10px;padding:10px 12px;margin-top:8px">
-            <div style="font-weight:700;color:#B91C1C;font-size:12.5px">{{ ovM3bSub }}</div>
-            <div style="font-size:11.5px;color:#1F2937;margin-top:4px;line-height:1.6;white-space:pre-line">{{ ovM3bBody }}</div>
+            <div style="font-weight:700;color:#B91C1C;font-size:13px">{{ ovM3bSub }}</div>
+            <div style="font-size:12px;color:#1F2937;margin-top:4px;line-height:1.6;white-space:pre-line">{{ ovM3bBody }}</div>
           </div>
         </div>
         <div style="flex:1;min-width:270px;max-width:330px;background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M4 · Klantbevestiging</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M4 · Klantbevestiging</div>
           <div style="font-weight:700;color:#1B4B89;font-size:13.5px;margin-top:6px">{{ ovM4sub }}</div>
-          <div style="font-size:12px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM4body }}</div>
+          <div style="font-size:12.5px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM4body }}</div>
         </div>
         <div style="flex:1;min-width:270px;max-width:330px;background:#fff;border:1px solid #E4ECF5;border-radius:16px;padding:16px 18px;box-shadow:0 2px 10px rgba(27,75,137,.06)">
-          <div style="font-size:10.5px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M5 · Dagsamenvatting AM</div>
+          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;color:#0B78BE;text-transform:uppercase">M5 · Dagsamenvatting AM</div>
           <div style="font-weight:700;color:#1B4B89;font-size:13.5px;margin-top:6px">{{ ovM5sub }}</div>
-          <div style="font-size:12px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM5body }}</div>
-          <button onClick="{{ mailDeeplink }}" style="margin-top:12px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12px;font-weight:600;cursor:pointer">Open in {{ appName }}</button>
+          <div style="font-size:12.5px;color:#1F2937;margin-top:8px;line-height:1.65;white-space:pre-line">{{ ovM5body }}</div>
+          <button onClick="{{ mailDeeplink }}" style="margin-top:12px;border:none;background:#195AA6;color:#fff;border-radius:999px;padding:7px 14px;font-size:12.5px;font-weight:600;cursor:pointer">Open in {{ appName }}</button>
         </div>
       </div>
     </div>
@@ -1135,26 +1135,26 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       <div style="position:sticky;top:0;background:#fff;border-bottom:1px solid #EEF3F9;padding:18px 24px 14px;display:flex;align-items:flex-start;gap:10px;z-index:1">
         <div style="flex:1;min-width:0">
           <div style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
-            <div style="font-size:10px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#0B78BE">Bericht</div>
-            <span style="background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 9px;font-size:9.5px;font-weight:700">{{ msgVia }}</span>
-            <sc-if value="{{ msgIn }}" hint-placeholder-val="{{ false }}"><span style="background:#FBF0E4;color:#B45309;border-radius:999px;padding:1px 9px;font-size:9.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Inkomend</span></sc-if>
+            <div style="font-size:10.5px;font-weight:800;letter-spacing:0.12em;text-transform:uppercase;color:#0B78BE">Bericht</div>
+            <span style="background:#F3F4F6;color:#575756;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700">{{ msgVia }}</span>
+            <sc-if value="{{ msgIn }}" hint-placeholder-val="{{ false }}"><span style="background:#FBF0E4;color:#B45309;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700;text-transform:uppercase;letter-spacing:0.05em">Inkomend</span></sc-if>
           </div>
           <div style="font-size:17px;font-weight:700;color:#1B4B89;margin-top:5px;line-height:1.3">{{ msgSub }}</div>
         </div>
         <button onClick="{{ msgClose }}" aria-label="Sluiten" style-hover="background:#E4ECF5" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:30px;height:30px;font-size:14px;cursor:pointer;flex-shrink:0;transition:background .15s">✕</button>
       </div>
       <div style="padding:16px 24px 40px">
-      <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12px;align-items:center">
+      <div style="display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:12.5px;align-items:center">
         <span style="color:#9CA3AF;font-weight:600">Aan</span><span style="color:#1F2937;font-weight:600">{{ msgTo }}</span>
-        <span style="color:#9CA3AF;font-weight:600">Van</span><span><span style="display:inline-flex;align-items:center;background:{{ msgWhoBg }};color:{{ msgWhoFg }};border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:600;white-space:nowrap">{{ msgWho }}</span></span>
+        <span style="color:#9CA3AF;font-weight:600">Van</span><span><span style="display:inline-flex;align-items:center;background:{{ msgWhoBg }};color:{{ msgWhoFg }};border-radius:999px;padding:2px 10px;font-size:11px;font-weight:600;white-space:nowrap">{{ msgWho }}</span></span>
         <span style="color:#9CA3AF;font-weight:600">Datum</span><span style="color:#1F2937;font-weight:600">{{ msgT }}</span>
       </div>
-      <div style="margin-top:16px;background:#F8FAFD;border:1px solid #E7EDF4;border-radius:14px;padding:16px 18px;font-size:13px;color:#1F2937;line-height:1.65;white-space:pre-line">{{ msgBody }}</div>
+      <div style="margin-top:16px;background:#F8FAFD;border:1px solid #E7EDF4;border-radius:14px;padding:16px 18px;font-size:13.5px;color:#1F2937;line-height:1.65;white-space:pre-line">{{ msgBody }}</div>
       <sc-if value="{{ msgEff }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:12px;background:#EAF2FB;border-radius:12px;padding:10px 16px;font-size:12px;color:#1B4B89;display:flex;gap:8px;align-items:baseline"><span style="font-size:10px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Effect</span><span style="font-weight:600">{{ msgEff }}</span></div>
+        <div style="margin-top:12px;background:#EAF2FB;border-radius:12px;padding:10px 16px;font-size:12.5px;color:#1B4B89;display:flex;gap:8px;align-items:baseline"><span style="font-size:10.5px;font-weight:800;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">Effect</span><span style="font-weight:600">{{ msgEff }}</span></div>
       </sc-if>
       <sc-if value="{{ msgFoot }}" hint-placeholder-val="{{ false }}">
-        <div style="margin-top:14px;font-size:11.5px;color:#9CA3AF">{{ msgFoot }}</div>
+        <div style="margin-top:14px;font-size:12px;color:#9CA3AF">{{ msgFoot }}</div>
       </sc-if>
       </div>
     </div>
@@ -1165,55 +1165,55 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     <div data-id="specpanel" data-screen-label="Specificatiepaneel" style="position:fixed;top:0;right:0;bottom:0;width:min(440px,100vw);background:#fff;z-index:94;overflow-y:auto;box-shadow:-14px 0 44px rgba(27,75,137,.22);animation:slideIn 0.22s ease;padding:22px 24px 40px">
       <div style="display:flex;align-items:flex-start;gap:10px">
         <div>
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ spKicker }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.1em;text-transform:uppercase;color:#0B78BE">{{ spKicker }}</div>
           <div style="font-size:16px;font-weight:700;color:#1B4B89;margin-top:2px;line-height:1.3">{{ spTitle }}</div>
           <div style="display:flex;gap:6px;flex-wrap:wrap;margin-top:8px">
-            <span style="background:#EAF2FB;color:#1B4B89;border-radius:999px;padding:3px 12px;font-size:11px;font-weight:700">{{ spChip }}</span>
-            <sc-if value="{{ spNet }}" hint-placeholder-val="{{ false }}"><span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:11px;font-weight:600">{{ spNetLabel }}: {{ spNet }}</span></sc-if>
+            <span style="background:#EAF2FB;color:#1B4B89;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:700">{{ spChip }}</span>
+            <sc-if value="{{ spNet }}" hint-placeholder-val="{{ false }}"><span style="background:#F3F4F6;color:#6B7280;border-radius:999px;padding:3px 12px;font-size:11.5px;font-weight:600">{{ spNetLabel }}: {{ spNet }}</span></sc-if>
           </div>
         </div>
         <button onClick="{{ spClose }}" aria-label="Sluiten" style="margin-left:auto;border:none;background:#F3F4F6;color:#6B7280;border-radius:999px;width:30px;height:30px;font-size:15px;cursor:pointer;flex-shrink:0">✕</button>
       </div>
       <div style="margin-top:18px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ spKenLabel }}</div>
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:8px">{{ spKenLabel }}</div>
         <div style="display:flex;flex-direction:column;gap:6px">
           <sc-for list="{{ spKenmerken }}" as="k" hint-placeholder-count="4">
-            <div style="display:flex;gap:9px;font-size:12.5px;color:#1F2937;line-height:1.5"><span style="color:#0B78BE;font-weight:700">·</span><span>{{ k.x }}</span></div>
+            <div style="display:flex;gap:9px;font-size:13px;color:#1F2937;line-height:1.5"><span style="color:#0B78BE;font-weight:700">·</span><span>{{ k.x }}</span></div>
           </sc-for>
         </div>
       </div>
       <sc-if value="{{ spHasFile }}" hint-placeholder-val="{{ true }}">
         <div style="margin-top:16px;border-top:1px solid #EEF3F9;padding-top:12px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:6px">{{ spFileLabel }}</div>
-          <div style="font-size:12.5px;color:#1F2937;font-weight:600;word-break:break-all">{{ spConv }}</div>
-          <div style="margin-top:6px;background:#F5F8FC;border:1px solid #E4ECF5;border-radius:8px;padding:8px 12px;font-size:12px;color:#1B4B89;word-break:break-all"><span style="color:#6B7280">{{ spVbLabel }}:</span> {{ spVb }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#6B7280;margin-bottom:6px">{{ spFileLabel }}</div>
+          <div style="font-size:13px;color:#1F2937;font-weight:600;word-break:break-all">{{ spConv }}</div>
+          <div style="margin-top:6px;background:#F5F8FC;border:1px solid #E4ECF5;border-radius:8px;padding:8px 12px;font-size:12.5px;color:#1B4B89;word-break:break-all"><span style="color:#6B7280">{{ spVbLabel }}:</span> {{ spVb }}</div>
         </div>
       </sc-if>
       <div style="margin-top:16px;background:#FBF0E4;border:1px solid #EBD3B3;border-radius:10px;padding:11px 14px">
-        <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B45309;margin-bottom:3px">{{ spImpLabel }}</div>
-        <div style="font-size:12.5px;color:#1F2937">{{ spImp }}</div>
+        <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B45309;margin-bottom:3px">{{ spImpLabel }}</div>
+        <div style="font-size:13px;color:#1F2937">{{ spImp }}</div>
       </div>
       <div style="margin-top:12px;background:#EAF2FB;border-radius:10px;padding:11px 14px;display:flex;gap:10px;align-items:baseline">
-        <span style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ spDlLabel }}</span>
-        <span style="font-size:12.5px;color:#1B4B89;font-weight:600">{{ spDl }}</span>
+        <span style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#0B78BE">{{ spDlLabel }}</span>
+        <span style="font-size:13px;color:#1B4B89;font-weight:600">{{ spDl }}</span>
       </div>
       <sc-if value="{{ spShowNs }}" hint-placeholder-val="{{ false }}">
         <div style="margin-top:12px;border:1.5px solid #7FB3DC;border-radius:10px;padding:12px 14px">
-          <div style="font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89;margin-bottom:6px">{{ spNsTitle }}</div>
+          <div style="font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89;margin-bottom:6px">{{ spNsTitle }}</div>
           <div style="display:flex;flex-direction:column;gap:5px">
             <sc-for list="{{ spNsItems }}" as="k" hint-placeholder-count="4">
-              <div style="display:flex;gap:9px;font-size:12px;color:#1F2937;line-height:1.5"><span style="color:#1B4B89;font-weight:700">·</span><span>{{ k.x }}</span></div>
+              <div style="display:flex;gap:9px;font-size:12.5px;color:#1F2937;line-height:1.5"><span style="color:#1B4B89;font-weight:700">·</span><span>{{ k.x }}</span></div>
             </sc-for>
           </div>
-          <div style="font-size:11px;color:#6B7280;margin-top:8px">{{ spNsWhy }}</div>
+          <div style="font-size:11.5px;color:#6B7280;margin-top:8px">{{ spNsWhy }}</div>
         </div>
       </sc-if>
-      <button onClick="{{ spDoc }}" style-hover="border-color:#0B78BE;color:#0B78BE" style="margin-top:18px;width:100%;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:10px;font-size:13px;font-weight:600;cursor:pointer;transition:all .15s">{{ spDocLabel }}</button>
+      <button onClick="{{ spDoc }}" style-hover="border-color:#0B78BE;color:#0B78BE" style="margin-top:18px;width:100%;border:1px solid #C9D6E4;background:#fff;color:#1B4B89;border-radius:999px;padding:10px;font-size:13.5px;font-weight:600;cursor:pointer;transition:all .15s">{{ spDocLabel }}</button>
     </div>
   </sc-if>
 
   <sc-if value="{{ toastMsg }}" hint-placeholder-val="{{ false }}">
-    <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B4B89;color:#fff;border-radius:11px;padding:11px 22px;font-size:13px;font-weight:500;z-index:99;box-shadow:0 10px 30px rgba(15,43,80,.4);animation:fadeUp 0.25s ease;max-width:90vw;text-align:center">{{ toastMsg }}</div>
+    <div style="position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1B4B89;color:#fff;border-radius:11px;padding:11px 22px;font-size:13.5px;font-weight:500;z-index:99;box-shadow:0 10px 30px rgba(15,43,80,.4);animation:fadeUp 0.25s ease;max-width:90vw;text-align:center">{{ toastMsg }}</div>
   </sc-if>
 </div>
 </x-dc>
