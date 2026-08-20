@@ -22,7 +22,7 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous">
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-html,body{margin:0;padding:0;background:#FFFFFF;color:#1F2937;font-family:'Montserrat','Century Gothic',sans-serif}
+html,body{margin:0;padding:0;background:#F4F7FA;color:#1F2937;font-family:'Montserrat','Century Gothic',sans-serif}
 *{box-sizing:border-box}
 button{font-family:inherit}
 a{color:#0B78BE}a:hover{color:#1B4B89}
@@ -35,17 +35,17 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
 </helmet>
 <div style="min-height:100vh;font-family:'Montserrat','Century Gothic',sans-serif;color:#1F2937;font-size:14px;line-height:1.5">
   <sc-if value="{{ consoleVisible }}" hint-placeholder-val="{{ true }}">
-  <div data-id="console" style="position:sticky;top:0;z-index:80;background:#0F2B50;color:#fff;padding:6px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:5px 12px;font-size:12px;box-shadow:0 2px 10px rgba(15,43,80,.35)">
-    <div title="Geen onderdeel van het product" style="font-size:10px;letter-spacing:0.12em;font-weight:700;color:#8FB0D8;text-transform:uppercase;white-space:nowrap;border:1px solid #35507A;border-radius:999px;padding:3px 10px">Demo console</div>
+  <div data-id="console" style="position:sticky;top:0;z-index:80;background:#fff;color:#22384E;padding:7px 16px;display:flex;flex-wrap:wrap;align-items:center;gap:5px 14px;font-size:12px;border-bottom:1px solid #E4ECF5">
+    <div title="Geen onderdeel van het product" style="font-size:10px;letter-spacing:0.12em;font-weight:700;color:#93A4B5;text-transform:uppercase;white-space:nowrap;border:1px solid #E4ECF5;border-radius:999px;padding:3px 10px">Demo</div>
     <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-      <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Perspectief</span>
+      <span style="color:#93A4B5;font-weight:600;font-size:11px">Perspectief</span>
       <sc-for list="{{ perspBtns }}" as="b" hint-placeholder-count="2">
         <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;cursor:pointer">{{ b.label }}</button>
       </sc-for>
     </div>
     <sc-if value="{{ isIntern }}" hint-placeholder-val="{{ true }}">
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Rol</span>
+        <span style="color:#93A4B5;font-weight:600;font-size:11px">Rol</span>
         <sc-for list="{{ roleBtns }}" as="b" hint-placeholder-count="5">
           <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
@@ -53,21 +53,21 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
     </sc-if>
     <sc-if value="{{ isExtern }}" hint-placeholder-val="{{ false }}">
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Partij</span>
+        <span style="color:#93A4B5;font-weight:600;font-size:11px">Partij</span>
         <sc-for list="{{ partyBtns }}" as="b" hint-placeholder-count="3">
           <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
       <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap">
-        <span style="color:#7E9CC4;font-weight:500;font-size:11.5px">Staat</span>
+        <span style="color:#93A4B5;font-weight:600;font-size:11px">Staat</span>
         <sc-for list="{{ stateBtns }}" as="b" hint-placeholder-count="4">
           <button onClick="{{ b.pick }}" style="border:1px solid {{ b.bd }};background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:3px 9px;font-size:11.5px;font-weight:600;cursor:pointer">{{ b.label }}</button>
         </sc-for>
       </div>
     </sc-if>
     <div style="margin-left:auto;display:flex;gap:8px">
-      <button onClick="{{ openMails }}" style="border:1px solid #35507A;background:#0F2A4E;color:#CFE0F4;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Mailvoorbeelden</button>
-      <button onClick="{{ resetDemo }}" style="border:1px solid #35507A;background:transparent;color:#8FB0D8;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Reset demo</button>
+      <button onClick="{{ openMails }}" style="border:1px solid #E4ECF5;background:#fff;color:#64748B;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Mailvoorbeelden</button>
+      <button onClick="{{ resetDemo }}" style="border:1px solid #E4ECF5;background:#fff;color:#93A4B5;border-radius:999px;padding:3px 10px;font-size:11.5px;font-weight:600;cursor:pointer">Reset demo</button>
     </div>
   </div>
   </sc-if>
@@ -1694,7 +1694,7 @@ class Component extends DCLogic {
   }
   seg(list,activeKey,pickFn){
     return list.map(it=>({label:it.label,pick:()=>pickFn(it.key),
-      bg:it.key===activeKey?'#0B78BE':'transparent',fg:it.key===activeKey?'#fff':'#B9CDE6',bd:it.key===activeKey?'#0B78BE':'#35507A'}));
+      bg:it.key===activeKey?'#1B4B89':'#fff',fg:it.key===activeKey?'#fff':'#64748B',bd:it.key===activeKey?'#1B4B89':'#E4ECF5'}));
   }
   bothG3Done(){
     const a=this.state.t3.decided, b=this.state.t4.decided;
