@@ -1,8 +1,10 @@
 # Restyle-voorstel · creaties-verzamelen
 
-Status: **voorstel, wacht op akkoord** — nog niet doorgevoerd in
-`prototypes/creaties-verzamelen/`. De klikbare mock staat in
-`mockups/creaties-verzamelen-ux/index.html` (niet gehost; zie `.assetsignore`).
+Status: **akkoord gegeven en doorgevoerd** in
+`prototypes/creaties-verzamelen/index.html` (acht commits, één per ingreep,
+op branch `claude/creaties-ux-ui-optimization-7v56ro`). De klikbare mock in
+`mockups/creaties-verzamelen-ux/index.html` blijft staan als referentie
+(niet gehost; zie `.assetsignore`).
 
 ## Uitgangspunt (na feedback)
 
@@ -54,8 +56,9 @@ donkere mock-balk bovenaan (die balk is de schermkiezer van de mock zelf,
 geen productonderdeel): Teamcockpit, Dossier, Procesmonitor, Extern
 dashboard. De knop "ⓘ Wat is er veranderd" somt de ingrepen op.
 
-## Na akkoord
+## Doorgevoerd
 
-Doorvoeren in `prototypes/creaties-verzamelen/index.html`: de stijlingrepen
-vertalen naar de inline styles en tekstconstanten van de x-dc-bundel, per
-ingreep een commit. Gedrag en structuur van de schermen blijven onaangeroerd.
+Alle acht ingrepen zijn vertaald naar de inline styles en tekstconstanten
+van de x-dc-bundel; gedrag en structuur van de schermen zijn onaangeroerd.
+Headless geverifieerd (teamcockpit, dossier, procesmonitor, extern):
+rendert zonder scriptfouten.
