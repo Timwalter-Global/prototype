@@ -62,3 +62,21 @@ Alle acht ingrepen zijn vertaald naar de inline styles en tekstconstanten
 van de x-dc-bundel; gedrag en structuur van de schermen zijn onaangeroerd.
 Headless geverifieerd (teamcockpit, dossier, procesmonitor, extern):
 rendert zonder scriptfouten.
+
+## Iteratie 2 · sluimerstand (n.a.v. testerfeedback)
+
+Feedback: jaardeals staan vanaf januari in de lijst terwijl creaties pas vlak
+voor de inzet worden aangeleverd — de lijst is daardoor nooit "weg te werken".
+
+Doorgevoerd: een dossier **sluimert** zolang de aanleverdeadline buiten het
+werkvenster van 30 dagen ligt én er niets rood/amber is én er geen interne
+taak openstaat. Sluimerende dossiers staan standaard niet in de
+teamcockpitlijst en tellen niet mee in de tellers; een rustige balk onder de
+tabel ("🌙 n dossiers sluimeren · eerstvolgende wordt actueel over x weken")
+toont ze op verzoek, met een Sluimert-badge en gedempte tijdsaanduiding. Is
+de werkvoorraad leeg, dan verschijnt "✓ Alles is gefixt of ligt bij de
+klant". De procesmonitor blijft bewust de volledige pijplijn tonen. Twee
+demo-jaardeals (Hollands Genot, BuitenGewoon) maken het testbaar. Open
+procesvraag voor het team: moet bij een jaardeal ook het úítvraagmoment
+opschuiven naar het aanlevervenster?
+

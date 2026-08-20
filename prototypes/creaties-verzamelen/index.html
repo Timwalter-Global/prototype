@@ -208,10 +208,15 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             </div>
           </sc-for>
           <sc-if value="{{ noRows }}" hint-placeholder-val="{{ false }}">
-            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">Geen dossiers binnen deze filters.</div>
+            <div style="padding:28px;text-align:center;color:#6B7280;font-size:13.5px">{{ noRowsMsg }}</div>
           </sc-if>
         </div>
       </div>
+      <sc-if value="{{ slShow }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ slToggle }}" style-hover="border-color:#C7D6E5;color:#374151" style="width:100%;margin-top:10px;border:1px dashed #D5E0EC;background:#fff;color:#6B7280;border-radius:12px;padding:9px 16px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit;display:flex;align-items:center;gap:9px;transition:all .15s;text-align:left">
+          <span style="font-size:13.5px">🌙</span><span style="flex:1">{{ slLabel }}</span><span style="color:#0B78BE;font-weight:600;white-space:nowrap">{{ slBtnLabel }}</span>
+        </button>
+      </sc-if>
       <div style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-top:12px">
         <div style="font-size:12.5px;color:#6B7280">{{ pgInfo }}</div>
         <div style="margin-left:auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap">
@@ -1403,7 +1408,9 @@ function xd(id,camp,klant,via,route,netwerk,status,fase,uren,tijd,tone,owner,taa
  xd(27,'Decemberactie','SpeelGoud',null,'Preferred','Winkelcentra','Wacht op klantbevestiging',5,24,'1 dag','amber','yusuf','Klantbevestiging versturen',[mr('1080×1920 motion · Winkelcentra',['ORD-3327'],'gekoppeld','speelgoud_1080x1920_v1.mp4')],[ev('wk 2','kim','Creatie gekoppeld in Broadsign · gelogd'),ev('wk 2','sys','Taak klantbevestiging bij Yusuf')]),
  xd(28,'Herfstblend','KoffieCorner','AdVista','Preferred','Tankstations','Afgerond',6,9999,'—','grey',null,'Geen openstaande taken',[mr('1080×1920 motion · Tankstations',['ORD-3328'],'gekoppeld','koffiecorner_1080x1920_v1.mp4')],[ev('vorige maand','bo','Klantbevestiging verstuurd · gelogd'),ev('vorige maand','sys','Dossier afgerond · alle stappen aantoonbaar')],{passief:true}),
  xd(29,'Veilig Thuis','NachtBus',null,'Preferred','Treinstations','Gewijzigd · deadline herberekend',2,130,'6 dagen','amber','ext','Aanlevering afwachten · nieuwe deadline',[mr('1080×1920 motion · Treinstations',['ORD-3329'],'open')],[ev('wk 1','bo','Uitvraag verstuurd naar NachtBus'),ev('vandaag','sys','Datumwijziging ontvangen uit Salesforce · deadline herberekend'),ev('vandaag','sys','Status Gewijzigd · terug naar fase Aanlevering en bewaking')],{doneUpTo:2}),
- xd(30,'Kraanwaterweek','WaterWijs',null,'Preferred','Supermarkten','Wacht op aanlevering',2,84,'4 dagen','green','ext','Aanlevering afwachten (extern)',[mr('1080×1920 motion · Supermarkten',['ORD-3330'],'open')],[ev('wk 1','bo','Uitvraag verstuurd naar WaterWijs'),ev('wk 1','ext:WaterWijs','Aanleverlink geopend')])
+ xd(30,'Kraanwaterweek','WaterWijs',null,'Preferred','Supermarkten','Wacht op aanlevering',2,84,'4 dagen','green','ext','Aanlevering afwachten (extern)',[mr('1080×1920 motion · Supermarkten',['ORD-3330'],'open')],[ev('wk 1','bo','Uitvraag verstuurd naar WaterWijs'),ev('wk 1','ext:WaterWijs','Aanleverlink geopend')]),
+ xd(31,'Jaardeal zichtbaarheid 2026','Hollands Genot','NovaMedia','Partnerproces','Supermarkten','Wacht op aanlevering',2,1850,'11 weken','green','ext','Aanlevering afwachten (extern)',[mr('1080×1920 motion · Supermarkten',['ORD-3331'],'open')],[ev('12 jan','bo','Uitvraag verstuurd naar NovaMedia'),ev('12 jan','sys','Jaardeal: bewaking volgt de eerstvolgende inzetperiode')],{extDl:{nl:'Deadline: 3 november 2026 · eerste inzet 10 november',en:'Deadline: 3 November 2026 · first flight 10 November',red:false}}),
+ xd(32,'Jaardeal wintercampagne','BuitenGewoon',null,'Preferred','Snelwegmasten','Wacht op aanlevering',2,2600,'15 weken','green','ext','Aanlevering afwachten (extern)',[mr('1080×1920 motion · Snelwegmasten',['ORD-3332'],'open')],[ev('12 jan','yusuf','Uitvraag verstuurd naar BuitenGewoon'),ev('12 jan','sys','Jaardeal: bewaking volgt de eerstvolgende inzetperiode')],{extDl:{nl:'Deadline: 1 december 2026 · eerste inzet 8 december',en:'Deadline: 1 December 2026 · first flight 8 December',red:false}})
 ].forEach(d=>BASE.push(d));
 BASE.forEach(d=>(d.matrix||[]).forEach(normRow));
 const PHASES = ['Start en dossier','Uitvraag','Aanlevering en bewaking','Controle','Koppeling','Bevestiging en afronding'];
@@ -1522,7 +1529,7 @@ class Component extends DCLogic {
     return {
       persp:(this.props.startPerspectief==='extern')?'extern':'intern', role:'sandra', party:'novamedia', extState:'B', lang:'nl', extScreen:'overview', sortKey:'tijd', sortDir:1,
       screen:'i1', dossierId:null, task:null, flowOpen:false, mailOpen:false, toast:'', specOpen:null, tlFlt:'alle', msgOpen:null, extMsg:null,
-      counterFilter:null, groupOn:false, myTasks:true, page:1, perPage:10,
+      counterFilter:null, groupOn:false, myTasks:true, page:1, perPage:10, showSluimer:false,
       advOpen:false, advQ:'', fltOrd:'', faseInfo:null, dlOpen:false, dlReden:'', routeTip:null, monSel:null,
       fltAdv:'alle', fltBur:'alle', fltStake:'alle', fltStatus:'alle', fltRoute:'alle',
       ov:{},
@@ -1567,6 +1574,7 @@ class Component extends DCLogic {
     return m;
   }
   dossiers(){ return BASE.map(d=>this.viewD(d)); }
+  isSluimer(d){ return !d.passief && d.tone==='green' && d.uren>720 && d.owners.length>0 && d.owners.every(o=>o==='ext'); }
   now(){ const dt=new Date(); return dt.getDate()+' aug '+String(dt.getHours()).padStart(2,'0')+':'+String(dt.getMinutes()).padStart(2,'0'); }
   take(id){
     const me=PPL[this.state.role];
@@ -1716,7 +1724,10 @@ class Component extends DCLogic {
     const ds=this.dossiers();
 
     // ---- I1 rows ----
+    const slAll=ds.filter(d=>this.isSluimer(d));
+    const slN=slAll.length;
     let list=ds.slice();
+    if(!s.showSluimer) list=list.filter(d=>!this.isSluimer(d));
     if(s.fltAdv!=='alle') list=list.filter(d=>d.klant===s.fltAdv);
     if(s.fltBur!=='alle') list=list.filter(d=> s.fltBur==='direct' ? !d.via : d.via===s.fltBur);
     if(s.fltStake!=='alle') list=list.filter(d=> s.fltStake==='ext' ? d.owners.indexOf('ext')>=0 : d.owners.indexOf(s.fltStake)>=0);
@@ -1744,13 +1755,13 @@ class Component extends DCLogic {
     const ownerChipOf=(o,d)=> o==='ext' ? {init:'E',bg:'#6B7280',fg:'#fff',name:(d.extNaam||'Extern'),tag:'Extern',pillBg:'#fff',pillBd:'#C9CCD1',pillFg:'#575756'} : {init:PPL[o].n[0],bg:PPL[o].bg,fg:'#fff',name:PPL[o].n+' ('+PPL[o].r+')',tag:'Intern',pillBg:'#EAF2FB',pillBd:'#BFD7F0',pillFg:'#1B4B89'};
     const rowsAll=list.map(d=>{
       const st=statusChip(d.status,d.tone), tc=tijdChip(d.tone), rc=routeChip(d.route);
-      const gk=d.via||d.klant; const mc=mxCounts(d);
+      const gk=d.via||d.klant; const mc=mxCounts(d); const slp=this.isSluimer(d);
       return {id:d.id,camp:d.camp,klant:d.klant,ord:d.ord,sub:d.via?('via '+d.via):'direct',taak:d.taak,
         owners:d.owners.length?d.owners.map(o=>ownerChipOf(o,d)):(d.passief?[{init:'—',bg:'#F3F4F6',fg:'#6B7280',name:'Geen',tag:null,pillBg:'#fff',pillBd:'#E5E7EB',pillFg:'#6B7280'}]:[{init:'A',bg:'#BBDDF5',fg:'#1B4B89',name:'Systeem · AUTO',tag:null,pillBg:'#F5F8FC',pillBd:'#C9DEF2',pillFg:'#1B4B89'}]),
         canTake:d.owners.some(o=>o!=='ext')&&d.owners.indexOf(s.role)<0,
         take:(e)=>{e.stopPropagation();this.take(d.id);},
         open:()=>this.setState({screen:'i2',dossierId:d.id,tlFlt:'alle'}),
-        tijd:d.tijd,tijdBg:(d.tone==='red'||d.tone==='amber')?tc.bg:'transparent',tijdFg:(d.tone==='red'||d.tone==='amber')?tc.fg:(d.tone==='green'?'#15803D':'#9CA3AF'),route:d.route,routeBg:rc.bg,routeFg:rc.fg,
+        tijd:d.tijd,tijdBg:(d.tone==='red'||d.tone==='amber')?tc.bg:'transparent',tijdFg:slp?'#9CA3AF':((d.tone==='red'||d.tone==='amber')?tc.fg:(d.tone==='green'?'#15803D':'#9CA3AF')),route:d.route,routeBg:rc.bg,routeFg:rc.fg,
         rtIn:()=>this.setState({routeTip:d.id}), rtOut:()=>this.setState({routeTip:null}), rtOpen:s.routeTip===d.id,
         zet:d.owners.indexOf('ext')>=0?'Extern':(d.owners.length?'Intern':null),
         zetBg:d.owners.indexOf('ext')>=0?'#fff':'#EAF2FB',zetFg:d.owners.indexOf('ext')>=0?'#575756':'#0B78BE',zetBd:d.owners.indexOf('ext')>=0?'#C9CCD1':'#BFD7F0',
@@ -1758,7 +1769,7 @@ class Component extends DCLogic {
         mx:!!(mc.tot&&mc.del<mc.tot&&!d.passief), mxPct:(mc.tot?Math.round(mc.del/mc.tot*100):0)+'%', mxTxt:mc.del+'/'+mc.tot,
         rowBg:d.tone==='red'?'#FDF5F5':((s.role==='femke'&&d.owners.indexOf('femke')>=0)?'#F2F7FC':'transparent'),
         dim:d.passief?0.55:1,
-        badge:(s.groupOn&&groupCount[gk]>1)?(groupCount[gk]+' lopende uitvragen'):null};
+        badge:(s.groupOn&&groupCount[gk]>1)?(groupCount[gk]+' lopende uitvragen'):(slp?'Sluimert tot het aanlevervenster':null)};
     });
     const pgTotal=rowsAll.length;
     const pgPages=Math.max(1,Math.ceil(pgTotal/s.perPage));
@@ -1766,10 +1777,15 @@ class Component extends DCLogic {
     const rows=rowsAll.slice((pg-1)*s.perPage,pg*s.perPage);
     const pgBtns=[];for(let pi=1;pi<=pgPages;pi++){const on=pi===pg;pgBtns.push({n:String(pi),pick:((j)=>()=>this.setState({page:j}))(pi),bg:on?'#195AA6':'#fff',fg:on?'#fff':'#374151',bd:on?'#195AA6':'#D5E0EC'});}
     const ppBtns=[10,25].map(n=>({n:String(n),pick:()=>this.setState({perPage:n,page:1}),bg:s.perPage===n?'#EAF2FB':'#fff',fg:s.perPage===n?'#0B78BE':'#6B7280',bd:s.perPage===n?'#0B78BE':'#D5E0EC'}));
+    const slMin=slN?Math.min.apply(null,slAll.map(d=>d.uren)):0;
+    const slWk=slN?Math.max(1,Math.ceil((slMin-720)/168)):0;
+    const slLabel=(slN===1?'1 dossier sluimert':slN+' dossiers sluimeren')+' tot het aanlevervenster · eerstvolgende wordt actueel over '+slWk+(slWk===1?' week':' weken');
+    const noFilters=s.fltAdv==='alle'&&s.fltBur==='alle'&&s.fltStake==='alle'&&s.fltStatus==='alle'&&s.fltRoute==='alle'&&!s.fltOrd.trim()&&!s.counterFilter;
+    const noRowsMsg=(noFilters&&slN>0)?('✓ Alles is gefixt of ligt bij de klant — '+(slN===1?'1 dossier sluimert':slN+' dossiers sluimeren')+' tot het aanlevervenster.'):'Geen dossiers binnen deze filters.';
     const normDs=ds.filter(d=>d.tone==='red');
     const femkeDs=ds.filter(d=>d.owners.indexOf('femke')>=0);
     const grpPred={am:d=>d.owners.indexOf('sandra')>=0,cm:d=>d.owners.indexOf('bo')>=0||d.owners.indexOf('yusuf')>=0,ao:d=>d.owners.indexOf('kim')>=0||d.owners.indexOf('daan')>=0,ext:d=>d.owners.indexOf('ext')>=0,norm:d=>d.tone==='red'};
-    const mkCounter=(k,label)=>{ const grp=ds.filter(d=>!d.passief).filter(grpPred[k]); const act=s.counterFilter===k;
+    const mkCounter=(k,label)=>{ const grp=ds.filter(d=>!d.passief&&!this.isSluimer(d)).filter(grpPred[k]); const act=s.counterFilter===k;
       let nAct=0,nAtt=0; grp.forEach(d=>{ if(d.uren<0)nAct++; else if(d.uren<=48)nAtt++; });
       const badges=[]; if(nAct)badges.push({txt:nAct+' actie',bg:'#FDECEC',fg:'#B91C1C'}); if(nAtt)badges.push({txt:nAtt+' aandacht',bg:'#FBF0E4',fg:'#B45309'});
       return {label:label,count:String(grp.length),badges:badges,pick:()=>this.setState({counterFilter:act?null:k,page:1}),
@@ -2198,6 +2214,8 @@ class Component extends DCLogic {
       pgPrevDis:pg<=1, pgNextDis:pg>=pgPages,
       pgPrevFg:pg<=1?'#C9D6E4':'#0B78BE', pgNextFg:pg>=pgPages?'#C9D6E4':'#0B78BE',
       nc:nc, internRows:internRows, extRow:extRow, headCols:headCols, rows:rows, noRows:pgTotal===0,
+      noRowsMsg:noRowsMsg, slShow:slN>0, slLabel:slLabel, slBtnLabel:s.showSluimer?'Verberg':'Toon ze ›',
+      slToggle:()=>this.setState(st=>({showSluimer:!st.showSluimer,page:1})),
       fltAdv:s.fltAdv,setFltAdv:(e)=>this.setState({fltAdv:e.target.value}),
       advOpen:s.advOpen, advToggle:()=>this.setState({advOpen:!s.advOpen,advQ:''}), advClose:()=>this.setState({advOpen:false}),
       advQ:s.advQ, setAdvQ:(e)=>this.setState({advQ:e.target.value}),
