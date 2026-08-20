@@ -173,11 +173,11 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <div style="min-width:1180px">
           <div style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:12px 18px;border-bottom:1px solid #E4ECF5;background:#FAFCFE" data-comment-anchor="2bcfec1786-div">
             <sc-for list="{{ headCols }}" as="h" hint-placeholder-count="8">
-              <button onClick="{{ h.sort }}" style-hover="color:#0B78BE" style="border:none;background:none;padding:0;text-align:left;font-family:inherit;font-size:11.5px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:{{ h.fg }};cursor:pointer;display:flex;align-items:center;gap:4px">{{ h.label }}<span style="font-size:10px;line-height:1">{{ h.arrow }}</span></button>
+              <button onClick="{{ h.sort }}" style-hover="color:#0B78BE" style="border:none;background:none;padding:0;text-align:left;font-family:inherit;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:{{ h.fg }};cursor:pointer;display:flex;align-items:center;gap:4px">{{ h.label }}<span style="font-size:10px;line-height:1">{{ h.arrow }}</span></button>
             </sc-for>
           </div>
           <sc-for list="{{ rows }}" as="r" hint-placeholder-count="7">
-            <div onClick="{{ r.open }}" style-hover="background:#F5F9FD" style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:13px 18px;border-bottom:1px solid #EEF3F9;cursor:pointer;align-items:center;background:{{ r.rowBg }};opacity:{{ r.dim }}">
+            <div onClick="{{ r.open }}" style-hover="background:#F5F9FD" style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:14px 18px;border-bottom:1px solid #EEF3F9;cursor:pointer;align-items:center;background:{{ r.rowBg }};opacity:{{ r.dim }}">
               <div style="font-weight:600;color:#1B4B89">{{ r.camp }}</div>
               <div><div>{{ r.klant }}</div><div style="font-size:12px;color:#6B7280">{{ r.sub }}</div>
                 <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:3px;background:#F3F4F6;color:#6B7280;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600">{{ r.badge }}</div></sc-if>
@@ -1735,7 +1735,7 @@ class Component extends DCLogic {
     list.sort((a,b)=>{const va=sval(a),vb=sval(b);return (va<vb?-1:va>vb?1:0)*sd;});
     const headCols=[['camp','Campagne'],['klant','Klant'],['ord','Ordernr'],['taak','Taak'],['owner','Aan zet'],['tijd','Resterende tijd'],['route','Route'],['status','Status']].map(h=>({label:h[1],
       sort:()=>this.setState(st=>({sortKey:h[0],sortDir:st.sortKey===h[0]?-st.sortDir:1})),
-      fg:sk===h[0]?'#0B78BE':'#6B7280',arrow:sk===h[0]?(sd===1?'▲':'▼'):''}));
+      fg:sk===h[0]?'#0B78BE':'#93A4B5',arrow:sk===h[0]?(sd===1?'▲':'▼'):''}));
     if(s.role==='femke') list.sort((a,b)=>(b.owners.indexOf('femke')>=0?1:0)-(a.owners.indexOf('femke')>=0?1:0));
     if(s.groupOn){ list=list.slice().sort((a,b)=>{const ka=a.via||a.klant,kb=b.via||b.klant;return ka<kb?-1:ka>kb?1:0;}); }
     list=list.filter(d=>!d.passief).concat(list.filter(d=>d.passief));
