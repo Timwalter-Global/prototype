@@ -97,50 +97,45 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
         <div style="background:#EAF2FB;border:1px solid #C9D6E4;border-radius:12px;padding:12px 18px;margin-bottom:16px;font-size:13.5px;color:#1B4B89"><strong>Jouw wachtrij:</strong> {{ femkeCount }} beoordelingen wachten op Marketing — {{ femkeList }} — bovenaan gemarkeerd.</div>
       </sc-if>
       <div style="display:grid;grid-template-columns:minmax(185px,1fr) minmax(290px,1.9fr) minmax(185px,1fr);gap:10px;margin-bottom:16px;align-items:stretch;max-width:1040px" data-comment-anchor="f41f3db0d5-div">
-        <button onClick="{{ nc.pick }}" style-hover="border-color:#B91C1C;box-shadow:0 4px 16px rgba(185,28,28,.14)" style="text-align:left;background:{{ nc.bg }};border:1.5px solid {{ nc.bd }};border-radius:12px;padding:0;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;overflow:hidden">
-          <div style="display:flex;align-items:center;gap:7px;width:100%;background:#FDECEC;padding:6px 12px">
-            <span style="width:7px;height:7px;border-radius:50%;background:#B91C1C;flex-shrink:0"></span>
-            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#B91C1C">Buiten tijdsnorm</span>
-            <svg width="14" height="14" fill="{{ nc.icoFill }}" stroke="{{ nc.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
-          </div>
-          <div style="display:flex;align-items:center;gap:9px;padding:8px 12px 9px;flex-wrap:wrap;flex:1;align-content:center">
-            <span style="font-size:22px;font-weight:800;color:#B91C1C;line-height:1">{{ nc.count }}</span>
-            <span style="font-size:11.5px;color:#6B7280;font-weight:500;line-height:1.3">Deadline verstreken · directe actie</span>
-            <sc-if value="{{ nc.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ nc.filterBg }};color:#fff;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
-          </div>
+        <button onClick="{{ nc.pick }}" style-hover="border-color:#B91C1C" style="text-align:left;background:{{ nc.bg }};border:1px solid {{ nc.bd }};border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 2px rgba(27,75,137,.05)">
+          <span style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#B91C1C">
+            <span style="width:8px;height:8px;border-radius:50%;background:#B91C1C;flex-shrink:0"></span>Buiten tijdsnorm
+          </span>
+          <span style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+            <span style="font-size:24px;font-weight:800;color:#B91C1C;line-height:1">{{ nc.count }}</span>
+            <span style="font-size:12px;color:#6B7280;font-weight:500;line-height:1.3">Deadline verstreken</span>
+            <sc-if value="{{ nc.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ nc.filterBg }};color:#fff;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan</span></sc-if>
+          </span>
         </button>
-        <div style="background:#fff;border:1px solid #E4ECF5;border-radius:12px;box-shadow:0 2px 12px rgba(27,75,137,.06);overflow:hidden">
-          <div style="display:flex;align-items:baseline;gap:7px;background:#EAF2FB;padding:6px 12px">
-            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89">Intern aan zet</span>
-            <span style="font-size:11.5px;color:#0B78BE;font-weight:600">taken voor het Global team</span>
-          </div>
-          <div style="display:flex;flex-direction:column;gap:4px;padding:7px 9px 9px">
+        <div style="background:#fff;border:1px solid #E4ECF5;border-radius:12px;padding:12px 16px;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 2px rgba(27,75,137,.05)">
+          <span style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#1B4B89">
+            <span style="width:8px;height:8px;border-radius:50%;background:#0B78BE;flex-shrink:0"></span>Intern aan zet
+          </span>
+          <div style="display:flex;flex-direction:column;gap:2px">
             <sc-for list="{{ internRows }}" as="c" hint-placeholder-count="3">
-              <button onClick="{{ c.pick }}" style-hover="border-color:#0B78BE;background:#F2F7FC" style="display:flex;align-items:center;gap:9px;padding:5px 10px;border-radius:999px;border:1.5px solid {{ c.bd }};background:{{ c.bg }};cursor:pointer;text-align:left;font-family:inherit;transition:all .15s;width:100%">
-                <span style="font-size:15px;font-weight:800;color:#1B4B89;min-width:20px">{{ c.count }}</span>
+              <button onClick="{{ c.pick }}" style-hover="background:#F2F7FC" style="display:flex;align-items:center;gap:9px;padding:4px 8px;margin:0 -8px;border-radius:9px;border:1px solid {{ c.bd }};background:{{ c.bg }};cursor:pointer;text-align:left;font-family:inherit;transition:all .15s">
+                <span style="font-size:15px;font-weight:800;color:#1B4B89;min-width:20px;font-variant-numeric:tabular-nums">{{ c.count }}</span>
                 <span style="font-size:12.5px;font-weight:600;color:#374151">{{ c.label }}</span>
                 <sc-for list="{{ c.badges }}" as="b" hint-placeholder-count="0">
                   <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700;white-space:nowrap">{{ b.txt }}</span>
                 </sc-for>
                 <sc-if value="{{ c.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ c.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:10px;font-weight:700;white-space:nowrap">✓ Filter aan</span></sc-if>
-                <svg width="14" height="14" fill="{{ c.icoFill }}" stroke="{{ c.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
               </button>
             </sc-for>
           </div>
         </div>
-        <button onClick="{{ extRow.pick }}" style-hover="border-color:#0B78BE;box-shadow:0 4px 16px rgba(27,75,137,.12)" style="text-align:left;background:{{ extRow.bg }};border:1.5px solid {{ extRow.bd }};border-radius:12px;padding:0;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;overflow:hidden" data-comment-anchor="e50b900d4c-button">
-          <div style="display:flex;align-items:baseline;gap:7px;width:100%;background:#F3F4F6;padding:6px 12px;flex-wrap:wrap" data-comment-anchor="e4e52fcee0-div">
-            <span style="font-size:11px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;color:#575756;white-space:nowrap">Onze partners aan zet</span>
-            <span style="font-size:11.5px;color:#6B7280;font-weight:600;white-space:nowrap">wacht op externe partij</span>
-            <svg width="14" height="14" fill="{{ extRow.icoFill }}" stroke="{{ extRow.ico }}" stroke-width="1.4" stroke-linejoin="round" style="margin-left:auto;flex-shrink:0;display:block;align-self:center"><path d="M12.8 1.8 L1.2 1.8 L5.9 7.3 L5.9 11.1 L8.2 12.3 L8.2 7.3 Z"></path></svg>
-          </div>
-          <div style="display:flex;align-items:center;gap:9px;padding:8px 12px 9px;flex-wrap:wrap;flex:1;align-content:center">
-            <span style="font-size:22px;font-weight:800;color:#1B4B89;line-height:1">{{ extRow.count }}</span>
-            <sc-if value="{{ extRow.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ extRow.filterBg }};color:#fff;border-radius:999px;padding:1px 9px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan · klik om te wissen</span></sc-if>
+        <button onClick="{{ extRow.pick }}" style-hover="border-color:#0B78BE" style="text-align:left;background:{{ extRow.bg }};border:1px solid {{ extRow.bd }};border-radius:12px;padding:12px 16px;cursor:pointer;transition:all .15s;font-family:inherit;display:flex;flex-direction:column;gap:7px;box-shadow:0 1px 2px rgba(27,75,137,.05)" data-comment-anchor="e50b900d4c-button">
+          <span style="display:flex;align-items:center;gap:8px;font-size:11px;font-weight:700;letter-spacing:0.08em;text-transform:uppercase;color:#575756" data-comment-anchor="e4e52fcee0-div">
+            <span style="width:8px;height:8px;border-radius:50%;background:#9CA3AF;flex-shrink:0"></span>Partners aan zet
+          </span>
+          <span style="display:flex;align-items:baseline;gap:9px;flex-wrap:wrap">
+            <span style="font-size:24px;font-weight:800;color:#1B4B89;line-height:1">{{ extRow.count }}</span>
+            <span style="font-size:12px;color:#6B7280;font-weight:500;line-height:1.3">Wacht op externe partij</span>
+            <sc-if value="{{ extRow.filterOn }}" hint-placeholder-val="{{ false }}"><span style="background:{{ extRow.filterBg }};color:#fff;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:700;white-space:nowrap">✓ Filter aan</span></sc-if>
             <sc-for list="{{ extRow.badges }}" as="b" hint-placeholder-count="0">
               <span style="background:{{ b.bg }};color:{{ b.fg }};border-radius:999px;padding:1px 8px;font-size:10.5px;font-weight:700">{{ b.txt }}</span>
             </sc-for>
-          </div>
+          </span>
         </button>
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px" data-comment-anchor="239fce1a6f-div">
@@ -1783,7 +1778,7 @@ class Component extends DCLogic {
       const badges=[]; if(nAct)badges.push({txt:nAct+' actie',bg:'#FDECEC',fg:'#B91C1C'}); if(nAtt)badges.push({txt:nAtt+' aandacht',bg:'#FBF0E4',fg:'#B45309'});
       return {label:label,count:String(grp.length),badges:badges,pick:()=>this.setState({counterFilter:act?null:k,page:1}),
         filterOn:act, filterBg:k==='norm'?'#B91C1C':'#0B78BE',
-        bg:act?(k==='norm'?'#FDECEC':'#E8F1F9'):'#fff',bd:act?(k==='norm'?'#B91C1C':'#0B78BE'):(k==='norm'?'#F2C4C4':'#E4ECF5'),
+        bg:act?(k==='norm'?'#FDECEC':'#E8F1F9'):((k==='am'||k==='cm'||k==='ao')?'transparent':'#fff'),bd:act?(k==='norm'?'#B91C1C':'#0B78BE'):((k==='am'||k==='cm'||k==='ao')?'transparent':'#E4ECF5'),
         ico:act?(k==='norm'?'#B91C1C':'#0B78BE'):'#9CA3AF',icoFill:act?(k==='norm'?'#B91C1C':'#0B78BE'):'none'};
     };
     const nc=mkCounter('norm','Buiten tijdsnorm');
