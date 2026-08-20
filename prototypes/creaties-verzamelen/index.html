@@ -182,18 +182,18 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             <div onClick="{{ r.open }}" style-hover="background:#F5F9FD" style="display:grid;grid-template-columns:1.8fr 1.35fr 1.2fr 1.7fr 1.85fr 1fr 1.05fr 1.4fr;gap:12px;padding:13px 18px;border-bottom:1px solid #EEF3F9;cursor:pointer;align-items:center;background:{{ r.rowBg }};opacity:{{ r.dim }}">
               <div style="font-weight:600;color:#1B4B89">{{ r.camp }}</div>
               <div><div>{{ r.klant }}</div><div style="font-size:12px;color:#6B7280">{{ r.sub }}</div>
-                <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:3px;background:#EAF2FB;color:#0B78BE;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600">{{ r.badge }}</div></sc-if>
+                <sc-if value="{{ r.badge }}" hint-placeholder-val="{{ false }}"><div style="display:inline-block;margin-top:3px;background:#F3F4F6;color:#6B7280;border-radius:999px;padding:1px 8px;font-size:11px;font-weight:600">{{ r.badge }}</div></sc-if>
               </div>
               <div style="font-size:12.5px;color:#374151;font-variant-numeric:tabular-nums">{{ r.ord }}</div>
               <div style="font-size:13px">{{ r.taak }}</div>
               <div>
                 <div style="display:flex;align-items:center;gap:6px;flex-wrap:wrap">
                   <sc-for list="{{ r.owners }}" as="o" hint-placeholder-count="1">
-                    <span style="display:inline-flex;align-items:center;gap:6px;background:{{ o.pillBg }};border:1px solid {{ o.pillBd }};border-radius:999px;padding:3px 10px 3px 4px;font-size:12.5px;font-weight:600;color:{{ o.pillFg }};white-space:nowrap"><span style="width:20px;height:20px;border-radius:50%;background:{{ o.bg }};color:{{ o.fg }};display:inline-flex;align-items:center;justify-content:center;font-size:10.5px;font-weight:700;flex-shrink:0">{{ o.init }}</span>{{ o.name }}<sc-if value="{{ o.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:800;letter-spacing:0.08em;text-transform:uppercase;opacity:0.6;margin-left:2px">{{ o.tag }}</span></sc-if></span>
+                    <span style="display:inline-flex;align-items:center;gap:7px;font-size:12.5px;font-weight:600;color:#374151;white-space:nowrap"><span style="width:22px;height:22px;border-radius:50%;background:{{ o.bg }};color:{{ o.fg }};display:inline-flex;align-items:center;justify-content:center;font-size:10px;font-weight:700;flex-shrink:0">{{ o.init }}</span>{{ o.name }}<sc-if value="{{ o.tag }}" hint-placeholder-val="{{ false }}"><span style="font-size:9.5px;font-weight:700;letter-spacing:0.06em;text-transform:uppercase;color:#9CA3AF;margin-left:1px">{{ o.tag }}</span></sc-if></span>
                   </sc-for>
                 </div>
               </div>
-              <div><span style="background:{{ r.tijdBg }};color:{{ r.tijdFg }};border-radius:999px;padding:3px 10px;font-size:12px;font-weight:600;white-space:nowrap">{{ r.tijd }}</span></div>
+              <div><span style="color:{{ r.tijdFg }};font-size:12.5px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums">{{ r.tijd }}</span></div>
               <div style="position:relative">
                 <span onMouseEnter="{{ r.rtIn }}" onMouseLeave="{{ r.rtOut }}" style="font-size:12.5px;color:#6B7280;white-space:nowrap;border-bottom:1px dashed #C9D6E4;cursor:help">{{ r.route }}</span>
                 <sc-if value="{{ r.rtOpen }}" hint-placeholder-val="{{ false }}">
@@ -1754,13 +1754,13 @@ class Component extends DCLogic {
         canTake:d.owners.some(o=>o!=='ext')&&d.owners.indexOf(s.role)<0,
         take:(e)=>{e.stopPropagation();this.take(d.id);},
         open:()=>this.setState({screen:'i2',dossierId:d.id,tlFlt:'alle'}),
-        tijd:d.tijd,tijdBg:(d.tone==='red'||d.tone==='amber')?tc.bg:'transparent',tijdFg:(d.tone==='red'||d.tone==='amber')?tc.fg:'#374151',route:d.route,routeBg:rc.bg,routeFg:rc.fg,
+        tijd:d.tijd,tijdBg:(d.tone==='red'||d.tone==='amber')?tc.bg:'transparent',tijdFg:(d.tone==='red'||d.tone==='amber')?tc.fg:(d.tone==='green'?'#15803D':'#9CA3AF'),route:d.route,routeBg:rc.bg,routeFg:rc.fg,
         rtIn:()=>this.setState({routeTip:d.id}), rtOut:()=>this.setState({routeTip:null}), rtOpen:s.routeTip===d.id,
         zet:d.owners.indexOf('ext')>=0?'Extern':(d.owners.length?'Intern':null),
         zetBg:d.owners.indexOf('ext')>=0?'#fff':'#EAF2FB',zetFg:d.owners.indexOf('ext')>=0?'#575756':'#0B78BE',zetBd:d.owners.indexOf('ext')>=0?'#C9CCD1':'#BFD7F0',
         status:d.status,stBg:st.bg,stFg:st.fg,sectie:sectieOf(d),
         mx:!!(mc.tot&&mc.del<mc.tot&&!d.passief), mxPct:(mc.tot?Math.round(mc.del/mc.tot*100):0)+'%', mxTxt:mc.del+'/'+mc.tot,
-        rowBg:d.tone==='red'?'#FDECEC':((s.role==='femke'&&d.owners.indexOf('femke')>=0)?'#E8F1F9':'transparent'),
+        rowBg:d.tone==='red'?'#FDF5F5':((s.role==='femke'&&d.owners.indexOf('femke')>=0)?'#F2F7FC':'transparent'),
         dim:d.passief?0.55:1,
         badge:(s.groupOn&&groupCount[gk]>1)?(groupCount[gk]+' lopende uitvragen'):null};
     });
