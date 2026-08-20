@@ -4,531 +4,675 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="robots" content="noindex, nofollow" />
-<title>Creatiestroom</title>
+<title>Creaties verzamelen · restyle</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ground:#F4F7FB; --surface:#FFFFFF; --ink:#17304A; --muted:#5D7288; --faint:#8DA2B5;
-    --line:#DFE8F1; --line-soft:#EBF1F7;
-    --primary:#195AA6; --primary-deep:#1B4B89; --primary-soft:#EAF2FB; --sky:#5BC4E8;
-    --ok:#1B7F4B; --ok-bg:#E8F5EE; --warn:#AD5B08; --warn-bg:#FBF1E3; --crit:#BE3140; --crit-bg:#FCECEE;
-    --shadow:0 1px 2px rgba(23,48,74,.05), 0 4px 16px rgba(23,48,74,.06);
-    --shadow-lift:0 2px 6px rgba(23,48,74,.08), 0 14px 40px rgba(23,48,74,.12);
+    --ground:#F4F7FA; --card:#FFFFFF;
+    --line:#E3EAF2; --line2:#EEF3F8;
+    --ink:#22384E; --mut:#64748B; --faint:#93A4B5;
+    --navy:#1B4B89; --blue:#0B78BE; --blue-soft:#EAF2FB; --sky:#5BC4E8; --brand:#195AA6;
+    --ok:#1B7F4B; --ok-bg:#E9F5EE; --warn:#AD5B08; --warn-bg:#FBF1E3; --crit:#BE3140; --crit-bg:#FCEDEE;
+    --grey-bg:#EFF3F7;
+    --shadow:0 1px 2px rgba(27,75,137,.05), 0 4px 14px rgba(27,75,137,.05);
     --r:14px;
   }
   *{box-sizing:border-box}
   html,body{margin:0;padding:0}
-  body{background:var(--ground);color:var(--ink);font:400 14px/1.55 'Montserrat','Century Gothic',sans-serif}
+  body{background:var(--ground);color:var(--ink);font:400 13.5px/1.55 'Montserrat','Century Gothic',sans-serif}
   button{font-family:inherit;cursor:pointer}
-  :focus-visible{outline:2px solid var(--primary);outline-offset:2px;border-radius:6px}
+  select,input{font-family:inherit}
+  :focus-visible{outline:2px solid var(--blue);outline-offset:2px;border-radius:6px}
   @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
 
-  .app{display:flex;min-height:100vh}
+  /* ── mock-schermkiezer (geen productonderdeel) ── */
+  .mockbar{background:#22384E;color:#fff;padding:8px 18px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;position:sticky;top:0;z-index:60}
+  .mockbar .tag{font-size:9.5px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9DB2C6;border:1px solid #46596D;border-radius:999px;padding:3px 10px;white-space:nowrap}
+  .mockbar button{border:none;background:transparent;color:#B9C8D6;border-radius:999px;padding:5px 14px;font-size:12.5px;font-weight:600}
+  .mockbar button.on{background:#fff;color:#22384E}
+  .mockbar .about{margin-left:auto;border:1px solid #46596D;color:#B9C8D6}
 
-  /* ── Zijbalk ─────────────────────────────── */
-  .side{width:224px;flex-shrink:0;background:var(--surface);border-right:1px solid var(--line);padding:20px 14px;display:flex;flex-direction:column;gap:4px;position:sticky;top:0;height:100vh}
-  .side .brand{display:flex;align-items:center;gap:9px;padding:2px 10px 18px}
-  .brand-mark{width:30px;height:30px;border-radius:9px;background:var(--primary);color:#fff;display:grid;place-items:center;font-weight:800;font-size:14px;letter-spacing:-.02em}
-  .brand-name{font-weight:800;color:var(--primary-deep);font-size:14.5px;line-height:1.2}
-  .brand-sub{font-size:10.5px;color:var(--faint);font-weight:600}
-  .nav-btn{display:flex;align-items:center;gap:10px;width:100%;border:none;background:none;border-radius:10px;padding:9px 12px;font-size:13.5px;font-weight:600;color:var(--muted);text-align:left;transition:background .12s,color .12s}
-  .nav-btn:hover{background:var(--ground);color:var(--ink)}
-  .nav-btn.on{background:var(--primary-soft);color:var(--primary-deep)}
-  .nav-btn .cnt{margin-left:auto;background:var(--primary);color:#fff;border-radius:999px;font-size:10.5px;font-weight:700;padding:1px 8px}
-  .nav-btn.on .cnt{background:var(--primary-deep)}
-  .nav-sep{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);padding:16px 12px 6px}
-  .side .me{margin-top:auto;display:flex;align-items:center;gap:10px;border-top:1px solid var(--line-soft);padding:14px 10px 2px}
-  .av{width:32px;height:32px;border-radius:50%;background:var(--primary-deep);color:#fff;display:grid;place-items:center;font-size:12px;font-weight:700;flex-shrink:0}
-  .av.k{background:#4A7FB5}.av.f{background:#3E6E9E}.av.y{background:#2C5E92}.av.x{background:#93A9BD}
-  .me small{display:block;color:var(--faint);font-weight:600;font-size:10.5px}
-  .me b{font-size:13px;color:var(--ink)}
+  /* ── demo console, restyled: licht en stil ── */
+  .console{background:#fff;border-bottom:1px solid var(--line);padding:7px 20px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;font-size:12px}
+  .console .lbl{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--faint)}
+  .console .grp{display:flex;align-items:center;gap:6px}
+  .chip{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600;transition:all .12s}
+  .chip:hover{border-color:#C7D6E5;color:var(--ink)}
+  .chip.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .console .right{margin-left:auto;display:flex;gap:6px}
 
-  /* ── Hoofdkolom ──────────────────────────── */
-  .main{flex:1;min-width:0;padding:22px 32px 80px}
-  .wrap{max-width:1060px;margin:0 auto}
-  .topbar{display:flex;align-items:center;gap:14px;margin-bottom:22px}
-  .search{flex:1;max-width:440px;display:flex;align-items:center;gap:9px;background:var(--surface);border:1px solid var(--line);border-radius:11px;padding:9px 14px;color:var(--faint);font-size:13px;cursor:text;transition:border-color .12s}
-  .search:hover{border-color:#C4D4E4}
-  .search kbd{margin-left:auto;background:var(--ground);border:1px solid var(--line);border-radius:5px;padding:1px 7px;font-size:10.5px;font-family:inherit;color:var(--faint);font-weight:600}
-  .top-actions{margin-left:auto;display:flex;gap:8px;align-items:center}
+  .page{max-width:1280px;margin:0 auto;padding:22px 24px 90px}
+  .page.narrow{max-width:1040px}
+  .page.slim{max-width:780px}
 
-  h1{font-size:22px;font-weight:800;color:var(--primary-deep);margin:0;letter-spacing:-.01em;text-wrap:balance}
-  .sub{color:var(--muted);font-size:13.5px;margin-top:4px}
-  .sec-label{font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);margin:26px 0 10px;display:flex;align-items:center;gap:10px}
-  .sec-label::after{content:"";flex:1;height:1px;background:var(--line)}
+  /* ── koppen ── */
+  .apphead{display:flex;align-items:center;gap:14px;padding:2px 0 20px;flex-wrap:wrap}
+  .apphead .logo{font-weight:800;color:var(--brand);font-size:17px;letter-spacing:.01em}
+  .apphead .divider{width:1px;height:24px;background:var(--line)}
+  .apphead .title{font-weight:800;color:var(--navy);font-size:16px}
+  .apphead .sub{font-size:12px;color:var(--mut)}
+  .me{margin-left:auto;display:flex;align-items:center;gap:9px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:4px 14px 4px 5px;box-shadow:var(--shadow)}
+  .av{width:26px;height:26px;border-radius:50%;background:var(--navy);color:#fff;display:inline-grid;place-items:center;font-weight:700;font-size:11px;flex-shrink:0}
+  .me b{font-size:12.5px;color:var(--navy)}
+  .me span{font-size:11px;color:var(--mut);font-weight:600}
 
-  .card{background:var(--surface);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+  .card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
 
-  /* ── Taakkaarten (Vandaag) ───────────────── */
-  .task{display:flex;align-items:center;gap:16px;padding:16px 20px;border-left:4px solid transparent;transition:box-shadow .15s}
-  .task + .task{border-top:1px solid var(--line-soft)}
-  .task.crit{border-left-color:var(--crit)}
-  .task.warn{border-left-color:var(--warn)}
-  .task.norm{border-left-color:var(--sky)}
-  .task-body{flex:1;min-width:0}
-  .task-title{font-weight:700;font-size:14.5px;color:var(--ink)}
-  .task-meta{color:var(--muted);font-size:12.5px;margin-top:2px;display:flex;gap:14px;flex-wrap:wrap}
-  .task-meta .due{font-weight:600}
-  .task-meta .due.crit{color:var(--crit)}
-  .task-meta .due.warn{color:var(--warn)}
-  .btn{border:none;background:var(--primary);color:#fff;border-radius:999px;padding:9px 18px;font-size:13px;font-weight:600;white-space:nowrap;transition:background .12s;box-shadow:0 2px 8px rgba(25,90,166,.25)}
-  .btn:hover{background:var(--primary-deep)}
-  .btn.ghost{background:var(--surface);color:var(--primary);border:1px solid var(--line);box-shadow:none}
-  .btn.ghost:hover{border-color:var(--primary);background:var(--primary-soft)}
-  .btn.ok{background:var(--ok)}
-  .btn.crit-o{background:var(--surface);color:var(--crit);border:1.5px solid var(--crit);box-shadow:none}
+  /* ── stat-kaarten: drie keer dezelfde vorm ── */
+  .stats{display:grid;grid-template-columns:1fr 1.9fr 1fr;gap:12px;margin-bottom:16px;align-items:stretch}
+  @media(max-width:860px){.stats{grid-template-columns:1fr}}
+  .stat{background:var(--card);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:14px 18px;text-align:left;display:flex;flex-direction:column;gap:8px;transition:border-color .12s}
+  button.stat:hover{border-color:#C7D6E5}
+  .stat .head{display:flex;align-items:center;gap:8px;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase}
+  .stat .head .dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+  .stat .num{font-size:26px;font-weight:800;line-height:1;color:var(--navy)}
+  .stat .cap{font-size:11.5px;color:var(--mut);font-weight:500}
+  .stat.crit .head{color:var(--crit)}.stat.crit .num{color:var(--crit)}
+  .stat.blue .head{color:var(--navy)}
+  .stat.grey .head{color:var(--mut)}
+  .stat .rows{display:flex;flex-direction:column;gap:4px}
+  .stat .row{display:flex;align-items:center;gap:10px;border:1px solid transparent;border-radius:9px;padding:4px 10px;margin:0 -10px;font-size:12.5px;transition:all .12s;background:none;text-align:left}
+  .stat .row:hover{background:var(--blue-soft)}
+  .stat .row b{font-size:15px;font-weight:800;color:var(--navy);min-width:20px;font-variant-numeric:tabular-nums}
+  .stat .row span{color:var(--ink);font-weight:600}
+  .stat .row .mini{margin-left:auto;font-size:10.5px;font-weight:700;color:var(--crit)}
 
-  .waiting{padding:6px 20px 14px}
-  .wait-row{display:flex;align-items:center;gap:12px;padding:9px 0;color:var(--muted);font-size:13px}
-  .wait-row + .wait-row{border-top:1px solid var(--line-soft)}
-  .wait-row b{color:var(--ink);font-weight:600}
-  .wait-row .who{margin-left:auto;display:flex;align-items:center;gap:7px;font-size:12px;font-weight:600;white-space:nowrap}
-  .dot{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+  /* ── filterbalk ── */
+  .filters{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-bottom:12px}
+  .filters select,.filters input,.filters .fbtn{border:1px solid var(--line);border-radius:9px;background:#fff;color:var(--mut);font-size:12.5px;padding:7px 11px;height:34px}
+  .filters input{width:165px}
+  .filters .fbtn{display:flex;align-items:center;gap:7px;font-weight:500}
+  .filters .toggle{border-radius:999px;font-weight:600}
+  .filters .toggle.on{background:var(--navy);border-color:var(--navy);color:#fff}
+  .filters .spacer{flex:1}
 
-  .digest{display:flex;gap:12px;margin-bottom:20px}
-  .digest .chip-stat{flex:1;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 16px;display:flex;align-items:baseline;gap:9px;box-shadow:var(--shadow)}
-  .chip-stat b{font-size:21px;font-weight:800;color:var(--primary-deep)}
-  .chip-stat.crit b{color:var(--crit)}
-  .chip-stat span{font-size:12px;color:var(--muted);font-weight:600;line-height:1.3}
-
-  /* ── Dossiers-tabel ──────────────────────── */
-  .views{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap}
-  .view-chip{border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:6px 15px;font-size:12.5px;font-weight:600;transition:all .12s}
-  .view-chip:hover{border-color:#C4D4E4;color:var(--ink)}
-  .view-chip.on{background:var(--primary-deep);border-color:var(--primary-deep);color:#fff}
-  .view-chip .n{opacity:.7;margin-left:4px}
-  table{width:100%;border-collapse:collapse}
-  thead th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:12px 18px;border-bottom:1px solid var(--line)}
-  tbody td{padding:14px 18px;border-bottom:1px solid var(--line-soft);vertical-align:middle}
+  /* ── tabel ── */
+  .tablecard{overflow-x:auto}
+  table{width:100%;border-collapse:collapse;min-width:1080px}
+  thead th{text-align:left;font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);padding:12px 16px;border-bottom:1px solid var(--line);background:#FBFCFE;white-space:nowrap}
+  tbody td{padding:13px 16px;border-bottom:1px solid var(--line2);vertical-align:middle}
   tbody tr{cursor:pointer;transition:background .1s}
-  tbody tr:hover{background:#F8FBFE}
+  tbody tr:hover{background:#F7FAFD}
   tbody tr:last-child td{border-bottom:none}
-  .camp{font-weight:700;color:var(--primary-deep);font-size:13.5px}
-  .klant{color:var(--muted);font-size:12px;margin-top:1px}
-  .ordnr{font-variant-numeric:tabular-nums;color:var(--faint);font-size:11.5px}
-  .prog{display:flex;gap:4px;align-items:center}
-  .prog i{width:14px;height:5px;border-radius:999px;background:var(--line)}
-  .prog i.done{background:var(--primary)}
-  .prog i.here{background:var(--sky)}
-  .prog-label{font-size:11px;color:var(--muted);margin-top:5px;font-weight:600}
-  .pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:700;white-space:nowrap}
-  .pill .dot{width:6px;height:6px}
-  .pill.ok{background:var(--ok-bg);color:var(--ok)}
-  .pill.warn{background:var(--warn-bg);color:var(--warn)}
-  .pill.crit{background:var(--crit-bg);color:var(--crit)}
-  .pill.info{background:var(--primary-soft);color:var(--primary-deep)}
-  .pill.idle{background:#EFF3F7;color:var(--muted)}
+  .camp{font-weight:700;color:var(--navy);font-size:13px}
+  .klant b{font-weight:600;color:var(--ink);font-size:13px;display:block}
+  .klant span{color:var(--mut);font-size:11.5px}
+  .ord{font-variant-numeric:tabular-nums;font-size:12px;color:var(--mut);white-space:nowrap}
+  .taak{font-size:12.5px;color:var(--ink)}
   .owner{display:inline-flex;align-items:center;gap:8px;font-size:12.5px;font-weight:600;color:var(--ink);white-space:nowrap}
-  .owner .av{width:24px;height:24px;font-size:10px}
-  .owner small{color:var(--faint);font-weight:600}
-  .due-cell{font-size:12.5px;font-weight:600;font-variant-numeric:tabular-nums;white-space:nowrap}
-  .due-cell.crit{color:var(--crit)}.due-cell.warn{color:var(--warn)}.due-cell.ok{color:var(--muted)}
+  .owner .av{width:22px;height:22px;font-size:9.5px}
+  .owner .av.ex{background:#93A4B5}
+  .owner small{color:var(--faint);font-weight:600;font-size:10.5px;text-transform:uppercase;letter-spacing:.05em}
+  .tijd{font-size:12.5px;font-weight:700;white-space:nowrap;font-variant-numeric:tabular-nums}
+  .tijd.ok{color:var(--ok)}.tijd.warn{color:var(--warn)}.tijd.crit{color:var(--crit)}.tijd.grey{color:var(--faint);font-weight:500}
+  .route{font-size:12px;color:var(--mut);border-bottom:1px dashed #C7D6E5;cursor:help;white-space:nowrap}
+  .pill{display:inline-flex;align-items:center;gap:7px;border-radius:999px;padding:4px 12px;font-size:11.5px;font-weight:700;white-space:nowrap}
+  .pill .dot{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+  .pill.ok{background:var(--ok-bg);color:var(--ok)}.pill.ok .dot{background:var(--ok)}
+  .pill.warn{background:var(--warn-bg);color:var(--warn)}.pill.warn .dot{background:var(--warn)}
+  .pill.crit{background:var(--crit-bg);color:var(--crit)}.pill.crit .dot{background:var(--crit)}
+  .pill.blue{background:var(--blue-soft);color:var(--navy)}.pill.blue .dot{background:var(--blue)}
+  .pill.grey{background:var(--grey-bg);color:var(--mut)}.pill.grey .dot{background:var(--faint)}
+  .pager{display:flex;align-items:center;gap:12px;margin-top:12px;font-size:12px;color:var(--mut);flex-wrap:wrap}
+  .pager .right{margin-left:auto;display:flex;gap:6px;align-items:center}
+  .pager button{border:1px solid var(--line);background:#fff;color:var(--mut);border-radius:999px;padding:4px 12px;font-size:12px;font-weight:600}
+  .pager button.on{background:var(--navy);border-color:var(--navy);color:#fff}
 
-  /* ── Dossierdetail ───────────────────────── */
-  .back{border:none;background:none;color:var(--primary);font-size:13px;font-weight:600;padding:0;margin-bottom:14px;display:inline-flex;align-items:center;gap:6px}
-  .back:hover{color:var(--primary-deep)}
-  .d-head{display:flex;align-items:flex-start;gap:20px;padding:22px 26px;flex-wrap:wrap}
-  .d-head h2{margin:0;font-size:20px;font-weight:800;color:var(--primary-deep)}
-  .d-facts{display:flex;gap:18px;flex-wrap:wrap;margin-top:8px;font-size:12.5px;color:var(--muted)}
-  .d-facts b{color:var(--ink);font-weight:600;font-variant-numeric:tabular-nums}
-  .action-block{background:var(--primary-soft);border:1px solid #CFE1F3;border-radius:12px;padding:14px 18px;display:flex;align-items:center;gap:16px;min-width:300px;flex:1;max-width:430px}
-  .action-block .eyebrow{font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--primary)}
-  .action-block .what{font-weight:700;font-size:14px;color:var(--primary-deep);margin-top:2px}
-  .action-block .why{font-size:12px;color:var(--muted);margin-top:2px}
-  .phases{display:flex;padding:20px 26px 16px;overflow-x:auto}
-  .ph{flex:1;min-width:96px;text-align:center;position:relative}
+  /* ── dossier ── */
+  .back{border:none;background:none;color:var(--blue);font-size:13px;font-weight:600;padding:0;margin-bottom:12px}
+  .back:hover{color:var(--navy)}
+  .dhead{padding:20px 24px;display:flex;gap:20px;align-items:center;flex-wrap:wrap}
+  .dhead h2{margin:0;font-size:20px;font-weight:800;color:var(--navy)}
+  .dhead .meta{color:var(--mut);font-size:12.5px;margin-top:3px}
+  .dhead .meta b{color:var(--navy);font-weight:600;font-variant-numeric:tabular-nums}
+  .strip{margin-left:auto;background:var(--blue-soft);border:1px solid #CFE1F3;border-radius:12px;padding:12px 16px;display:flex;align-items:center;gap:14px;max-width:460px;flex:1;min-width:280px}
+  .strip .eyebrow{font-size:9.5px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--blue)}
+  .strip .what{font-size:13.5px;font-weight:700;color:var(--navy);margin-top:1px}
+  .strip .why{font-size:11.5px;color:var(--mut)}
+  .btn{border:none;background:var(--brand);color:#fff;border-radius:999px;padding:8px 18px;font-size:12.5px;font-weight:600;white-space:nowrap;box-shadow:0 2px 8px rgba(25,90,166,.22)}
+  .btn:hover{background:var(--navy)}
+  .btn.ghost{background:#fff;color:var(--navy);border:1px solid var(--line);box-shadow:none}
+  .btn.ghost:hover{border-color:var(--blue);color:var(--blue)}
+
+  .tracker{padding:18px 24px 14px;margin-top:14px;cursor:pointer}
+  .tracker .row{display:flex;overflow-x:auto}
+  .ph{flex:1;min-width:100px;text-align:center;position:relative}
   .ph::before{content:"";position:absolute;top:11px;left:-50%;right:50%;height:2px;background:var(--line)}
   .ph:first-child::before{display:none}
-  .ph.done::before,.ph.here::before{background:var(--primary)}
-  .ph i{width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font-size:10.5px;font-weight:700;font-style:normal;background:var(--surface);border:2px solid var(--line);color:var(--faint);position:relative;z-index:1}
-  .ph.done i{background:var(--primary);border-color:var(--primary);color:#fff}
-  .ph.here i{background:var(--surface);border-color:var(--primary);color:var(--primary);box-shadow:0 0 0 4px var(--primary-soft)}
-  .ph span{display:block;font-size:10.5px;margin-top:5px;color:var(--faint);font-weight:600}
-  .ph.here span{color:var(--primary-deep);font-weight:700}
-  .ph.done span{color:var(--muted)}
+  .ph.done::before,.ph.here::before{background:var(--blue)}
+  .ph i{width:22px;height:22px;border-radius:50%;display:inline-grid;place-items:center;font-size:10.5px;font-weight:700;font-style:normal;background:#fff;border:2px solid var(--line);color:var(--faint);position:relative;z-index:1}
+  .ph.done i{background:var(--blue);border-color:var(--blue);color:#fff}
+  .ph.here i{border-color:var(--blue);color:var(--blue);box-shadow:0 0 0 4px var(--blue-soft)}
+  .ph span{display:block;font-size:11px;margin-top:5px;color:var(--faint);font-weight:600}
+  .ph.here span{color:var(--navy);font-weight:700}
+  .ph.done span{color:var(--mut)}
+  .tracker .foot{display:flex;justify-content:center;gap:10px;margin-top:10px;font-size:11px;color:var(--mut)}
+  .tracker .foot .rt{background:var(--blue-soft);color:var(--navy);border-radius:6px;padding:2px 10px;font-weight:600}
 
-  .grid2{display:grid;grid-template-columns:1.55fr 1fr;gap:16px;align-items:start;margin-top:16px}
-  @media (max-width:900px){.grid2{grid-template-columns:1fr}.side{display:none}.main{padding:18px 16px 80px}}
-  .card h3{margin:0;padding:16px 20px 0;font-size:11px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
-  .mx{padding:8px 20px 16px}
-  .mx-row{display:flex;align-items:center;gap:12px;padding:11px 0}
-  .mx-row + .mx-row{border-top:1px solid var(--line-soft)}
-  .mx-ic{width:26px;height:26px;border-radius:8px;display:grid;place-items:center;font-size:12px;font-weight:800;flex-shrink:0}
-  .mx-ic.ok{background:var(--ok-bg);color:var(--ok)}
-  .mx-ic.busy{background:var(--primary-soft);color:var(--primary)}
-  .mx-ic.open{background:#EFF3F7;color:var(--faint)}
-  .mx-body{flex:1;min-width:0}
-  .mx-title{font-weight:600;font-size:13px;color:var(--ink)}
-  .mx-sub{font-size:11.5px;color:var(--muted);margin-top:1px;overflow-wrap:anywhere}
-  .link{border:none;background:none;color:var(--primary);font-size:12px;font-weight:600;padding:0;white-space:nowrap}
-  .link:hover{color:var(--primary-deep);text-decoration:underline}
+  .secline{display:flex;align-items:center;gap:10px;margin:22px 0 12px;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint)}
+  .secline::after{content:"";flex:1;height:1px;background:var(--line)}
 
-  .tl{padding:6px 20px 18px}
-  .tl-day{font-size:10.5px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin:14px 0 4px}
-  .tl-item{display:flex;gap:11px;padding:8px 0;align-items:flex-start}
-  .tl-item .av{width:26px;height:26px;font-size:10px;margin-top:1px}
-  .tl-txt{font-size:13px;color:var(--ink);line-height:1.5;flex:1}
-  .tl-txt small{display:block;color:var(--faint);font-size:11px;font-weight:600;margin-top:1px}
-  .tl-auto{margin:6px 0}
-  .tl-auto button{width:100%;border:1px dashed var(--line);background:var(--ground);border-radius:9px;padding:7px 12px;font-size:11.5px;font-weight:600;color:var(--muted);text-align:left;display:flex;gap:8px;align-items:center}
-  .tl-auto button:hover{border-color:#C4D4E4;color:var(--ink)}
-  .tl-auto .body{display:none;padding:8px 4px 2px}
-  .tl-auto.open .body{display:block}
-  .tl-auto .body .tl-item{padding:5px 0}
-  .tl-auto .body .tl-txt{font-size:12px;color:var(--muted)}
+  .card h3{margin:0;padding:16px 20px 0;font-size:10.5px;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:var(--faint);display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .card h3 .end{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:11.5px;color:var(--ink);font-weight:600;text-transform:none;letter-spacing:0}
+  .bar{width:70px;height:6px;border-radius:999px;background:var(--blue-soft);overflow:hidden;display:inline-block}
+  .bar i{display:block;height:100%;background:var(--navy);border-radius:999px}
+  .mx{padding:8px 20px 14px}
+  .mxrow{display:flex;align-items:center;gap:12px;padding:10px 0;flex-wrap:wrap}
+  .mxrow + .mxrow{border-top:1px solid var(--line2)}
+  .mxrow .st{width:120px;flex-shrink:0}
+  .mxrow .oms{font-weight:600;color:var(--navy);font-size:12.5px;min-width:170px}
+  .mxrow .file{font-size:11.5px;color:var(--mut);flex:1;min-width:150px;overflow-wrap:anywhere}
+  .mxrow .ordc{background:var(--blue-soft);color:var(--navy);border-radius:6px;padding:2px 8px;font-size:10.5px;font-weight:700;font-variant-numeric:tabular-nums;white-space:nowrap}
+  .mxrow .reden{width:100%;font-size:11.5px;color:var(--crit)}
+  .link{border:none;background:none;color:var(--blue);font-size:12px;font-weight:600;padding:0;white-space:nowrap}
+  .link:hover{color:var(--navy);text-decoration:underline}
+  .mxfoot{border-top:1px solid var(--line2);padding:10px 20px 14px;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+  .mxfoot .note{font-size:11.5px;color:var(--mut)}
 
-  /* ── Taakpaneel ──────────────────────────── */
-  .scrim{position:fixed;inset:0;background:rgba(23,48,74,.34);z-index:40;display:none}
-  .panel{position:fixed;top:0;right:0;bottom:0;width:min(470px,100vw);background:var(--surface);z-index:41;box-shadow:var(--shadow-lift);display:none;flex-direction:column;transform:translateX(24px);opacity:0;transition:transform .2s ease,opacity .2s ease}
-  .panel.show,.scrim.show{display:flex}
+  .grid2{display:grid;grid-template-columns:1.6fr 1fr;gap:14px;align-items:start;margin-top:14px}
+  @media(max-width:900px){.grid2{grid-template-columns:1fr}}
+  .lastmsg{margin:12px 20px 0;width:calc(100% - 40px);display:flex;align-items:center;gap:9px;background:var(--blue-soft);border:1px solid #CFE1F3;border-radius:999px;padding:8px 14px;font-size:12px;color:var(--navy);text-align:left}
+  .lastmsg:hover{border-color:#A8C6E4}
+  .lastmsg b{font-weight:700}
+  .lastmsg .chev{margin-left:auto;font-weight:700}
+  .tlchips{display:flex;gap:6px;flex-wrap:wrap;padding:12px 20px 0}
+  .tl{padding:10px 20px 18px;display:flex;flex-direction:column;gap:2px}
+  .tlrow{display:flex;gap:11px;padding:7px 0;align-items:flex-start}
+  .tlrow .t{font-size:11px;color:var(--faint);min-width:76px;padding-top:3px;font-variant-numeric:tabular-nums}
+  .who{display:inline-flex;align-items:center;gap:5px;border-radius:999px;padding:2px 10px;font-size:10.5px;font-weight:600;white-space:nowrap;flex-shrink:0}
+  .who.sys{background:var(--grey-bg);color:var(--mut)}
+  .who.us{background:var(--navy);color:#fff}
+  .who.ex{background:#E7EBEF;color:#51606F}
+  .tlrow .x{font-size:12.5px;color:var(--ink);flex:1;line-height:1.5}
+  .tlrow .x.dim{color:var(--mut)}
+  .tlrow .x b{font-weight:600}
+
+  .other{padding:8px 20px 16px;display:flex;flex-direction:column;gap:8px}
+  .other button{border:1px solid var(--line);background:#fff;border-radius:11px;padding:11px 13px;text-align:left;display:flex;flex-direction:column;gap:6px;transition:border-color .12s}
+  .other button:hover{border-color:#C7D6E5}
+  .other .top{display:flex;align-items:center;gap:10px;width:100%}
+  .other .top b{font-size:12.5px;color:var(--navy)}
+  .other .top span{color:var(--mut);font-weight:500;font-size:12px}
+  .other .chev{margin-left:auto;color:var(--blue);font-weight:700}
+
+  /* ── procesmonitor ── */
+  .montotals{padding:14px 20px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+  .montotals .big{font-size:14.5px;font-weight:700;color:var(--navy)}
+  .montotals .right{margin-left:auto;display:flex;gap:8px}
+  .monbody{padding:20px 24px;margin-top:14px}
+  .msec{display:flex;gap:14px}
+  .msec .rail{display:flex;flex-direction:column;align-items:center}
+  .msec .nr{width:26px;height:26px;border-radius:50%;background:var(--blue);color:#fff;display:grid;place-items:center;font-size:11px;font-weight:800;flex-shrink:0}
+  .msec .railline{width:2px;flex:1;background:#CBDEF0;min-height:12px}
+  .msec .body{flex:1;padding:3px 0 16px}
+  .msec .name{display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--navy)}
+  .msec .name .tot{background:var(--blue-soft);color:var(--blue);border-radius:999px;padding:1px 10px;font-size:10.5px;font-weight:700}
+  .steps{display:flex;gap:6px;row-gap:8px;flex-wrap:wrap;margin-top:7px;align-items:center}
+  .step{display:inline-flex;align-items:center;gap:7px;background:#fff;border:1px solid var(--line);color:var(--mut);border-radius:999px;padding:3px 11px;font-size:11.5px;font-weight:600}
+  .step.has{border-color:#BFD7EC;background:var(--blue-soft);color:var(--navy);cursor:pointer}
+  .step.has:hover{border-color:var(--blue)}
+  .step .n{background:var(--navy);color:#fff;border-radius:999px;padding:0 8px;font-size:10.5px;font-weight:800;line-height:1.6}
+  .step.warnstep{border-color:#EDD9BC;background:var(--warn-bg);color:var(--warn)}
+  .step.warnstep .n{background:var(--warn)}
+  .steps .arr{color:#B4C8DB;font-size:12px;font-weight:800}
+  .monmut{border-top:1px solid var(--line2);margin-top:4px;padding-top:12px}
+  .monmut .lbl{font-size:10px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);margin-bottom:8px}
+  .monfoot{font-size:11.5px;color:var(--mut);border-top:1px solid var(--line2);margin-top:12px;padding-top:10px}
+
+  /* ── extern ── */
+  .exthead{display:flex;align-items:center;gap:10px;padding-bottom:4px}
+  .exthead .logo{font-weight:800;color:var(--brand);font-size:15px}
+  .lang{margin-left:auto;display:flex;gap:3px;background:#fff;border:1px solid var(--line);border-radius:999px;padding:3px}
+  .lang button{border:none;background:none;color:var(--mut);border-radius:999px;padding:3px 12px;font-size:12px;font-weight:600}
+  .lang button.on{background:var(--navy);color:#fff}
+  .exttitle{font-size:22px;font-weight:800;color:var(--navy);margin:14px 0 2px}
+  .extsub{font-size:13px;color:var(--mut)}
+  .extsub b{color:var(--navy)}
+  .extgroup{display:flex;align-items:center;gap:10px;margin:22px 0 10px;font-size:10.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase}
+  .extgroup.act{color:var(--blue)}
+  .extgroup.rest{color:var(--faint)}
+  .extgroup::after{content:"";flex:1;height:1px;background:var(--line)}
+  .extcard{width:100%;text-align:left;display:flex;flex-direction:column;gap:8px;background:#fff;border:1px solid var(--line);border-radius:14px;padding:15px 18px;transition:all .12s;font-family:inherit}
+  .extcard:hover{border-color:var(--blue);box-shadow:var(--shadow)}
+  .extcard.act{border-left:4px solid var(--blue)}
+  .extcard.rest{opacity:.65}
+  .extcard .top{display:flex;align-items:center;gap:12px}
+  .extcard .top b{flex:1;font-size:14px;font-weight:700;color:var(--navy)}
+  .extcard .chev{color:var(--blue);font-size:17px;font-weight:700}
+  .extcard .meta{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--mut)}
+  .extcard .meta .dl.red{color:var(--crit);font-weight:700}
+  .extcard .prog{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--navy);font-weight:600}
+  .extlist{display:flex;flex-direction:column;gap:10px}
+  .extnote{margin-top:14px;font-size:12px;color:var(--mut)}
+
+  /* ── overlays ── */
+  .scrim{position:fixed;inset:0;background:rgba(34,56,78,.35);z-index:80;display:none}
   .scrim.show{display:block}
-  .panel.in{transform:none;opacity:1}
-  .panel-head{padding:20px 24px 16px;border-bottom:1px solid var(--line-soft);display:flex;gap:12px;align-items:flex-start}
-  .panel-head .eyebrow{font-size:10px;font-weight:800;letter-spacing:.11em;text-transform:uppercase;color:var(--primary)}
-  .panel-head h4{margin:3px 0 0;font-size:16.5px;font-weight:700;color:var(--primary-deep)}
-  .panel-head .ctx{font-size:12px;color:var(--muted);margin-top:2px}
-  .x{margin-left:auto;border:none;background:var(--ground);color:var(--muted);border-radius:999px;width:30px;height:30px;font-size:14px;flex-shrink:0}
-  .x:hover{background:var(--line)}
-  .panel-body{padding:18px 24px 28px;overflow-y:auto;flex:1}
-  .step-dots{display:flex;gap:6px;margin-bottom:16px}
-  .step-dots i{height:4px;flex:1;border-radius:999px;background:var(--line)}
-  .step-dots i.done{background:var(--primary)}
-  .preview{height:120px;border-radius:12px;background:linear-gradient(135deg,var(--primary) 0%,var(--primary-deep) 100%);color:#fff;display:grid;place-items:center;text-align:center}
-  .preview b{font-size:15px}.preview span{font-size:11.5px;opacity:.85}
-  .check-item{display:flex;gap:10px;align-items:flex-start;padding:9px 0;font-size:13px}
-  .check-item + .check-item{border-top:1px solid var(--line-soft)}
-  .check-item .mx-ic{width:22px;height:22px;font-size:11px}
-  .attn{background:var(--warn-bg);border:1px solid #EDD9BC;border-radius:11px;padding:12px 15px;font-size:12.5px;margin-top:14px}
-  .attn b{color:var(--warn);display:block;margin-bottom:4px;font-size:12px}
-  .panel-actions{display:flex;gap:10px;margin-top:20px}
-  .panel-actions .btn{flex:1;padding:11px}
-  .done-note{background:var(--ok-bg);border-radius:11px;padding:12px 16px;font-size:13px;font-weight:600;color:var(--ok);margin-top:16px;display:none}
-  .next-task{display:none;margin-top:12px;width:100%;border:1.5px solid var(--primary);background:var(--surface);color:var(--primary);border-radius:999px;padding:11px;font-size:13.5px;font-weight:700}
-  .next-task:hover{background:var(--primary-soft)}
-
-  /* ── Over deze mock ──────────────────────── */
-  .about-btn{position:fixed;bottom:18px;right:18px;z-index:30;border:1px solid var(--line);background:var(--surface);color:var(--muted);border-radius:999px;padding:8px 16px;font-size:12px;font-weight:600;box-shadow:var(--shadow)}
-  .about-btn:hover{color:var(--primary);border-color:var(--primary)}
-  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(620px,92vw);max-height:84vh;overflow:auto;background:var(--surface);border-radius:16px;z-index:42;box-shadow:var(--shadow-lift);padding:26px 30px;display:none}
+  .modal{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%);width:min(640px,92vw);max-height:84vh;overflow:auto;background:#fff;border-radius:16px;z-index:81;box-shadow:0 24px 70px rgba(15,43,80,.35);padding:26px 30px;display:none}
   .modal.show{display:block}
-  .modal h4{margin:0 0 4px;font-size:17px;font-weight:800;color:var(--primary-deep)}
-  .modal ol{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:9px;font-size:13px;color:var(--ink)}
-  .modal li b{color:var(--primary-deep)}
-  .modal li span{color:var(--muted)}
-  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--primary-deep);color:#fff;border-radius:11px;padding:11px 22px;font-size:13px;font-weight:500;z-index:50;box-shadow:var(--shadow-lift);opacity:0;pointer-events:none;transition:all .2s}
+  .modal h4{margin:0 0 6px;font-size:17px;font-weight:800;color:var(--navy)}
+  .modal .lede{font-size:12.5px;color:var(--mut)}
+  .modal ol{margin:14px 0 0;padding-left:20px;display:flex;flex-direction:column;gap:9px;font-size:13px}
+  .modal li b{color:var(--navy)}
+  .modal li span{color:var(--mut)}
+  .toast{position:fixed;bottom:22px;left:50%;transform:translateX(-50%) translateY(8px);background:var(--navy);color:#fff;border-radius:11px;padding:10px 20px;font-size:12.5px;z-index:90;box-shadow:0 10px 30px rgba(15,43,80,.35);opacity:0;pointer-events:none;transition:all .2s}
   .toast.show{opacity:1;transform:translateX(-50%)}
   .view{display:none}.view.on{display:block}
 </style>
 
-<div class="app">
-  <nav class="side">
-    <div class="brand">
-      <div class="brand-mark">G</div>
-      <div><div class="brand-name">Creatiestroom</div><div class="brand-sub">Creatieve uitingen</div></div>
-    </div>
-    <button class="nav-btn on" data-nav="vandaag" onclick="go('vandaag')">☀️&ensp;Vandaag <span class="cnt">3</span></button>
-    <button class="nav-btn" data-nav="dossiers" onclick="go('dossiers')">🗂&ensp;Dossiers</button>
-    <button class="nav-btn" data-nav="monitor" onclick="toast('Procesmonitor: zelfde opzet, buiten deze mock')">📊&ensp;Monitor</button>
-    <div class="nav-sep">Team</div>
-    <button class="nav-btn" onclick="toast('Teamwachtrijen: buiten deze mock')">👥&ensp;Wachtrijen</button>
-    <div class="me">
-      <div class="av">BO</div>
-      <div><b>Bo</b><small>Campagnemanager</small></div>
-    </div>
-  </nav>
+<!-- schermkiezer van deze mock -->
+<div class="mockbar">
+  <span class="tag">Mock · restyle</span>
+  <button class="on" data-m="cockpit" onclick="go('cockpit')">Teamcockpit</button>
+  <button data-m="dossier" onclick="go('dossier')">Dossier</button>
+  <button data-m="monitor" onclick="go('monitor')">Procesmonitor</button>
+  <button data-m="extern" onclick="go('extern')">Extern dashboard</button>
+  <button class="about" onclick="openAbout()">ⓘ Wat is er veranderd</button>
+</div>
 
-  <main class="main"><div class="wrap">
-    <div class="topbar">
-      <div class="search" onclick="toast('Zoek alles: campagne, klant, ordernummer of taak')">🔍&ensp;Zoek campagne, klant of ordernummer…<kbd>⌘K</kbd></div>
-      <div class="top-actions"><button class="btn ghost" onclick="toast('Mailvoorbeelden: zelfde inhoud, buiten deze mock')">Mailvoorbeelden</button></div>
+<!-- ════════ TEAMCOCKPIT ════════ -->
+<section class="view on" id="m-cockpit">
+  <div class="console">
+    <span class="lbl">Demo</span>
+    <div class="grp"><span class="lbl">Perspectief</span><button class="chip on">Intern</button><button class="chip" onclick="go('extern')">Extern</button></div>
+    <div class="grp"><span class="lbl">Rol</span><button class="chip">Sandra · AM</button><button class="chip on">Bo · CM</button><button class="chip">Yusuf · CM</button><button class="chip">Kim · Ad Ops</button><button class="chip">Femke · Marketing</button></div>
+    <div class="right"><button class="chip" onclick="toast('Mailvoorbeelden: ongewijzigd, alleen dezelfde rustige opmaak')">Mailvoorbeelden</button><button class="chip">Reset</button></div>
+  </div>
+  <div class="page">
+    <div class="apphead">
+      <span class="logo">Global</span><span class="divider"></span>
+      <div><div class="title">Creatieve uitingen dashboard</div></div>
+      <div class="me"><span class="av">BO</span><b>Bo</b><span>Campagnemanager</span></div>
     </div>
 
-    <!-- ══ VANDAAG ══ -->
-    <section class="view on" id="v-vandaag">
-      <h1>Goedemorgen Bo 👋</h1>
-      <div class="sub">3 taken vragen vandaag je aandacht · 7 dossiers lopen vanzelf door.</div>
-
-      <div class="digest" style="margin-top:18px">
-        <div class="chip-stat crit"><b>1</b><span>buiten tijdsnorm<br>in het team</span></div>
-        <div class="chip-stat"><b>3</b><span>taken voor jou<br>vandaag</span></div>
-        <div class="chip-stat"><b>9</b><span>wachten op<br>externe partij</span></div>
+    <div class="stats">
+      <button class="stat crit" onclick="toast('Filtert de lijst op tijdsnorm rood — klik nogmaals om te wissen')">
+        <div class="head"><span class="dot" style="background:var(--crit)"></span>Buiten tijdsnorm</div>
+        <div class="num">1</div>
+        <div class="cap">Deadline verstreken</div>
+      </button>
+      <div class="stat blue">
+        <div class="head"><span class="dot" style="background:var(--blue)"></span>Intern aan zet</div>
+        <div class="rows">
+          <button class="row" onclick="toast('Filtert op: te beoordelen')"><b>4</b><span>Te beoordelen</span><span class="mini">1 escalatie</span></button>
+          <button class="row" onclick="toast('Filtert op: te versturen')"><b>3</b><span>Te versturen</span></button>
+          <button class="row" onclick="toast('Filtert op: te koppelen')"><b>2</b><span>Te koppelen</span></button>
+        </div>
       </div>
+      <button class="stat grey" onclick="toast('Filtert op: wacht op externe partij')">
+        <div class="head"><span class="dot" style="background:var(--faint)"></span>Partners aan zet</div>
+        <div class="num">9</div>
+        <div class="cap">Wacht op externe partij</div>
+      </button>
+    </div>
 
-      <div class="sec-label">Jouw taken</div>
+    <div class="filters">
+      <button class="fbtn" onclick="toast('Zoeklijst adverteerders, ongewijzigd')">Adverteerder: alle <span style="font-size:9px">▼</span></button>
+      <input placeholder="Zoek op ordernummer…">
+      <select><option>Mediabureau: alle</option></select>
+      <select><option>Stakeholder: alle</option></select>
+      <select><option>Status: alle</option></select>
+      <select><option>Route: alle</option></select>
+      <button class="fbtn toggle on">Mijn taken</button>
+      <span class="spacer"></span>
+      <button class="fbtn toggle">Groepeer per bureau</button>
+    </div>
+
+    <div class="card tablecard"><table>
+      <thead><tr><th>Campagne</th><th>Klant</th><th>Ordernummer</th><th>Actuele taak</th><th>Aan zet</th><th>Tijd</th><th>Route</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr onclick="toast('Opent dossier Wakker de stad')">
+          <td><div class="camp">Wakker de stad</div></td>
+          <td class="klant"><b>Koffiemerk Bruno</b><span>via NovaMedia</span></td>
+          <td class="ord">8400002358</td>
+          <td class="taak">Escalatie: handmatige herinnering en contact</td>
+          <td><span class="owner"><span class="av" style="background:#2C5E92">YU</span>Yusuf</span></td>
+          <td><span class="tijd crit">verlopen</span></td>
+          <td><span class="route">Partnerproces</span></td>
+          <td><span class="pill crit"><span class="dot"></span>Wacht op aanlevering</span></td>
+        </tr>
+        <tr onclick="go('dossier')">
+          <td><div class="camp">Festivalzomer</div></td>
+          <td class="klant"><b>FrisDrink Co</b><span>via NovaMedia</span></td>
+          <td class="ord">8400002391</td>
+          <td class="taak">Beoordeling Ad Ops + representativiteitstoets</td>
+          <td><span class="owner"><span class="av" style="background:#4A7FB5">KI</span>Kim <small>+ Bo</small></span></td>
+          <td><span class="tijd ok">3 dagen</span></td>
+          <td><span class="route">Partnerproces</span></td>
+          <td><span class="pill blue"><span class="dot"></span>In controle · 2/3</span></td>
+        </tr>
+        <tr onclick="toast('Opent dossier Nazomer nights')">
+          <td><div class="camp">Nazomer nights</div></td>
+          <td class="klant"><b>Stadslicht Events</b><span>via AdVista</span></td>
+          <td class="ord">8400002340</td>
+          <td class="taak">Klantbevestiging versturen</td>
+          <td><span class="owner"><span class="av" style="background:#2C5E92">YU</span>Yusuf</span></td>
+          <td><span class="tijd warn">1 dag</span></td>
+          <td><span class="route">Preferred</span></td>
+          <td><span class="pill warn"><span class="dot"></span>Wacht op klantbevestiging</span></td>
+        </tr>
+        <tr onclick="toast('Opent dossier Introductiecampagne')">
+          <td><div class="camp">Introductiecampagne</div></td>
+          <td class="klant"><b>Bergwater</b></td>
+          <td class="ord">8400002417</td>
+          <td class="taak">Ordernummer bevestigen</td>
+          <td><span class="owner"><span class="av">BO</span>Bo</span></td>
+          <td><span class="tijd ok">4 dagen</span></td>
+          <td><span class="route">Preferred</span></td>
+          <td><span class="pill grey"><span class="dot"></span>Aangemaakt</span></td>
+        </tr>
+        <tr onclick="toast('Opent dossier Founders week')">
+          <td><div class="camp">Founders week</div></td>
+          <td class="klant"><b>TechFest</b></td>
+          <td class="ord">8400002402</td>
+          <td class="taak">Beoordeling Marketing</td>
+          <td><span class="owner"><span class="av" style="background:#3E6E9E">FE</span>Femke</span></td>
+          <td><span class="tijd warn">1 dag</span></td>
+          <td><span class="route">Preferred</span></td>
+          <td><span class="pill blue"><span class="dot"></span>In controle</span></td>
+        </tr>
+        <tr onclick="toast('Opent dossier Lente op straat')">
+          <td><div class="camp">Lente op straat</div></td>
+          <td class="klant"><b>GroenGro</b></td>
+          <td class="ord">8400002367</td>
+          <td class="taak">Nieuwe versie afwachten</td>
+          <td><span class="owner"><span class="av ex">GG</span>GroenGro <small>ext</small></span></td>
+          <td><span class="tijd ok">5 dagen</span></td>
+          <td><span class="route">Preferred</span></td>
+          <td><span class="pill crit"><span class="dot"></span>Afgekeurd · wacht op v2</span></td>
+        </tr>
+        <tr onclick="toast('Opent dossier Zomercampagne 2026')">
+          <td><div class="camp">Zomercampagne 2026</div></td>
+          <td class="klant"><b>Zonnig Reizen</b></td>
+          <td class="ord">8400002384</td>
+          <td class="taak">Aanlevering afwachten</td>
+          <td><span class="owner"><span class="av ex">ZR</span>Zonnig Reizen <small>ext</small></span></td>
+          <td><span class="tijd warn">2 dagen</span></td>
+          <td><span class="route">Preferred</span></td>
+          <td><span class="pill grey"><span class="dot"></span>Wacht op aanlevering · 0/2</span></td>
+        </tr>
+      </tbody>
+    </table></div>
+    <div class="pager">
+      <span>1–7 van 22 dossiers</span>
+      <div class="right">
+        <span>Per pagina:</span><button class="on">10</button><button>25</button>
+        <button>‹ Vorige</button><button class="on">1</button><button>2</button><button>3</button><button>Volgende ›</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ════════ DOSSIER ════════ -->
+<section class="view" id="m-dossier">
+  <div class="page">
+    <button class="back" onclick="go('cockpit')">‹ Teamcockpit</button>
+    <div class="card dhead">
+      <div>
+        <h2>Festivalzomer</h2>
+        <div class="meta">FrisDrink Co · via NovaMedia · Order <b>8400002391</b></div>
+        <div style="margin-top:9px;display:flex;gap:8px;flex-wrap:wrap">
+          <span class="pill blue"><span class="dot"></span>In controle</span>
+          <span class="pill ok"><span class="dot"></span>Nog 3 dagen in de tijdsnorm</span>
+        </div>
+      </div>
+      <div class="strip">
+        <div style="flex:1">
+          <div class="eyebrow">Jij bent aan zet</div>
+          <div class="what">Representativiteitstoets</div>
+          <div class="why">2 aandachtspunten uit de automatische toets</div>
+        </div>
+        <button class="btn" onclick="toast('Taakvenster ongewijzigd — zelfde stappen, zelfde rustige opmaak')">Beoordelen</button>
+      </div>
+    </div>
+
+    <div class="card tracker" onclick="toast('Flowoverlay met het volledige procesmodel, ongewijzigd')" title="Bekijk de procesflow">
+      <div class="row">
+        <div class="ph done"><i>✓</i><span>Start &amp; dossier</span></div>
+        <div class="ph done"><i>✓</i><span>Uitvraag</span></div>
+        <div class="ph done"><i>✓</i><span>Aanlevering</span></div>
+        <div class="ph here"><i>4</i><span>Controle</span></div>
+        <div class="ph"><i>5</i><span>Koppeling</span></div>
+        <div class="ph"><i>6</i><span>Bevestiging</span></div>
+      </div>
+      <div class="foot"><span class="rt">Route: Partnerproces</span></div>
+    </div>
+
+    <div class="secline">Meer info</div>
+
+    <div class="card">
+      <h3>Aan te leveren uitingen
+        <span class="end">2 van 3 binnen <span class="bar"><i style="width:66%"></i></span></span>
+      </h3>
+      <div class="mx">
+        <div class="mxrow">
+          <span class="st"><span class="pill ok"><span class="dot"></span>Goedgekeurd</span></span>
+          <span class="oms">1080×1920 motion · Centrum</span>
+          <span class="file">festivalzomer_1080x1920_v1.mp4</span>
+          <span class="ordc">ORD-3110</span>
+          <button class="link" onclick="toast('Specificatiepaneel, ongewijzigd')">Specificaties</button>
+        </div>
+        <div class="mxrow">
+          <span class="st"><span class="pill blue"><span class="dot"></span>In controle</span></span>
+          <span class="oms">1080×1920 still · beide netwerken</span>
+          <span class="file">festivalzomer_still_v1.jpg</span>
+          <span class="ordc">ORD-3110</span>
+          <button class="link" onclick="toast('Specificatiepaneel, ongewijzigd')">Specificaties</button>
+        </div>
+        <div class="mxrow">
+          <span class="st"><span class="pill grey"><span class="dot"></span>Open</span></span>
+          <span class="oms">1080×1920 motion · Stations</span>
+          <span class="file">1 van 3 geüpload, nog niet ingediend</span>
+          <span class="ordc">ORD-3111</span>
+          <button class="link" onclick="toast('Specificatiepaneel, ongewijzigd')">Specificaties</button>
+          <button class="btn ghost" style="padding:5px 13px;font-size:11.5px" onclick="toast('Back-upflow ongewijzigd: kanaal kiezen, koppelen aan matrixregel, uploaden')">Uploaden namens klant</button>
+        </div>
+      </div>
+      <div class="mxfoot">
+        <span class="note">Back-upoptie: alleen als de aanleverlink niet lukt.</span>
+        <button class="btn ghost" style="margin-left:auto;padding:6px 14px;font-size:12px" onclick="toast('Deellivegang: bewuste gate met verplichte reden, ongewijzigd')">Deellivegang aanvragen</button>
+      </div>
+    </div>
+
+    <div class="grid2">
       <div class="card">
-        <div class="task crit">
-          <div class="task-body">
-            <div class="task-title">Beoordeel de representativiteitstoets · Festivalzomer</div>
-            <div class="task-meta"><span>FrisDrink Co · via NovaMedia</span><span class="due crit">Vandaag · 2 aandachtspunten uit de automatische toets</span></div>
-          </div>
-          <button class="btn" onclick="openTask()">Beoordelen</button>
+        <h3>Tijdlijn</h3>
+        <button class="lastmsg" onclick="toast('Berichtpaneel met de volledige mail, ongewijzigd')">✉ <span><b>Laatste bericht:</b> Uitvraag verstuurd naar NovaMedia</span><span class="chev">›</span></button>
+        <div class="tlchips">
+          <button class="chip on">Alle</button><button class="chip">Berichten</button><button class="chip">Acties</button><button class="chip">Status</button>
         </div>
-        <div class="task warn">
-          <div class="task-body">
-            <div class="task-title">Bevestig het ordernummer · Introductiecampagne</div>
-            <div class="task-meta"><span>Bergwater</span><span class="due warn">Twee actieve ordernummers gevonden · dossier kan pas daarna starten</span></div>
-          </div>
-          <button class="btn ghost" onclick="toast('Taakvenster T1 · zelfde flow als beoordelen')">Bevestigen</button>
-        </div>
-        <div class="task norm">
-          <div class="task-body">
-            <div class="task-title">Review en verstuur de uitvraag · Ochtendboost</div>
-            <div class="task-meta"><span>VitaSap · Supermarkten</span><span class="due">Nog 5 dagen · uitvraagmail staat klaar</span></div>
-          </div>
-          <button class="btn ghost" onclick="toast('Taakvenster T2 · review en verstuur in één handeling')">Review &amp; verstuur</button>
+        <div class="tl">
+          <div class="tlrow"><span class="t">5 aug 14:30</span><span class="who ex">Studio Klaver</span><span class="x">Creatie geüpload · <b>festivalzomer_stations_v1.mp4</b> · nog niet ingediend (1/3)</span></div>
+          <div class="tlrow"><span class="t">29 jul 16:21</span><span class="who sys">⚙ auto</span><span class="x dim">Representativiteitstoets vraagt aandacht (2 punten) · taak bij Bo</span></div>
+          <div class="tlrow"><span class="t">29 jul 16:21</span><span class="who sys">⚙ auto</span><span class="x dim">Taak beoordeling Ad Ops klaargezet bij Kim</span></div>
+          <div class="tlrow"><span class="t">29 jul 16:20</span><span class="who sys">⚙ auto</span><span class="x dim">Technische controle: alles groen</span></div>
+          <div class="tlrow"><span class="t">29 jul 16:20</span><span class="who ex">Studio Klaver</span><span class="x">Aanlevering ontvangen via aanleverpagina</span></div>
+          <div class="tlrow"><span class="t">22 jul 09:31</span><span class="who ex">NovaMedia</span><span class="x">Doorgestuurd naar Studio Klaver · nieuwe unieke link</span></div>
+          <div class="tlrow"><span class="t">21 jul 11:15</span><span class="who us">Bo · CM</span><span class="x">✉ Uitvraag verstuurd naar NovaMedia</span></div>
+          <div class="tlrow"><span class="t">21 jul 10:02</span><span class="who sys">⚙ auto</span><span class="x dim">Dossier aangemaakt vanuit order ORD-2391</span></div>
         </div>
       </div>
-
-      <div class="sec-label">Loopt vanzelf — geen actie van jou nodig</div>
-      <div class="card waiting">
-        <div class="wait-row"><span class="dot" style="background:var(--crit)"></span><span><b>Wakker de stad</b> · Koffiemerk Bruno — deadline verstreken</span><span class="who"><span class="av y">YU</span>escalatie bij Yusuf</span></div>
-        <div class="wait-row"><span class="dot" style="background:var(--primary)"></span><span><b>Founders week</b> · TechFest — in controle</span><span class="who"><span class="av f">FE</span>bij Femke (Marketing)</span></div>
-        <div class="wait-row"><span class="dot" style="background:var(--primary)"></span><span><b>Stadsrit Deals</b> · AutoDeel — in controle</span><span class="who"><span class="av k">KI</span>bij Kim (Ad Ops)</span></div>
-        <div class="wait-row"><span class="dot" style="background:var(--faint)"></span><span><b>9 dossiers</b> wachten op aanlevering door de externe partij</span><span class="who"><button class="link" onclick="go('dossiers')">Bekijk in dossiers ›</button></span></div>
-      </div>
-    </section>
-
-    <!-- ══ DOSSIERS ══ -->
-    <section class="view" id="v-dossiers">
-      <h1>Dossiers</h1>
-      <div class="sub">Alle lopende campagnes met wie er aan zet is en hoeveel tijd er nog is.</div>
-
-      <div class="views" style="margin-top:16px">
-        <button class="view-chip on">Alle <span class="n">14</span></button>
-        <button class="view-chip" onclick="toast('Opgeslagen weergave: alleen dossiers waar jij eigenaar of CM van bent')">Mijn dossiers <span class="n">5</span></button>
-        <button class="view-chip" onclick="toast('Opgeslagen weergave: gefilterd op tijdsnorm rood')">Buiten tijdsnorm <span class="n">1</span></button>
-        <button class="view-chip" onclick="toast('Opgeslagen weergave: wacht op externe partij')">Bij partners <span class="n">9</span></button>
-        <button class="view-chip" onclick="toast('Meer filters: bureau, netwerk, route, status — pas als je ze nodig hebt')">+ Filter</button>
-      </div>
-
-      <div class="card" style="overflow-x:auto"><table>
-        <thead><tr><th>Campagne</th><th>Voortgang</th><th>Aan zet</th><th>Deadline</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr onclick="go('detail')">
-            <td><div class="camp">Festivalzomer</div><div class="klant">FrisDrink Co · via NovaMedia <span class="ordnr">· 8400002391</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="done"></i><i class="here"></i><i></i><i></i></div><div class="prog-label">Controle</div></td>
-            <td><span class="owner"><span class="av">BO</span>Jij <small>+ Kim</small></span></td>
-            <td><span class="due-cell warn">vandaag</span></td>
-            <td><span class="pill info"><span class="dot" style="background:var(--primary)"></span>In controle · 2/3</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Wakker de stad · zelfde opbouw als Festivalzomer')">
-            <td><div class="camp">Wakker de stad</div><div class="klant">Koffiemerk Bruno · via NovaMedia <span class="ordnr">· 8400002358</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="here"></i><i></i><i></i><i></i></div><div class="prog-label">Aanlevering</div></td>
-            <td><span class="owner"><span class="av y">YU</span>Yusuf <small>escalatie</small></span></td>
-            <td><span class="due-cell crit">verlopen</span></td>
-            <td><span class="pill crit"><span class="dot" style="background:var(--crit)"></span>Wacht op aanlevering</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Introductiecampagne')">
-            <td><div class="camp">Introductiecampagne</div><div class="klant">Bergwater <span class="ordnr">· 8400002417</span></div></td>
-            <td><div class="prog"><i class="here"></i><i></i><i></i><i></i><i></i><i></i></div><div class="prog-label">Start &amp; dossier</div></td>
-            <td><span class="owner"><span class="av">BO</span>Jij</span></td>
-            <td><span class="due-cell ok">4 dagen</span></td>
-            <td><span class="pill warn"><span class="dot" style="background:var(--warn)"></span>Ordernummer bevestigen</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Founders week')">
-            <td><div class="camp">Founders week</div><div class="klant">TechFest <span class="ordnr">· 8400002402</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="done"></i><i class="here"></i><i></i><i></i></div><div class="prog-label">Controle</div></td>
-            <td><span class="owner"><span class="av f">FE</span>Femke</span></td>
-            <td><span class="due-cell warn">1 dag</span></td>
-            <td><span class="pill info"><span class="dot" style="background:var(--primary)"></span>In controle</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Lente op straat')">
-            <td><div class="camp">Lente op straat</div><div class="klant">GroenGro <span class="ordnr">· 8400002367</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="here"></i><i></i><i></i><i></i></div><div class="prog-label">Aanlevering</div></td>
-            <td><span class="owner"><span class="av x">GG</span>GroenGro <small>extern</small></span></td>
-            <td><span class="due-cell ok">5 dagen</span></td>
-            <td><span class="pill crit"><span class="dot" style="background:var(--crit)"></span>Afgekeurd · wacht op v2</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Nazomer nights')">
-            <td><div class="camp">Nazomer nights</div><div class="klant">Stadslicht Events · via AdVista <span class="ordnr">· 8400002340</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="here"></i></div><div class="prog-label">Bevestiging</div></td>
-            <td><span class="owner"><span class="av y">YU</span>Yusuf</span></td>
-            <td><span class="due-cell warn">1 dag</span></td>
-            <td><span class="pill ok"><span class="dot" style="background:var(--ok)"></span>Klantbevestiging</span></td>
-          </tr>
-          <tr onclick="toast('Detail van Zomercampagne 2026')">
-            <td><div class="camp">Zomercampagne 2026</div><div class="klant">Zonnig Reizen <span class="ordnr">· 8400002384</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="here"></i><i></i><i></i><i></i></div><div class="prog-label">Aanlevering</div></td>
-            <td><span class="owner"><span class="av x">ZR</span>Zonnig Reizen <small>extern</small></span></td>
-            <td><span class="due-cell warn">2 dagen</span></td>
-            <td><span class="pill idle"><span class="dot" style="background:var(--faint)"></span>Wacht op aanlevering · 0/2</span></td>
-          </tr>
-          <tr onclick="toast('Afgeronde dossiers staan standaard onderaan, dimmen weg')" style="opacity:.55">
-            <td><div class="camp">Stadsritten</div><div class="klant">FietsFabriek · via AdVista <span class="ordnr">· 8400002315</span></div></td>
-            <td><div class="prog"><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i><i class="done"></i></div><div class="prog-label">Afgerond</div></td>
-            <td><span class="owner"><small>—</small></span></td>
-            <td><span class="due-cell ok">—</span></td>
-            <td><span class="pill ok"><span class="dot" style="background:var(--ok)"></span>Afgerond</span></td>
-          </tr>
-        </tbody>
-      </table></div>
-    </section>
-
-    <!-- ══ DETAIL ══ -->
-    <section class="view" id="v-detail">
-      <button class="back" onclick="go('dossiers')">‹ Alle dossiers</button>
-      <div class="card d-head">
-        <div style="flex:1;min-width:240px">
-          <h2>Festivalzomer</h2>
-          <div class="d-facts">
-            <span>Klant <b>FrisDrink Co</b></span><span>Bureau <b>NovaMedia</b></span>
-            <span>Order <b>8400002391</b></span><span>Route <b>Partnerproces</b></span>
-          </div>
-          <div style="margin-top:10px;display:flex;gap:8px;flex-wrap:wrap">
-            <span class="pill info"><span class="dot" style="background:var(--primary)"></span>In controle</span>
-            <span class="pill warn"><span class="dot" style="background:var(--warn)"></span>Nog 3 dagen in de tijdsnorm</span>
-          </div>
-        </div>
-        <div class="action-block">
-          <div style="flex:1">
-            <div class="eyebrow">Jij bent aan zet</div>
-            <div class="what">Representativiteitstoets</div>
-            <div class="why">2 aandachtspunten uit de automatische toets</div>
-          </div>
-          <button class="btn" onclick="openTask()">Beoordelen</button>
+      <div class="card">
+        <h3>Andere lopende uitvragen bij deze klant</h3>
+        <div class="other">
+          <button onclick="toast('Opent dat dossier')">
+            <span class="top"><b>Winterproef</b><span>· FrisDrink Co</span><span class="chev">›</span></span>
+            <span><span class="pill grey" style="font-size:10.5px"><span class="dot"></span>Wacht op aanlevering</span></span>
+          </button>
         </div>
       </div>
-
-      <div class="card" style="margin-top:16px">
-        <div class="phases">
-          <div class="ph done"><i>✓</i><span>Start &amp; dossier</span></div>
-          <div class="ph done"><i>✓</i><span>Uitvraag</span></div>
-          <div class="ph done"><i>✓</i><span>Aanlevering</span></div>
-          <div class="ph here"><i>4</i><span>Controle</span></div>
-          <div class="ph"><i>5</i><span>Koppeling</span></div>
-          <div class="ph"><i>6</i><span>Bevestiging</span></div>
-        </div>
-      </div>
-
-      <div class="grid2">
-        <div class="card">
-          <h3>Tijdlijn</h3>
-          <div class="tl">
-            <div class="tl-day">Vandaag</div>
-            <div class="tl-item"><span class="av x">SK</span><div class="tl-txt">Studio Klaver uploadde <b>festivalzomer_stations_v1.mp4</b> — automatisch goedgekeurd, nog niet ingediend (1&nbsp;van&nbsp;3).<small>14:30 · via aanleverpagina</small></div></div>
-            <div class="tl-day">29 juli</div>
-            <div class="tl-item"><span class="av x">SK</span><div class="tl-txt">Aanlevering ontvangen van Studio Klaver: motion en still voor Netwerk Centrum.<small>16:20 · via aanleverpagina</small></div></div>
-            <div class="tl-item"><span class="av" style="background:var(--warn)">!</span><div class="tl-txt">Representativiteitstoets vraagt aandacht: <b>2 punten</b> — taak bij jou.<small>16:21 · automatische toets</small></div></div>
-            <div class="tl-auto" id="autofold">
-              <button onclick="document.getElementById('autofold').classList.toggle('open')">⚙&ensp;4 automatische stappen (technische controle, taken klaargezet) — toon</button>
-              <div class="body">
-                <div class="tl-item"><span class="av x">⚙</span><div class="tl-txt">Automatische technische controle: alles groen.<small>29 jul 16:20</small></div></div>
-                <div class="tl-item"><span class="av x">⚙</span><div class="tl-txt">Taak beoordeling Ad Ops klaargezet bij Kim.<small>29 jul 16:21</small></div></div>
-                <div class="tl-item"><span class="av x">⚙</span><div class="tl-txt">Nieuwe unieke aanleverlink aangemaakt voor Studio Klaver.<small>22 jul 09:31</small></div></div>
-                <div class="tl-item"><span class="av x">⚙</span><div class="tl-txt">Dossier automatisch aangemaakt vanuit order ORD-2391.<small>21 jul 10:02</small></div></div>
-              </div>
-            </div>
-            <div class="tl-day">21 juli</div>
-            <div class="tl-item"><span class="av">BO</span><div class="tl-txt">Jij verstuurde de uitvraag naar NovaMedia.<small>11:15 · mail + aanleverlink</small></div></div>
-          </div>
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:16px">
-          <div class="card">
-            <h3>Aan te leveren uitingen · 2 van 3 binnen</h3>
-            <div class="mx">
-              <div class="mx-row"><span class="mx-ic ok">✓</span><div class="mx-body"><div class="mx-title">1080×1920 motion · Centrum</div><div class="mx-sub">festivalzomer_1080x1920_v1.mp4 · goedgekeurd</div></div><button class="link" onclick="toast('Specificatiepaneel: kenmerken, naamconventie, deadline')">Specs</button></div>
-              <div class="mx-row"><span class="mx-ic busy">…</span><div class="mx-body"><div class="mx-title">1080×1920 still · beide netwerken</div><div class="mx-sub">festivalzomer_still_v1.jpg · in controle</div></div><button class="link" onclick="toast('Specificatiepaneel')">Specs</button></div>
-              <div class="mx-row"><span class="mx-ic open">○</span><div class="mx-body"><div class="mx-title">1080×1920 motion · Stations</div><div class="mx-sub">1 van 3 geüpload, nog niet ingediend door Studio Klaver</div></div><button class="link" onclick="toast('Uploaden namens klant: back-upflow, ongewijzigd')">Upload namens klant</button></div>
-            </div>
-          </div>
-          <div class="card">
-            <h3>Bij deze klant</h3>
-            <div class="mx">
-              <div class="mx-row"><div class="mx-body"><div class="mx-title">Geen andere lopende uitvragen</div><div class="mx-sub">FrisDrink Co heeft alleen dit dossier open</div></div></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div></main>
-</div>
-
-<!-- ══ Taakpaneel ══ -->
-<div class="scrim" id="scrim" onclick="closeTask()"></div>
-<aside class="panel" id="panel" role="dialog" aria-label="Taak beoordelen">
-  <div class="panel-head">
-    <div>
-      <div class="eyebrow">Taak 1 van 3 vandaag</div>
-      <h4>Representativiteitstoets</h4>
-      <div class="ctx">Festivalzomer · FrisDrink Co · nog 3 dagen in de tijdsnorm</div>
     </div>
-    <button class="x" onclick="closeTask()" aria-label="Sluiten">✕</button>
   </div>
-  <div class="panel-body">
-    <div class="step-dots"><i class="done"></i><i></i><i></i></div>
-    <div class="preview"><div><b>Festivalzomer</b><br><span>1080×1920 · motion · v1 · Studio Klaver</span></div></div>
+</section>
 
-    <div style="margin-top:16px">
-      <div class="check-item"><span class="mx-ic ok">✓</span><span>Automatische technische controle: formaat, duur en bitrate zijn in orde.</span></div>
-      <div class="check-item"><span class="mx-ic ok">✓</span><span>Beoordeling Ad Ops loopt parallel bij Kim — jouw oordeel blokkeert haar niet.</span></div>
+<!-- ════════ PROCESMONITOR ════════ -->
+<section class="view" id="m-monitor">
+  <div class="page narrow">
+    <div class="apphead">
+      <span class="logo">Global</span><span class="divider"></span>
+      <div><div class="title">Procesmonitor</div><div class="sub">Waar het werk in het proces zit</div></div>
+      <button class="btn ghost" style="margin-left:auto" onclick="go('cockpit')">‹ Naar teamcockpit</button>
     </div>
-
-    <div class="attn"><b>2 aandachtspunten uit de automatische toets</b>
-      1. Logo wijkt af van het geregistreerde merkprofiel (kleurstelling).<br>
-      2. Slogan komt niet overeen met de aangemelde campagne-informatie.
+    <div class="card montotals">
+      <span class="big">31 actieve uitingen in 22 dossiers</span>
+      <div class="right">
+        <span class="pill grey">afgerond: 2</span>
+        <span class="pill grey">vervallen: 1</span>
+      </div>
     </div>
-
-    <div class="done-note" id="doneNote">✓ Voldaan · gelogd. Het dossier gaat door zodra Kim ook klaar is.</div>
-
-    <div class="panel-actions" id="panelActions">
-      <button class="btn ok" onclick="approve()">Voldaan</button>
-      <button class="btn crit-o" onclick="toast('Afkeurflow: redenen bundelen, één bericht naar de partij — ongewijzigd')">Afkeuren</button>
+    <div class="card monbody">
+      <div class="msec">
+        <div class="rail"><span class="nr">1</span><span class="railline"></span></div>
+        <div class="body">
+          <div class="name">Start &amp; dossier <span class="tot">2</span></div>
+          <div class="steps">
+            <span class="step">Dossier aangemaakt</span><span class="arr">→</span>
+            <span class="step">Specificaties bepaald</span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Uitleg + lijst van uitingen in deze stap, ongewijzigd')">G0 · ordernummer bevestigen <span class="n">2</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="rail"><span class="nr">2</span><span class="railline"></span></div>
+        <div class="body">
+          <div class="name">Uitvraag <span class="tot">3</span></div>
+          <div class="steps">
+            <span class="step">Uitvraag gegenereerd</span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Stapdetail, ongewijzigd')">G1 · review &amp; versturen <span class="n">3</span></span><span class="arr">→</span>
+            <span class="step">Aanleverlink actief</span>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="rail"><span class="nr">3</span><span class="railline"></span></div>
+        <div class="body">
+          <div class="name">Aanlevering &amp; bewaking <span class="tot">12</span></div>
+          <div class="steps">
+            <span class="step has" onclick="toast('Stapdetail')">Wacht op aanlevering <span class="n">9</span></span><span class="arr">→</span>
+            <span class="step has warnstep" onclick="toast('Stapdetail')">Herinnering verstuurd <span class="n">2</span></span><span class="arr">→</span>
+            <span class="step has warnstep" onclick="toast('Stapdetail')">Deadline verstreken <span class="n">1</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="rail"><span class="nr">4</span><span class="railline"></span></div>
+        <div class="body">
+          <div class="name">Controle <span class="tot">8</span></div>
+          <div class="steps">
+            <span class="step">Technische controle</span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Stapdetail')">Ad Ops pakket <span class="n">3</span></span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Stapdetail')">Representativiteit <span class="n">3</span></span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Stapdetail')">Afgekeurd · wacht op v2 <span class="n">2</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="rail"><span class="nr">5</span><span class="railline"></span></div>
+        <div class="body">
+          <div class="name">Koppeling <span class="tot">4</span></div>
+          <div class="steps">
+            <span class="step has" onclick="toast('Stapdetail')">Koppelen in Broadsign <span class="n">2</span></span><span class="arr">→</span>
+            <span class="step has" onclick="toast('Stapdetail')">Gekoppeld <span class="n">2</span></span>
+          </div>
+        </div>
+      </div>
+      <div class="msec">
+        <div class="rail"><span class="nr">6</span></div>
+        <div class="body" style="padding-bottom:4px">
+          <div class="name">Bevestiging &amp; afronding <span class="tot">2</span></div>
+          <div class="steps">
+            <span class="step has" onclick="toast('Stapdetail')">G4 · klantbevestiging <span class="n">2</span></span><span class="arr">→</span>
+            <span class="step">Afgerond</span>
+          </div>
+        </div>
+      </div>
+      <div class="monmut">
+        <div class="lbl">Mutaties uit Salesforce</div>
+        <div class="steps" style="margin-top:0">
+          <span class="step has" onclick="toast('Stapdetail')">Vervallen · stopt dossier en communicatie <span class="n">1</span></span>
+          <span class="step has" onclick="toast('Stapdetail')">Gewijzigd · deadline herberekend <span class="n">1</span></span>
+        </div>
+      </div>
+      <div class="monfoot">Klik op een stap met teller voor de lijst van uitingen.</div>
     </div>
-    <button class="next-task" id="nextTask" onclick="toast('Chaining: direct door naar taak 2 van 3 (Bergwater), zonder terug naar het overzicht')">Volgende taak · Ordernummer bevestigen (Bergwater) →</button>
   </div>
-</aside>
+</section>
 
-<button class="about-btn" onclick="document.getElementById('about').classList.add('show');document.getElementById('scrim').classList.add('show','in')">ⓘ Over deze mock</button>
+<!-- ════════ EXTERN DASHBOARD ════════ -->
+<section class="view" id="m-extern">
+  <div class="page slim">
+    <div class="exthead">
+      <span class="logo">Global</span>
+      <span style="font-weight:800;color:var(--navy);font-size:14px">Creatieve uitingen</span>
+      <div class="lang"><button class="on">NL</button><button>EN</button></div>
+    </div>
+    <div class="exttitle">Jouw aanleveringen</div>
+    <div class="extsub">Alle lopende uitvragen voor <b>NovaMedia</b></div>
+
+    <div class="extgroup act">Actie nodig (2)</div>
+    <div class="extlist">
+      <button class="extcard act" onclick="toast('Detailpagina met specificaties, upload en status, ongewijzigd')">
+        <span class="top"><b>Festivalzomer</b><span class="pill blue"><span class="dot"></span>Klaar om in te dienen</span><span class="chev">›</span></span>
+        <span class="meta"><span>Treinstations</span><span class="dl">Deadline 7 augustus</span></span>
+        <span class="prog"><span class="bar" style="width:60px"><i style="width:33%"></i></span>1 van 3 creaties ingediend</span>
+        <span><span class="pill warn"><span class="dot"></span>1 creatie goedgekeurd, nog niet ingediend</span></span>
+      </button>
+      <button class="extcard act" onclick="toast('Detailpagina, ongewijzigd')">
+        <span class="top"><b>Wakker de stad</b><span class="pill crit"><span class="dot"></span>Nog aanleveren</span><span class="chev">›</span></span>
+        <span class="meta"><span>Tankstations</span><span class="dl red">Deadline verstreken op 31 juli</span></span>
+      </button>
+    </div>
+
+    <div class="extgroup rest">Geen actie nodig (2)</div>
+    <div class="extlist">
+      <button class="extcard rest" onclick="toast('Detailpagina, ongewijzigd')">
+        <span class="top"><b>Marathonactie</b><span class="pill grey"><span class="dot"></span>In afwachting van Global</span><span class="chev" style="color:var(--faint)">›</span></span>
+        <span class="meta"><span>Tankstations</span><span class="dl">Deadline augustus 2026</span></span>
+      </button>
+      <button class="extcard rest" onclick="toast('Detailpagina, ongewijzigd')">
+        <span class="top"><b>Leesweken</b><span class="pill ok"><span class="dot"></span>Goedgekeurd</span><span class="chev" style="color:var(--faint)">›</span></span>
+        <span class="meta"><span>Treinstations</span><span class="dl">Gaat live op 1 september</span></span>
+      </button>
+    </div>
+    <div class="extnote">Klik op een uitvraag om aan te leveren, de status te volgen of een nieuwe versie te sturen.</div>
+  </div>
+</section>
+
+<div class="scrim" id="scrim" onclick="closeAbout()"></div>
 <div class="modal" id="about">
-  <h4>Wat is hier anders dan in het huidige prototype?</h4>
-  <div style="font-size:12.5px;color:var(--muted)">Zelfde proces, zelfde huisstijl — andere presentatie. De acht belangrijkste ingrepen:</div>
+  <h4>Zelfde schermen, rustiger gestyled</h4>
+  <div class="lede">Alle pagina's, onderdelen en flows staan waar ze stonden. Alleen de stijl is aangepast:</div>
   <ol>
-    <li><b>"Vandaag" als startscherm.</b> <span>Je begint bij jouw taken met één knop per taak, niet bij een tabel die je zelf moet filteren.</span></li>
-    <li><b>Zijbalknavigatie.</b> <span>Vandaag, Dossiers en Monitor zijn aparte plekken; de demo-console verdwijnt uit het product.</span></li>
-    <li><b>Tabel van 8 naar 5 kolommen.</b> <span>Taak, eigenaar, tijdsnorm en status zijn samengevoegd tot "Aan zet", "Deadline" en één statuspil; voortgang is een mini-tracker.</span></li>
-    <li><b>Opgeslagen weergaven i.p.v. zes dropdowns.</b> <span>Mijn dossiers / Buiten tijdsnorm / Bij partners als chips; overige filters achter "+ Filter"; ⌘K-zoekbalk voor alles.</span></li>
-    <li><b>Eén actieblok per dossier.</b> <span>"Jij bent aan zet" met één knop, in plaats van een antwoordstrook die met de fasetracker concurreert.</span></li>
-    <li><b>Tijdlijn als verhaal.</b> <span>Gegroepeerd per dag, mensen met avatar, systeemstappen opgevouwen achter één regel.</span></li>
-    <li><b>Taak-chaining.</b> <span>Na "Voldaan" direct door naar de volgende taak, zonder omweg via het overzicht.</span></li>
-    <li><b>Rustiger vormtaal.</b> <span>Basislettergrootte van ~11,5 naar 14px, kleur alleen nog voor status en urgentie, vaste spacing-schaal.</span></li>
+    <li><b>Grotere, rustigere typografie.</b> <span>Basis van ~11,5 naar 13,5px, labels en nummers consequent; minder vet en minder hoofdletters.</span></li>
+    <li><b>Drie tellerblokken in één vorm.</b> <span>Zelfde opbouw (label · getal · toelichting) voor alle drie, urgentie alleen via de kleurstip en het getal.</span></li>
+    <li><b>Kleur alleen waar het iets betekent.</b> <span>Status en tijdsnorm houden kleur; route, badges en eigenaren zijn neutraal geworden. Tijd is gekleurde tekst i.p.v. nóg een pil.</span></li>
+    <li><b>Minder tekst.</b> <span>Toelichtingen die het scherm herhalen zijn weg ("Weergave voor het profiel…", "Klik op de tracker…", "directe actie", lange mutatie-uitleg). Wat overblijft is korter.</span></li>
+    <li><b>Filterbalk uitgelijnd.</b> <span>Zelfde filters, maar één hoogte, één stijl; toggles herkenbaar als toggles.</span></li>
+    <li><b>Tabel opgeschoond.</b> <span>Zelfde acht kolommen; meer regelafstand, avatars i.p.v. zware eigenaar-pillen, statuspil in één kleursysteem.</span></li>
+    <li><b>Tijdlijn met stille systeemregels.</b> <span>Zelfde events en filterchips; automatische stappen zijn grijs gedimd zodat mensen en berichten eruit springen.</span></li>
+    <li><b>Demo-console licht i.p.v. donker.</b> <span>Zelfde knoppen, maar visueel duidelijk géén onderdeel van het product.</span></li>
   </ol>
-  <button class="btn" style="margin-top:20px" onclick="document.getElementById('about').classList.remove('show');closeTask()">Sluiten</button>
+  <button class="btn" style="margin-top:20px" onclick="closeAbout()">Sluiten</button>
 </div>
-
 <div class="toast" id="toastEl"></div>
 
 <script>
   function go(v){
     document.querySelectorAll('.view').forEach(el=>el.classList.remove('on'));
-    document.getElementById('v-'+v).classList.add('on');
-    document.querySelectorAll('.nav-btn[data-nav]').forEach(b=>b.classList.toggle('on', b.dataset.nav===v || (v==='detail'&&b.dataset.nav==='dossiers')));
+    document.getElementById('m-'+v).classList.add('on');
+    document.querySelectorAll('.mockbar button[data-m]').forEach(b=>b.classList.toggle('on', b.dataset.m===v || (v==='dossier'&&b.dataset.m==='dossier')));
     window.scrollTo({top:0});
   }
-  function openTask(){
-    document.getElementById('scrim').classList.add('show');
-    const p=document.getElementById('panel'); p.classList.add('show');
-    requestAnimationFrame(()=>{p.classList.add('in');document.getElementById('scrim').classList.add('in')});
-  }
-  function closeTask(){
-    ['panel','scrim'].forEach(id=>{const el=document.getElementById(id);el.classList.remove('in','show')});
-    document.getElementById('about').classList.remove('show');
-  }
-  function approve(){
-    document.getElementById('doneNote').style.display='block';
-    document.getElementById('panelActions').style.display='none';
-    document.getElementById('nextTask').style.display='block';
-    document.querySelectorAll('.step-dots i')[1].classList.add('done');
-    toast('Voldaan · gelogd');
-  }
+  function openAbout(){document.getElementById('about').classList.add('show');document.getElementById('scrim').classList.add('show')}
+  function closeAbout(){document.getElementById('about').classList.remove('show');document.getElementById('scrim').classList.remove('show')}
   let tt;
   function toast(m){
     const t=document.getElementById('toastEl'); t.textContent=m; t.classList.add('show');
     clearTimeout(tt); tt=setTimeout(()=>t.classList.remove('show'),2600);
   }
-  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeTask()});
+  document.addEventListener('keydown',e=>{if(e.key==='Escape')closeAbout()});
 </script>
 
 </html>

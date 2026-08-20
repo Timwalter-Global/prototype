@@ -1,97 +1,61 @@
-# UX/UI-analyse en herontwerpvoorstel · creaties-verzamelen
+# Restyle-voorstel · creaties-verzamelen
 
 Status: **voorstel, wacht op akkoord** — nog niet doorgevoerd in
 `prototypes/creaties-verzamelen/`. De klikbare mock staat in
 `mockups/creaties-verzamelen-ux/index.html` (niet gehost; zie `.assetsignore`).
 
-## Stap 1 · Analyse vanuit gebruikersperspectief
+## Uitgangspunt (na feedback)
 
-Getoetst per rol zoals het prototype die kent (CM, Ad Ops, Marketing, AM en
-de externe partij).
+Géén herinrichting van de applicatie. Het interne dashboard, het dossierscherm,
+de procesmonitor en het externe dashboard behouden hun huidige opzet,
+onderdelen en flows. Alleen de **stijl** wordt aangepast: rustiger,
+intuïtiever, met minder overbodige tekst.
 
-### 1. Geen antwoord op de eerste vraag van elke gebruiker: "wat moet ík nu doen?"
-De teamcockpit opent met drie tellerblokken, zes filterdropdowns en een tabel
-van acht kolommen. Een CM moet zelf tellers aanklikken en filters combineren
-om de eigen taken te vinden; de knop "Mijn taken" staat verstopt tussen de
-filters en bestaat alleen voor CM-rollen.
+## De acht stijlingrepen
 
-### 2. Te hoge informatiedichtheid, te kleine typografie
-Basislettergroottes van 9,5–12px, tientallen pills/badges per scherm, en
-kleur voor bijna alles (route, status, tijd, filters, rollen). Alles vraagt
-aandacht, dus niets krijgt het. De drie tellerblokken bovenaan hebben elk een
-nét andere layout, waardoor je ze niet als één geheel scant.
+1. **Grotere, rustigere typografie** — basis van ~11,5px naar 13,5px; één
+   labelstijl, één nummerstijl (tabular-nums); minder vet en minder
+   hoofdletters.
+2. **Drie tellerblokken in één vorm** — zelfde opbouw (label · getal ·
+   toelichting) voor "Buiten tijdsnorm", "Intern aan zet" en "Partners aan
+   zet"; urgentie alleen via kleurstip en getal, niet via drie verschillende
+   layouts.
+3. **Kleur alleen waar het iets betekent** — status en tijdsnorm houden
+   kleur (blauw = bezig, groen = goed, amber = aandacht, rood = actie/te
+   laat, grijs = passief). Route, badges en eigenaren worden neutraal.
+   "Tijd" is gekleurde tekst in plaats van nóg een pil.
+4. **Minder tekst** — herhalende toelichtingen weg: "Weergave voor het
+   profiel waarmee je bent ingelogd", "Klik op de tracker voor de
+   procesflow", "Deadline verstreken · directe actie", de lange
+   mutatie-uitleg in de monitor, dubbelingen als "wacht op externe partij"
+   naast "Onze partners aan zet". Wat blijft is korter geformuleerd.
+5. **Filterbalk uitgelijnd** — zelfde filters en volgorde, maar één hoogte
+   en één stijl; "Mijn taken" en "Groepeer per bureau" herkenbaar als
+   toggles.
+6. **Tabel opgeschoond** — zelfde acht kolommen; ruimere regels, avatars in
+   plaats van zware eigenaar-pillen, statuspil in één kleursysteem,
+   ordernummers/tijden in tabular-nums.
+7. **Tijdlijn met stille systeemregels** — zelfde events, filterchips en
+   "Laatste bericht"-knop; automatische stappen ("⚙ auto") grijs gedimd
+   zodat mensen en berichten eruit springen.
+8. **Demo-console licht in plaats van donker** — zelfde knoppen
+   (perspectief, rol, mailvoorbeelden, reset), maar visueel duidelijk geen
+   onderdeel van het product.
 
-### 3. De tabel vermengt vier concepten
-"Actuele taak", "Aan zet", "Tijd" en "Status" overlappen inhoudelijk
-(bijv. status "Wacht op aanlevering" + taak "Aanlevering afwachten (extern)"
-+ eigenaar "extern" zegt drie keer hetzelfde). Acht kolommen op 1180px
-minimumbreedte dwingt horizontaal scrollen af.
+Bewust ongewijzigd: alle pagina's en hun indeling, procesmodel, statusmodel,
+gates, matrixbewaking, taakvensters (T1–T6), back-upflow, deellivegang,
+flowoverlay, specificatiepanelen, mailvoorbeelden en het externe
+aanleverconcept.
 
-### 4. Het dossierscherm heeft twee concurrerende blikvangers
-De "antwoordstrook" (actie) en de fasetracker (context) staan naast elkaar
-in de kop; daaronder volgt een lange stapel secties achter een vage
-"Meer info"-scheiding. De primaire actie is visueel niet dominanter dan de
-context eromheen.
+## Mock
 
-### 5. De tijdlijn is een technisch logboek, geen verhaal
-Systeemevents ("Taak klaargezet bij…", "Technische controle groen") staan
-tussen menselijke acties en externe reacties. Voor de vraag "waar wacht dit
-dossier op?" moet je alles lezen. Filterchips (alle/communicatie/acties/status)
-verplaatsen het probleem naar de gebruiker.
+`mockups/creaties-verzamelen-ux/index.html` — vier schermen via de
+donkere mock-balk bovenaan (die balk is de schermkiezer van de mock zelf,
+geen productonderdeel): Teamcockpit, Dossier, Procesmonitor, Extern
+dashboard. De knop "ⓘ Wat is er veranderd" somt de ingrepen op.
 
-### 6. Taken zijn eindpunten, geen flow
-Na het afronden van een taak (T3/T4/T5…) val je terug op het dossier en moet
-je zelf terug naar de cockpit om de volgende taak te vinden. Wie 's ochtends
-vijf beoordelingen heeft, klikt vijf keer hetzelfde rondje.
+## Na akkoord
 
-### 7. De demo-console oogt als productonderdeel
-De donkere balk bovenaan (perspectief/rol/staat) is voor testers niet te
-onderscheiden van het product zelf en vertekent feedback.
-
-### 8. Extern scherm: relatief goed, zelfde dichtheidsprobleem
-De aanleverpagina heeft al een duidelijke "Actie nodig"-groepering. De
-upload-popup kent wel veel toestanden (concept/klaar/ingediend/vervangen +
-teller + guard) met kleine typografie.
-
-## Stap 2 · Voorstellen (geïnspireerd op tools als Watermelon AI)
-
-Watermelon-achtige principes: één duidelijk startpunt, één primaire actie per
-kaart, rustige witruimte, zijbalknavigatie, vriendelijke toon, alles wat niet
-nú relevant is achter progressive disclosure.
-
-1. **"Vandaag" als startscherm** — persoonlijke takeninbox, gesorteerd op
-   urgentie, één primaire knop per taak. Team-signalen (buiten tijdsnorm bij
-   collega's, wacht op extern) als rustige secundaire sectie.
-2. **Zijbalknavigatie** — Vandaag / Dossiers / Monitor / Wachtrijen als
-   plekken i.p.v. alles op één pagina. Demo-console wordt een klein zwevend
-   demo-menu buiten het product-frame.
-3. **Tabel van 8 → 5 kolommen** — Campagne (+klant/bureau/order als subregel),
-   Voortgang (mini-fasetracker), Aan zet (avatar-pil), Deadline, Status (één
-   pil). Taak-tekst verhuist naar het detail; afgeronde dossiers dimmen.
-4. **Opgeslagen weergaven i.p.v. dropdown-batterij** — chips: Alle / Mijn
-   dossiers / Buiten tijdsnorm / Bij partners; overige filters achter
-   "+ Filter"; één ⌘K-zoekveld over campagne/klant/ordernummer.
-5. **Eén actieblok per dossier** — "Jij bent aan zet · [taak]" met één knop,
-   visueel dominant; fasetracker eronder als context, niet als concurrent.
-6. **Tijdlijn als verhaal** — gegroepeerd per dag, avatars voor mensen,
-   systeemstappen opgevouwen achter "⚙ n automatische stappen — toon".
-7. **Taak-chaining** — na Voldaan/Afkeuren direct "Volgende taak →" in
-   hetzelfde paneel; stappenindicator "Taak 1 van 3 vandaag".
-8. **Rustiger vormtaal** — basis 14px, koppen 20–24px, kleur alléén voor
-   status/urgentie, vaste spacingschaal, tabular-nums voor nummers en data.
-
-Bewust ongewijzigd: procesmodel, statusmodel, gates (G0–G4), matrixbewaking,
-afkeurlus, back-upflow, mailvoorbeelden en het externe aanleverconcept —
-dit is presentatie, geen procesverandering.
-
-## Stap 3 · Mock
-
-`mockups/creaties-verzamelen-ux/index.html` — klikbaar: Vandaag ↔ Dossiers ↔
-dossierdetail Festivalzomer, taakpaneel met chaining, opvouwbare tijdlijn.
-De knop "ⓘ Over deze mock" (rechtsonder) somt de acht ingrepen op.
-
-## Stap 4 · Na akkoord
-
-Doorvoeren in `prototypes/creaties-verzamelen/index.html` (de x-dc-bundel),
-in dezelfde volgorde als de lijst hierboven; per ingreep een commit zodat
-onderdelen los terug te draaien zijn.
+Doorvoeren in `prototypes/creaties-verzamelen/index.html`: de stijlingrepen
+vertalen naar de inline styles en tekstconstanten van de x-dc-bundel, per
+ingreep een commit. Gedrag en structuur van de schermen blijven onaangeroerd.
