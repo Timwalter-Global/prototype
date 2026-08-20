@@ -138,7 +138,7 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
       </div>
       <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:12px" data-comment-anchor="239fce1a6f-div">
         <div style="position:relative">
-          <button onClick="{{ advToggle }}" style="border:1px solid #E4ECF5;border-radius:999px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563;cursor:pointer;display:flex;align-items:center;gap:7px" data-comment-anchor="4e5bfdc57d-select">{{ advLabel }}<span style="font-size:10px;color:#6B7280">▼</span></button>
+          <button onClick="{{ advToggle }}" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B;cursor:pointer;display:flex;align-items:center;gap:7px" data-comment-anchor="4e5bfdc57d-select">{{ advLabel }}<span style="font-size:10px;color:#6B7280">▼</span></button>
           <sc-if value="{{ advOpen }}" hint-placeholder-val="{{ false }}">
             <div onClick="{{ advClose }}" style="position:fixed;inset:0;z-index:70"></div>
             <div style="position:absolute;top:calc(100% + 5px);left:0;z-index:71;background:#fff;border:1px solid #D5E0EC;border-radius:12px;box-shadow:0 12px 34px rgba(27,75,137,.18);padding:8px;width:250px">
@@ -151,23 +151,23 @@ a{color:#0B78BE}a:hover{color:#1B4B89}
             </div>
           </sc-if>
         </div>
-        <input value="{{ fltOrd }}" onChange="{{ setFltOrd }}" placeholder="Zoek op ordernummer…" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563;width:170px">
-        <select value="{{ fltBur }}" onChange="{{ setFltBur }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
+        <input value="{{ fltOrd }}" onChange="{{ setFltOrd }}" placeholder="Zoek op ordernummer…" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B;width:170px">
+        <select value="{{ fltBur }}" onChange="{{ setFltBur }}" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B">
           <option value="alle">Mediabureau: alle</option><option value="NovaMedia">NovaMedia</option><option value="AdVista">AdVista</option><option value="direct">Geen (direct)</option>
         </select>
-        <select value="{{ fltStake }}" onChange="{{ setFltStake }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltStake }}" onChange="{{ setFltStake }}" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B">
           <option value="alle">Stakeholder: alle</option><option value="sandra">Sandra (AM)</option><option value="bo">Bo (CM)</option><option value="yusuf">Yusuf (CM)</option><option value="kim">Kim (Ad Ops)</option><option value="femke">Femke (Marketing)</option><option value="ext">Extern</option>
         </select>
-        <select value="{{ fltStatus }}" onChange="{{ setFltStatus }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltStatus }}" onChange="{{ setFltStatus }}" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B">
           <option value="alle">Status: alle</option><option value="Wacht op aanlevering">Wacht op aanlevering</option><option value="In controle">In controle</option><option value="Afgekeurd">Afgekeurd</option><option value="Wacht op klantbevestiging">Wacht op klantbevestiging</option><option value="Aangemaakt">Aangemaakt</option><option value="Goedgekeurd">Goedgekeurd</option>
         </select>
-        <select value="{{ fltRoute }}" onChange="{{ setFltRoute }}" style="border:1px solid #E4ECF5;border-radius:8px;padding:5px 10px;font-family:inherit;font-size:12.5px;background:#F7FAFD;color:#4B5563">
+        <select value="{{ fltRoute }}" onChange="{{ setFltRoute }}" style="border:1px solid #E4ECF5;border-radius:9px;padding:7px 11px;height:34px;font-family:inherit;font-size:12.5px;background:#fff;color:#64748B">
           <option value="alle">Route: alle</option><option value="Preferred">Preferred</option><option value="Partnerproces">Partnerproces</option>
         </select>
         <sc-if value="{{ isCMRole }}" hint-placeholder-val="{{ false }}">
-          <button onClick="{{ toggleMyTasks }}" style="border:1px solid {{ myTasksBd }};background:{{ myTasksBg }};color:{{ myTasksFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Mijn taken</button>
+          <button onClick="{{ toggleMyTasks }}" style="border:1px solid {{ myTasksBd }};background:{{ myTasksBg }};color:{{ myTasksFg }};border-radius:999px;padding:7px 14px;height:34px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Mijn taken</button>
         </sc-if>
-        <button onClick="{{ toggleGroup }}" style="margin-left:auto;border:1px solid {{ groupBd }};background:{{ groupBg }};color:{{ groupFg }};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Groepeer per bureau</button>
+        <button onClick="{{ toggleGroup }}" style="margin-left:auto;border:1px solid {{ groupBd }};background:{{ groupBg }};color:{{ groupFg }};border-radius:999px;padding:7px 14px;height:34px;font-size:12.5px;font-weight:600;cursor:pointer;font-family:inherit">Groepeer per bureau</button>
       </div>
       <div style="background:#fff;border:1px solid #E4ECF5;border-radius:16px;box-shadow:0 2px 10px rgba(27,75,137,.06);overflow-x:auto">
         <div style="min-width:1180px">
@@ -2208,9 +2208,9 @@ class Component extends DCLogic {
       fltStatus:s.fltStatus,setFltStatus:(e)=>this.setState({fltStatus:e.target.value,page:1}),
       fltRoute:s.fltRoute,setFltRoute:(e)=>this.setState({fltRoute:e.target.value,page:1}),
       isCMRole:isCMRole, toggleMyTasks:()=>this.setState({myTasks:!s.myTasks,page:1}),
-      myTasksBd:s.myTasks?'#195AA6':'#E4ECF5', myTasksBg:s.myTasks?'#195AA6':'#F7FAFD', myTasksFg:s.myTasks?'#fff':'#6B7280',
+      myTasksBd:s.myTasks?'#1B4B89':'#E4ECF5', myTasksBg:s.myTasks?'#1B4B89':'#fff', myTasksFg:s.myTasks?'#fff':'#6B7280',
       toggleGroup:()=>this.setState({groupOn:!s.groupOn,page:1}),
-      groupBd:s.groupOn?'#195AA6':'#E4ECF5', groupBg:s.groupOn?'#EAF2FB':'#F7FAFD', groupFg:s.groupOn?'#0B78BE':'#6B7280',
+      groupBd:s.groupOn?'#1B4B89':'#E4ECF5', groupBg:s.groupOn?'#1B4B89':'#fff', groupFg:s.groupOn?'#fff':'#6B7280',
       backToBoard:()=>this.setState({screen:'i1',dossierId:null}),
       d:dView, phases:phases, creaties:creaties, noCreaties:cur?(crGroups.length===0&&cur.creaties.length===0):false, crHas:crGroups.length>0, crGroups:crGroups, crLegacy:crGroups.length===0, tl:tlShown, tlChips:tlChips,
       lastMsgHas:lastMsgHas, lastMsgNone:lastMsgNone, lastMsgTxt:lastMsgTxt, lastMsgClick:lastMsgClick,
