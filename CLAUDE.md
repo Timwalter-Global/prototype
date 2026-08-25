@@ -27,7 +27,10 @@ Live basis-URL: `https://www.globalnl-innovate.com/`
   bestaan; de wachtwoordcheck geldt daar ook, maar deel het nooit als
   prototype-link — de enige publieke basis-URL is het eigen domein.
 - De oude GitHub Pages-URL (`https://timwalter-global.github.io/prototype/`)
-  is vervallen en wordt uitgezet; verwijs er nergens meer naar.
+  is definitief uitgezet (Settings → Pages → Source op "None", augustus 2026);
+  verwijs er nergens meer naar. Laat die Pages-instelling op "None" staan —
+  zodra er weer een branch als source is gekozen, publiceert elke push naar
+  `main` de hele repo opnieuw onbeveiligd op github.io.
 
 ## Hoe Usersnap hier werkt — lees dit eerst
 
