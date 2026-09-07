@@ -61,7 +61,7 @@
   <h1>Datatabel — welke data voedt het dashboard?</h1>
   <p class="intro">Dit is het gezamenlijke werkdocument met alle datavariabelen die nodig zijn om het Casar-dashboard met echte data te vullen. <strong>Klik op een cel om te typen</strong> — elke wijziging wordt automatisch opgeslagen en is direct zichtbaar voor iedereen die dit document open heeft.</p>
   <div class="notitie"><strong>De kolom Bron staat bewust open.</strong> Vul per variabele in waar de data vandaan moet komen. Rijen toevoegen kan onderaan elke sectie; verwijderen met het kruisje achter een rij.</div>
-  <div id="laadfout">De tabel kan nu niet geladen worden. Controleer je internetverbinding en herlaad de pagina. Lukt het dan nog niet, meld het bij Tim.</div>
+  <div id="laadfout">De tabel kan nu niet geladen worden. Controleer je internetverbinding en herlaad de pagina. Lukt het dan nog niet, meld het bij Tim.<div id="laadfout-detail" style="display:none;margin-top:10px;padding-top:8px;border-top:1px solid #efc9c4;font-family:Consolas,Menlo,monospace;font-size:11px;color:#8c5a55;overflow-wrap:break-word"></div></div>
   <div id="secties"></div>
   <footer>Werkdocument bij het Casar-dashboard-prototype (Audience Platform). Wijzigingen worden centraal opgeslagen (Supabase) en zijn zichtbaar voor iedereen met de link — er is geen versiegeschiedenis, dus overschrijven is definitief.</footer>
 </div>
@@ -92,10 +92,17 @@
     { veld: "bron",         kop: "Bron — in te vullen", klasse: "bron", breedte: "18%" }
   ];
 
-  if (!window.supabase || !window.supabase.createClient) {
+  function toonLaadfout(detail) {
     document.getElementById("laadfout").style.display = "block";
+    var detailEl = document.getElementById("laadfout-detail");
+    detailEl.style.display = "block";
+    detailEl.textContent = "Technische melding voor Tim: " + detail;
     document.getElementById("status").className = "error";
     document.getElementById("status-tekst").textContent = "Niet verbonden";
+  }
+
+  if (!window.supabase || !window.supabase.createClient) {
+    toonLaadfout("supabase-js-bibliotheek niet geladen — het bestand supabase-js-2.112.3.min.js is niet opgehaald (geblokkeerd of niet gevonden). De database is dan niet eens geprobeerd.");
     return;
   }
   var sb = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
@@ -321,17 +328,21 @@
     .order("positie", { ascending: true })
     .then(function (res) {
       if (res.error) {
-        document.getElementById("laadfout").style.display = "block";
-        zetStatus("error", "Niet verbonden");
+        toonLaadfout("databasequery mislukt — " +
+          (res.error.message || "onbekende fout") +
+          (res.error.code ? " (code " + res.error.code + ")" : "") +
+          (res.error.details ? " · " + res.error.details : "") +
+          (/failed to fetch|networkerror|load failed/i.test(res.error.message || "")
+            ? " — de server antwoordt niet: mogelijk is het Supabase-project gepauzeerd (gratis tier pauzeert na inactiviteit; hervatten kan in het Supabase-dashboard) of wordt supabase.co door dit netwerk geblokkeerd."
+            : ""));
         return;
       }
       (res.data || []).forEach(function (r) { rijen.set(r.id, r); });
       renderAlles(res.data || []);
       zetStatus("ok", "Alle wijzigingen opgeslagen");
       startRealtime();
-    }, function () {
-      document.getElementById("laadfout").style.display = "block";
-      zetStatus("error", "Niet verbonden");
+    }, function (err) {
+      toonLaadfout("onverwachte fout bij het laden — " + ((err && err.message) || String(err)));
     });
 
   window.addEventListener("beforeunload", function (ev) {
