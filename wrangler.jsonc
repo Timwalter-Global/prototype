@@ -8,8 +8,10 @@
   // Keep-alive voor het Supabase-project achter docs/casar-dashboard/
   // datatabel.html: de gratis tier pauzeert na 7 dagen zonder gebruik.
   // Twee pings per week (ma en do 08:00 UTC) houden ruime marge.
+  // Dagnamen i.p.v. nummers: Cloudflare telt dagnummers anders dan
+  // standaard cron (1 = zondag), dagnamen zijn ondubbelzinnig.
   "triggers": {
-    "crons": ["0 8 * * 1,4"]
+    "crons": ["0 8 * * MON,THU"]
   },
   "assets": {
     "directory": ".",
