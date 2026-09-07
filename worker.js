@@ -7,7 +7,28 @@
 // SITE_PASSWORD in het Workers-project (Settings → Variables and secrets).
 // Zonder dat secret blijft de site dicht (fail closed).
 
+// Keep-alive voor de Supabase-database achter de Casar-datatabel
+// (docs/casar-dashboard/datatabel.html). De gratis Supabase-tier pauzeert
+// een project na 7 dagen zonder databasegebruik; deze lichte query telt
+// als gebruik. Draait via de cron-trigger in wrangler.jsonc (2x per week).
+// De key hieronder is de publieke (publishable) key die ook in de pagina
+// zelf staat — geen secret.
+const SUPABASE_URL = "https://oenfktekinmrsehfzdva.supabase.co";
+const SUPABASE_KEY = "sb_publishable_mgbVOTLLpxUBvnv8BOXDKQ_cPN9AJxx";
+
 export default {
+  async scheduled(event, env, ctx) {
+    const res = await fetch(
+      `${SUPABASE_URL}/rest/v1/datatabel_rows?select=id&limit=1`,
+      { headers: { apikey: SUPABASE_KEY } }
+    );
+    if (!res.ok) {
+      // Zichtbaar in de Workers-logs; bij een al gepauzeerd project moet
+      // het project handmatig hervat worden in het Supabase-dashboard.
+      console.error(`Supabase keep-alive mislukt: HTTP ${res.status}`);
+    }
+  },
+
   async fetch(request, env) {
     const password = env.SITE_PASSWORD;
 

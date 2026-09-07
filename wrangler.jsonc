@@ -5,6 +5,12 @@
   "name": "global-prototypes",
   "compatibility_date": "2026-08-01",
   "main": "worker.js",
+  // Keep-alive voor het Supabase-project achter docs/casar-dashboard/
+  // datatabel.html: de gratis tier pauzeert na 7 dagen zonder gebruik.
+  // Twee pings per week (ma en do 08:00 UTC) houden ruime marge.
+  "triggers": {
+    "crons": ["0 8 * * 1,4"]
+  },
   "assets": {
     "directory": ".",
     "binding": "ASSETS",
