@@ -350,6 +350,15 @@
       type: 'Dashboard',
       url: 'prototypes/mastmonitor/',
       thumb: 'monitor'
+    },
+    {
+      titel: 'Kwaliteitscontrole 2.0',
+      categorie: 'Operations',
+      beschrijving: 'Een app waarmee onze kwaliteitsinspecteurs een controleronde volledig op de telefoon afwerken: objectnummer bevestigen, foto\'s volgens instructie, de 7 controlepunten inspreken en schade direct melden bij de onderhoudspartij. Het dashboard erbij laat per gemeente en object zien wat goed gaat en wat actie vraagt, zonder naverwerking op kantoor.',
+      testtijd: '± 15 min',
+      type: 'App + dashboard',
+      url: 'prototypes/kwaliteitscontrole/',
+      thumb: 'inspectie'
     }
   ];
   const CONTACT_EMAIL = 'tim.walter@global.com';
@@ -420,7 +429,24 @@
       <div class="trow" style="align-items:center"><span class="tile t-ok" style="flex:0 0 18px;height:6px;border-radius:999px"></span><span class="tsk" style="flex:1;height:6px"></span></div>
       <div class="trow" style="align-items:center"><span class="tile t-warn" style="flex:0 0 18px;height:6px;border-radius:999px"></span><span class="tsk" style="flex:1;height:6px"></span></div>
       <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#F2C9C9"></span><span class="tsk" style="flex:1;height:6px"></span></div>
-      <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#C3D6EC"></span><span class="tsk" style="flex:1;height:6px"></span></div>`
+      <div class="trow" style="align-items:center"><span class="tile" style="flex:0 0 18px;height:6px;border-radius:999px;background:#C3D6EC"></span><span class="tsk" style="flex:1;height:6px"></span></div>`,
+    inspectie: `
+      <div class="tsk" style="width:50%;height:7px"></div>
+      <div class="trow" style="align-items:flex-start">
+        <div style="flex:0 0 28px;height:46px;border-radius:7px;border:2px solid #1B4B89;background:#fff;padding:4px 3px;display:flex;flex-direction:column;gap:3px">
+          <span style="display:block;height:4px;border-radius:2px;background:#BFE5D4"></span>
+          <span style="display:block;height:4px;border-radius:2px;background:#F5DEB8"></span>
+          <span style="display:block;height:4px;border-radius:2px;background:#F2C9C9"></span>
+          <span style="display:block;height:4px;border-radius:2px;background:#DDE3EE"></span>
+          <span style="display:block;margin-top:auto;height:6px;border-radius:2px;background:#195AA6"></span>
+        </div>
+        <div class="tlist">
+          <div class="trow"><span class="tile t-ok" style="height:12px"></span><span class="tile t-warn" style="height:12px"></span><span class="tile" style="height:12px;background:#F2C9C9"></span></div>
+          <span class="tsk" style="height:5px;width:92%"></span>
+          <span class="tsk" style="height:5px;width:68%"></span>
+          <span class="tsk" style="height:5px;width:80%"></span>
+        </div>
+      </div>`
   };
 
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;

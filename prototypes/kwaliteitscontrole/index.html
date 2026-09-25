@@ -1,0 +1,1168 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow" />
+<title>Kwaliteitscontrole 2.0 · Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px);
+  --black:#000;--ink:#111417;--paper:#fff;--bg:#F2F3F3;--line:#E4E6E8;--line2:#CFD3D6;--muted:#6B7378;--soft:#EEF0F2;
+  --good:#17A35B;--good-soft:#E3F5EA;--good-ink:#0F6E3D;
+  --warn:#F0B400;--warn-soft:#FFF3C7;--warn-ink:#7A5A00;
+  --act:#E2321F;--act-soft:#FCE6E3;--act-ink:#A31F12;
+  --focus:#000;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#F1F3F4;--paper:#181B1E;--bg:#0F1113;--line:#2A2F33;--line2:#3A4045;--muted:#9AA3A9;--soft:#22272B;--good-soft:#123324;--warn-soft:#3A3010;--act-soft:#3E1B17;--good-ink:#6FD69C;--warn-ink:#F5CF5C;--act-ink:#F08A7E;--focus:#fff}}
+:root[data-theme="dark"]{--ink:#F1F3F4;--paper:#181B1E;--bg:#0F1113;--line:#2A2F33;--line2:#3A4045;--muted:#9AA3A9;--soft:#22272B;--good-soft:#123324;--warn-soft:#3A3010;--act-soft:#3E1B17;--good-ink:#6FD69C;--warn-ink:#F5CF5C;--act-ink:#F08A7E;--focus:#fff}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ===== top bar ===== */
+.topbar{background:var(--black);color:#fff;position:sticky;top:env(safe-area-inset-top,0px);z-index:20}
+.topbar .in{max-width:1400px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.wordmark{font-weight:800;font-size:24px;letter-spacing:-.04em;line-height:1;color:#fff;text-decoration:none}
+.topbar .prod{font-weight:600;font-size:14px;opacity:.75;border-left:1px solid rgba(255,255,255,.25);padding-left:14px}
+.tabs{display:flex;gap:4px;margin-left:auto;background:rgba(255,255,255,.08);padding:4px;border-radius:12px}
+.tabs button{border:0;background:transparent;color:rgba(255,255,255,.75);padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px}
+.tabs button[aria-selected="true"]{background:#fff;color:#000}
+.topbar .util{display:flex;gap:6px}
+.topbar .util button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:9px;padding:7px 11px;font-size:13px;font-weight:600}
+.topbar .util button.on{background:#fff;color:#000}
+@media (max-width:760px){.topbar .prod{display:none}.tabs{width:100%;margin-left:0;order:3}.tabs button{flex:1;padding:8px 6px;font-size:13px}}
+.wrap{max-width:1400px;margin:0 auto;padding:18px}
+.view{display:none}.view.on{display:block}
+
+/* ===== generic ===== */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:78ch}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.chip.good{background:var(--good-soft);color:var(--good-ink)}
+.chip.warn{background:var(--warn-soft);color:var(--warn-ink)}
+.chip.act{background:var(--act-soft);color:var(--act-ink)}
+.chip.ink{background:var(--ink);color:var(--paper)}
+.chip.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+/* ===== flow ===== */
+.stack{display:grid;gap:16px}
+.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.modules{grid-template-columns:1fr}}
+.mod{border:1px solid var(--line);border-radius:16px;padding:18px;position:relative;background:var(--paper)}
+.mod.now{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.mod h3{font-size:17px;font-weight:800;margin:8px 0 10px;letter-spacing:-.01em}
+.mod ol{margin:0;padding-left:20px}
+.mod ol li{margin:5px 0;font-size:14px}
+.mod .foot{margin-top:12px;color:var(--muted);font-size:13px;border-top:1px dashed var(--line);padding-top:10px}
+.mod .arrow{position:absolute;right:-17px;top:50%;transform:translateY(-50%);width:26px;height:26px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:800;z-index:1}
+@media (max-width:900px){.mod .arrow{display:none}}
+.row-label{font-weight:800;margin:18px 0 8px;font-size:13px;letter-spacing:.02em;color:var(--muted)}
+.steps{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+@media (max-width:900px){.steps{grid-template-columns:repeat(2,1fr)}}
+.step{border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13.5px;min-height:104px;position:relative;background:var(--paper);text-align:left;display:block;width:100%}
+.step b{display:block;font-weight:700;margin-bottom:3px;padding-right:18px}
+.step .n{position:absolute;top:10px;right:10px;font-size:11px;color:var(--muted);font-weight:700}
+.steps.old .step{background:var(--soft);color:var(--muted);border-color:transparent}
+.steps.new .step:hover,.steps.new .step:focus-visible{border-color:var(--ink)}
+.steps.new .scr{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--paper);background:var(--ink);padding:2px 8px;border-radius:999px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:900px){.rules{grid-template-columns:1fr}}
+.rule{border-left:3px solid var(--warn);padding:8px 14px;font-size:14px;background:var(--paper);border-radius:0 10px 10px 0}
+.rule b{font-weight:700}
+
+/* ===== screen map ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.scard{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px}
+.scard:hover,.scard:focus-visible{border-color:var(--ink)}
+.scard .num{font-size:12px;color:var(--muted);font-weight:700}
+.scard h3{font-size:15.5px;font-weight:800}
+.scard p{margin:0;font-size:13.5px;color:var(--muted)}
+.scard .src{font-size:12.5px;border-top:1px dashed var(--line);padding-top:8px;margin-top:auto;font-style:italic;color:var(--muted)}
+
+/* ===== app layout ===== */
+.proto{display:grid;grid-template-columns:240px minmax(0,1fr) 320px;gap:18px;align-items:start}
+.proto.nonotes{grid-template-columns:240px minmax(0,1fr)}
+@media (max-width:1000px){.proto,.proto.nonotes{grid-template-columns:1fr}.rail,.notes{display:none}.rail.open,.notes.open{display:block}}
+.rail{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px;position:sticky;top:78px}
+.rail button{display:flex;gap:10px;width:100%;text-align:left;border:0;background:transparent;padding:8px 10px;border-radius:9px;font-size:13.5px;font-weight:500}
+.rail button .k{color:var(--muted);width:28px;flex:none;font-weight:700;font-size:12px;padding-top:2px}
+.rail button.cur{background:var(--ink);color:var(--paper)}
+.rail button.cur .k{color:var(--paper);opacity:.7}
+.rail .grp{font-size:11.5px;color:var(--muted);padding:10px 10px 4px;font-weight:700}
+.notes{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;position:sticky;top:78px;font-size:13.5px}
+.notes h3{font-size:15px;font-weight:800;margin-bottom:6px}
+.notes h4{font-size:12px;color:var(--muted);margin:14px 0 6px;font-weight:700}
+.notes p{margin:0}
+.notes .q{border-left:3px solid var(--line2);padding-left:10px;color:var(--muted);font-style:italic}
+.notes li{margin:4px 0}
+.mtools{display:none;gap:8px;margin-bottom:12px}
+@media (max-width:1000px){.mtools{display:flex}}
+.mtools button{flex:1;border:1px solid var(--line);background:var(--paper);padding:9px;border-radius:10px;font-weight:600}
+
+/* ===== phone ===== */
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:393px;max-width:100%;height:820px;max-height:calc(100vh - 110px);min-height:660px;background:#fff;color:#111417;border-radius:44px;border:9px solid #0b0b0b;box-shadow:0 30px 70px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden;position:relative}
+@media (max-width:1000px){.wrap{padding:10px}.phone{width:100%;border-width:6px;border-radius:28px;min-height:620px;max-height:calc(100vh - 150px)}}
+.ph-status{height:44px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:0 26px;flex:none;color:#111417}
+.ph-head{padding:2px 16px 10px;display:flex;align-items:flex-start;gap:10px;flex:none;background:#fff}
+.ph-head .back{border:0;background:#F2F3F3;width:36px;height:36px;border-radius:50%;font-size:18px;flex:none;display:flex;align-items:center;justify-content:center;margin-top:2px}
+.ph-head .back[disabled]{opacity:0;pointer-events:none}
+.ph-head .ttl{flex:1;min-width:0}
+.ph-head .ttl b{display:block;font-weight:800;font-size:22px;letter-spacing:-.03em;line-height:1.1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-head .ttl span{font-size:13px;color:#6B7378;font-weight:500}
+.conn{border:0;border-radius:999px;padding:6px 10px 6px 8px;font-size:12px;font-weight:700;display:flex;gap:6px;align-items:center;background:#E3F5EA;color:#0F6E3D;flex:none;margin-top:4px}
+.conn.off{background:#F2F3F3;color:#6B7378}
+.conn i{width:8px;height:8px;border-radius:50%;background:currentColor;display:inline-block}
+.ph-body{flex:1;overflow:auto;padding:6px 16px 20px;-webkit-overflow-scrolling:touch;background:#fff}
+.ph-foot{flex:none;padding:10px 16px 12px;background:#fff;border-top:1px solid #EEF0F2;display:flex;gap:8px}
+.tabbar{flex:none;display:flex;border-top:1px solid #EEF0F2;background:#fff;padding:6px 8px 12px}
+.tabbar button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:2px;font-size:11px;font-weight:700;color:#6B7378;padding:6px 0}
+.tabbar button .ic{font-size:20px;line-height:1}
+.tabbar button.on{color:#111417}
+.btn{border:0;border-radius:14px;padding:15px 16px;font-weight:700;font-size:15.5px;width:100%;min-height:52px}
+.btn.p{background:#000;color:#fff}
+.btn.p[disabled]{background:#CFD3D6;color:#fff}
+.btn.s{background:#fff;color:#111417;border:1.5px solid #111417}
+.btn.g{background:#F2F3F3;color:#111417}
+.btn.w{background:#F0B400;color:#111417}
+.btn.big{padding:19px 16px;font-size:17px}
+.sub{color:#6B7378;font-size:13.5px;margin:0 0 12px}
+.list{display:flex;flex-direction:column;gap:8px}
+.item{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:12px 12px 12px 0;display:flex;gap:12px;align-items:center;text-align:left;width:100%;position:relative;overflow:hidden}
+.item::before{content:"";width:5px;align-self:stretch;background:#E4E6E8;border-radius:0 3px 3px 0;flex:none}
+.item.good::before{background:#17A35B}.item.dev::before{background:#F0B400}.item.act::before{background:#E2321F}
+.item .no{width:30px;height:30px;border-radius:50%;background:#F2F3F3;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-weight:700;font-size:15px;letter-spacing:-.01em}
+.item .t small{color:#6B7378;font-size:12.5px;display:block}
+.item.cur{border-color:#111417;box-shadow:inset 0 0 0 1px #111417}
+.badge{font-size:11.5px;padding:3px 9px;border-radius:999px;font-weight:700;white-space:nowrap;margin-right:2px}
+.badge.open{background:#F2F3F3;color:#6B7378}
+.badge.good{background:#E3F5EA;color:#0F6E3D}
+.badge.dev{background:#FFF3C7;color:#7A5A00}
+.badge.act{background:#FCE6E3;color:#A31F12}
+.sync{font-size:11px;color:#6B7378;display:inline-flex;gap:4px;align-items:center;font-weight:600}
+.pcard{background:#F7F8F8;border-radius:16px;padding:14px;margin-bottom:10px}
+.pcard.white{background:#fff;border:1px solid #E4E6E8}
+.pcard h4{margin:0 0 8px;font-size:12px;color:#6B7378;font-weight:700}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:13.5px}
+.kv div small{display:block;color:#6B7378;font-size:11.5px;font-weight:600}
+.kv div b{font-weight:700}
+.banner{border-radius:14px;padding:11px 13px;font-size:13.5px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0}
+.banner.info{background:#EEF0F2;color:#111417}
+.banner.off{background:#F2F3F3;color:#3C4A52}
+.banner.warn{background:#FFF3C7;color:#7A5A00}
+.banner.good{background:#E3F5EA;color:#0F6E3D}
+.banner.act{background:#FCE6E3;color:#A31F12}
+.banner b{font-weight:800}
+.ring{width:56px;height:56px;flex:none}
+.hero{display:flex;gap:14px;align-items:center;margin:6px 0 14px}
+.hero .big{font-size:26px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.hero small{color:#6B7378;font-size:12.5px;font-weight:600}
+.ph-placeholder{background:#F7F8F8;border:1.5px dashed #CFD3D6;border-radius:14px;padding:12px;color:#6B7378;font-size:13px;margin-bottom:8px}
+.ph-placeholder b{display:block;color:#3C4A52;font-weight:700;margin-bottom:2px}
+.acc{background:#fff;border:1px solid #E4E6E8;border-radius:14px;margin-bottom:8px;overflow:hidden}
+.acc summary{padding:12px 14px;font-weight:700;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";color:#6B7378;font-weight:800}
+.acc[open] summary::after{content:"–"}
+.acc .in{padding:0 14px 12px;font-size:13.5px}
+.acc .in p{margin:0 0 6px}
+/* camera */
+.cam{background:#0b0b0b;border-radius:20px;height:280px;position:relative;overflow:hidden;margin-bottom:12px}
+.cam svg{width:100%;height:100%;display:block}
+.cam .corner{position:absolute;width:26px;height:26px;border:3px solid #fff;opacity:.9}
+.cam .c1{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:6px 0 0 0}.cam .c2{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 6px 0 0}.cam .c3{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 6px}.cam .c4{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 6px 0}
+.cam .hint{position:absolute;left:14px;right:14px;top:14px;text-align:center;color:#fff;font-size:12.5px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.6)}
+.cam .ok{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#17A35B;color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px}
+.cam.taken{outline:3px solid #17A35B;outline-offset:-3px}
+.shutter{width:100%;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:14px;padding:4px}
+.shutter .dot{width:70px;height:70px;border-radius:50%;background:#fff;border:5px solid #111417;box-shadow:inset 0 0 0 4px #fff, inset 0 0 0 40px #111417}
+.stepper{display:flex;gap:6px;margin:4px 0 12px}
+.stepper span{flex:1;height:4px;border-radius:2px;background:#E4E6E8}
+.stepper span.on{background:#111417}.stepper span.dn{background:#17A35B}
+.sides{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.side{border:1.5px solid #E4E6E8;border-radius:14px;padding:12px;background:#fff;text-align:left;width:100%}
+.side.taken{border-color:#17A35B;background:#F2FAF5}
+.side b{display:block;font-weight:800;font-size:15px}
+.side small{display:block;color:#6B7378;font-size:12px;font-weight:500}
+.thumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
+.thumb{width:60px;height:46px;border-radius:10px;background:#1c2226;position:relative;overflow:hidden;flex:none}
+.thumb::after{content:"";position:absolute;inset:9px 16px 7px 16px;background:#F0B400;border-radius:2px}
+.thumb.dmg::after{background:#E2321F}
+/* observations */
+.pt{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #E4E6E8;border-radius:14px;padding:11px 12px;margin-bottom:6px;width:100%;text-align:left}
+.pt .num{width:26px;height:26px;border-radius:8px;background:#F2F3F3;font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.pt .lbl{flex:1}
+.pt .lbl b{display:block;font-weight:700;font-size:14px}
+.pt .lbl small{display:block;color:#6B7378;font-size:12.5px}
+.pt.dev{border-color:#F0B400;background:#FFFBEE}
+.pt.dev .num{background:#F0B400}
+.pt.act{border-color:#E2321F;background:#FFF5F4}
+.pt.act .num{background:#E2321F;color:#fff}
+.pt.nb{border-style:dashed}
+.pt .st{font-size:11.5px;font-weight:800;white-space:nowrap;padding-top:2px}
+.pt .st.g{color:#17A35B}.pt .st.d{color:#7A5A00}.pt .st.a{color:#A31F12}.pt .st.n{color:#6B7378}
+.pt input{width:22px;height:22px;margin:2px 0 0;accent-color:#000;flex:none}
+.mic{width:100%;border:0;background:#000;color:#fff;border-radius:20px;padding:20px;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.mic .ring2{width:64px;height:64px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:26px}
+.mic.rec{background:#E2321F}
+.mic.rec .ring2{animation:pulse 1s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+.wave{display:flex;gap:3px;align-items:center;justify-content:center;height:34px;margin:6px 0}
+.wave i{width:4px;background:#fff;border-radius:2px;height:8px;animation:w .8s infinite alternate}
+.wave i:nth-child(2n){animation-delay:.15s}.wave i:nth-child(3n){animation-delay:.3s}
+@keyframes w{from{height:6px}to{height:30px}}
+@media (prefers-reduced-motion:reduce){.mic.rec .ring2{animation:none}.wave i{animation:none;height:16px}}
+.trans{background:#F7F8F8;border-radius:16px;padding:12px 14px;font-size:14px;margin-bottom:10px;font-style:italic;color:#3C4A52}
+.trans small{display:block;font-style:normal;color:#6B7378;font-size:12px;margin-bottom:4px;font-weight:700}
+.q{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:14px;margin-bottom:8px}
+.q p{margin:0 0 10px;font-weight:700;font-size:15px}
+.q small{display:block;color:#6B7378;font-size:12px;margin-bottom:6px;font-weight:600}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opts button{border:1.5px solid #111417;background:#fff;color:#111417;border-radius:999px;padding:9px 15px;font-weight:700;font-size:14px;min-height:42px}
+.opts button.on{background:#000;color:#fff;border-color:#000}
+.result{border-radius:18px;padding:16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.result.good{background:#E3F5EA;color:#0F6E3D}
+.result.dev{background:#FFF3C7;color:#7A5A00}
+.result.act{background:#FCE6E3;color:#A31F12}
+.result b{display:block;font-size:20px;font-weight:800;letter-spacing:-.02em}
+.result small{font-size:13px;font-weight:600}
+.done-big{text-align:center;padding:22px 0 12px}
+.done-big .ck{width:80px;height:80px;border-radius:50%;background:#E3F5EA;color:#17A35B;font-size:38px;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;font-weight:800}
+.done-big.dev .ck{background:#FFF3C7;color:#7A5A00}
+.done-big.act .ck{background:#FCE6E3;color:#A31F12}
+.map{background:#E8ECE9;border-radius:20px;height:340px;position:relative;overflow:hidden;margin-bottom:10px}
+.map svg{width:100%;height:100%;display:block}
+.pin{cursor:pointer}
+.toast{position:absolute;left:16px;right:16px;bottom:96px;background:#111417;color:#fff;padding:11px 14px;border-radius:14px;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:5}
+.week-day{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;text-align:left;width:100%}
+.week-day .d{width:46px;flex:none;text-align:center;background:#F2F3F3;border-radius:12px;padding:6px 0}
+.week-day .d b{display:block;font-size:15px;font-weight:800}
+.week-day .d small{display:block;font-size:11px;color:#6B7378;font-weight:600}
+.week-day .t{flex:1}
+.week-day .t b{display:block;font-weight:700;font-size:14.5px}
+.week-day .t small{display:block;color:#6B7378;font-size:12.5px}
+.week-day.today{border-color:#111417}
+.week-day.today .d{background:#000;color:#fff}.week-day.today .d small{color:rgba(255,255,255,.7)}
+.week-day[disabled]{opacity:.55;cursor:default}
+.stat{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.stat div{background:#F7F8F8;border-radius:14px;padding:12px 8px;text-align:center}
+.stat b{display:block;font-size:24px;font-weight:800;letter-spacing:-.03em}
+.stat small{color:#6B7378;font-size:11.5px;font-weight:600}
+
+/* ===== dashboard ===== */
+.dash{display:grid;grid-template-columns:220px minmax(0,1fr);gap:0;background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;min-height:760px}
+@media (max-width:900px){.dash{grid-template-columns:1fr}}
+.dnav{background:#000;color:#fff;padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.dnav .wm{font-weight:800;font-size:22px;letter-spacing:-.04em;padding:4px 10px 14px}
+.dnav .wm small{display:block;font-size:12px;font-weight:600;opacity:.6;letter-spacing:0;margin-top:4px}
+.dnav button{border:0;background:transparent;color:rgba(255,255,255,.7);text-align:left;padding:10px 12px;border-radius:10px;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.dnav button.on{background:#fff;color:#000}
+.dnav button .cnt{font-size:11px;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:999px}
+.dnav button.on .cnt{background:#000;color:#fff}
+.dnav .user{margin-top:auto;padding:14px 10px 4px;font-size:12.5px;opacity:.7;border-top:1px solid rgba(255,255,255,.15)}
+@media (max-width:900px){.dnav{flex-direction:row;flex-wrap:wrap;padding:10px}.dnav .wm{display:none}.dnav .user{display:none}.dnav button{padding:8px 10px;font-size:13px}}
+.dmain{padding:22px 24px;background:var(--bg);min-width:0}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.dhead h2{font-size:24px;font-weight:800;letter-spacing:-.03em}
+.dhead p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line2);background:var(--paper);padding:7px 12px;border-radius:999px;font-weight:600;font-size:13px}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:left}
+.kpi small{display:block;color:var(--muted);font-size:12.5px;font-weight:600;margin-bottom:6px}
+.kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.kpi .d{font-size:12.5px;color:var(--muted);margin-top:6px;display:block}
+.kpi.good b{color:var(--good-ink)}.kpi.warn b{color:var(--warn-ink)}.kpi.act b{color:var(--act-ink)}
+button.kpi:hover{border-color:var(--ink)}
+.dgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-bottom:12px}
+@media (max-width:1100px){.dgrid{grid-template-columns:1fr}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.panel h3{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.panel h3 span{font-size:12px;color:var(--muted);font-weight:600}
+.stackbar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:8px}
+.stackbar i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:600}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .lg::before{background:var(--good)}.legend .lw::before{background:var(--warn)}.legend .la::before{background:var(--act)}.legend .ln::before{background:var(--line2)}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:150px 1fr 44px;gap:10px;align-items:center;font-size:13px}
+.bar .lbl{font-weight:600}
+.bar .tr{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--ink);border-radius:5px}
+.bar .tr i.w{background:var(--warn)}.bar .tr i.a{background:var(--act)}
+.bar .v{text-align:right;font-weight:700;color:var(--muted)}
+@media (max-width:600px){.bar{grid-template-columns:110px 1fr 40px}}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr.row{cursor:pointer}
+table.t tr.row:hover td{background:var(--soft)}
+table.t td.num,table.t th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.mini{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;min-width:80px}
+.mini i{display:block;height:100%;background:var(--ink)}
+.search{border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;background:var(--paper);color:var(--ink);width:260px;max-width:100%}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+.crumb button{border:0;background:transparent;color:var(--ink);font-weight:700;padding:0;text-decoration:underline}
+.objrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);text-align:left;width:100%;background:transparent;border-left:0;border-right:0;border-top:0}
+.objrow:hover{background:var(--soft)}
+.objrow .st{width:10px;height:10px;border-radius:50%;background:var(--line2)}
+.objrow .st.g{background:var(--good)}.objrow .st.w{background:var(--warn)}.objrow .st.a{background:var(--act)}
+.objrow b{font-weight:700;font-size:14px;display:block}
+.objrow small{color:var(--muted);font-size:12.5px}
+.inspgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.inspgrid{grid-template-columns:1fr}}
+.insp{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.insp .av{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;margin-bottom:10px}
+.insp h4{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.insp .reg{color:var(--muted);font-size:13px;margin-bottom:12px}
+.insp .m{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-top:1px solid var(--line)}
+.insp .m b{font-weight:700}
+.dtoast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000;color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.photo{width:120px;height:90px;border-radius:12px;background:#1c2226;position:relative;overflow:hidden}
+.photo::after{content:"";position:absolute;inset:18px 34px 14px 34px;background:#F0B400;border-radius:3px}
+.photo.dmg::after{background:#E2321F}
+.photo span{position:absolute;left:8px;bottom:6px;color:#fff;font-size:11px;font-weight:700}
+.risklogic{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+
+/* ===== v3 additions ===== */
+.refphoto{border-radius:16px;overflow:hidden;position:relative;height:150px;background:#232a2f;margin-bottom:10px}
+.refphoto svg{width:100%;height:100%;display:block}
+.refphoto span{position:absolute;left:10px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:999px}
+.why{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px}
+.why span{font-size:12px;font-weight:700;background:#F2F3F3;color:#3C4A52;padding:5px 10px;border-radius:999px}
+.why span.hi{background:#111417;color:#fff}
+.nrbox{display:flex;justify-content:center;gap:8px;margin:14px 0}
+.nrbox i{width:44px;height:56px;border-radius:12px;border:2px solid #E4E6E8;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;font-style:normal;background:#fff}
+.nrbox i.on{border-color:#111417}
+.nrbox.ok i{border-color:#17A35B;background:#F2FAF5}
+.nrbox.bad i{border-color:#E2321F;background:#FFF5F4}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.keypad button{border:0;background:#F2F3F3;border-radius:14px;padding:14px 0;font-size:20px;font-weight:700;min-height:54px}
+.keypad button.alt{font-size:13px;font-weight:700}
+.letop{background:#FFF3C7;border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.letop h4{margin:0 0 6px;font-size:12px;color:#7A5A00;font-weight:800}
+.letop p{margin:0;font-size:13.5px;color:#3C2E00;padding:4px 0;border-top:1px solid rgba(122,90,0,.15)}
+.letop p:first-of-type{border-top:0}
+.letop p b{font-weight:700}
+.vb{font-size:10.5px;font-weight:700;color:#7A5A00;background:rgba(122,90,0,.12);padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.tog{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid #E4E6E8;border-radius:14px;padding:12px 14px;margin-bottom:8px;width:100%;text-align:left}
+.tog b{display:block;font-weight:700;font-size:14px}
+.tog small{color:#6B7378;font-size:12.5px}
+.sw{width:46px;height:28px;border-radius:14px;background:#CFD3D6;position:relative;flex:none;transition:background .15s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:#000}.sw.on::after{left:21px}
+.reasons{display:grid;gap:8px}
+.reasons button{border:1.5px solid #E4E6E8;background:#fff;border-radius:14px;padding:14px;text-align:left;font-weight:700;font-size:15px;min-height:52px}
+.item.skip::before{background:#CFD3D6}
+.badge.skip{background:#F2F3F3;color:#6B7378}
+.badge.unpl{background:#EEF0F2;color:#3C4A52}
+.mini-stat{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.mini-stat div{background:#fff;border:1px solid #E4E6E8;border-radius:12px;padding:8px 4px;text-align:center}
+.mini-stat b{display:block;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.mini-stat small{font-size:10.5px;color:#6B7378;font-weight:600}
+.search-in{width:100%;border:1.5px solid #E4E6E8;border-radius:14px;padding:13px 14px;font:inherit;font-size:16px;background:#fff;margin-bottom:10px}
+/* dashboard v3 */
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--ink);white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.nieuw{background:var(--act-soft);color:var(--act-ink)}
+.status.gemeld{background:var(--warn-soft);color:var(--warn-ink)}
+.status.beh{background:#E3ECFA;color:#1D4B99}
+.status.opgelost{background:var(--good-soft);color:var(--good-ink)}
+.status.herc{background:var(--soft);color:var(--ink)}
+.timeline{display:grid;gap:0;margin:8px 0}
+.timeline div{display:grid;grid-template-columns:14px 1fr;gap:10px;font-size:13px;padding:6px 0;position:relative}
+.timeline div::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--line2);margin-top:4px}
+.timeline div.done::before{background:var(--ink)}
+.timeline div small{display:block;color:var(--muted)}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{border:1px solid var(--line2);background:var(--paper);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700}
+.actions button.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.report{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:32px;max-width:900px}
+.report .rh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:18px}
+.report .rh h2{font-size:26px;font-weight:800;letter-spacing:-.03em}
+.report .rh .wm{font-weight:800;font-size:22px;letter-spacing:-.04em}
+.report h3{font-size:15px;font-weight:800;margin:18px 0 8px}
+.report p{margin:0 0 8px;font-size:14px}
+.report .rk{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.report .rk div{border:1px solid var(--line);border-radius:12px;padding:12px}
+.report .rk b{display:block;font-size:24px;font-weight:800}
+.report .rk small{color:var(--muted);font-size:12px;font-weight:600}
+@media (max-width:700px){.report{padding:18px}.report .rk{grid-template-columns:1fr 1fr}}
+.teamcard{background:var(--ink);color:var(--paper);border-radius:16px;padding:20px;margin-bottom:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.teamcard b{display:block;font-size:26px;font-weight:800;letter-spacing:-.03em}
+.teamcard small{font-size:12.5px;opacity:.7;font-weight:600}
+.dnav button .cnt.red{background:var(--act)}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="wordmark" href="#" onclick="return false">global</a>
+  <span class="prod">Kwaliteitscontrole 2.0</span>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="proto">App</button>
+    <button role="tab" aria-selected="false" data-tab="dash">Dashboard</button>
+    <button role="tab" aria-selected="false" data-tab="flow">Procesflow</button>
+    <button role="tab" aria-selected="false" data-tab="screens">Schermen</button>
+  </nav>
+  <div class="util"><button id="notesbtn" class="on" title="Toelichting per scherm aan of uit">Toelichting</button></div>
+</div></header>
+
+<div class="wrap">
+
+<!-- ===== APP ===== -->
+<section class="view on" id="view-proto">
+  <div class="mtools"><button id="m-rail">Schermen</button><button id="m-notes">Toelichting</button></div>
+  <div class="proto" id="protogrid">
+    <nav class="rail" id="rail" aria-label="Schermen"></nav>
+    <div class="phone-wrap">
+      <div class="phone" id="phone">
+        <div class="ph-status"><span id="clock">13:21</span><span style="font-weight:800;letter-spacing:-.04em;font-size:15px">global</span></div>
+        <div class="ph-head">
+          <button class="back" id="back" aria-label="Terug">‹</button>
+          <div class="ttl"><b id="ph-title"></b><span id="ph-sub"></span></div>
+          <button class="conn" id="conn"><i></i>Online</button>
+        </div>
+        <div class="ph-body" id="body"></div>
+        <div class="ph-foot" id="foot"></div>
+        <div class="tabbar" id="tabbar"></div>
+      </div>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+</section>
+
+<!-- ===== DASHBOARD ===== -->
+<section class="view" id="view-dash">
+  <div class="dash">
+    <nav class="dnav" id="dnav"></nav>
+    <div class="dmain" id="dmain"></div>
+  </div>
+</section>
+
+<!-- ===== FLOW ===== -->
+<section class="view" id="view-flow">
+  <div class="stack">
+    <div class="card">
+      <h2>Drie modules, één keten</h2>
+      <p class="lead">Module 1 bepaalt wat er gecontroleerd wordt, module 2 legt de controle vast in het veld, module 3 maakt er sturingsinformatie van voor de leidinggevende. De App en het Dashboard in deze pagina zijn module 2 en 3; module 1 is beschreven, niet gebouwd.</p>
+      <div class="modules">
+        <div class="mod">
+          <span class="chip">Grootste complexiteit · twee smaken</span>
+          <h3>1. Plannen</h3>
+          <ol>
+            <li>Input: wekelijkse TOOC lijst (week 39: 1.298 objecten in 48 routes met volgnummer)</li>
+            <li>Alleen objecten die deze week onderhoud kregen</li>
+            <li>Langst geleden gecontroleerd eerst</li>
+            <li>Elke gemeente minimaal 1x per jaar, ook de kleine</li>
+            <li>Geografisch gebundeld per regio en route</li>
+            <li>Uitkomst: weekplanning per inspecteur in rijvolgorde</li>
+          </ol>
+          <div class="foot">Smaak A: eigen deterministische formule, eerste versie nu al mogelijk op route en volgnummer uit de TOOC lijst. Smaak B: planning van Routigo als input. Voorkeur B, mits export en livegang passen.</div>
+          <span class="arrow">›</span>
+        </div>
+        <div class="mod now">
+          <span class="chip ink">App · module 2</span>
+          <h3>2. Controleren</h3>
+          <ol>
+            <li>Ronde in rijvolgorde op de telefoon, kaart toont waar je staat</li>
+            <li>Object aantikken: Start controle of Meer over dit object</li>
+            <li>Foto's volgens instructie: objectnummer, per campagne, schade</li>
+            <li>Observaties: 7 controlepunten inspreken, AI structureert</li>
+            <li>AI stelt vervolgvraag als informatie ontbreekt</li>
+            <li>Afgerond: data direct bij het object, navigatie naar volgende</li>
+          </ol>
+          <div class="foot">Geen naverwerking meer op kantoor. Werkt ook zonder dekking.</div>
+          <span class="arrow">›</span>
+        </div>
+        <div class="mod now">
+          <span class="chip ink">Dashboard · module 3</span>
+          <h3>3. Sturen</h3>
+          <ol>
+            <li>Webapplicatie voor de leidinggevende en Joost</li>
+            <li>Risk dashboard: goed, aandacht nodig, actie nodig</li>
+            <li>Doorsnede per gemeentelijk contract en per object</li>
+            <li>Data van TOOC gekoppeld per object</li>
+            <li>Prestaties per inspecteur: aantallen, fotokwaliteit, invoerkwaliteit, tijd per object</li>
+          </ol>
+          <div class="foot">Bouwt volledig op de gestructureerde invoer uit module 2. Wat je in de App afrondt, verschijnt in het Dashboard.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Module 2: van huidig naar nieuw</h2>
+      <p class="lead">Boven het huidige proces, onder de digitale variant. Klik een stap in de onderste rij om het scherm in de App te openen.</p>
+      <div class="row-label">HUIDIG</div>
+      <div class="steps old">
+        <div class="step"><span class="n">1</span><b>Papieren planningslijst</b>Excel van Sjaak, aankruisen waar je geweest bent</div>
+        <div class="step"><span class="n">2</span><b>Rijden en kijken</b>Met het blote oog controleren</div>
+        <div class="step"><span class="n">3</span><b>Losse camera</b>Wisselend aantal en kwaliteit, geen koppeling aan object</div>
+        <div class="step"><span class="n">4</span><b>Observaties op papier</b>Formuliertje per object</div>
+        <div class="step"><span class="n">5</span><b>Volgende dag op kantoor</b>SD kaart in de pc, foto's terugzoeken</div>
+        <div class="step"><span class="n">6</span><b>Handmatig koppelen</b>Foto's per object in SharePoint</div>
+        <div class="step"><span class="n">7</span><b>Overtikken in Excel</b>Dan is één object afgerond</div>
+      </div>
+      <div class="row-label">NIEUW</div>
+      <div class="steps new">
+        <button class="step" data-go="ronde"><span class="n">1</span><b>Digitale rijlijst</b>Ronde in de volgorde van de TOOC route<span class="scr">P1 tot P3</span></button>
+        <button class="step" data-go="object"><span class="n">2</span><b>Object aantikken</b>Start controle of Meer over dit object<span class="scr">P4 tot P6</span></button>
+        <button class="step" data-go="foto1"><span class="n">3</span><b>Foto's met instructie</b>Objectnummer, campagne per zijde, schade<span class="scr">P7 tot P9</span></button>
+        <button class="step" data-go="obs"><span class="n">4</span><b>Inspreken</b>7 controlepunten in beeld, brain dump toegestaan<span class="scr">P10 · P11</span></button>
+        <button class="step" data-go="ai"><span class="n">5</span><b>AI structureert</b>Vervolgvraag als iets ontbreekt<span class="scr">P12 · P13</span></button>
+        <button class="step" data-go="check"><span class="n">6</span><b>Afronden</b>Resultaat direct bij het object<span class="scr">P14 · P15</span></button>
+        <button class="step" data-go="einde"><span class="n">7</span><b>Ronde compleet</b>Gesynchroniseerd, niets meer op kantoor<span class="scr">P16</span></button>
+      </div>
+      <div class="row-label">BESLISREGELS</div>
+      <div class="rules">
+        <div class="rule"><b>Afwijking op een van de 7 punten</b> → minimaal één schadefoto verplicht voordat je kunt afronden.</div>
+        <div class="rule"><b>AI kan een punt niet afleiden</b> → maximaal twee vervolgvragen met knoppen, geen typen.</div>
+        <div class="rule"><b>Geen verbinding</b> → zelf aanvinken, opname bewaard, vragen gebundeld na synchronisatie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREENS ===== -->
+<section class="view" id="view-screens">
+  <div class="card">
+    <h2>Schermenoverzicht</h2>
+    <p class="lead">App (P0 tot P14) en Dashboard (D1 tot D5). Per scherm: wat het doet, het citaat uit de transcriptie waar het uit volgt, en de status in dit prototype. Klik om te openen.</p>
+    <div class="grid" id="screengrid"></div>
+  </div>
+</section>
+
+</div>
+
+<script>
+/* ================= DATA ================= */
+const GEM = [["Den Haag",874,"2181","Sjaak","Zuid-West"],["Groningen",379,"1334","Dick","Noord"],["Eindhoven",298,"2186","Sjaak","Zuid-West"],["Apeldoorn",275,"2207","Dick","Oost"],["Alkmaar",209,"2199","Roy","West"],["Haarlemmermeer",208,"2179","Roy","West"],["Enschede",187,"2258","Dick","Oost"],["Alphen aan den Rijn",178,"1073","Roy","West"],["Amstelveen",177,"1299","Roy","West"],["Delft",145,"2182","Sjaak","Zuid-West"],["Purmerend",142,"2259","Roy","West"],["Amersfoort",138,"2192","Roy","Oost"],["Ede",133,"1417","Dick","Oost"],["Zoetermeer",127,"2181","Sjaak","Zuid-West"],["Hengelo",126,"1082","Dick","Oost"],["Lelystad",123,"1356","Roy","West"],["Leeuwarden",114,"2198","Roy","Noord"],["Nieuwegein",110,"1405","Dick","West"],["Deventer",105,"2272","Dick","Oost"],["Stichtse Vecht",102,"1125","Roy","West"],["Hilversum",99,"2205","Roy","West"],["Helmond",86,"1061","Sjaak","Zuid-West"],["Spijkenisse",85,"837","Sjaak","Zuid-West"],["Sittard-Geleen",79,"1402","Sjaak","Zuid-West"],["Súdwest-Fryslân",78,"1108","Roy","Noord"],["Barendrecht",76,"2210","Sjaak","Zuid-West"],["Westland",75,"2183","Sjaak","Zuid-West"],["Soest",70,"577","Roy","Oost"],["Huizen",69,"2178","Roy","West"],["Terneuzen",65,"1106","Sjaak","Zuid-West"],["Papendrecht",65,"2305","Sjaak","Zuid-West"],["Lansingerland",64,"2226","Sjaak","Zuid-West"],["Hoorn",64,"1321","Roy","West"],["Lingewaard",58,"2306","Dick","Oost"],["Middelburg",57,"986","Sjaak","Zuid-West"],["Weert",56,"602","Sjaak","Zuid-West"],["Geldrop-Mierlo",54,"1288","Sjaak","Zuid-West"],["Delfzijl",52,"1330","Dick","Noord"],["Leiderdorp",51,"1339","Roy","West"],["Veldhoven",51,"1328","Sjaak","Zuid-West"],["Etten-Leur",51,"1275","Sjaak","Zuid-West"],["Zutphen",49,"1103","Dick","Oost"],["Utrechtse Heuvelrug",48,"1347","Dick","Oost"],["Zwijndrecht",48,"757","Sjaak","Zuid-West"],["Heemskerk",47,"526","Roy","West"],["Edam-Volendam",47,"1399","Roy","West"],["Vlissingen",46,"1029","Sjaak","Zuid-West"],["Veendam",46,"767","Dick","Noord"],["Krimpen aan den Ijssel",46,"539","Sjaak","Zuid-West"],["Harderwijk",44,"2194","Dick","Oost"],["Heemstede",44,"2201","Roy","West"],["Heerenveen",43,"1088","Roy","Noord"],["Veenendaal",43,"1112","Dick","Oost"],["Leidschendam-Voorburg",42,"2181","Sjaak","Zuid-West"],["Tiel",40,"1345","Sjaak","Zuid-West"],["de Ronde Venen",35,"2263","Roy","West"],["Voorschoten",34,"954","Roy","West"],["Teylingen",34,"968","Roy","West"],["Hoogezand-Sappemeer",33,"1113","Dick","Noord"],["Aalsmeer",28,"2180","Roy","West"],["Muiden",26,"2190","Roy","West"],["Naarden",26,"2190","Roy","West"],["Valkenswaard",26,"1115","Sjaak","Zuid-West"],["Bussum",26,"2190","Roy","West"],["Bloemendaal",25,"1130","Roy","West"],["Zoeterwoude",25,"824","Roy","West"],["Nijkerk",23,"907","Dick","Oost"],["Goes",23,"1100","Sjaak","Zuid-West"],["Midden-Delfland",22,"2183","Sjaak","Zuid-West"],["Nieuwkoop",22,"1044","Roy","West"],["Weesp",19,"1354","Roy","West"],["Nunspeet",18,"554","Dick","Oost"],["Geldermalsen",18,"1131","Dick","Oost"],["Laren",18,"999","Roy","West"],["Waterland",15,"1401","Roy","West"],["Ijsselstein",14,"827","Sjaak","Zuid-West"],["Leeuwarderadeel",13,"2198","Roy","Noord"],["Losser",13,"1083","Dick","Oost"],["Bunnik",13,"956","Dick","Oost"],["Blaricum",12,"984","Roy","West"],["Landsmeer",12,"1400","Roy","West"],["Coevorden",11,"120","Dick","Noord"],["Scherpenzeel",10,"923","Dick","Oost"],["Schagen",8,"1272","Roy","West"],["Peel en Maas",8,"546","Sjaak","Zuid-West"],["Borne",6,"1087","Dick","Oost"],["Slochteren",6,"1334","Dick","Noord"],["Haarlemmerliede en Spaarnwoude",6,"2179","Roy","West"],["Deurne",5,"1021","Sjaak","Zuid-West"],["Bernisse",5,"837","Sjaak","Zuid-West"],["Beemster",4,"2259","Roy","West"],["Bodegraven-Reeuwijk",4,"564","Sjaak","Zuid-West"],["Lingewaal",4,"1131","Dick","Oost"],["Hardinxveld-Giessendam",3,"1043","Sjaak","Zuid-West"],["Amsterdam",3,"0","Roy","West"],["Baarn",3,"488","Roy","Oost"],["Montfoort",3,"950","Sjaak","Zuid-West"],["Littenseradiel",2,"2198","Roy","Noord"],["Wassenaar",2,"2181","Sjaak","Zuid-West"],["Rijswijk",2,"2181","Sjaak","Zuid-West"],["Woudenberg",2,"607","Dick","Oost"],["Rucphen",2,"1120","Sjaak","Zuid-West"],["Kaag en Braassem",1,"1339","Sjaak","Zuid-West"],["Leusden",1,"2192","Roy","West"],["Noordenveld",1,"1334","Dick","Noord"],["Ten Boer",1,"1334","Dick","Noord"],["Schermer",1,"2199","Roy","West"],["Sluis",1,"1106","Sjaak","Zuid-West"]];
+const PUNTEN = [
+  ['Verkeerde campagne','Andere campagne dan gepland voor deze week'],
+  ['Verkeerde uiting','Juiste campagne, verkeerde uiting of formaat'],
+  ['Object heeft schade','Glasbreuk, deuk, losse plaat'],
+  ['Object niet schoon','Vuil, stickers, graffiti na schoonmaakweek'],
+  ['Poster hangt niet correct','Kreukels, bobbels, vochtplekken'],
+  ['Geen verlichting','Verlichting brandt niet'],
+  ['Achterstallig onderhoud','Kapot bankje, hoog onkruid, veel vuil in abri']
+];
+const ACT_PUNTEN=[3,6,7];
+const OWNER=k=>[1,2,5].includes(+k)?'Global campagne':'TOOC onderhoud';
+const Q_LICHT = {id:'licht', q:'Je noemde niets over de verlichting. Werkt de verlichting?', opts:['Ja','Nee','Niet te beoordelen (overdag)'], punt:6};
+const Q_VEILIG = {id:'veilig', q:'Is de gebarsten glasplaat een veiligheidsrisico voor voorbijgangers?', opts:['Ja','Nee'], punt:3};
+const OBJ = [
+  {nr:'12128',straat:'Mies Bouwmanboulevard',halte:'Mediapark',type:'TOMEI 172/3',vak:3,lat:52.23802,lng:5.17365,laatst:'14 apr 2026',mnd:5,camp:['Herfstvakantie NS','Kruidvat Vitamines']},
+  {nr:'12147',straat:'Mies Bouwmanboulevard',halte:'Mediapark',type:'TOMEI 172/3',vak:3,lat:52.23748,lng:5.17361,laatst:'14 apr 2026',mnd:5,camp:['Herfstvakantie NS']},
+  {nr:'12082',straat:'Mies Bouwmanboulevard',halte:'Mies Bouwmanboulevard',type:'TOMEI 172/3',vak:3,lat:52.24291,lng:5.17072,laatst:'3 feb 2026',mnd:7,camp:['Gemeente Hilversum Afvalkalender'],
+    tr:'Graffiti op het rechter zijpaneel, en het onkruid rond de voet staat kniehoog.',dev:{4:'Graffiti op zijpaneel rechts',7:'Hoog onkruid rond de voet'},nb:[6],vragen:[Q_LICHT],
+    let:[['TOOC','Graffiti eerder gemeld en verwijderd in week 36. Controleer of het terug is.']]},
+  {nr:'12044',straat:'Erfgooiersstraat',halte:'De Kupstraat',type:'TOMEI 172/3',vak:3,lat:52.24330,lng:5.17960,laatst:'3 feb 2026',mnd:7,camp:['Herfstvakantie NS','Albert Heijn']},
+  {nr:'12045',straat:'Erfgooiersstraat',halte:'Sauerstraat',type:'TOMEI 172/3',vak:3,lat:52.24263,lng:5.18188,laatst:'3 feb 2026',mnd:7,camp:['Albert Heijn']},
+  {nr:'12016',straat:'Jacob van Campenlaan',halte:'Hendrik Smitstraat',type:'TOMEI 172/3',vak:3,lat:52.24151,lng:5.18470,laatst:'21 okt 2025',mnd:11,camp:['Kruidvat Vitamines'],
+    tr:'Deze is netjes schoongemaakt, posters zitten er goed in, juiste campagne. Alleen linksonder een barst in de glasplaat, een centimeter of tien. Verder niks bijzonders.',dev:{3:'Barst in glasplaat linksonder, circa 10 cm'},nb:[6],vragen:[Q_LICHT,Q_VEILIG],
+    let:[['Gemeente','Melding van een bewoner over een losse zijplaat, 9 september. Kijk extra naar de zijpanelen.']]},
+  {nr:'12040',straat:'Laan 1940 1945',halte:'Lopes Diaslaan',type:'TOMEI 172/3',vak:3,lat:52.24171,lng:5.17724,laatst:'21 okt 2025',mnd:11,camp:['Herfstvakantie NS','Gemeente Hilversum Afvalkalender']},
+  {nr:'12043',straat:'Snelliuslaan',halte:'Stephensonlaan',type:'TOMEI 172/3',vak:3,lat:52.23803,lng:5.17794,laatst:'21 okt 2025',mnd:11,camp:['Albert Heijn']},
+  {nr:'12111',straat:'Professor Kochstraat',halte:'Bordetstraat',type:'TOMEI 172/3, verticaal groen',vak:3,lat:52.22532,lng:5.18638,laatst:'9 dec 2025',mnd:9,camp:['Kruidvat Vitamines'],
+    tr:'Er hangt nog de zomercampagne van Kruidvat, dat moet de vitaminecampagne zijn. Verder prima.',dev:{1:'Zomercampagne hangt nog, gepland: Kruidvat Vitamines'},nb:[],vragen:[]},
+  {nr:'12125',straat:'Van Riebeeckweg',halte:'Compagnieweg',type:'TOMEI 172/3, verticaal groen',vak:3,lat:52.21718,lng:5.19796,laatst:'9 dec 2025',mnd:9,camp:['Herfstvakantie NS']},
+  {nr:'12026',straat:'Soestdijkerstraatweg',halte:'Station Sportpark',type:'HSUM 180/3',vak:3,dak:true,lat:52.21609,lng:5.18835,laatst:'9 dec 2025',mnd:9,camp:['Albert Heijn','Kruidvat Vitamines'],
+    tr:'Verlichting brandt niet, en aan de B kant zitten vochtplekken in de poster.',dev:{5:'Vochtplekken in poster zijde B',6:'Verlichting brandt niet'},nb:[],vragen:[],
+    let:[['Historie','Vorige controle: verlichting flikkerde. TOOC heeft de armatuur in mei vervangen.']]},
+  {nr:'12004',straat:'Emmastraat',halte:'Hollandselaan',type:'TOMEI 172/2 (2 vakken)',vak:2,dak:true,lat:52.21888,lng:5.18208,laatst:'27 mei 2026',mnd:4,camp:['Gemeente Hilversum Afvalkalender'],
+    hist:'27 mei 2026, Roy: bankje losgeraakt, gemeld bij TOOC.',why:'Hercontrole na melding bankje',
+    let:[['Historie','27 mei: bankje losgeraakt, gemeld bij TOOC. Controleer of de reparatie is uitgevoerd.']]}
+];
+const EXTRA = [
+  {nr:'12050',straat:'Kerkbrink',halte:'Kerkbrink',type:'TOMEI 172/3',vak:3,lat:52.2238,lng:5.1765,laatst:'2 mrt 2026',mnd:6,camp:['Herfstvakantie NS']},
+  {nr:'12061',straat:'Larenseweg',halte:'Oosterengweg',type:'TOMEI 172/3',vak:3,lat:52.2295,lng:5.1905,laatst:'18 nov 2025',mnd:10,camp:['Albert Heijn','Kruidvat Vitamines']},
+  {nr:'12099',straat:'Gijsbrecht van Amstelstraat',halte:'Neuweg',type:'HSUM 180/3',vak:3,dak:true,lat:52.2205,lng:5.1712,laatst:'6 jan 2026',mnd:8,camp:['Gemeente Hilversum Afvalkalender']}
+];
+function normObj(o){ if(!o.tr){o.tr='Alles in orde, schoon, juiste posters, geen schade.';o.dev={};o.nb=[];o.vragen=[];} if(!o.let)o.let=[]; return o; }
+OBJ.forEach(normObj); EXTRA.forEach(normObj);
+const SKIP_REASONS=['Niet bereikbaar','Wegwerkzaamheden','Object staat er niet meer','Anders'];
+
+const SCREENS = [
+  {id:'week',n:'P0',name:'Mijn week',doel:'Weekplanning in rijvolgorde (uitkomst module 1) plus de eigen cijfers van de inspecteur.',bron:'Startpunt is een planningslijst digitaal in de volgorde hoe ze het beste kunnen rijden, de uitkomst van module 1.',status:'ok',extra:'B10: eigen prestaties voor de inspecteur.'},
+  {id:'ronde',n:'P1',name:'Vandaag',doel:'Objecten in volgorde met status, synchronisatie, reden per object, volgorde aanpassen en controle buiten planning.',bron:'Hebben ze die hele lijst, dan gaan ze hun route rijden.',status:'ok',extra:'B5 en B6.'},
+  {id:'kaart',n:'P2',name:'Kaart',doel:'Waar je staat en welke objecten om je heen liggen.',bron:'Je staat bij een object, klik het object aan, start controle.',status:'ok'},
+  {id:'zoek',n:'P3',name:'Object buiten planning',doel:'Zoek een object op nummer of straat en start een ongeplande controle.',bron:'Als er een keer iets is met digitaal, dan kom je ook weer in die gemeente, dus dan zie je ook al heel veel.',status:'vs',extra:'B6.'},
+  {id:'object',n:'P4',name:'Objectdetail',doel:'Waarom dit object vandaag op de lijst staat, referentiefoto, TOOC deze week, verwachte campagnes. Start controle, Meer, Overslaan.',bron:'Een knopje start controle, en een knopje lees hier meer over dit object.',status:'ok',extra:'B1 referentiefoto, B5 reden en overslaan.'},
+  {id:'meer',n:'P5',name:'Meer over dit object',doel:'Eerdere controles, objectgegevens, TOOC, afspraken gemeente, meldingen gemeente, reparatiehistorie.',bron:'Een aandachtspunt van TOC, afspraken met de gemeente, of een gemeente die heeft geklaagd.',status:'ph',extra:'Drie bronnen zijn voorbeeldinhoud tot de koppeling bestaat (B2).'},
+  {id:'bevestig',n:'P6',name:'Bevestig objectnummer',doel:'Voor de eerste foto: nummer intikken of scannen. Verkeerd nummer geeft een waarschuwing en de optie om te wisselen.',bron:'Zodra ze de foto\u2019s maken bij het eerste object, moeten ze die foto\u2019s eigenlijk al koppelen aan het object, en dat werkt nu niet zo.',status:'vs',extra:'B1: lost het kernprobleem op.'},
+  {id:'foto1',n:'P7',name:'Foto: objectnummer',doel:'Eerste verplichte foto volgens de instructie.',bron:'Dan zegt hij: maak nu foto\u2019s. Dan legt hij uit welke foto\u2019s je moet doen.',status:'ok'},
+  {id:'foto2',n:'P8',name:'Foto: campagne per zijde',doel:'Eén foto per posterzijde, met de campagne die er hoort te hangen.',bron:'Soms hoef je maar vier foto\u2019s te maken, een andere keer meerdere panelen, meerdere posterbakken, een ander dak.',status:'ok'},
+  {id:'fotodak',n:'P8b',name:'Foto: dak',doel:'Alleen bij objecten met dakglas. Fotoset volgt het objecttype.',bron:'Een ander dak, dus dan moet je andere foto\u2019s maken.',status:'vs',extra:'B11.'},
+  {id:'foto3',n:'P9',name:'Foto: schade',doel:'Optioneel, verplicht zodra een afwijking is vastgesteld.',bron:'Fotoinstructie Global: foto\u2019s van eventuele schades.',status:'vs'},
+  {id:'obs',n:'P10',name:'Observaties',doel:'"Let op bij dit object" bovenaan, dan de 7 punten en inspreken. Fallback: zelf aanvinken.',bron:'Er staat een vragenlijst met let hier en hier op. Dan drukken ze op het knopje en spreken in wat ze zien.',status:'ok',extra:'B2.'},
+  {id:'opname',n:'P11',name:'Opname',doel:'Opname loopt, stoppen met één tik.',bron:'Zelfde passage als P10.',status:'ok'},
+  {id:'ai',n:'P12',name:'Dit heb ik gehoord',doel:'Transcriptie en de 7 punten ingevuld door AI.',bron:'Voldoende informatie die geanalyseerd wordt middels AI, zodat AI zegt: dit is het resultaat.',status:'ok'},
+  {id:'vragen',n:'P13',name:'Vervolgvragen',doel:'Maximaal twee gerichte vragen met knoppen.',bron:'Ik heb nog een vraag over deze punten.',status:'ok'},
+  {id:'check',n:'P14',name:'Controleren en afronden',doel:'Foto\u2019s, 7 punten, resultaat Goed of Afwijking, opvolging per punt en de melding aan TOOC.',bron:'Dan heb je observaties compleet en foto compleet. Dan zeg je afgerond.',status:'ok',extra:'B3 en B9.'},
+  {id:'klaar',n:'P15',name:'Afgerond',doel:'Bevestiging inclusief melding aan TOOC, volgend object, navigatie.',bron:'Ga naar het volgende object. Dan start hij meteen de navigatie daar naartoe.',status:'ok'},
+  {id:'einde',n:'P16',name:'Ronde compleet',doel:'Dagoverzicht, meldingen, synchronisatie, gebundelde vragen.',bron:'Al die data wordt meteen gekoppeld aan het juiste object, zodat je niet meer op kantoor dingen hoeft in te vullen.',status:'ok'},
+  {id:'d:overzicht',n:'D1',name:'Risk dashboard',doel:'Goed, aandacht, actie per regio en periode. Doorklik naar acties, gemeenten en het maandrapport.',bron:'Eén main dashboard dat automatisch aangeeft welke objecten goed gaan, welke aandacht nodig hebben en welke nu fout gaan.',status:'ok',extra:'B8 periodefilter.'},
+  {id:'d:acties',n:'D2',name:'Openstaande acties',doel:'Elk object met actie, de opvolgstatus (nieuw, gemeld, in behandeling, opgelost) en dagen open. Status is aan te passen.',bron:'Welke objecten gaan nu fout, dan moeten we nu echt actie ondernemen.',status:'vs',extra:'B4.'},
+  {id:'d:gemeenten',n:'D3',name:'Gemeentelijke contracten',doel:'Dekking, afwijkingen, afspraak met TOOC en op schema per contract. Doorklik naar objecten en rapport.',bron:'Per gemeentelijk contract kan je alles inzien.',status:'ok',extra:'B7 afspraken.'},
+  {id:'d:rapport',n:'D4',name:'Rapport voor gemeente',doel:'Eén pagina per contract: afspraak, dekking, afwijkingen en opvolging. Te downloaden als PDF.',bron:'Aantonen: wij hebben deze objecten gecontroleerd en het is zoals het hoort.',status:'vs',extra:'B7.'},
+  {id:'d:maand',n:'D5',name:'Maandrapport directie',doel:'Wat Dick nu handmatig maakt voor Joost en de directie, in één pagina.',bron:'Ik geef het door aan Joost en hij geeft het door aan de directie.',status:'vs',extra:'B7.'},
+  {id:'d:inspecteurs',n:'D6',name:'Inspecteurs',doel:'Team eerst, per inspecteur op doorklik. Tijd per object als gemiddelde, niet als ranglijst.',bron:'Hoe kunnen we hen helpen om het makkelijker te maken.',status:'ok',extra:'B10.'},
+  {id:'d:tooc',n:'D7',name:'TOOC',doel:'Onderhoud deze week, meldingen vanuit de app, opmerkingen en reparaties.',bron:'Data vanuit TOC erin koppelen, zodat je één overzicht hebt.',status:'ph'}
+];
+
+/* ================= HELPERS ================= */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('nl-NL');
+const hasDev=r=>Object.keys(r.punten).length>0;
+function riskOf(punten,answers){const ks=Object.keys(punten).map(Number);if(!ks.length)return 'good';if(ks.some(k=>ACT_PUNTEN.includes(k))||(answers&&answers.veilig==='Ja'))return 'act';return 'warn';}
+const RISKTXT={good:'Goed',warn:'Aandacht',act:'Actie'};
+function h(s){let x=2166136261;for(let i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619);}return (x>>>0);}
+const hr=(s,i)=>h(s+'#'+i)/4294967295;
+const dist=(a,b)=>Math.hypot((a.lat-b.lat)*111,(a.lng-b.lng)*68);
+
+/* ================= APP STATE ================= */
+const S={screen:'week',obj:0,online:true,hist:[],selPin:null,res:{},photos:{},recording:false,aiDone:false,answers:{},pending:[],toast:null,notes:true,order:null,nrInput:'',nrWrong:null,q:'',meldNr:4470};
+function initObj(o){S.res[o.nr]={status:'open',punten:{},sync:null,manual:false,answers:{},meld:true,melding:null,reden:null};S.photos[o.nr]={p1:false,p2:o.camp.map(()=>false),dak:false,p3:0};}
+OBJ.forEach(initObj);
+const cur=()=>OBJ[S.obj], R=()=>S.res[cur().nr], P=()=>S.photos[cur().nr];
+const liveRisk=r=>riskOf(r.punten,r.answers);
+const order=()=>S.order||OBJ.map((_,i)=>i);
+function go(id,push=true){if(push&&S.screen!==id)S.hist.push(S.screen);S.screen=id;S.toast=null;render();document.getElementById('body').scrollTop=0;}
+function back(){const p=S.hist.pop();if(p){S.screen=p;render();}}
+function toast(m){S.toast=m;render();clearTimeout(S._t);S._t=setTimeout(()=>{S.toast=null;render();},2400);}
+function setOnline(v){S.online=v;if(v){let n=0;OBJ.forEach(o=>{const r=S.res[o.nr];if(r.status==='done'&&r.sync==='local'){r.sync='synced';n++;if(r.melding&&r.melding.status==='Wordt gemeld bij synchronisatie'){r.melding.status='Gemeld aan TOOC';}}});if(n)toast(n+' object'+(n>1?'en':'')+' gesynchroniseerd'+(S.pending.length?', '+S.pending.length+' vraag'+(S.pending.length>1?'en':'')+' over vandaag':''));}else toast('Offline. Alles wordt op de telefoon bewaard.');render();}
+const doneObjs=()=>OBJ.filter(o=>S.res[o.nr].status==='done');
+const doneCount=()=>doneObjs().length;
+const skipCount=()=>OBJ.filter(o=>S.res[o.nr].status==='skipped').length;
+const devCount=()=>doneObjs().filter(o=>hasDev(S.res[o.nr])).length;
+const meldCount=()=>doneObjs().filter(o=>S.res[o.nr].melding).length;
+const localCount=()=>OBJ.filter(o=>S.res[o.nr].sync==='local').length;
+const openIdx=()=>order().filter(i=>S.res[OBJ[i].nr].status==='open');
+const firstOpen=()=>{const o=openIdx();return o.length?o[0]:-1;};
+const nextOpen=()=>{const ord=order();const pos=ord.indexOf(S.obj);for(let k=pos+1;k<ord.length;k++){if(S.res[OBJ[ord[k]].nr].status==='open')return ord[k];}for(let k=0;k<pos;k++){if(S.res[OBJ[ord[k]].nr].status==='open')return ord[k];}return -1;};
+function setObj(i){S.obj=i;S.aiDone=false;S.answers={};S.recording=false;S.nrInput='';S.nrWrong=null;}
+function whyList(o){const w=[];if(o.why)w.push([o.why,true]);w.push([o.mnd+' maanden geleden gecontroleerd',o.mnd>=10]);if(o.mnd>=10)w.push(['Bijna een jaar: moet dit jaar nog',true]);w.push(['TOOC schoongemaakt ma 21 sep, klein onderhoud',false]);if(o.ongepland)w.unshift(['Buiten planning',true]);return w;}
+function photoSteps(o){return ['nr','camp',...(o.dak?['dak']:[]),'schade'];}
+function stepIdx(o,id){return photoSteps(o).indexOf(id);}
+function stepperFor(o,id){const st=photoSteps(o);const i=st.indexOf(id);return `<div class="stepper">${st.map((_,k)=>`<span class="${k<i?'dn':k===i?'on':''}"></span>`).join('')}</div>`;}
+function stepLabel(o,id){return 'Foto '+(stepIdx(o,id)+1)+' van '+photoSteps(o).length;}
+function sameHalte(o){return OBJ.filter(x=>x.nr!==o.nr&&x.halte===o.halte);}
+
+/* ================= APP PIECES ================= */
+const abriSVG=(dmg,roof)=>`<svg viewBox="0 0 300 220" aria-hidden="true"><rect width="300" height="220" fill="#232a2f"/><rect y="176" width="300" height="44" fill="#31393f"/><rect x="58" y="38" width="184" height="10" rx="3" fill="#8b969d"/>${roof?'<rect x="52" y="22" width="196" height="18" rx="4" fill="#a9c7d8" opacity=".5"/>':''}<rect x="68" y="48" width="6" height="128" fill="#8b969d"/><rect x="226" y="48" width="6" height="128" fill="#8b969d"/><rect x="80" y="54" width="72" height="122" fill="#a9c7d8" opacity=".55"/><rect x="160" y="54" width="60" height="122" fill="#F0B400"/><rect x="166" y="62" width="48" height="62" fill="#111417" opacity=".9"/><rect x="166" y="130" width="48" height="8" fill="#fff"/><rect x="166" y="144" width="34" height="8" fill="#fff"/><rect x="84" y="162" width="14" height="8" fill="#111417"/>${dmg?'<path d="M170 150 l14 -20 l-6 22 l16 -18" stroke="#E2321F" stroke-width="3" fill="none"/>':''}</svg>`;
+const camFrame=(taken,hint,dmg,okTxt,roof)=>`<div class="cam ${taken?'taken':''}">${abriSVG(dmg,roof)}<span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><div class="hint">${hint}</div>${taken?`<span class="ok">${okTxt||'Gemaakt'}</span>`:''}</div>`;
+const shutter=(a,k,txt)=>`<button class="shutter" data-a="${a}" data-k="${k}"><span class="dot"></span>${txt}</button>`;
+const badgeFor=r=>r.status==='skipped'?'<span class="badge skip">Overgeslagen</span>':r.status==='done'?(hasDev(r)?'<span class="badge dev">Afwijking</span>':'<span class="badge good">Goed</span>'):'<span class="badge open">Open</span>';
+const itemClass=r=>r.status==='skipped'?'skip':r.status!=='done'?'':(hasDev(r)?(r.melding?'act':'dev'):'good');
+const syncTxt=r=>r.status!=='done'?'':(r.sync==='local'?'<span class="sync">☁︎ Op telefoon</span>':'<span class="sync">✓ Gesynchroniseerd</span>')+(r.melding?' <span class="sync">· gemeld aan TOOC</span>':'');
+const ring=(pct,txt)=>`<svg class="ring" viewBox="0 0 56 56"><circle cx="28" cy="28" r="24" fill="none" stroke="#EEF0F2" stroke-width="6"/><circle cx="28" cy="28" r="24" fill="none" stroke="#111417" stroke-width="6" stroke-linecap="round" stroke-dasharray="${(pct*150.8).toFixed(1)} 150.8" transform="rotate(-90 28 28)"/><text x="28" y="32" text-anchor="middle" font-size="12" font-weight="800" fill="#111417">${txt}</text></svg>`;
+const whyChips=o=>`<div class="why">${whyList(o).map(w=>`<span class="${w[1]?'hi':''}">${esc(w[0])}</span>`).join('')}</div>`;
+const letop=o=>{const items=[...o.let];const r=S.res[o.nr];if(!items.length)return '';return `<div class="letop"><h4>Let op bij dit object</h4>${items.map(l=>`<p><b>${l[0]}</b> · ${esc(l[1])}<span class="vb">voorbeeld</span></p>`).join('')}</div>`;};
+/* ================= APP SCREENS ================= */
+const V={};
+V.week=()=>({title:'Mijn week',sub:'Week 39 · Roy · regio West',tab:'week',body:`
+  <button class="week-day today" data-a="go" data-v="ronde"><div class="d"><b>Di</b><small>22 sep</small></div><div class="t"><b>Route 074 AMS · Hilversum</b><small>${OBJ.length} objecten · ${doneCount()} afgerond${skipCount()?' · '+skipCount()+' overgeslagen':''}</small></div><span class="badge ${firstOpen()<0?'good':'open'}">${firstOpen()<0?'Klaar':'Vandaag'}</span></button>
+  <button class="week-day" disabled><div class="d"><b>Wo</b><small>23 sep</small></div><div class="t"><b>Route 070 AMS · Huizen</b><small>24 objecten · 3 bijna een jaar niet gezien</small></div><span class="badge open">Gepland</span></button>
+  <button class="week-day" disabled><div class="d"><b>Do</b><small>24 sep</small></div><div class="t"><b>Route 040 AMS · Amstelveen</b><small>25 objecten</small></div><span class="badge open">Gepland</span></button>
+  <button class="week-day" disabled><div class="d"><b>Vr</b><small>25 sep</small></div><div class="t"><b>Route 057 AMS · Alphen aan den Rijn</b><small>25 objecten · gemeente Kaag en Braassem nog niet bezocht dit jaar</small></div><span class="badge open">Gepland</span></button>
+  <div class="pcard white" style="margin-top:12px"><h4>Jouw week · alleen jij ziet dit, Dick ziet teamcijfers</h4>
+    <div class="mini-stat"><div><b>${38+doneCount()}</b><small>gecontroleerd</small></div><div><b>${4+devCount()}</b><small>afwijkingen</small></div><div><b>4:10</b><small>gem. per object</small></div><div><b>96%</b><small>foto\u2019s compleet</small></div></div>
+    <small style="color:#6B7378;font-weight:600">Vorige week: 41 objecten, 5 afwijkingen. Je zit op schema voor de jaarlijkse dekking van regio West (73%).</small></div>
+  <div class="banner info" style="margin-top:10px"><span>📋</span><div><b>Waarom deze objecten?</b><br>Langst geleden gecontroleerd, gemeenten die dit jaar nog niet gezien zijn, en alleen wat TOOC deze week heeft schoongemaakt. Bij elk object staat de reden.</div></div>`,foot:''});
+
+V.ronde=()=>{const d=doneCount(),n=OBJ.length,sk=skipCount();
+  const pend=S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} vraag${S.pending.length>1?'en':''} over vandaag</b><br>Van de objecten die je offline hebt gedaan.</div></button>`:'';
+  const off=!S.online?`<div class="banner off"><span>☁︎</span><div><b>Geen verbinding</b><br>Ronde staat op de telefoon. Alles wordt bewaard en later gesynchroniseerd.</div></div>`:'';
+  return {title:'Vandaag',sub:'Route 074 AMS · Hilversum',tab:'ronde',body:`
+  ${off}${pend}
+  <div class="hero">${ring((d+sk)/n,d+'/'+n)}<div><div class="big">${firstOpen()<0?'Ronde compleet':(n-d-sk)+' te gaan'}</div><small>${localCount()?localCount()+' nog op telefoon':'alles gesynchroniseerd'} · ${devCount()} afwijking${devCount()===1?'':'en'}${meldCount()?' · '+meldCount()+' gemeld aan TOOC':''}</small></div></div>
+  <div class="actions" style="margin-bottom:10px"><button class="${S.order?'p':''}" data-a="reorder">${S.order?'Volgorde: dichtstbijzijnde':'Volgorde: TOOC route'}</button><button data-a="go" data-v="zoek">Object buiten planning</button></div>
+  <div class="list">${order().map((i,pos)=>{const o=OBJ[i],r=S.res[o.nr];return `<button class="item ${itemClass(r)} ${i===S.obj&&r.status==='open'?'cur':''}" data-a="obj" data-i="${i}"><span class="no">${pos+1}</span><span class="t"><b>${esc(o.straat)}</b><small>halte ${esc(o.halte)} · ${o.nr}${o.ongepland?' · <b>buiten planning</b>':''}${r.status==='open'?' · '+(o.why?esc(o.why):o.mnd+' mnd geleden'):''}${r.status==='skipped'?' · '+esc(r.reden):''}</small>${syncTxt(r)}</span>${badgeFor(r)}</button>`}).join('')}</div>`,
+  foot: firstOpen()>=0?`<button class="btn p" data-a="obj" data-i="${firstOpen()}">Volgende: ${esc(OBJ[firstOpen()].straat)}</button>`:`<button class="btn p" data-a="go" data-v="einde">Ronde afsluiten</button>`};};
+
+V.zoek=()=>{const q=S.q.trim().toLowerCase();const pool=[...EXTRA.filter(e=>!OBJ.find(o=>o.nr===e.nr)),...OBJ];const res=q?pool.filter(o=>o.nr.includes(q)||o.straat.toLowerCase().includes(q)||o.halte.toLowerCase().includes(q)).slice(0,6):EXTRA.filter(e=>!OBJ.find(o=>o.nr===e.nr));
+  return {title:'Object buiten planning',sub:'Zoek op nummer, straat of halte',body:`
+  <input class="search-in" data-in="zoek" placeholder="Bijvoorbeeld 12061 of Larenseweg" value="${esc(S.q)}" inputmode="search">
+  <p class="sub">${q?res.length+' gevonden':'Dichtbij, niet in je ronde van vandaag'}</p>
+  <div class="list">${res.map(o=>{const inRoute=OBJ.find(x=>x.nr===o.nr);return `<button class="item" data-a="${inRoute?'obj':'adhoc'}" data-i="${inRoute?OBJ.indexOf(inRoute):''}" data-nr="${o.nr}"><span class="no">${inRoute?order().indexOf(OBJ.indexOf(inRoute))+1:'+'}</span><span class="t"><b>${esc(o.straat)}</b><small>halte ${esc(o.halte)} · ${o.nr} · ${o.mnd} mnd geleden gecontroleerd</small></span>${inRoute?badgeFor(S.res[o.nr]):'<span class="badge unpl">Toevoegen</span>'}</button>`}).join('')||'<p class="sub">Niets gevonden. Controleer het nummer.</p>'}</div>
+  <div class="banner info" style="margin-top:10px"><span>ℹ️</span><div>Een controle buiten planning telt mee voor de jaarlijkse dekking en verschijnt in het dashboard als ongepland.</div></div>`,foot:''};};
+
+V.kaart=()=>{const lats=OBJ.map(o=>o.lat),lngs=OBJ.map(o=>o.lng);const mnl=Math.min(...lats),mxl=Math.max(...lats),mng=Math.min(...lngs),mxg=Math.max(...lngs);const W=340,H=340,pad=34;
+  const X=g=>pad+(g-mng)/(mxg-mng||1)*(W-2*pad),Y=l=>H-pad-(l-mnl)/(mxl-mnl||1)*(H-2*pad);
+  const me=OBJ[firstOpen()===-1?OBJ.length-1:firstOpen()];const sel=S.selPin!=null?OBJ[S.selPin]:null;
+  const streets=[[0,60,340,40],[0,120,340,140],[0,200,340,190],[0,270,340,290],[60,0,80,340],[150,0,170,340],[250,0,240,340]].map(s=>`<line x1="${s[0]}" y1="${s[1]}" x2="${s[2]}" y2="${s[3]}" stroke="#fff" stroke-width="10" stroke-linecap="round"/>`).join('');
+  const placed=[];const pts=OBJ.map(o=>{let px=X(o.lng),py=Y(o.lat);if(placed.some(q=>Math.hypot(q[0]-px,q[1]-py)<18)){px-=16;py-=14;}placed.push([px,py]);return [px,py];});
+  const route=order().map(i=>pts[i].join(',')).join(' ');
+  const pins=order().map((i,pos)=>{const o=OBJ[i];const r=S.res[o.nr];const rk=itemClass(r);const c=rk==='good'?'#17A35B':rk==='dev'?'#F0B400':rk==='act'?'#E2321F':rk==='skip'?'#CFD3D6':'#111417';const tx=rk==='dev'||rk==='skip'?'#111417':'#fff';
+    return `<g class="pin" data-a="pin" data-i="${i}"><circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="${S.selPin===i?15:12}" fill="${c}" stroke="#fff" stroke-width="2.5"/><text x="${pts[i][0]}" y="${pts[i][1]+4}" text-anchor="middle" font-size="11" font-weight="800" fill="${tx}">${pos+1}</text></g>`}).join('');
+  return {title:'Kaart',sub:'Route 074 AMS · Hilversum',tab:'kaart',body:`
+  <div class="map"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Schematische kaart van de route">${streets}<polyline points="${route}" fill="none" stroke="#111417" stroke-opacity=".25" stroke-width="3" stroke-dasharray="6 5"/>${pins}<g><circle cx="${X(me.lng)+14}" cy="${Y(me.lat)+16}" r="18" fill="#1D5FD6" opacity=".15"/><circle cx="${X(me.lng)+14}" cy="${Y(me.lat)+16}" r="9" fill="#1D5FD6" stroke="#fff" stroke-width="3"/></g></svg></div>
+  ${sel?`<div class="pcard white"><div style="display:flex;justify-content:space-between;align-items:center;gap:8px"><div><b style="font-size:15px">${esc(sel.straat)}</b><br><small style="color:#6B7378">halte ${esc(sel.halte)} · ${sel.nr} · ${esc(sel.type)}</small></div>${badgeFor(S.res[sel.nr])}</div></div>`:`<p class="sub">Tik een nummer op de kaart. Blauwe stip: jij.</p>`}`,
+  foot: sel?`<button class="btn s" data-a="obj" data-i="${S.selPin}">Object</button><button class="btn p" data-a="start" data-i="${S.selPin}" ${S.res[sel.nr].status!=='open'?'disabled':''}>Start controle</button>`:''};};
+
+V.object=()=>{const o=cur(),r=R();const twins=sameHalte(o);return {title:esc(o.straat),sub:'halte '+esc(o.halte)+' · object '+o.nr,body:`
+  ${whyChips(o)}
+  ${twins.length?`<div class="banner warn"><span>⚠️</span><div><b>${twins.length+1} objecten bij deze halte.</b> Controleer het nummerplaatje: dit is <b>${o.nr}</b>${twins.length===1?', de andere is '+twins[0].nr:''}.</div></div>`:''}
+  <div class="refphoto">${abriSVG(false,o.dak)}<span>Referentiefoto · ${o.laatst}</span></div>
+  <div class="pcard"><div class="kv"><div><small>Type</small><b>${esc(o.type)}</b></div><div><small>Gemeente</small><b>Hilversum · 2205</b></div><div><small>Laatst gecontroleerd</small><b>${o.laatst}</b></div><div><small>Dakglas</small><b>${o.dak?'Ja, extra foto':'Nee'}</b></div></div></div>
+  <div class="banner info"><span>🧽</span><div><b>TOOC: klein onderhoud op ma 21 sep</b><br>Schoonmaak zonder glaswerk. Controleer of dit is uitgevoerd.</div></div>
+  <div class="pcard white"><h4>Verwachte campagne${o.camp.length>1?'s':''}</h4>${o.camp.map((c,i)=>`<div style="display:flex;justify-content:space-between;font-size:14px;padding:4px 0"><span style="color:#6B7378">Zijde ${'AB'[i]}</span><b>${esc(c)}</b></div>`).join('')}</div>
+  ${r.status==='done'?`<div class="result ${hasDev(r)?'dev':'good'}"><div><b>${hasDev(r)?'Afwijking':'Goed'}</b><small>Vandaag gecontroleerd · ${r.sync==='local'?'nog op telefoon':'gesynchroniseerd'}${r.melding?' · gemeld aan TOOC':''}</small></div></div>`:''}
+  ${r.status==='skipped'?`<div class="result" style="background:#F2F3F3"><div><b>Overgeslagen</b><small>${esc(r.reden)}</small></div><button class="badge open" data-a="unskip" style="border:0">Toch controleren</button></div>`:''}`,
+  foot:r.status==='open'?`<button class="btn g" data-a="go" data-v="skip" style="flex:0 0 auto;width:auto;padding:15px 14px">Overslaan</button><button class="btn s" data-a="go" data-v="meer" style="flex:0 0 auto;width:auto;padding:15px 14px">Meer</button><button class="btn p" data-a="start" data-i="${S.obj}">Start controle</button>`:`<button class="btn s" data-a="go" data-v="meer">Meer over dit object</button>`};};
+
+V.skip=()=>({title:'Overslaan',sub:cur().nr+' · '+esc(cur().straat),body:`<p class="sub">Waarom sla je dit object over? Het komt terug op de lijst van volgende week, behalve als het er niet meer staat.</p><div class="reasons">${SKIP_REASONS.map(r=>`<button data-a="doskip" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>`,foot:''});
+
+V.meer=()=>{const o=cur(),r=R();return {title:'Meer over dit object',sub:o.nr+' · '+esc(o.straat),body:`
+  <details class="acc" open><summary>Eerdere controles</summary><div class="in">
+    ${r.status==='done'?`<p><b>Vandaag, Roy:</b> ${hasDev(r)?Object.keys(r.punten).map(k=>'punt '+k+' '+PUNTEN[k-1][0].toLowerCase()).join(', '):'geen afwijkingen'}</p>`:''}
+    ${o.hist?`<p><b>${esc(o.hist)}</b></p>`:''}<p>${o.laatst}, ${['Roy','Roy','Sjaak'][S.obj%3]}: geen afwijkingen.</p><p style="color:#6B7378">Vorig jaar 2x gecontroleerd, beide keren goed.</p></div></details>
+  <details class="acc"><summary>Objectgegevens</summary><div class="in"><div class="kv"><div><small>Omschrijving</small><b>${esc(o.type)}</b></div><div><small>Vakken</small><b>${o.vak}</b></div><div><small>Dakglas</small><b>${o.dak?'Ja':'Nee'}</b></div><div><small>Status</small><b>Actief</b></div><div><small>Coördinaten</small><b>${o.lat}, ${o.lng}</b></div><div><small>Contract</small><b>2205 Hilversum</b></div></div></div></details>
+  <details class="acc"><summary>TOOC deze week</summary><div class="in"><p>Route 074 AMS, volgnummer ${(S.obj+1)*10+20}. Schoongemaakt <b>ma 21 sep</b>, klein onderhoud. Frequentie contract: 1x per 6 weken.</p></div></details>
+  <details class="acc"><summary>Afspraken gemeente <span class="vb">voorbeeld</span></summary><div class="in"><p>Contract 2205: schoonmaak 1x per 6 weken, reparatie binnen 5 werkdagen na melding. Geen onderhoud op donderdag tijdens de weekmarkt (centrum).</p></div></details>
+  <details class="acc"><summary>Meldingen gemeente <span class="vb">voorbeeld</span></summary><div class="in">${o.let.filter(l=>l[0]==='Gemeente').map(l=>`<p>${esc(l[1])}</p>`).join('')||'<p style="color:#6B7378">Geen open meldingen voor dit object.</p>'}</div></details>
+  <details class="acc"><summary>Reparatiehistorie TOOC <span class="vb">voorbeeld</span></summary><div class="in">${o.hist?'<p>14 jun 2026: bankje opnieuw bevestigd (melding 27 mei).</p>':''}<p>12 mrt 2025: glasplaat zijde A vervangen na vandalisme.</p><p style="color:#6B7378">Bron: TOOC koppeling, nog te realiseren.</p></div></details>`,
+  foot:r.status==='open'?`<button class="btn p" data-a="start" data-i="${S.obj}">Start controle</button>`:''};};
+
+V.bevestig=()=>{const o=cur();const inp=S.nrInput;const ok=inp===o.nr;const other=inp.length===5&&!ok?OBJ.find(x=>x.nr===inp)||EXTRA.find(x=>x.nr===inp):null;const bad=inp.length===5&&!ok;
+  return {title:'Bevestig nummer',sub:'Verwacht: '+o.nr+' · '+esc(o.straat),body:`
+  <p class="sub">Tik het nummer van het plaatje op het object in, of scan het. Zo hangt de controle altijd aan het juiste object.</p>
+  <div class="nrbox ${ok?'ok':bad?'bad':''}">${[0,1,2,3,4].map(i=>`<i class="${i===inp.length?'on':''}">${inp[i]||''}</i>`).join('')}</div>
+  ${ok?`<div class="banner good"><span>✓</span><div><b>Klopt.</b> Dit is ${o.nr}, ${esc(o.straat)}.</div></div>`:''}
+  ${bad&&other?`<button class="banner warn" data-a="switchto" data-nr="${other.nr}"><span>⚠️</span><div><b>Dit is niet ${o.nr}.</b> ${other.nr} is ${esc(other.straat)}, halte ${esc(other.halte)}. Tik hier om dat object te controleren.</div></button>`:''}
+  ${bad&&!other?`<div class="banner act"><span>✕</span><div><b>${inp} ken ik niet in Hilversum.</b> Controleer het plaatje of ga door als object buiten planning.</div></div>`:''}
+  <div class="keypad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button data-a="key" data-v="${k}">${k}</button>`).join('')}<button class="alt" data-a="scan">Scan plaatje</button><button data-a="key" data-v="0">0</button><button class="alt" data-a="key" data-v="del">⌫</button></div>`,
+  foot:`<button class="btn g" data-a="nrskip" style="flex:0 0 auto;width:auto;padding:15px 14px">Onleesbaar</button><button class="btn p" data-a="nrok" ${ok?'':'disabled'}>Bevestig en start foto\u2019s</button>`};};
+
+V.foto1=()=>{const o=cur(),p=P();return {title:'Objectnummer',sub:stepLabel(o,'nr')+' · '+o.nr,body:`${stepperFor(o,'nr')}${camFrame(p.p1,'Richt op het nummerplaatje onderaan de zijkant',false,'',o.dak)}
+  ${p.p1?'':shutter('shoot','p1','Maak foto')}<p class="sub" style="text-align:center">Foto van het nummerplaatje als bewijs bij het object.</p>`,
+  foot:p.p1?`<button class="btn g" data-a="retake" data-k="p1">Opnieuw</button><button class="btn p" data-a="go" data-v="foto2">Verder</button>`:''};};
+
+V.foto2=()=>{const o=cur(),p=P(),all=p.p2.every(Boolean),nxt=p.p2.findIndex(x=>!x);return {title:'Campagne per zijde',sub:stepLabel(o,'camp')+' · '+o.camp.length+' zijde'+(o.camp.length>1?'s':''),body:`${stepperFor(o,'camp')}
+  ${camFrame(all,all?'Alle zijden gefotografeerd':'Zijde '+'AB'[nxt]+': hele poster in beeld, recht van voren',false,'Compleet',o.dak)}
+  ${all?'':shutter('shoot2','x','Maak foto zijde '+'AB'[nxt])}
+  <div class="sides">${o.camp.map((c,i)=>`<button class="side ${p.p2[i]?'taken':''}" data-a="side" data-i="${i}"><b>Zijde ${'AB'[i]} ${p.p2[i]?'✓':''}</b><small>Hoort te hangen: ${esc(c)}</small><small>${p.p2[i]?'Tik voor opnieuw':'Nog te maken'}</small></button>`).join('')}</div>`,
+  foot:`<button class="btn p" data-a="go" data-v="${o.dak?'fotodak':'foto3'}" ${all?'':'disabled'}>${all?'Verder':'Fotografeer alle zijden'}</button>`};};
+
+V.fotodak=()=>{const o=cur(),p=P();return {title:'Dak',sub:stepLabel(o,'dak')+' · dakglas',body:`${stepperFor(o,'dak')}${camFrame(p.dak,'Dak en dakrand: hele dakplaat in beeld, let op scheuren en vuil',false,'',true)}
+  ${p.dak?'':shutter('shoot','dak','Maak foto dak')}<p class="sub" style="text-align:center">Dit object heeft dakglas. Daarom een extra foto.</p>`,
+  foot:p.dak?`<button class="btn g" data-a="retake" data-k="dak">Opnieuw</button><button class="btn p" data-a="go" data-v="foto3">Verder</button>`:''};};
+
+V.foto3=()=>{const o=cur(),p=P(),r=R(),must=hasDev(r)&&p.p3===0;return {title:'Schade of afwijking',sub:stepLabel(o,'schade')+' · '+(hasDev(r)?'verplicht':'alleen als je iets ziet'),body:`${stepperFor(o,'schade')}
+  ${hasDev(r)?`<div class="banner warn"><span>⚠️</span><div><b>Er is een afwijking vastgelegd.</b> Maak minimaal één foto van wat je hebt gezien.</div></div>`:''}
+  ${camFrame(p.p3>0,'Dichtbij en scherp. Meerdere foto\u2019s mag.',true,p.p3+' foto'+(p.p3>1?'\u2019s':''),o.dak)}
+  ${shutter('shoot','p3',p.p3?'Nog een foto':'Maak schadefoto')}
+  ${p.p3?`<div class="thumbs">${Array.from({length:p.p3}).map(()=>'<span class="thumb dmg"></span>').join('')}</div>`:(hasDev(r)?'':'<p class="sub" style="text-align:center">Geen schade? Ga direct verder naar observaties.</p>')}`,
+  foot:`<button class="btn p" data-a="fotoklaar" ${must?'disabled':''}>${r.status==='done'||S.aiDone||r.manual?'Naar overzicht':'Verder naar observaties'}</button>`};};
+
+V.obs=()=>{const o=cur(),r=R();
+  if(!S.online){return {title:'Observaties',sub:'Offline: vink zelf aan',body:`${letop(o)}
+    <div class="banner off"><span>☁︎</span><div><b>Geen verbinding.</b> Vink de punten zelf aan. Je opname wordt bewaard en na synchronisatie alsnog geanalyseerd.</div></div>
+    ${PUNTEN.map((p,i)=>`<label class="pt ${r.punten[i+1]?'dev':''}"><input type="checkbox" data-a="tick" data-k="${i+1}" ${r.punten[i+1]?'checked':''}><span class="lbl"><b>${i+1}. ${p[0]}</b><small>${p[1]}</small></span></label>`).join('')}
+    <button class="mic ${S.recording?'rec':''}" data-a="rec" style="margin-top:6px"><span class="ring2">${S.recording?'■':'🎙'}</span>${S.recording?'Opname loopt, tik om te stoppen':(r.opname?'Opname bewaard (0:14). Opnieuw?':'Toelichting inspreken (optioneel)')}</button>`,
+    foot:`<button class="btn p" data-a="manualdone">Verder</button>`};}
+  return {title:'Observaties',sub:o.nr+' · '+esc(o.straat),body:`${letop(o)}
+  <p class="sub">Loop de 7 punten na en spreek in wat je ziet. Een brain dump is genoeg.</p>
+  ${PUNTEN.map((p,i)=>`<div class="pt"><span class="num">${i+1}</span><span class="lbl"><b>${p[0]}</b><small>${p[1]}</small></span></div>`).join('')}
+  <button class="mic" data-a="rec" style="margin-top:8px"><span class="ring2">🎙</span>Inspreken</button>
+  <button class="btn g" data-a="manual" style="margin-top:8px">Liever zelf aanvinken</button>`,foot:''};};
+
+V.checkman=()=>{const r=R();return {title:'Observaties',sub:'Zelf aanvinken',body:`${letop(cur())}
+  ${PUNTEN.map((p,i)=>`<label class="pt ${r.punten[i+1]?'dev':''}"><input type="checkbox" data-a="tick" data-k="${i+1}" ${r.punten[i+1]?'checked':''}><span class="lbl"><b>${i+1}. ${p[0]}</b><small>${p[1]}</small></span></label>`).join('')}`,
+  foot:`<button class="btn g" data-a="go" data-v="obs">Toch inspreken</button><button class="btn p" data-a="manualdone2">Verder</button>`};};
+
+V.opname=()=>({title:'Opname loopt',sub:cur().nr+' · '+esc(cur().straat),body:`<div style="height:26px"></div>
+  <button class="mic rec" data-a="stoprec"><span class="ring2">■</span>Tik om te stoppen<div class="wave">${'<i></i>'.repeat(14)}</div><span style="font-weight:600;font-size:13px;opacity:.9">0:0${S.recSec||1}</span></button>
+  <p class="sub" style="margin-top:14px;text-align:center">Praat gewoon. De app maakt er zelf de 7 punten van.</p>`,foot:''});
+
+V.ai=()=>{const o=cur(),r=R();
+  const rows=PUNTEN.map((p,i)=>{const k=i+1;const dev=r.punten[k];const nb=o.nb.includes(k)&&!S.answers['licht'];const cls=dev?'dev':nb?'nb':'';
+    return `<div class="pt ${cls}"><span class="num">${k}</span><span class="lbl"><b>${p[0]}</b><small>${dev?esc(dev):nb?'Niet uit de opname af te leiden':'Geen afwijking'}</small></span><span class="st ${dev?'d':nb?'n':'g'}">${dev?'Afwijking':nb?'Vraag volgt':'✓'}</span></div>`}).join('');
+  const open=o.vragen.filter(q=>!S.answers[q.id]);
+  return {title:'Dit heb ik gehoord',sub:'Controleer wat de app heeft begrepen',body:`
+  <div class="trans"><small>Jouw opname · 0:14</small>${esc(o.tr)}</div>${rows}
+  ${open.length?`<div class="banner info" style="margin-top:8px"><span>❔</span><div><b>Ik heb nog ${open.length} vraag${open.length>1?'en':''}</b> over de punten die hierboven open staan.</div></div>`:''}`,
+  foot:open.length?`<button class="btn p" data-a="go" data-v="vragen">Beantwoord ${open.length} vraag${open.length>1?'en':''}</button>`:`<button class="btn p" data-a="aidone">Klopt, verder</button>`};};
+
+V.vragen=()=>{const o=cur();return {title:'Nog even dit',sub:o.nr+' · '+esc(o.straat),body:`
+  ${o.vragen.map(q=>`<div class="q"><small>Punt ${q.punt}: ${PUNTEN[q.punt-1][0]}</small><p>${esc(q.q)}</p><div class="opts">${q.opts.map(op=>`<button class="${S.answers[q.id]===op?'on':''}" data-a="ans" data-q="${q.id}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`).join('')}`,
+  foot:`<button class="btn p" data-a="aidone" ${o.vragen.every(q=>S.answers[q.id])?'':'disabled'}>Verder</button>`};};
+
+V.check=()=>{const o=cur(),r=R(),p=P();const dev=hasDev(r);const rk=riskOf(r.punten,S.answers);const toTooc=rk==='act';const toGlobal=Object.keys(r.punten).some(k=>[1,2,5].includes(+k));
+  return {title:'Controleren',sub:o.nr+' · '+esc(o.straat),body:`
+  <div class="result ${dev?'dev':'good'}"><div><b>${dev?'Afwijking':'Goed'}</b><small>${dev?Object.keys(r.punten).length+' van 7 punten afwijkend'+(S.answers.veilig==='Ja'?' · veiligheidsrisico':''):'Geen van de 7 punten afwijkend'}</small></div></div>
+  <div class="pcard"><h4>Foto\u2019s</h4><div class="thumbs"><span class="thumb"></span>${o.camp.map(()=>'<span class="thumb"></span>').join('')}${o.dak?'<span class="thumb"></span>':''}${Array.from({length:p.p3}).map(()=>'<span class="thumb dmg"></span>').join('')}</div><small style="color:#6B7378;font-weight:600">Objectnummer bevestigd · ${o.camp.length} zijde${o.camp.length>1?'s':''}${o.dak?' · dak':''}${p.p3?' · '+p.p3+' schadefoto'+(p.p3>1?'\u2019s':''):''}</small></div>
+  <div class="pcard white"><h4>Controlepunten · tik om aan te passen</h4>
+  ${PUNTEN.map((pt,i)=>{const k=i+1;const d=r.punten[k];return `<button class="pt ${d?'dev':''}" data-a="toggle" data-k="${k}"><span class="num">${k}</span><span class="lbl"><b>${pt[0]}</b><small>${d?esc(d)+' · '+OWNER(k):'Geen afwijking'}</small></span><span class="st ${d?'d':'g'}">${d?'Afwijking':'✓'}</span></button>`}).join('')}
+  ${Object.keys(S.answers).length?`<small style="color:#6B7378;font-weight:600">Antwoorden: ${Object.entries(S.answers).map(([k,v])=>(k==='licht'?'verlichting ':'veiligheidsrisico ')+v.toLowerCase()).join(' · ')}</small>`:''}</div>
+  ${dev?`<div class="pcard white"><h4>Wat gebeurt er na afronden</h4>
+    ${toTooc?`<button class="tog" data-a="meldtog"><span><b>Melden aan TOOC</b><small>Reparatie of onderhoud nodig${S.answers.veilig==='Ja'?' · met voorrang, veiligheidsrisico':''}. Dick volgt de status in het dashboard.</small></span><span class="sw ${r.meld?'on':''}"></span></button>`:''}
+    ${toGlobal?`<div class="tog"><span><b>Doorzetten naar Global campagne</b><small>Poster of campagne klopt niet. Gaat naar het campagneteam.</small></span><span class="badge good">Automatisch</span></div>`:''}
+  </div>`:''}
+  ${dev&&p.p3===0?`<div class="banner warn"><span>⚠️</span><div><b>Nog geen schadefoto.</b> Bij een afwijking is minimaal één foto verplicht.</div></div>`:''}`,
+  foot:dev&&p.p3===0?`<button class="btn w" data-a="go" data-v="foto3">Maak schadefoto</button>`:`<button class="btn p big" data-a="afronden">Afronden</button>`};};
+
+V.klaar=()=>{const r=R();const nx=nextOpen();const n=nx>=0?OBJ[nx]:null;return {title:'Afgerond',sub:esc(cur().straat),body:`
+  <div class="done-big ${hasDev(r)?'dev':''}"><div class="ck">${hasDev(r)?'!':'✓'}</div><b style="font-size:20px;letter-spacing:-.02em">${hasDev(r)?'Afwijking vastgelegd':'Goed'}</b><br><small style="color:#6B7378;font-weight:600">${r.sync==='local'?'Bewaard op telefoon':'Direct opgeslagen bij het object'} · ${doneCount()} van ${OBJ.length} klaar</small></div>
+  ${r.melding?`<div class="banner ${r.melding.status==='Gemeld aan TOOC'?'good':'off'}"><span>📨</span><div><b>${r.melding.status}</b><br>Melding ${r.melding.id} · ${Object.keys(r.punten).filter(k=>ACT_PUNTEN.includes(+k)).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')||'onderhoud'}${r.answers.veilig==='Ja'?' · voorrang':''}</div></div>`:''}
+  ${Object.keys(r.punten).some(k=>[1,2,5].includes(+k))?`<div class="banner info"><span>🎯</span><div><b>Doorgezet naar Global campagne</b><br>${Object.keys(r.punten).filter(k=>[1,2,5].includes(+k)).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')}</div></div>`:''}
+  ${n?`<div class="pcard white"><h4>Volgende object</h4><b style="font-size:17px">${esc(n.straat)}</b><br><small style="color:#6B7378">halte ${esc(n.halte)} · ${n.nr} · ongeveer ${Math.max(1,Math.round(dist(cur(),n)*2.5))} min rijden</small></div>`:`<div class="banner good"><span>🎉</span><div><b>Dit was het laatste object van de ronde.</b></div></div>`}`,
+  foot:n?`<button class="btn s" data-a="go" data-v="ronde">Naar ronde</button><button class="btn p" data-a="nav" data-i="${nx}">Start navigatie</button>`:`<button class="btn p" data-a="go" data-v="einde">Ronde afsluiten</button>`};};
+
+V.einde=()=>{const d=doneCount(),dv=devCount(),lc=localCount(),sk=skipCount();return {title:'Ronde compleet',sub:'Route 074 AMS · Hilversum',body:`
+  <div class="stat"><div><b>${d}</b><small>gecontroleerd</small></div><div><b>${dv}</b><small>afwijkingen</small></div><div><b>${meldCount()}</b><small>gemeld aan TOOC</small></div></div>
+  ${sk?`<div class="banner off"><span>↷</span><div><b>${sk} object${sk>1?'en':''} overgeslagen.</b> ${OBJ.filter(o=>S.res[o.nr].status==='skipped').map(o=>esc(o.straat)+' ('+esc(S.res[o.nr].reden)+')').join(', ')}. Komt terug in de planning.</div></div>`:''}
+  ${lc?`<div class="banner off"><span>☁︎</span><div><b>${lc} object${lc>1?'en':''} nog op de telefoon.</b> Wordt automatisch gesynchroniseerd zodra er verbinding is.</div></div>`:`<div class="banner good"><span>✓</span><div><b>Alles gesynchroniseerd.</b> Er is niets meer op kantoor in te vullen.</div></div>`}
+  ${S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} vraag${S.pending.length>1?'en':''} over vandaag</b><br>Beantwoord ze nu, dan is de dag af.</div></button>`:''}
+  <div class="pcard white"><h4>Afwijkingen vandaag</h4>${OBJ.filter(o=>hasDev(S.res[o.nr])).map(o=>{const r=S.res[o.nr];return `<div style="font-size:13.5px;padding:5px 0;display:flex;justify-content:space-between;gap:8px;border-top:1px solid #EEF0F2"><span><b>${esc(o.straat)}</b><br><small style="color:#6B7378">${Object.keys(r.punten).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')}</small></span><span class="badge ${r.melding?'act':'dev'}" style="align-self:center">${r.melding?'Gemeld aan TOOC':'Global campagne'}</span></div>`}).join('')||'<small style="color:#6B7378">Geen</small>'}</div>
+  <div class="pcard"><h4>Vandaag</h4><div class="kv"><div><small>Gemiddelde tijd per object</small><b>4 min 10</b></div><div><small>Foto\u2019s per object</small><b>3,4</b></div></div></div>`,
+  foot:`${lc?`<button class="btn s" data-a="syncnow">Nu synchroniseren</button>`:''}<button class="btn p" data-a="go" data-v="week">Naar mijn week</button>`};};
+
+V.dagvragen=()=>({title:'Vragen over vandaag',sub:S.pending.length+' open',body:`<p class="sub">Uit de opnames van objecten die je offline hebt gedaan.</p>
+  ${S.pending.map((it,idx)=>`<div class="q"><small>${esc(it.straat)} · ${it.nr} · punt ${it.q.punt}</small><p>${esc(it.q.q)}</p><div class="opts">${it.q.opts.map(op=>`<button data-a="pans" data-idx="${idx}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`).join('')||'<div class="banner good"><span>✓</span><div><b>Alles beantwoord.</b></div></div>'}`,
+  foot:`<button class="btn p" data-a="go" data-v="ronde">Terug naar ronde</button>`});
+
+const NOTES={
+  week:['B10: de inspecteur ziet zijn eigen cijfers eerst. Vraag aan Roy en Sjaak: helpt dit of voelt het als controle?','Weeklijst blijft handmatig tot module 1 er is.'],
+  ronde:['B5: volgorde omschakelen naar dichtstbijzijnde, reden per object, overslaan met reden.','B6: knop Object buiten planning.'],
+  kaart:['Echte kaart volgt in de bouw; tegels offline beschikbaar voor het routegebied.'],
+  zoek:['Zoeken op nummer, straat of halte. In de bouw ook via de kaart en objectnummer scannen.','Telt mee voor jaarlijkse dekking; verschijnt in het dashboard als ongepland.'],
+  object:['B1: referentiefoto en waarschuwing bij meerdere objecten op één halte (Mediapark).','B5: reden per object en overslaan.'],
+  skip:['Vier redenen; "object staat er niet meer" gaat direct naar het dashboard als actie.'],
+  meer:['Afspraken, meldingen en reparaties zijn voorbeeldinhoud met label. Bronnen en eigenaar per koppeling in de scope of work.'],
+  bevestig:['B1: intikken of scannen. Verkeerd nummer dat wel in de ronde zit geeft de optie te wisselen. Later doet de objectnummerfoto dit automatisch.','Vraag aan de inspecteurs: is het nummerplaatje altijd leesbaar?'],
+  foto1:['Bewijsfoto van het nummerplaatje, na de bevestiging.'],
+  foto2:['Aantal zijden uit vakken en campagneplanning.'],
+  fotodak:['B11: extra stap alleen bij dakglas (uit de objectenlijst). Digitale schermen krijgen op dezelfde manier een stap Scherm.'],
+  foto3:['Afdwingen van een schadefoto bij een afwijking is ons voorstel.'],
+  obs:['B2: "Let op bij dit object" staat nu in de observatiestap zelf. Inhoud is voorbeeld tot de koppelingen bestaan.'],
+  checkman:['Handmatige fallback zonder inspreken; ook de basis voor de offline stand.'],
+  opname:['Transcriptie op de telefoon of in de cloud bepaalt of inspreken offline direct resultaat geeft.'],
+  ai:['B9: alleen Goed en Afwijking in de app. Geen Aandacht of Actie meer.','De inspecteur blijft eindverantwoordelijk: elk punt is aanpasbaar in het volgende scherm.'],
+  vragen:['Maximaal twee vragen per object, altijd met knoppen.'],
+  check:['B3: bij schade, verlichting of achterstallig onderhoud staat "Melden aan TOOC" standaard aan. Campagnepunten gaan automatisch naar Global campagne.','B9: per punt staat wie opvolgt, zonder risicotermen.'],
+  klaar:['Meldingsnummer als bevestiging. Offline: "Wordt gemeld bij synchronisatie".'],
+  einde:['Overgeslagen objecten en meldingen in het dagoverzicht.'],
+  dagvragen:['Alternatief: vragen per object stellen bij het eerstvolgende moment met verbinding.'],
+  'd:overzicht':['B8: periodefilter. Cijfers per gemeente zijn voorbeeld, objectaantallen zijn echt.','Risicologica als voorstel onderaan: Aandacht = punt 1, 2, 4, 5. Actie = punt 3, 6, 7 of veiligheidsrisico.'],
+  'd:acties':['B4: opvolgstatus per object, dagen open, status is aan te passen. Meldingen uit de app komen hier binnen als "Gemeld aan TOOC".'],
+  'd:gemeenten':['B7: kolom Afspraak TOOC en op schema. Sorteervolgorde: meeste actie eerst.'],
+  'd:rapport':['B7: het bewijs richting de gemeente. In de bouw als PDF met foto\u2019s per object.'],
+  'd:maand':['B7: vervangt wat Dick nu handmatig maakt voor Joost.'],
+  'd:inspecteurs':['B10: team eerst, per inspecteur op doorklik. Tijd per object als gemiddelde.'],
+  'd:tooc':['Aantallen week 39 per depot zijn echt. Meldingen vanuit de app zijn live; opmerkingen en reparaties zijn voorbeeld.']
+};
+/* ================= APP RENDER ================= */
+function render(){
+  const v=V[S.screen]();
+  document.getElementById('ph-title').innerHTML=v.title;
+  document.getElementById('ph-sub').innerHTML=v.sub;
+  document.getElementById('body').innerHTML=v.body+(S.toast?`<div class="toast">${esc(S.toast)}</div>`:'');
+  const foot=document.getElementById('foot');foot.innerHTML=v.foot||'';foot.style.display=v.foot?'flex':'none';
+  const tb=document.getElementById('tabbar');
+  if(v.tab){tb.style.display='flex';tb.innerHTML=[['ronde','Vandaag','☰'],['kaart','Kaart','◎'],['week','Week','▦']].map(t=>`<button class="${v.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}"><span class="ic">${t[2]}</span>${t[1]}</button>`).join('');}else tb.style.display='none';
+  const c=document.getElementById('conn');c.className='conn'+(S.online?'':' off');c.innerHTML='<i></i>'+(S.online?'Online':'Offline');
+  document.getElementById('back').disabled=S.hist.length===0;
+  document.getElementById('rail').innerHTML=`<div class="grp">App · module 2</div>`+SCREENS.filter(s=>!s.id.startsWith('d:')).map(s=>`<button class="${s.id===S.screen?'cur':''}" data-a="jump" data-v="${s.id}"><span class="k">${s.n}</span>${esc(s.name)}</button>`).join('')+`<div class="grp">Demo</div><button data-a="toggleconn"><span class="k">☁︎</span>${S.online?'Zet offline':'Zet online'}</button><button data-a="reset"><span class="k">↺</span>Ronde opnieuw</button>`;
+  renderNotes(S.screen);
+  const zi=document.querySelector('[data-in="zoek"]');if(zi&&S._focusZoek){zi.focus();zi.setSelectionRange(zi.value.length,zi.value.length);S._focusZoek=false;}
+}
+function renderNotes(id){
+  const sc=SCREENS.find(s=>s.id===id)||(id==='dagvragen'?{n:'P16b',name:'Vragen over vandaag',doel:'Gebundelde vervolgvragen na een offline periode.',bron:'Voorstel offline modus.'}:id==='checkman'?{n:'P10b',name:'Observaties: zelf aanvinken',doel:'Handmatige fallback voor de 7 controlepunten.',bron:'In het vastleggen van de observaties hebben ze een formuliertje voor.'}:id==='skip'?{n:'P4b',name:'Overslaan',doel:'Object overslaan met reden; komt terug in de planning.',bron:'Behoefte B5: de ronde aanpassen aan de dag.'}:{n:'',name:'',doel:'',bron:''});
+  const nt=NOTES[id]||[];
+  document.getElementById('notes').innerHTML=`<h3>${sc.n} ${esc(sc.name)}</h3><p>${esc(sc.doel)}</p><h4>Uit de transcriptie</h4><p class="q">${esc(sc.bron)}</p>${sc.extra?`<h4>Status</h4><p>${esc(sc.extra)}</p>`:''}${nt.length?`<h4>Te toetsen met Dick, Roy en Sjaak</h4><ul style="margin:0;padding-left:18px">${nt.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}`;
+}
+function finishRec(){const o=cur(),r=R();r.punten={...o.dev};S.aiDone=false;go('ai',false);}
+function startControl(i){setObj(i);go('bevestig');}
+function addAdhoc(nr){const e=EXTRA.find(x=>x.nr===nr);if(!e)return -1;const o={...e,ongepland:true};OBJ.push(o);initObj(o);if(S.order)S.order.push(OBJ.length-1);return OBJ.length-1;}
+function reorderNearest(){const done=order().filter(i=>S.res[OBJ[i].nr].status!=='open');let open=order().filter(i=>S.res[OBJ[i].nr].status==='open');const out=[...done];let me=open.length?OBJ[open[0]]:null;while(open.length){open.sort((a,b)=>dist(OBJ[a],me)-dist(OBJ[b],me));const n=open.shift();out.push(n);me=OBJ[n];}S.order=out;}
+
+/* ================= DASHBOARD ================= */
+const D={view:'overzicht',regio:'Alle',period:'jaar',gem:null,obj:null,q:'',follow:{},showInsp:false,stf:'open'};
+const REGIOS=['Alle','West','Zuid-West','Oost','Noord'];
+const PERIODS=[['week','Deze week'],['maand','Deze maand'],['jaar','Dit jaar']];
+const FAC={jaar:1,maand:0.11,week:0.028};
+const PERTXT={jaar:'dit jaar',maand:'deze maand',week:'deze week'};
+const INSP={Roy:'West',Sjaak:'Zuid-West',Dick:'Oost en Noord'};
+const STATUSES=['Nieuw','Gemeld aan TOOC','In behandeling','Hercontrole gepland','Opgelost'];
+const STCLS={'Nieuw':'nieuw','Gemeld aan TOOC':'gemeld','In behandeling':'beh','Hercontrole gepland':'herc','Opgelost':'opgelost'};
+const STREETS=['Stationsplein','Kerkstraat','Dorpsstraat','Molenweg','Hoofdstraat','Julianalaan','Wilhelminastraat','Parklaan','Nieuwstraat','Marktplein','Schoolstraat','Burgemeester de Vlugtlaan','Rijksweg','Beatrixlaan','Sportlaan','Industrieweg','Zuiderweg','Oranjelaan','Havenstraat','Prins Bernhardlaan'];
+const TYPES=['TOMEI 172/3','TOMEI 172/2','HSUM 180/3','LONDON 2','AQUI 2/3','HAAG 3'];
+function afspraak(g){const name=g[0];if(name==='Hilversum')return {freq:6,last:0,ok:true};const freq=[4,6,8][Math.floor(hr(name,11)*3)];const last=Math.floor(hr(name,12)*freq*1.35);return {freq,last,ok:last<=freq};}
+function gemBase(g,f){const [name,n]=g;const s=name;if(f===undefined)f=FAC[D.period];const cov=0.55+hr(s,1)*0.42;let ctrl=Math.round(n*cov*f);const notVisited=n<=6&&hr(s,2)<0.3;if(notVisited)ctrl=0;const afw=Math.round(ctrl*(0.05+hr(s,3)*0.11));const act=Math.round(afw*(0.3+hr(s,4)*0.2));const warn=afw-act;const good=ctrl-afw;const last=notVisited?99:Math.floor(hr(s,5)*30);const tooc=hr(s,6)<0.22?['Graffiti terugkerend op 3 objecten','Glasbreuk gemeld, reparatie gepland','Verlichting storing centrum','Onkruid rond voeten, extra ronde gepland'][Math.floor(hr(s,7)*4)]:'';return {n,ctrl,good,warn,act,last,tooc,notVisited,live:0,af:afspraak(g)};}
+function gemStat(g){const base=gemBase(g);if(g[0]!=='Hilversum')return base;const live=OBJ.map(o=>S.res[o.nr]).filter(r=>r.status==='done');const lg=live.filter(r=>!hasDev(r)).length,la=live.filter(r=>hasDev(r)&&liveRisk(r)==='act').length,lw=live.filter(r=>hasDev(r)&&liveRisk(r)==='warn').length;return {...base,ctrl:Math.min(base.n,base.ctrl+live.length),good:base.good+lg,warn:base.warn+lw,act:base.act+la,last:live.length?0:base.last,live:live.length};}
+function followOf(o){if(D.follow[o.nr])return D.follow[o.nr];if(o.live){const r=S.res[o.nr];if(r&&r.melding)return {status:r.melding.status==='Gemeld aan TOOC'?'Gemeld aan TOOC':'Nieuw',days:0};return {status:'Nieuw',days:0};}const k=o.gem+'/'+o.nr;const days=o.dd!==undefined?Math.max(0,o.dd-Math.floor(hr(k,22)*2)):1+Math.floor(hr(k,21)*38);return {status:['Nieuw','Gemeld aan TOOC','Gemeld aan TOOC','In behandeling','In behandeling','Hercontrole gepland'][Math.floor(hr(k,20)*6)],days};}
+function genObjects(g,limit){const [name,n,contract,insp]=g;const out=[];
+  if(name==='Hilversum'){OBJ.forEach((o,i)=>{const r=S.res[o.nr];out.push({nr:o.nr,straat:o.straat+' · halte '+o.halte,type:o.type,insp:'Roy',status:r.status==='done'?liveRisk(r):'open',punten:r.status==='done'?r.punten:{},answers:r.answers,laatst:r.status==='done'?'22 sep 2026':o.laatst,live:true,gem:name,contract,p3:S.photos[o.nr].p3,camp:o.camp.length,dak:!!o.dak,ongepland:!!o.ongepland,skipped:r.status==='skipped',reden:r.reden});});}
+  const cnt=Math.min(limit||18,Math.max(0,n-out.length));
+  for(let i=0;i<cnt;i++){const k=name+'/'+i;const r1=hr(k,1);const status=r1<0.08?'act':r1<0.2?'warn':r1<0.9?'good':'open';let punten={};if(status==='act'){const pk=ACT_PUNTEN[Math.floor(hr(k,2)*3)];punten[pk]=['','','Glasplaat gebarsten','','','Verlichting brandt niet','Bankje los, onkruid'][pk-1];if(hr(k,5)<0.4)punten[4]='Stickers op zijpaneel';}else if(status==='warn'){const pk=[1,2,4,5][Math.floor(hr(k,2)*4)];punten[pk]=['Vorige campagne hangt nog','Verkeerd formaat uiting','','Graffiti op zijpaneel','Poster met vochtplekken'][pk-1];}
+    const dd=Math.floor(hr(k,3)*300);const dt=new Date(2026,8,22);dt.setDate(dt.getDate()-dd);
+    out.push({nr:String(20000+Math.floor(hr(k,4)*70000)),straat:STREETS[Math.floor(hr(k,6)*STREETS.length)]+' '+(1+Math.floor(hr(k,7)*120)),type:TYPES[Math.floor(hr(k,8)*TYPES.length)],insp,status,punten,answers:{},laatst:status==='open'?'nog niet dit jaar':dt.toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'}),live:false,gem:name,contract,p3:status==='good'?0:1+Math.floor(hr(k,9)*2),camp:1+Math.floor(hr(k,10)*2),dak:false});}
+  return out;}
+function genActObjs(g){const [name,n,contract,insp]=g;const s=gemStat(g);const out=[];
+  if(name==='Hilversum'){genObjects(g,0).forEach(o=>{if(o.live&&o.status==='act')out.push(o);});}
+  const cnt=Math.max(0,s.act-out.length);const span=D.period==='week'?7:D.period==='maand'?30:300;
+  for(let i=0;i<cnt;i++){const k=name+'/A'+i;const pk=ACT_PUNTEN[Math.floor(hr(k,2)*3)];const punten={};punten[pk]=['','','Glasplaat gebarsten','','','Verlichting brandt niet','Bankje los, onkruid'][pk-1];if(hr(k,5)<0.4)punten[4]='Stickers op zijpaneel';
+    const dd=Math.floor(hr(k,3)*span);const dt=new Date(2026,8,25);dt.setDate(dt.getDate()-dd);
+    out.push({nr:String(30000+Math.floor(hr(k,4)*60000)),straat:STREETS[Math.floor(hr(k,6)*STREETS.length)]+' '+(1+Math.floor(hr(k,7)*120)),type:TYPES[Math.floor(hr(k,8)*TYPES.length)],insp,status:'act',punten,answers:{},laatst:dt.toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'}),live:false,gem:name,contract,p3:1+Math.floor(hr(k,9)*2),camp:1+Math.floor(hr(k,10)*2),dak:false,dd});}
+  return out;}
+function findObj(gem,nr){const g=GEM.find(x=>x[0]===gem);if(!g)return null;return genObjects(g,18).find(x=>x.nr===nr)||genActObjs(g).find(x=>x.nr===nr)||null;}
+function filteredGem(){return GEM.filter(g=>D.regio==='Alle'||g[4]===D.regio);}
+function totals(){const t={n:0,ctrl:0,good:0,warn:0,act:0,nv:0,gem:0,offs:0};filteredGem().forEach(g=>{const s=gemStat(g);t.n+=s.n;t.ctrl+=s.ctrl;t.good+=s.good;t.warn+=s.warn;t.act+=s.act;if(s.notVisited)t.nv++;if(!s.af.ok)t.offs++;t.gem++;});return t;}
+function allActs(){const all=[];filteredGem().forEach(g=>genActObjs(g).forEach(o=>{o.f=followOf(o);all.push(o);}));all.sort((a,b)=>(b.live-a.live)||(b.f.days-a.f.days));return all;}
+function puntenDist(){const base=[9,5,21,30,13,13,9];return base.map((b,i)=>Math.max(2,Math.round(b*(0.8+hr(D.regio,i)*0.4))));}
+function dtoast(m){const t=document.createElement('div');t.className='dtoast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
+const dnavItems=[['overzicht','Risk dashboard'],['acties','Openstaande acties'],['gemeenten','Gemeenten'],['inspecteurs','Inspecteurs'],['tooc','TOOC']];
+const regioFilter=()=>`<div class="filters">${REGIOS.map(r=>`<button class="${D.regio===r?'on':''}" data-d="regio" data-v="${r}">${r}</button>`).join('')}</div>`;
+const periodFilter=()=>`<div class="filters">${PERIODS.map(p=>`<button class="${D.period===p[0]?'on':''}" data-d="period" data-v="${p[0]}">${p[1]}</button>`).join('')}</div>`;
+const stDot=s=>`<span class="st ${s==='good'?'g':s==='warn'?'w':s==='act'?'a':''}"></span>`;
+const stPill=st=>`<span class="status ${STCLS[st]}">${st}</span>`;
+const objRow=o=>`<button class="objrow" data-d="obj" data-nr="${o.nr}" data-gem="${esc(o.gem)}">${stDot(o.status)}<span><b>${esc(o.straat)}</b><small>${o.nr} · ${esc(o.type)} · ${esc(o.gem)} · ${o.skipped?'overgeslagen: '+esc(o.reden):o.laatst}${o.ongepland?' · <strong>ongepland</strong>':''}${o.live?(o.status==='open'?(o.skipped?'':' · in de ronde van vandaag'):' · <strong>vandaag via de app</strong>'):''}</small></span><span style="display:flex;gap:6px;align-items:center">${o.status==='act'?stPill(followOf(o).status):''}<span class="chip ${o.status==='good'?'good':o.status==='warn'?'warn':o.status==='act'?'act':''}">${o.status==='open'?(o.skipped?'Overgeslagen':'Open'):RISKTXT[o.status]}</span></span></button>`;
+const DV={};
+DV.overzicht=()=>{const t=totals();const pct=t.n?t.ctrl/t.n:0;const dist=puntenDist();const sum=dist.reduce((a,b)=>a+b,0);const acts=allActs();const openActs=acts.filter(o=>o.f.status!=='Opgelost');
+  const nv=filteredGem().filter(g=>gemStat(g).notVisited);const ctrl=Math.max(1,t.ctrl);
+  return `<div class="dhead"><div><h2>Risk dashboard</h2><p>Abri\u2019s en posterobjecten · ${t.gem} gemeenten · stand vrijdag 25 september 2026</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}${periodFilter()}</div></div>
+  <div class="kpis">
+    <button class="kpi" data-d="view" data-v="gemeenten"><small>Objecten</small><b>${fmt(t.n)}</b><span class="d">in ${t.gem} gemeentelijke contracten</span></button>
+    <div class="kpi"><small>Gecontroleerd ${PERTXT[D.period]}</small><b>${D.period==='jaar'?Math.round(pct*100)+'%':fmt(t.ctrl)}</b><span class="d">${D.period==='jaar'?fmt(t.ctrl)+' objecten · doel 100% per 31 dec':Math.round(pct*100)+'% van alle objecten'}</span></div>
+    <div class="kpi good"><small>Goed</small><b>${fmt(t.good)}</b><span class="d">geen afwijking bij laatste controle</span></div>
+    <div class="kpi warn"><small>Aandacht nodig</small><b>${fmt(t.warn)}</b><span class="d">campagne, uiting, schoon of poster</span></div>
+    <button class="kpi act" data-d="view" data-v="acties"><small>Actie nodig</small><b>${fmt(t.act)}</b><span class="d">${fmt(openActs.filter(o=>o.f.status==='Nieuw').length)} nog niet gemeld · klik voor opvolging</span></button>
+    <button class="kpi" data-d="view" data-v="gemeenten"><small>Gemeenten nog niet bezocht</small><b>${t.nv}</b><span class="d">eis: elke gemeente 1x per jaar</span></button>
+    <button class="kpi ${t.offs?'warn':''}" data-d="view" data-v="gemeenten"><small>TOOC niet op schema</small><b>${t.offs}</b><span class="d">contracten waar de schoonmaakfrequentie is overschreden</span></button>
+  </div>
+  <div class="dgrid">
+    <div class="panel"><h3>Verdeling gecontroleerde objecten <span>${fmt(t.ctrl)} controles ${PERTXT[D.period]}</span></h3>
+      <div class="stackbar"><i style="width:${t.good/ctrl*100}%;background:var(--good)"></i><i style="width:${t.warn/ctrl*100}%;background:var(--warn)"></i><i style="width:${t.act/ctrl*100}%;background:var(--act)"></i></div>
+      <div class="legend"><span class="lg">Goed ${Math.round(t.good/ctrl*100)}%</span><span class="lw">Aandacht ${Math.round(t.warn/ctrl*100)}%</span><span class="la">Actie ${Math.round(t.act/ctrl*100)}%</span></div>
+      <h3 style="margin-top:20px">Afwijkingen per controlepunt <span>aandeel</span></h3>
+      <div class="bars">${PUNTEN.map((p,i)=>`<div class="bar"><span class="lbl">${i+1}. ${p[0]}</span><span class="tr"><i class="${ACT_PUNTEN.includes(i+1)?'a':'w'}" style="width:${dist[i]/sum*100*2.2}%"></i></span><span class="v">${Math.round(dist[i]/sum*100)}%</span></div>`).join('')}</div>
+      <div class="risklogic"><b>Risicologica (voorstel):</b> Goed = geen afwijking · Aandacht = punt 1, 2, 4 of 5 · Actie = punt 3, 6 of 7 of een gemeld veiligheidsrisico. Actie gaat automatisch als melding naar TOOC.</div>
+      <div class="actions" style="margin-top:14px"><button class="p" data-d="view" data-v="maand">Maandrapport voor directie</button><button data-d="view" data-v="gemeenten">Rapport per gemeente</button></div>
+    </div>
+    <div class="panel"><h3>Openstaande acties <span>${openActs.length} open · langst open eerst</span></h3>${openActs.slice(0,7).map(objRow).join('')||'<p class="lead">Geen open acties in deze selectie.</p>'}<button class="chip" data-d="view" data-v="acties" style="margin-top:12px;border:0">Alle ${openActs.length} acties met opvolging ›</button>
+      <h3 style="margin-top:18px">Nog niet bezocht dit jaar <span>${nv.length} gemeenten</span></h3>${nv.slice(0,5).map(g=>`<button class="objrow" data-d="gem" data-v="${esc(g[0])}"><span class="st"></span><span><b>${esc(g[0])}</b><small>${g[1]} object${g[1]>1?'en':''} · ${g[3]} · regio ${g[4]}</small></span><span class="chip">Plan in</span></button>`).join('')||'<p class="lead">Alle gemeenten in deze selectie zijn dit jaar bezocht.</p>'}</div>
+  </div>`;};
+DV.acties=()=>{const acts=allActs();const shown=acts.filter(o=>D.stf==='open'?o.f.status!=='Opgelost':D.stf==='alle'?true:o.f.status===D.stf);
+  return `<div class="dhead"><div><h2>Openstaande acties</h2><p>${shown.length} van ${acts.length} objecten met actie · elke melding uit de app komt hier binnen</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}<div class="filters"><button class="${D.stf==='open'?'on':''}" data-d="stf" data-v="open">Open</button>${STATUSES.map(s=>`<button class="${D.stf===s?'on':''}" data-d="stf" data-v="${s}">${s}</button>`).join('')}<button class="${D.stf==='alle'?'on':''}" data-d="stf" data-v="alle">Alle</button></div></div></div>
+  <div class="kpis">${STATUSES.map(s=>`<button class="kpi" data-d="stf" data-v="${s}"><small>${s}</small><b>${acts.filter(o=>o.f.status===s).length}</b></button>`).join('')}</div>
+  <div class="panel tw"><table class="t"><thead><tr><th>Object</th><th>Gemeente</th><th>Afwijking</th><th>Gemeld door</th><th>Status</th><th class="num">Dagen open</th><th>Volgende stap</th></tr></thead><tbody>
+  ${shown.slice(0,60).map(o=>{const st=o.f.status;const nxt=STATUSES[Math.min(STATUSES.indexOf(st)+1,STATUSES.length-1)];return `<tr class="row" data-d="obj" data-nr="${o.nr}" data-gem="${esc(o.gem)}"><td><b>${esc(o.straat)}</b><br><small style="color:var(--muted)">${o.nr}${o.live?' · vandaag via de app':''}</small></td><td>${esc(o.gem)}</td><td>${Object.keys(o.punten).map(k=>PUNTEN[k-1][0]).join(', ')}${o.answers&&o.answers.veilig==='Ja'?' <span class="chip act">veiligheid</span>':''}</td><td>${o.insp} · ${o.live?'22 sep':o.laatst}</td><td>${stPill(st)}</td><td class="num">${o.f.days}</td><td>${st==='Opgelost'?'<span class="chip good">Afgerond</span>':`<div class="actions"><button class="p" data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${nxt}">→ ${nxt}</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="7" class="lead">Geen acties met deze status.</td></tr>'}</tbody></table></div>`;};
+DV.gemeenten=()=>{const rows=filteredGem().map(g=>({g,s:gemStat(g)})).filter(x=>!D.q||x.g[0].toLowerCase().includes(D.q.toLowerCase())).sort((a,b)=>b.s.act-a.s.act||b.s.warn-a.s.warn);
+  return `<div class="dhead"><div><h2>Gemeentelijke contracten</h2><p>${rows.length} gemeenten · objectaantallen uit de objectenlijst van 8 september · klik een rij voor objecten en rapport</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}<input class="search" placeholder="Zoek gemeente" value="${esc(D.q)}" data-d="q"></div></div>
+  <div class="panel tw"><table class="t"><thead><tr><th>Gemeente</th><th>Inspecteur</th><th class="num">Objecten</th><th>Gecontroleerd ${PERTXT[D.period]}</th><th class="num">Goed</th><th class="num">Aandacht</th><th class="num">Actie</th><th>Laatste bezoek</th><th>Afspraak TOOC</th><th>Op schema</th></tr></thead><tbody>
+  ${rows.map(({g,s})=>`<tr class="row" data-d="gem" data-v="${esc(g[0])}"><td><b>${esc(g[0])}</b><br><small style="color:var(--muted)">contract ${g[2]}</small>${s.live?' <span class="chip ink">vandaag</span>':''}</td><td>${g[3]}</td><td class="num">${fmt(s.n)}</td><td><div style="display:flex;gap:8px;align-items:center"><span class="mini"><i style="width:${s.n?Math.min(100,s.ctrl/s.n*100):0}%"></i></span><span style="font-variant-numeric:tabular-nums;font-weight:700;font-size:12.5px">${s.n?Math.round(s.ctrl/s.n*100):0}%</span></div></td><td class="num">${fmt(s.good)}</td><td class="num">${s.warn?`<span class="chip warn">${s.warn}</span>`:'0'}</td><td class="num">${s.act?`<span class="chip act">${s.act}</span>`:'0'}</td><td>${s.notVisited?'<span class="chip act dot">niet bezocht</span>':s.last===0?'vandaag':s.last+' wk geleden'}</td><td style="white-space:nowrap">1x per ${s.af.freq} wk · laatste ${s.af.last===0?'deze week':s.af.last+' wk'}</td><td>${s.af.ok?'<span class="chip good">ja</span>':`<span class="chip act">nee, ${s.af.last-s.af.freq} wk over</span>`}</td></tr>`).join('')}</tbody></table></div>`;};
+DV.gem=()=>{const g=GEM.find(x=>x[0]===D.gem);if(!g)return DV.gemeenten();const s=gemStat(g);const objs=genObjects(g,18);
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><span>${esc(g[0])}</span></div>
+  <div class="dhead"><div><h2>${esc(g[0])}</h2><p>Contract ${g[2]} · inspecteur ${g[3]} · regio ${g[4]} · afspraak TOOC 1x per ${s.af.freq} weken${s.tooc?' · TOOC: '+esc(s.tooc):''}</p></div><div class="actions"><button class="p" data-d="view" data-v="rapport">Rapport voor gemeente</button><button data-d="toast" data-v="Hercontrole ingepland voor ${esc(g[0])} (simulatie)">Plan hercontrole</button></div></div>
+  <div class="kpis"><div class="kpi"><small>Objecten</small><b>${fmt(s.n)}</b></div><div class="kpi"><small>Gecontroleerd ${PERTXT[D.period]}</small><b>${s.n?Math.round(s.ctrl/s.n*100):0}%</b><span class="d">${fmt(s.ctrl)} objecten</span></div><div class="kpi good"><small>Goed</small><b>${fmt(s.good)}</b></div><div class="kpi warn"><small>Aandacht</small><b>${fmt(s.warn)}</b></div><div class="kpi act"><small>Actie</small><b>${fmt(s.act)}</b></div><div class="kpi ${s.af.ok?'':'warn'}"><small>TOOC op schema</small><b style="font-size:20px">${s.af.ok?'Ja':'Nee'}</b><span class="d">laatste schoonmaak ${s.af.last===0?'deze week':s.af.last+' weken geleden'}</span></div></div>
+  <div class="dgrid"><div class="panel"><h3>Objecten met actie <span>${s.act} · opvolging</span></h3>${genActObjs(g).map(objRow).join('')||'<p class="lead">Geen open acties.</p>'}</div>
+  <div class="panel"><h3>Objecten <span>${objs.length} van ${s.n} getoond${s.live?' · '+s.live+' vandaag via de app':''}</span></h3>${objs.filter(o=>o.status!=='act').map(objRow).join('')}</div></div>`;};
+DV.obj=()=>{const g=GEM.find(x=>x[0]===D.gem);const o=findObj(D.gem,D.obj);if(!o)return DV.gemeenten();const rk=o.status;const ks=Object.keys(o.punten);const f=rk==='act'?followOf(o):null;const stIdx=f?STATUSES.indexOf(f.status):-1;
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><button data-d="gem" data-v="${esc(o.gem)}">${esc(o.gem)}</button><span>›</span><span>${o.nr}</span></div>
+  <div class="dhead"><div><h2>${esc(o.straat)}</h2><p>Object ${o.nr} · ${esc(o.type)} · contract ${o.contract} · inspecteur ${o.insp} · laatste controle ${o.laatst}${o.ongepland?' · ongeplande controle':''}</p></div><div class="actions"><button data-d="toast" data-v="Hercontrole object ${o.nr} ingepland (simulatie)">Plan hercontrole</button></div></div>
+  <div class="dgrid"><div class="panel"><h3>Laatste controle <span>${o.live?'vandaag via de app':o.laatst}</span></h3>
+    ${o.status==='open'?`<p class="lead">${o.skipped?'Vandaag overgeslagen: '+esc(o.reden)+'. Komt terug in de planning.':'Dit object is dit jaar nog niet gecontroleerd.'}</p>`:`<div class="result ${rk==='good'?'good':rk==='act'?'act':'dev'}" style="margin-bottom:14px"><div><b>${ks.length?'Afwijking':'Goed'}</b><small>${ks.length?ks.length+' van 7 punten afwijkend':'Geen van de 7 punten afwijkend'}${o.answers&&o.answers.veilig==='Ja'?' · veiligheidsrisico gemeld':''}</small></div>${ks.length?`<span class="chip ${rk==='act'?'act':'warn'}">${RISKTXT[rk]}</span>`:''}</div>
+    <div class="photos"><div class="photo"><span>Objectnummer</span></div>${Array.from({length:o.camp}).map((_,i)=>`<div class="photo"><span>Zijde ${'AB'[i]}</span></div>`).join('')}${o.dak?'<div class="photo"><span>Dak</span></div>':''}${Array.from({length:o.p3}).map((_,i)=>`<div class="photo dmg"><span>Schade ${i+1}</span></div>`).join('')}</div>
+    ${PUNTEN.map((p,i)=>{const k=i+1;const d=o.punten[k];return `<div class="pt ${d?(ACT_PUNTEN.includes(k)?'act':'dev'):''}" style="background:var(--paper);border-color:var(--line);color:var(--ink)"><span class="num">${k}</span><span class="lbl"><b>${p[0]}</b><small>${d?esc(d)+' · '+OWNER(k):'Geen afwijking'}</small></span><span class="st ${d?(ACT_PUNTEN.includes(k)?'a':'d'):'g'}">${d?'Afwijking':'✓'}</span></div>`}).join('')}`}
+  </div>
+  <div>${f?`<div class="panel" style="margin-bottom:12px"><h3>Opvolging <span>${f.days} dag${f.days===1?'':'en'} open</span></h3>${stPill(f.status)}
+    <div class="timeline" style="margin-top:12px">${STATUSES.map((s,i)=>`<div class="${i<=stIdx?'done':''}"><span>${s}<small>${i<stIdx?'afgerond':i===stIdx?'huidige status':'nog niet'}</small></span></div>`).join('')}</div>
+    <div class="actions">${stIdx<STATUSES.length-1?`<button class="p" data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${STATUSES[stIdx+1]}">→ ${STATUSES[stIdx+1]}</button>`:''}${stIdx>0?`<button data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${STATUSES[stIdx-1]}">← ${STATUSES[stIdx-1]}</button>`:''}</div></div>`:''}
+  <div class="panel" style="margin-bottom:12px"><h3>TOOC</h3><div class="kv"><div><small>Onderhoud deze week</small><b>${o.live?'Klein, ma 21 sep, route 074 AMS':'Klein, week 38'}</b></div><div><small>Frequentie contract</small><b>1x per ${afspraak(g).freq} weken</b></div><div><small>Openstaande reparatie</small><b>${rk==='act'?'Ja, '+(f.status==='Nieuw'?'nog niet gemeld':'melding '+(o.live?'vandaag':'week 37')):'Geen'}</b></div><div><small>Laatste opmerking TOOC</small><b>${rk==='act'&&f.status!=='Nieuw'?'Onderdelen besteld':'–'}</b></div></div></div>
+  <div class="panel"><h3>Historie</h3><div class="in" style="padding:0;font-size:13.5px">${o.live&&o.status!=='open'?'<p><b>22 sep 2026</b> · Roy · via de app</p>':''}<p><b>${o.live?'21 okt 2025':'vorige controle'}</b> · ${o.insp} · geen afwijkingen</p><p><b>2025</b> · 2 controles, beide goed</p><p style="color:var(--muted)">Meldingen gemeente en reparatiehistorie TOOC volgen na koppeling.</p></div></div></div></div>`;};
+DV.rapport=()=>{const g=GEM.find(x=>x[0]===D.gem);if(!g)return DV.gemeenten();const s=gemStat(g);const objs=genObjects(g,18);const afw=[...genActObjs(g),...objs.filter(o=>o.status==='warn')];
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><button data-d="gem" data-v="${esc(g[0])}">${esc(g[0])}</button><span>›</span><span>Rapport</span></div>
+  <div class="actions" style="margin-bottom:12px"><button class="p" data-d="toast" data-v="Rapport ${esc(g[0])} gedownload als PDF (simulatie)">Download PDF</button><button data-d="toast" data-v="Rapport verstuurd naar concessiemanager (simulatie)">Stuur naar concessiemanager</button></div>
+  <div class="report"><div class="rh"><div><h2>Kwaliteitsrapport ${esc(g[0])}</h2><p style="color:var(--muted)">Contract ${g[2]} · ${PERTXT[D.period]} · opgesteld 25 september 2026 · inspecteur ${g[3]}</p></div><span class="wm">global</span></div>
+  <h3>Afspraken</h3><p>Schoonmaak en onderhoud door TOOC: 1x per ${s.af.freq} weken. Laatste schoonmaakronde: ${s.af.last===0?'deze week':s.af.last+' weken geleden'} (${s.af.ok?'op schema':'niet op schema, '+(s.af.last-s.af.freq)+' weken over'}). Kwaliteitscontrole door Global: elk object minimaal 1x per jaar.</p>
+  <h3>Resultaat</h3><div class="rk"><div><b>${fmt(s.n)}</b><small>objecten in contract</small></div><div><b>${s.n?Math.round(s.ctrl/s.n*100):0}%</b><small>gecontroleerd ${PERTXT[D.period]}</small></div><div><b>${s.ctrl?Math.round(s.good/s.ctrl*100):0}%</b><small>zonder afwijking</small></div><div><b>${s.act}</b><small>met actie, alle gemeld aan TOOC</small></div></div>
+  <h3>Afwijkingen en opvolging</h3>${afw.length?`<table class="t"><thead><tr><th>Object</th><th>Datum</th><th>Afwijking</th><th>Opvolging</th></tr></thead><tbody>${afw.slice(0,8).map(o=>`<tr><td><b>${esc(o.straat)}</b><br><small style="color:var(--muted)">${o.nr}</small></td><td>${o.laatst}</td><td>${Object.keys(o.punten).map(k=>PUNTEN[k-1][0]).join(', ')}</td><td>${o.status==='act'?stPill(followOf(o).status):'Global campagne'}</td></tr>`).join('')}</tbody></table>`:'<p>Geen afwijkingen in deze periode.</p>'}
+  <h3>Bewijs</h3><p>Per gecontroleerd object zijn beschikbaar: foto van het objectnummer, foto per posterzijde${objs.some(o=>o.dak)?', dakfoto':''} en foto\u2019s van afwijkingen, met datum, tijd, locatie en inspecteur. In de PDF worden deze per object bijgevoegd.</p></div>`;};
+DV.maand=()=>{const t=totals();const acts=allActs();const open=acts.filter(o=>o.f.status!=='Opgelost');const top=filteredGem().map(g=>({g,s:gemStat(g)})).sort((a,b)=>b.s.act-a.s.act).slice(0,5);const nv=filteredGem().filter(g=>gemStat(g).notVisited);
+  return `<div class="crumb"><button data-d="view" data-v="overzicht">Risk dashboard</button><span>›</span><span>Maandrapport</span></div>
+  <div class="actions" style="margin-bottom:12px"><button class="p" data-d="toast" data-v="Maandrapport gedownload als PDF (simulatie)">Download PDF</button><button data-d="toast" data-v="Maandrapport gedeeld met Joost (simulatie)">Deel met Joost</button></div>
+  <div class="report"><div class="rh"><div><h2>Maandrapport kwaliteitscontrole</h2><p style="color:var(--muted)">September 2026 · regio ${D.regio} · opgesteld door Dick · voor Joost en directie</p></div><span class="wm">global</span></div>
+  <h3>In één oogopslag</h3><div class="rk"><div><b>${fmt(t.ctrl)}</b><small>objecten gecontroleerd ${PERTXT[D.period]}</small></div><div><b>${Math.round(t.ctrl/Math.max(1,t.n)*100)}%</b><small>van ${fmt(t.n)} objecten</small></div><div><b>${fmt(t.act)}</b><small>met actie · ${open.length} nog open</small></div><div><b>${t.nv}</b><small>gemeenten nog niet bezocht</small></div></div>
+  <h3>Dekking per regio</h3><div class="bars">${REGIOS.slice(1).map(r=>{let n=0,c=0;GEM.filter(g=>g[4]===r).forEach(g=>{const s=gemBase(g,1);n+=s.n;c+=s.ctrl;});return `<div class="bar"><span class="lbl">${r}</span><span class="tr"><i style="width:${c/n*100}%"></i></span><span class="v">${Math.round(c/n*100)}%</span></div>`}).join('')}</div>
+  <h3>Gemeenten met de meeste actie</h3><table class="t"><thead><tr><th>Gemeente</th><th class="num">Objecten</th><th class="num">Actie</th><th>TOOC op schema</th></tr></thead><tbody>${top.map(({g,s})=>`<tr><td><b>${esc(g[0])}</b></td><td class="num">${fmt(s.n)}</td><td class="num">${s.act}</td><td>${s.af.ok?'ja':'nee'}</td></tr>`).join('')}</tbody></table>
+  <h3>Opvolging door TOOC</h3><p>${open.filter(o=>o.f.status==='Gemeld aan TOOC').length} meldingen wachten op reactie van TOOC, ${open.filter(o=>o.f.status==='In behandeling').length} in behandeling, ${acts.filter(o=>o.f.status==='Opgelost').length} opgelost. Gemiddelde doorlooptijd van melding tot oplossing: 9 dagen (voorbeeld).</p>
+  <h3>Nog te doen dit jaar</h3><p>${nv.length?nv.map(g=>esc(g[0])).join(', ')+' zijn dit jaar nog niet bezocht en staan ingepland voor oktober.':'Alle gemeenten zijn dit jaar bezocht.'} Doel: 100% van de objecten gecontroleerd per 31 december.</p></div>`;};
+DV.inspecteurs=()=>{let TN=0,TC=0,TA=0;const per=Object.keys(INSP).map(name=>{const gs=GEM.filter(g=>g[3]===name);let n=0,ctrl=0,act=0;gs.forEach(g=>{const s=gemStat(g);n+=s.n;ctrl+=s.ctrl;act+=s.act+s.warn;});TN+=n;TC+=ctrl;TA+=act;const wk=name==='Roy'?38+doneCount():name==='Sjaak'?44:36;const t=name==='Roy'?'4:10':name==='Sjaak'?'3:40':'5:05';const fq=name==='Roy'?96:name==='Sjaak'?91:98;const iq=name==='Roy'?99:name==='Sjaak'?94:97;return {name,gs,n,ctrl,act,wk,t,fq,iq};});
+  return `<div class="dhead"><div><h2>Inspecteurs</h2><p>Team eerst. Cijfers per persoon op doorklik, als hulpmiddel en niet als ranglijst.</p></div>${regioFilter()}</div>
+  <div class="teamcard"><div><b>${fmt(TC)}</b><small>gecontroleerd ${PERTXT[D.period]} · ${Math.round(TC/Math.max(1,TN)*100)}% van ${fmt(TN)}</small></div><div><b>${per.reduce((a,p)=>a+p.wk,0)}</b><small>objecten deze week</small></div><div><b>${Math.round(TA/Math.max(1,TC)*100)}%</b><small>afwijkingen gevonden</small></div><div><b>4:18</b><small>gemiddelde tijd per object</small></div><div><b>95%</b><small>foto\u2019s compleet en scherp</small></div><div><b>97%</b><small>invoer compleet</small></div></div>
+  <div class="panel" style="margin-bottom:12px"><h3>Dekking per regio <span>eis: elk object en elke gemeente 1x per jaar</span></h3><div class="bars">${REGIOS.slice(1).map(r=>{let n=0,c=0;GEM.filter(g=>g[4]===r).forEach(g=>{const s=gemBase(g,1);n+=s.n;c+=s.ctrl;});return `<div class="bar"><span class="lbl">${r}</span><span class="tr"><i style="width:${c/n*100}%"></i></span><span class="v">${Math.round(c/n*100)}%</span></div>`}).join('')}</div></div>
+  <div class="actions" style="margin-bottom:12px"><button class="${D.showInsp?'':'p'}" data-d="insp">${D.showInsp?'Verberg per inspecteur':'Toon per inspecteur'}</button></div>
+  ${D.showInsp?`<div class="inspgrid">${per.map(p=>`<div class="insp"><div class="av">${p.name[0]}</div><h4>${p.name}</h4><div class="reg">Regio ${INSP[p.name]} · ${p.gs.length} gemeenten · ${fmt(p.n)} objecten</div>
+    <div class="m"><span>Gecontroleerd ${PERTXT[D.period]}</span><b>${fmt(p.ctrl)} · ${Math.round(p.ctrl/Math.max(1,p.n)*100)}%</b></div><div class="m"><span>Deze week</span><b>${p.wk} objecten</b></div><div class="m"><span>Afwijkingen gevonden</span><b>${Math.round(p.act/Math.max(1,p.ctrl)*100)}%</b></div><div class="m"><span>Gemiddelde tijd per object</span><b>${p.t}</b></div><div class="m"><span>Foto\u2019s compleet en scherp</span><b>${p.fq}%</b></div><div class="m"><span>Invoer compleet</span><b>${p.iq}%</b></div></div>`).join('')}</div>`:''}`;};
+DV.tooc=()=>{const live=OBJ.filter(o=>S.res[o.nr].melding);return `<div class="dhead"><div><h2>TOOC</h2><p>Onderhoud week 39 · bron: wekelijkse TOOC lijst · 1.298 objecten in 48 routes</p></div></div>
+  <div class="kpis"><div class="kpi"><small>Objecten onderhouden</small><b>1.298</b><span class="d">week 39, alle depots</span></div><div class="kpi"><small>Routes</small><b>48</b><span class="d">20 tot 55 objecten per route</span></div><div class="kpi"><small>Gecontroleerd door Global</small><b>${86+doneCount()}</b><span class="d">van 1.298 · ${Math.round((86+doneCount())/1298*100)}% steekproef deze week</span></div><button class="kpi act" data-d="view" data-v="acties"><small>Meldingen open bij TOOC</small><b>${allActs().filter(o=>o.f.status==='Gemeld aan TOOC'||o.f.status==='In behandeling').length}</b><span class="d">klik voor opvolging</span></button></div>
+  <div class="dgrid"><div class="panel"><h3>Onderhoud per depot <span>week 39, echte aantallen</span></h3><div class="bars">${[['Zuid-West (ZW)',585],['West (W)',303],['Oost (O)',257],['Noord (N)',153]].map(d=>`<div class="bar"><span class="lbl">${d[0]}</span><span class="tr"><i style="width:${d[1]/585*100}%"></i></span><span class="v">${d[1]}</span></div>`).join('')}</div>
+    <h3 style="margin-top:20px">Type onderhoud <span>voorbeeldverdeling</span></h3><div class="bars">${[['Klein',72],['Klein met glas',14],['Alleen posterbak',8],['Groot',4],['Groot met glas',2]].map(d=>`<div class="bar"><span class="lbl">${d[0]}</span><span class="tr"><i style="width:${d[1]}%"></i></span><span class="v">${d[1]}%</span></div>`).join('')}</div></div>
+  <div class="panel"><h3>Meldingen vanuit de app vandaag <span>live</span></h3>${live.map(o=>{const r=S.res[o.nr];return `<button class="objrow" data-d="obj" data-nr="${o.nr}" data-gem="Hilversum">${stDot('act')}<span><b>${esc(o.straat)}</b><small>${o.nr} · ${Object.keys(r.punten).filter(k=>ACT_PUNTEN.includes(+k)).map(k=>PUNTEN[k-1][0]).join(', ')} · melding ${r.melding.id}</small></span>${stPill(followOf({nr:o.nr,live:true,gem:'Hilversum'}).status)}</button>`}).join('')||'<p class="lead">Nog geen meldingen vandaag. Rond in de App een object met schade af en het verschijnt hier.</p>'}
+    <h3 style="margin-top:18px">Opmerkingen van TOOC <span>voorbeelddata</span></h3>${[['Den Haag','Graffiti terugkerend Spui, extra schoonmaakronde','warn'],['Groningen','Verlichtingsstoring 4 objecten Grote Markt','act'],['Apeldoorn','Bankje vervangen Stationsplein','good'],['Eindhoven','Onkruid rond voeten, extra ronde gepland','warn']].map(r=>`<button class="objrow" data-d="gem" data-v="${r[0]}">${stDot(r[2])}<span><b>${r[0]}</b><small>${r[1]}</small></span><span class="chip">Open ›</span></button>`).join('')}</div></div>`;};
+function renderDash(){
+  const openN=allActs().filter(o=>o.f.status!=='Opgelost').length;
+  document.getElementById('dnav').innerHTML=`<div class="wm">global<small>Kwaliteitscontrole · Dashboard</small></div>`+dnavItems.map(i=>`<button class="${(D.view===i[0]||(['gem','obj','rapport'].includes(D.view)&&i[0]==='gemeenten')||(D.view==='maand'&&i[0]==='overzicht'))?'on':''}" data-d="view" data-v="${i[0]}">${i[1]}${i[0]==='acties'?`<span class="cnt red">${fmt(openN)}</span>`:''}</button>`).join('')+`<div class="user">Ingelogd als Dick · leidinggevende</div>`;
+  document.getElementById('dmain').innerHTML=DV[D.view]();
+  renderNotes('d:'+(['gem','obj'].includes(D.view)?'gemeenten':D.view));
+}
+
+/* ================= EVENTS ================= */
+function showTab(id){document.querySelectorAll('.tabs [role=tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===id));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='view-'+id));if(id==='dash')renderDash();if(id==='proto')render();try{localStorage.setItem('kc3-tab',id);}catch(e){}}
+function jumpApp(id){if(id.startsWith('d:')){D.view=id.slice(2);if(D.view==='rapport'&&!D.gem)D.gem='Hilversum';showTab('dash');return;}
+  const ctrlScreens=['object','meer','bevestig','foto1','foto2','fotodak','foto3','obs','opname','ai','vragen','check','klaar','checkman','skip'];
+  if(ctrlScreens.includes(id)&&R().status!=='open'){const f=firstOpen();if(f>=0)setObj(f);}
+  if(id==='fotodak'&&!cur().dak){const i=OBJ.findIndex(o=>o.dak&&S.res[o.nr].status==='open');if(i>=0)setObj(i);}
+  if(['ai','vragen','check'].includes(id)){R().punten={...cur().dev};S.aiDone=true;if(id==='check'){P().p1=true;P().p2=P().p2.map(()=>true);P().dak=true;}}
+  showTab('proto');go(id);}
+document.addEventListener('input',e=>{if(e.target.dataset.d==='q'){D.q=e.target.value;const pos=e.target.selectionStart;renderDash();const inp=document.querySelector('[data-d="q"]');if(inp){inp.focus();inp.setSelectionRange(pos,pos);}}
+  if(e.target.dataset.in==='zoek'){S.q=e.target.value;S._focusZoek=true;render();}});
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-a],[data-tab],[data-go],[data-d]');if(!t)return;
+  if(t.dataset.tab){showTab(t.dataset.tab);return;}
+  if(t.dataset.go){const id=t.dataset.go;if(['object','foto1','obs','ai','check'].includes(id)){const f=firstOpen();const i=f===-1?5:Math.max(f,5);setObj(i);}jumpApp(id);if(id==='check'){P().p3=1;render();}return;}
+  if(t.dataset.d){const d=t.dataset.d,v=t.dataset.v;
+    if(d==='view'){D.view=v;if(v==='gemeenten')D.gem=null;}
+    else if(d==='regio')D.regio=v;else if(d==='period')D.period=v;else if(d==='stf')D.stf=v;
+    else if(d==='gem'){D.gem=v;D.view='gem';}
+    else if(d==='obj'){D.gem=t.dataset.gem;D.obj=t.dataset.nr;D.view='obj';}
+    else if(d==='status'){e.stopPropagation();const prev=followOf({nr:t.dataset.nr,gem:t.dataset.gem,live:!!OBJ.find(o=>o.nr===t.dataset.nr)});D.follow[t.dataset.nr]={status:v,days:prev.days};dtoast('Status '+t.dataset.nr+': '+v);}
+    else if(d==='insp')D.showInsp=!D.showInsp;
+    else if(d==='toast'){dtoast(v);return;}
+    else if(d==='q')return;
+    renderDash();if(d!=='status'&&d!=='insp')document.getElementById('view-dash').scrollIntoView({block:'start'});return;}
+  const a=t.dataset.a,o=cur(),r=R(),p=P();
+  switch(a){
+    case 'go':go(t.dataset.v);break;
+    case 'tab':S.hist=[];go(t.dataset.v,false);break;
+    case 'jump':jumpApp(t.dataset.v);break;
+    case 'obj':setObj(+t.dataset.i);S.selPin=null;go('object');break;
+    case 'adhoc':{const i=addAdhoc(t.dataset.nr);if(i>=0){setObj(i);S.q='';go('object');toast('Toegevoegd als controle buiten planning');}break;}
+    case 'pin':S.selPin=+t.dataset.i;render();break;
+    case 'start':startControl(+t.dataset.i);break;
+    case 'reorder':if(S.order)S.order=null;else reorderNearest();toast(S.order?'Volgorde: dichtstbijzijnde eerst':'Volgorde: TOOC route');break;
+    case 'doskip':r.status='skipped';r.reden=t.dataset.v;S.hist=[];go('ronde',false);toast('Overgeslagen: '+t.dataset.v);break;
+    case 'unskip':r.status='open';r.reden=null;render();break;
+    case 'key':{const v=t.dataset.v;if(v==='del')S.nrInput=S.nrInput.slice(0,-1);else if(S.nrInput.length<5)S.nrInput+=v;render();break;}
+    case 'scan':S.nrInput=o.nr;toast('Plaatje gescand');break;
+    case 'nrok':r.nrConfirmed=true;go('foto1');break;
+    case 'nrskip':r.nrConfirmed=false;toast('Nummer niet bevestigd, wordt gemarkeerd');go('foto1');break;
+    case 'switchto':{const nr=t.dataset.nr;let i=OBJ.findIndex(x=>x.nr===nr);if(i<0)i=addAdhoc(nr);if(i>=0){setObj(i);S.nrInput=nr;toast('Gewisseld naar '+nr);render();}break;}
+    case 'shoot':p[t.dataset.k]=t.dataset.k==='p3'?p.p3+1:true;render();break;
+    case 'retake':p[t.dataset.k]=false;render();break;
+    case 'shoot2':{const i=p.p2.findIndex(x=>!x);if(i>=0)p.p2[i]=true;render();break;}
+    case 'side':p.p2[+t.dataset.i]=!p.p2[+t.dataset.i];render();break;
+    case 'fotoklaar':go(S.aiDone||r.manual?'check':'obs');break;
+    case 'manual':r.manual=true;go('checkman');break;
+    case 'manualdone2':r.manual=true;S.aiDone=true;go('check');break;
+    case 'rec':if(!S.online){if(S.recording){S.recording=false;r.opname=true;}else{S.recording=true;setTimeout(()=>{if(S.recording){S.recording=false;r.opname=true;render();}},2500);}render();}else{S.recSec=1;go('opname');S._rec=setInterval(()=>{S.recSec++;if(S.recSec>=9){clearInterval(S._rec);finishRec();}else render();},600);}break;
+    case 'stoprec':clearInterval(S._rec);finishRec();break;
+    case 'tick':if(t.checked)r.punten[+t.dataset.k]='Aangevinkt door inspecteur';else delete r.punten[+t.dataset.k];render();break;
+    case 'manualdone':r.manual=true;r.sync='local';o.vragen.forEach(q=>{if(!S.pending.find(x=>x.nr===o.nr&&x.q.id===q.id))S.pending.push({nr:o.nr,straat:o.straat,q});});go('check');break;
+    case 'ans':S.answers[t.dataset.q]=t.dataset.v;if(t.dataset.q==='licht'&&t.dataset.v==='Nee')r.punten[6]='Verlichting werkt niet (antwoord inspecteur)';if(t.dataset.q==='licht'&&t.dataset.v!=='Nee')delete r.punten[6];render();break;
+    case 'aidone':S.aiDone=true;go(hasDev(r)&&p.p3===0?'foto3':'check');break;
+    case 'toggle':{const k=+t.dataset.k;if(r.punten[k])delete r.punten[k];else r.punten[k]='Aangevinkt door inspecteur';render();break;}
+    case 'meldtog':r.meld=!r.meld;render();break;
+    case 'afronden':{r.status='done';r.answers={...S.answers};r.sync=S.online?'synced':'local';const rk=riskOf(r.punten,r.answers);if(rk==='act'&&r.meld){r.melding={id:'T-2026-'+(++S.meldNr),status:S.online?'Gemeld aan TOOC':'Wordt gemeld bij synchronisatie'};}else r.melding=null;S.hist=[];go('klaar',false);break;}
+    case 'nav':toast('Navigatie geopend in de kaarten app van de telefoon');setObj(+t.dataset.i);S.hist=[];setTimeout(()=>{go('object',false);},1100);break;
+    case 'toggleconn':setOnline(!S.online);break;
+    case 'syncnow':if(S.online)setOnline(true);else toast('Nog geen verbinding');break;
+    case 'pans':{const it=S.pending[+t.dataset.idx];const rr=S.res[it.nr];if(it.q.id==='licht'&&t.dataset.v==='Nee')rr.punten[6]='Verlichting werkt niet (antwoord inspecteur)';if(it.q.id==='veilig')rr.answers.veilig=t.dataset.v;S.pending.splice(+t.dataset.idx,1);render();break;}
+    case 'reset':{while(OBJ.length>12)OBJ.pop();OBJ.forEach(initObj);S.pending=[];S.answers={};S.aiDone=false;S.hist=[];S.order=null;S.q='';setObj(0);S.online=true;D.follow={};go('week',false);break;}
+  }
+});
+document.getElementById('back').addEventListener('click',back);
+document.getElementById('conn').addEventListener('click',()=>setOnline(!S.online));
+document.getElementById('m-rail').addEventListener('click',()=>{document.getElementById('rail').classList.toggle('open');document.getElementById('notes').classList.remove('open');});
+document.getElementById('m-notes').addEventListener('click',()=>{document.getElementById('notes').classList.toggle('open');document.getElementById('rail').classList.remove('open');});
+document.getElementById('rail').addEventListener('click',()=>{if(window.innerWidth<=1000)document.getElementById('rail').classList.remove('open');});
+document.getElementById('notesbtn').addEventListener('click',e=>{S.notes=!S.notes;e.currentTarget.classList.toggle('on',S.notes);document.getElementById('protogrid').classList.toggle('nonotes',!S.notes);document.getElementById('notes').style.display=S.notes?'':'none';try{localStorage.setItem('kc3-notes',S.notes?'1':'0');}catch(e){}});
+document.getElementById('screengrid').innerHTML=SCREENS.map(s=>`<button class="scard" data-a="jump" data-v="${s.id}"><span class="num">${s.n}</span><h3>${esc(s.name)}</h3><p>${esc(s.doel)}</p><div><span class="chip ${s.status==='ok'?'good':s.status==='ph'?'warn':''}">${s.status==='ok'?'In prototype':s.status==='ph'?'Met voorbeeldinhoud':'Voorstel'}</span>${s.extra?` <span class="chip">${esc(s.extra.split('.')[0])}</span>`:''}</div><div class="src">${esc(s.bron)}</div></button>`).join('');
+(function(){const d=new Date();document.getElementById('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');})();
+let startTab='proto';try{startTab=localStorage.getItem('kc3-tab')||'proto';if(localStorage.getItem('kc3-notes')==='0'){S.notes=false;document.getElementById('notesbtn').classList.remove('on');document.getElementById('protogrid').classList.add('nonotes');document.getElementById('notes').style.display='none';}}catch(e){}
+render();showTab(startTab);
+
+</script>
+<!-- USERSNAP-START -->
+<script>
+  window.onUsersnapLoad = function(api) {
+    /* Naam uit de feedback-pop-up meesturen als custom data; er gaat verder
+       niets mee (AVG-dataminimalisatie). Daarnaast de plek in het prototype
+       (tabblad, scherm, objectnummer, online of offline), zodat feedback per
+       scherm te sorteren is. Dat wordt alleen uitgelezen uit de globale state
+       van het prototype (S, D, OBJ, SCREENS); het prototype zelf blijft
+       ongewijzigd. Bij een nieuwe versie van het prototype: 'versie' hieronder
+       ophogen en controleren of die namen nog bestaan. */
+    var TABS = { proto: 'app', dash: 'dashboard', flow: 'procesflow', screens: 'schermen' };
+    var DASH = { overzicht: 'D1 Risk dashboard', acties: 'D2 Openstaande acties', gemeenten: 'D3 Gemeenten', gem: 'D3 Gemeentedetail', obj: 'D3 Objectkaart', rapport: 'D4 Rapport voor gemeente', maand: 'D5 Maandrapport directie', inspecteurs: 'D6 Inspecteurs', tooc: 'D7 TOOC' };
+    var EXTRA_SCHERMEN = { skip: 'P4b Overslaan', checkman: 'P10b Observaties: zelf aanvinken', dagvragen: 'P16b Vragen over vandaag' };
+    var OBJECT_SCHERMEN = ['object', 'skip', 'meer', 'bevestig', 'foto1', 'foto2', 'fotodak', 'foto3', 'obs', 'checkman', 'opname', 'ai', 'vragen', 'check', 'klaar'];
+    function context() {
+      var c = { prototype: 'kwaliteitscontrole', versie: 'v3' };
+      try {
+        var tabBtn = document.querySelector('.tabs [role=tab][aria-selected="true"]');
+        var tab = tabBtn ? tabBtn.dataset.tab : '';
+        c.onderdeel = TABS[tab] || tab;
+        if (tab === 'proto') {
+          c.rol = 'inspecteur';
+          var sc = SCREENS.find(function (s) { return s.id === S.screen; });
+          c.scherm = sc ? sc.n + ' ' + sc.name : (EXTRA_SCHERMEN[S.screen] || S.screen);
+          c.online = S.online;
+          if (OBJECT_SCHERMEN.indexOf(S.screen) >= 0 && OBJ[S.obj]) c.object = OBJ[S.obj].nr;
+        } else if (tab === 'dash') {
+          c.rol = 'leidinggevende';
+          c.scherm = DASH[D.view] || D.view;
+          if (D.gem) c.gemeente = D.gem;
+          if (D.view === 'obj' && D.obj) c.object = D.obj;
+        }
+      } catch (e) {}
+      return c;
+    }
+    function usOpties() {
+      var o = { custom: context() };
+      try {
+        var naam = (localStorage.getItem('feedbackNaam') || '').trim();
+        if (naam) o.custom.name = naam;
+      } catch (e) {}
+      return o;
+    }
+    api.init(usOpties());
+    /* De context wisselt per scherm: zet de custom data opnieuw op het moment
+       dat de widget opent. */
+    api.on('open', function(event) {
+      try {
+        event.api.setValue('custom', usOpties().custom);
+      } catch (e) {}
+    });
+    /* De feedback-pop-up roept dit aan zodra de naam is opgeslagen, zodat
+       die zonder herladen meegaat: widget herstarten met de nieuwe data. */
+    window.usersnapVernieuwGegevens = function () {
+      var herstart = function () { try { api.init(usOpties()); } catch (e) {} };
+      var p = null;
+      try { p = api.destroy(); } catch (e) {}
+      if (p && typeof p.then === 'function') p.then(herstart, herstart); else herstart();
+    };
+  };
+  var script = document.createElement('script');
+  script.defer = 1;
+  script.src = 'https://widget.usersnap.com/global/load/c4f048c1-ba97-4344-8bc6-a7afcbec2233?onload=onUsersnapLoad';
+  document.getElementsByTagName('head')[0].appendChild(script);
+</script>
+<!-- USERSNAP-END -->
+<!-- FEEDBACK-ONBOARDING-START -->
+<script src="../../assets/feedback-onboarding.js"></script>
+<!-- FEEDBACK-ONBOARDING-END -->
+</body>
+</html>
