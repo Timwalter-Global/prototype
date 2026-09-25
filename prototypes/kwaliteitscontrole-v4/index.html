@@ -1,0 +1,1378 @@
+<!DOCTYPE html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow" />
+<title>Kwaliteitscontrole 2.0 · v4 mobiel · Global</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  box-sizing:border-box;
+  --black:#000;--ink:#111417;--paper:#fff;--bg:#F2F3F3;--line:#E4E6E8;--line2:#CFD3D6;--muted:#6B7378;--soft:#EEF0F2;
+  --good:#17A35B;--good-soft:#E3F5EA;--good-ink:#0F6E3D;
+  --warn:#F0B400;--warn-soft:#FFF3C7;--warn-ink:#7A5A00;
+  --act:#E2321F;--act-soft:#FCE6E3;--act-ink:#A31F12;
+  --acc:#1D5FD6;--focus:#000;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--ink:#F1F3F4;--paper:#181B1E;--bg:#0F1113;--line:#2A2F33;--line2:#3A4045;--muted:#9AA3A9;--soft:#22272B;--good-soft:#123324;--warn-soft:#3A3010;--act-soft:#3E1B17;--good-ink:#6FD69C;--warn-ink:#F5CF5C;--act-ink:#F08A7E;--focus:#fff}}
+:root[data-theme="dark"]{--ink:#F1F3F4;--paper:#181B1E;--bg:#0F1113;--line:#2A2F33;--line2:#3A4045;--muted:#9AA3A9;--soft:#22272B;--good-soft:#123324;--warn-soft:#3A3010;--act-soft:#3E1B17;--good-ink:#6FD69C;--warn-ink:#F5CF5C;--act-ink:#F08A7E;--focus:#fff}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font-family:"Manrope",-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px;line-height:1.45;-webkit-font-smoothing:antialiased}
+button{font:inherit;cursor:pointer;color:inherit}
+h1,h2,h3,h4{margin:0;line-height:1.2}
+:focus-visible{outline:2px solid var(--focus);outline-offset:2px}
+
+/* ===== shell (desktop) ===== */
+.topbar{background:var(--black);color:#fff;position:sticky;top:0;z-index:20}
+.topbar .in{max-width:1400px;margin:0 auto;padding:10px 18px;display:flex;align-items:center;gap:18px;flex-wrap:wrap}
+.wordmark{font-weight:800;font-size:24px;letter-spacing:-.04em;line-height:1;color:#fff;text-decoration:none}
+.topbar .prod{font-weight:600;font-size:14px;opacity:.75;border-left:1px solid rgba(255,255,255,.25);padding-left:14px}
+.tabs{display:flex;gap:4px;margin-left:auto;background:rgba(255,255,255,.08);padding:4px;border-radius:12px}
+.tabs button{border:0;background:transparent;color:rgba(255,255,255,.75);padding:8px 14px;border-radius:9px;font-weight:600;font-size:14px}
+.tabs button[aria-selected="true"]{background:#fff;color:#000}
+.topbar .util{display:flex;gap:6px}
+.topbar .util button{border:1px solid rgba(255,255,255,.3);background:transparent;color:#fff;border-radius:9px;padding:7px 11px;font-size:13px;font-weight:600}
+.topbar .util button.on{background:#fff;color:#000}
+.wrap{max-width:1400px;margin:0 auto;padding:18px}
+.view{display:none}.view.on{display:block}
+
+/* ===== generic ===== */
+.card{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:20px}
+.card h2{font-size:20px;font-weight:800;letter-spacing:-.02em;margin-bottom:6px}
+.lead{color:var(--muted);margin:0 0 16px;max-width:78ch}
+.chip{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--muted)}
+.chip.good{background:var(--good-soft);color:var(--good-ink)}
+.chip.warn{background:var(--warn-soft);color:var(--warn-ink)}
+.chip.act{background:var(--act-soft);color:var(--act-ink)}
+.chip.ink{background:var(--ink);color:var(--paper)}
+.chip.dot::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+
+/* ===== flow tab ===== */
+.stack{display:grid;gap:16px}
+.modules{display:grid;grid-template-columns:repeat(3,1fr);gap:14px}
+@media (max-width:900px){.modules{grid-template-columns:1fr}}
+.mod{border:1px solid var(--line);border-radius:16px;padding:18px;position:relative;background:var(--paper)}
+.mod.now{border-color:var(--ink);box-shadow:0 0 0 1px var(--ink)}
+.mod h3{font-size:17px;font-weight:800;margin:8px 0 10px;letter-spacing:-.01em}
+.mod ol{margin:0;padding-left:20px}
+.mod ol li{margin:5px 0;font-size:14px}
+.mod .foot{margin-top:12px;color:var(--muted);font-size:13px;border-top:1px dashed var(--line);padding-top:10px}
+.row-label{font-weight:800;margin:18px 0 8px;font-size:13px;letter-spacing:.02em;color:var(--muted)}
+.steps7{display:grid;grid-template-columns:repeat(7,1fr);gap:8px}
+@media (max-width:900px){.steps7{grid-template-columns:repeat(2,1fr)}}
+.step{border:1px solid var(--line);border-radius:14px;padding:12px;font-size:13.5px;min-height:104px;position:relative;background:var(--paper);text-align:left;display:block;width:100%}
+.step b{display:block;font-weight:700;margin-bottom:3px;padding-right:18px}
+.step .n{position:absolute;top:10px;right:10px;font-size:11px;color:var(--muted);font-weight:700}
+.steps7.old .step{background:var(--soft);color:var(--muted);border-color:transparent}
+.steps7.new .step:hover,.steps7.new .step:focus-visible{border-color:var(--ink)}
+.steps7.new .scr{display:inline-block;margin-top:8px;font-size:11.5px;font-weight:700;color:var(--paper);background:var(--ink);padding:2px 8px;border-radius:999px}
+.rules{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+@media (max-width:900px){.rules{grid-template-columns:1fr}}
+.rule{border-left:3px solid var(--warn);padding:8px 14px;font-size:14px;background:var(--paper);border-radius:0 10px 10px 0}
+
+/* ===== screens tab ===== */
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:12px}
+.scard{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:6px}
+.scard:hover,.scard:focus-visible{border-color:var(--ink)}
+.scard .num{font-size:12px;color:var(--muted);font-weight:700}
+.scard h3{font-size:15.5px;font-weight:800}
+.scard p{margin:0;font-size:13.5px;color:var(--muted)}
+.scard .src{font-size:12.5px;border-top:1px dashed var(--line);padding-top:8px;margin-top:auto;font-style:italic;color:var(--muted)}
+
+/* ===== app layout (desktop) ===== */
+.proto{display:grid;grid-template-columns:240px minmax(0,1fr) 320px;gap:18px;align-items:start}
+.proto.nonotes{grid-template-columns:240px minmax(0,1fr)}
+.rail{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:8px;position:sticky;top:78px}
+.rail button{display:flex;gap:10px;width:100%;text-align:left;border:0;background:transparent;padding:8px 10px;border-radius:9px;font-size:13.5px;font-weight:500}
+.rail button .k{color:var(--muted);width:32px;flex:none;font-weight:700;font-size:12px;padding-top:2px}
+.rail button.cur{background:var(--ink);color:var(--paper)}
+.rail button.cur .k{color:var(--paper);opacity:.7}
+.rail .grp{font-size:11.5px;color:var(--muted);padding:10px 10px 4px;font-weight:700}
+.notes{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px;position:sticky;top:78px;font-size:13.5px}
+.notes h3{font-size:15px;font-weight:800;margin-bottom:6px}
+.notes h4{font-size:12px;color:var(--muted);margin:14px 0 6px;font-weight:700}
+.notes p{margin:0}
+.notes .q{border-left:3px solid var(--line2);padding-left:10px;color:var(--muted);font-style:italic}
+.notes li{margin:4px 0}
+
+/* ===== phone ===== */
+.phone-wrap{display:flex;justify-content:center}
+.phone{width:393px;max-width:100%;height:820px;max-height:calc(100vh - 110px);min-height:660px;background:#fff;color:#111417;border-radius:44px;border:9px solid #0b0b0b;box-shadow:0 30px 70px rgba(0,0,0,.28);display:flex;flex-direction:column;overflow:hidden;position:relative}
+.ph-status{height:44px;font-size:13px;font-weight:700;display:flex;justify-content:space-between;align-items:center;padding:0 26px;flex:none;color:#111417}
+.ph-head{padding:4px 14px 8px;display:flex;align-items:center;gap:10px;flex:none;background:#fff}
+.ph-head .back{border:0;background:#F2F3F3;width:36px;height:36px;border-radius:50%;font-size:18px;flex:none;display:flex;align-items:center;justify-content:center}
+.ph-head .back[disabled]{display:none}
+.ph-head .ttl{flex:1;min-width:0}
+.ph-head .ttl b{display:block;font-weight:800;font-size:20px;letter-spacing:-.03em;line-height:1.15;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-head .ttl span{font-size:12.5px;color:#6B7378;font-weight:500;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.ph-head.compact .ttl b{font-size:15px;letter-spacing:-.01em}
+.ph-head .right{flex:none;display:flex;gap:6px;align-items:center}
+.conn{border-radius:999px;padding:5px 9px 5px 7px;font-size:11.5px;font-weight:700;display:inline-flex;gap:5px;align-items:center;background:#E3F5EA;color:#0F6E3D;border:0}
+.conn.off{background:#F2F3F3;color:#6B7378}
+.conn i{width:7px;height:7px;border-radius:50%;background:currentColor;display:inline-block}
+.menubtn{border:1.5px solid #E4E6E8;background:#fff;width:36px;height:36px;border-radius:50%;font-size:18px;display:flex;align-items:center;justify-content:center}
+.ph-body{flex:1;overflow:auto;padding:6px 14px 20px;-webkit-overflow-scrolling:touch;background:#fff;position:relative}
+.ph-foot{flex:none;padding:10px 14px 12px;background:#fff;border-top:1px solid #EEF0F2;display:flex;gap:8px}
+.tabbar{flex:none;display:flex;border-top:1px solid #EEF0F2;background:#fff;padding:6px 8px 10px}
+.tabbar button{flex:1;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:3px;font-size:11px;font-weight:700;color:#6B7378;padding:5px 0}
+.tabbar button svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.9;stroke-linecap:round;stroke-linejoin:round}
+.tabbar button.on{color:#111417}
+
+/* procesbalk */
+.steps{display:flex;gap:4px;padding:2px 14px 0;flex:none;background:#fff}
+.steps div{flex:1;text-align:center;font-size:10.5px;color:#6B7378;font-weight:600}
+.steps div::before{content:"";display:block;height:5px;border-radius:3px;background:#E4E6E8;margin-bottom:3px}
+.steps div.done::before{background:#111417}
+.steps div.cur{color:#111417;font-weight:800}
+.steps div.cur::before{background:var(--acc)}
+.dots{display:flex;gap:5px;justify-content:center;padding:6px 0 2px;flex:none;background:#fff}
+.dots i{width:6px;height:6px;border-radius:50%;background:#E4E6E8}
+.dots i.on{background:var(--acc)}.dots i.dn{background:#111417}
+
+/* knoppen en tekst */
+.btn{border:0;border-radius:14px;padding:15px 16px;font-weight:700;font-size:15.5px;width:100%;min-height:52px}
+.btn.p{background:#000;color:#fff}
+.btn.p[disabled]{background:#CFD3D6;color:#fff}
+.btn.s{background:#fff;color:#111417;border:1.5px solid #111417}
+.btn.g{background:#F2F3F3;color:#111417}
+.btn.w{background:#F0B400;color:#111417}
+.btn.auto{flex:0 0 auto;width:auto;padding:15px 14px}
+.sub{color:#6B7378;font-size:13.5px;margin:0 0 12px}
+.hint{color:#6B7378;font-size:12.5px;margin:6px 0 0;text-align:center}
+.lbl{font-size:12px;color:#6B7378;font-weight:700;margin:10px 0 6px;display:flex;justify-content:space-between;align-items:center}
+.lbl button{border:0;background:transparent;color:#111417;font-weight:700;font-size:12px;padding:0;text-decoration:underline}
+
+/* dagwisselaar, voortgang, segment, zoekregel */
+.days{display:flex;align-items:center;gap:6px;margin:4px 0 10px}
+.days button{flex:1;border:1.5px solid #E4E6E8;background:#fff;border-radius:12px;padding:6px 2px;text-align:center;line-height:1.15}
+.days button b{display:block;font-size:13px;font-weight:800}
+.days button small{display:block;font-size:10.5px;color:#6B7378;font-weight:600}
+.days button.on{border-color:#111417;background:#111417;color:#fff}
+.days button.on small{color:rgba(255,255,255,.75)}
+.days .arr{flex:0 0 30px;border:0;background:transparent;font-size:20px;color:#6B7378;padding:0}
+.days .arr[disabled]{opacity:.25}
+.prog{display:flex;align-items:center;gap:10px;margin-bottom:10px;font-size:12.5px;color:#6B7378;font-weight:600}
+.prog .bar{flex:1;height:6px;border-radius:3px;background:#E4E6E8;overflow:hidden}
+.prog .bar i{display:block;height:100%;background:#111417}
+.seg{display:flex;border:1.5px solid #111417;border-radius:11px;overflow:hidden;margin-bottom:8px}
+.seg button{flex:1;border:0;background:#fff;padding:8px 4px;font-size:12.5px;font-weight:700;color:#111417}
+.seg button.on{background:#111417;color:#fff}
+.searchbtn{width:100%;border:1.5px solid #E4E6E8;border-radius:14px;padding:11px 12px;color:#6B7378;background:#fff;text-align:left;font-size:14px;display:flex;gap:8px;align-items:center;margin-bottom:10px}
+.searchbtn svg{width:18px;height:18px;stroke:currentColor;fill:none;stroke-width:2;flex:none}
+.search-in{width:100%;border:1.5px solid #111417;border-radius:14px;padding:12px 14px;font:inherit;font-size:16px;background:#fff;margin-bottom:8px}
+
+/* lijst */
+.list{display:flex;flex-direction:column;gap:8px}
+.item{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:11px 12px 11px 0;display:flex;gap:12px;align-items:center;text-align:left;width:100%;position:relative;overflow:hidden}
+.item::before{content:"";width:5px;align-self:stretch;background:#E4E6E8;border-radius:0 3px 3px 0;flex:none}
+.item.good::before{background:#17A35B}.item.dev::before{background:#F0B400}.item.act::before{background:#E2321F}.item.skip::before{background:#CFD3D6}
+.item .no{width:30px;height:30px;border-radius:50%;background:#F2F3F3;display:flex;align-items:center;justify-content:center;font-weight:800;font-size:13px;flex:none}
+.item .t{flex:1;min-width:0}
+.item .t b{display:block;font-weight:700;font-size:15px;letter-spacing:-.01em}
+.item .t small{color:#6B7378;font-size:12.5px;display:block}
+.item.cur{border-color:#111417;box-shadow:inset 0 0 0 1px #111417}
+.badge{font-size:11.5px;padding:3px 9px;border-radius:999px;font-weight:700;white-space:nowrap;margin-right:2px;background:#F2F3F3;color:#6B7378}
+.badge.good{background:#E3F5EA;color:#0F6E3D}
+.badge.dev{background:#FFF3C7;color:#7A5A00}
+.badge.act{background:#FCE6E3;color:#A31F12}
+.badge.ink{background:#111417;color:#fff}
+.badge.unpl{background:#EEF0F2;color:#3C4A52}
+.sync{font-size:11px;color:#6B7378;display:inline-flex;gap:4px;align-items:center;font-weight:600}
+
+/* kaarten, banners */
+.pcard{background:#F7F8F8;border-radius:16px;padding:14px;margin-bottom:10px}
+.pcard.white{background:#fff;border:1px solid #E4E6E8}
+.pcard h4{margin:0 0 8px;font-size:12px;color:#6B7378;font-weight:700}
+.kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 12px;font-size:13.5px}
+.kv div small{display:block;color:#6B7378;font-size:11.5px;font-weight:600}
+.kv div b{font-weight:700}
+.banner{border-radius:14px;padding:11px 13px;font-size:13.5px;margin-bottom:10px;display:flex;gap:10px;align-items:flex-start;width:100%;text-align:left;border:0}
+.banner.info{background:#EEF0F2;color:#111417}
+.banner.off{background:#F2F3F3;color:#3C4A52}
+.banner.warn{background:#FFF3C7;color:#7A5A00}
+.banner.good{background:#E3F5EA;color:#0F6E3D}
+.banner.act{background:#FCE6E3;color:#A31F12}
+.banner b{font-weight:800}
+.banner .ic{flex:none;width:18px;height:18px;border-radius:50%;background:currentColor;opacity:.25;margin-top:2px}
+.kpi3{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:10px}
+.kpi3 div{background:#F7F8F8;border-radius:14px;padding:12px 8px;text-align:center}
+.kpi3 b{display:block;font-size:24px;font-weight:800;letter-spacing:-.03em}
+.kpi3 small{color:#6B7378;font-size:11.5px;font-weight:600}
+.mini-stat{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-bottom:8px}
+.mini-stat div{background:#fff;border:1px solid #E4E6E8;border-radius:12px;padding:8px 4px;text-align:center}
+.mini-stat b{display:block;font-size:18px;font-weight:800;letter-spacing:-.02em}
+.mini-stat small{font-size:10.5px;color:#6B7378;font-weight:600}
+.resultb{border:1.5px solid #111417;border-radius:16px;padding:12px 14px;margin-bottom:10px;background:#fff}
+.resultb .hd{display:flex;justify-content:space-between;align-items:flex-start;gap:8px}
+.resultb .hd b{font-size:15px}
+.resultb .x{border:0;background:transparent;font-size:18px;color:#6B7378;padding:0 2px;line-height:1}
+.resultb small{display:block;color:#6B7378;font-size:12.5px;margin-top:2px}
+.resultb .nxt{margin-top:8px;padding-top:8px;border-top:1px dashed #E4E6E8;font-size:13.5px}
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.actions button{border:1px solid var(--line2);background:var(--paper);border-radius:999px;padding:6px 11px;font-size:12.5px;font-weight:700}
+.actions button.p{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.why{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:10px}
+.why span{font-size:12px;font-weight:700;background:#F2F3F3;color:#3C4A52;padding:5px 10px;border-radius:999px}
+.why span.hi{background:#111417;color:#fff}
+.refphoto{border-radius:16px;overflow:hidden;position:relative;height:130px;background:#232a2f;margin-bottom:10px}
+.refphoto svg{width:100%;height:100%;display:block}
+.refphoto span{position:absolute;left:10px;bottom:8px;background:rgba(0,0,0,.55);color:#fff;font-size:11.5px;font-weight:700;padding:3px 8px;border-radius:999px}
+.acc{background:#fff;border:1px solid #E4E6E8;border-radius:14px;margin-bottom:8px;overflow:hidden}
+.acc summary{padding:12px 14px;font-weight:700;font-size:14px;cursor:pointer;list-style:none;display:flex;justify-content:space-between}
+.acc summary::-webkit-details-marker{display:none}
+.acc summary::after{content:"+";color:#6B7378;font-weight:800}
+.acc[open] summary::after{content:"–"}
+.acc .in{padding:0 14px 12px;font-size:13.5px}
+.acc .in p{margin:0 0 6px}
+.vb{font-size:10.5px;font-weight:700;color:#7A5A00;background:rgba(122,90,0,.12);padding:1px 6px;border-radius:999px;margin-left:6px;vertical-align:middle}
+.letop{background:#FFF3C7;border-radius:16px;padding:12px 14px;margin-bottom:12px}
+.letop h4{margin:0 0 6px;font-size:12px;color:#7A5A00;font-weight:800}
+.letop p{margin:0;font-size:13.5px;color:#3C2E00;padding:4px 0;border-top:1px solid rgba(122,90,0,.15)}
+.letop p:first-of-type{border-top:0}
+.letop p b{font-weight:700}
+
+/* nummer, camera, observaties */
+.nrbox{display:flex;justify-content:center;gap:8px;margin:12px 0}
+.nrbox i{width:44px;height:56px;border-radius:12px;border:2px solid #E4E6E8;display:flex;align-items:center;justify-content:center;font-size:26px;font-weight:800;font-style:normal;background:#fff}
+.nrbox i.on{border-color:#111417}
+.nrbox.ok i{border-color:#17A35B;background:#F2FAF5}
+.nrbox.bad i{border-color:#E2321F;background:#FFF5F4}
+.keypad{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:8px}
+.keypad button{border:0;background:#F2F3F3;border-radius:14px;padding:14px 0;font-size:20px;font-weight:700;min-height:54px}
+.keypad button.alt{font-size:13px;font-weight:700}
+.cam{background:#0b0b0b;border-radius:20px;height:250px;position:relative;overflow:hidden;margin-bottom:10px}
+.cam svg{width:100%;height:100%;display:block}
+.cam .corner{position:absolute;width:26px;height:26px;border:3px solid #fff;opacity:.9}
+.cam .c1{top:14px;left:14px;border-right:0;border-bottom:0;border-radius:6px 0 0 0}.cam .c2{top:14px;right:14px;border-left:0;border-bottom:0;border-radius:0 6px 0 0}.cam .c3{bottom:14px;left:14px;border-right:0;border-top:0;border-radius:0 0 0 6px}.cam .c4{bottom:14px;right:14px;border-left:0;border-top:0;border-radius:0 0 6px 0}
+.cam .hint{position:absolute;left:14px;right:14px;top:14px;text-align:center;color:#fff;font-size:12.5px;font-weight:600;text-shadow:0 1px 3px rgba(0,0,0,.6);margin:0}
+.cam .ok{position:absolute;bottom:14px;left:50%;transform:translateX(-50%);background:#17A35B;color:#fff;font-size:12px;font-weight:700;padding:5px 12px;border-radius:999px}
+.cam.taken{outline:3px solid #17A35B;outline-offset:-3px}
+.shutter{width:100%;border:0;background:transparent;display:flex;flex-direction:column;align-items:center;gap:6px;font-weight:700;font-size:14px;padding:4px}
+.shutter .dot{width:70px;height:70px;border-radius:50%;background:#fff;border:5px solid #111417;box-shadow:inset 0 0 0 4px #fff, inset 0 0 0 40px #111417}
+.strip{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px;min-height:0}
+.strip button{border:0;background:transparent;padding:0;text-align:center;font-size:10px;color:#6B7378;font-weight:700;display:flex;flex-direction:column;align-items:center;gap:2px}
+.thumb{width:60px;height:46px;border-radius:10px;background:#1c2226;position:relative;overflow:hidden;flex:none;display:block}
+.thumb::after{content:"";position:absolute;inset:9px 16px 7px 16px;background:#F0B400;border-radius:2px}
+.thumb.dmg::after{background:#E2321F}
+.thumb.pend{background:#F2F3F3;border:1.5px dashed #CFD3D6}
+.thumb.pend::after{display:none}
+.side{border:1.5px solid #E4E6E8;border-radius:14px;padding:10px 12px;background:#fff;text-align:left;width:100%;margin-bottom:8px}
+.side b{display:block;font-weight:800;font-size:14px}
+.side small{display:block;color:#6B7378;font-size:12px;font-weight:500}
+.pt{display:flex;gap:10px;align-items:flex-start;background:#fff;border:1px solid #E4E6E8;border-radius:14px;padding:10px 12px;margin-bottom:6px;width:100%;text-align:left}
+.pt .num{width:26px;height:26px;border-radius:8px;background:#F2F3F3;font-size:12.5px;font-weight:800;display:flex;align-items:center;justify-content:center;flex:none;margin-top:1px}
+.pt .lbl2{flex:1;min-width:0}
+.pt .lbl2 b{display:block;font-weight:700;font-size:14px}
+.pt .lbl2 small{display:block;color:#6B7378;font-size:12.5px}
+.pt.dev{border-color:#F0B400;background:#FFFBEE}
+.pt.dev .num{background:#F0B400}
+.pt.act{border-color:#E2321F;background:#FFF5F4}
+.pt.act .num{background:#E2321F;color:#fff}
+.pt.nb{border-style:dashed}
+.pt .st{font-size:11.5px;font-weight:800;white-space:nowrap;padding-top:2px}
+.pt .st.g{color:#17A35B}.pt .st.d{color:#7A5A00}.pt .st.a{color:#A31F12}.pt .st.n{color:#6B7378}
+.pt input{width:22px;height:22px;margin:2px 0 0;accent-color:#000;flex:none}
+.pt.compact{padding:8px 12px}
+.inline-q{background:#F7F8F8;border-radius:12px;padding:10px 12px;margin:-2px 0 8px;font-size:13px}
+.inline-q p{margin:0 0 8px;font-weight:700}
+.mic{width:100%;border:0;background:#000;color:#fff;border-radius:20px;padding:18px;display:flex;flex-direction:column;align-items:center;gap:8px;font-weight:700;font-size:16px}
+.mic .ring2{width:60px;height:60px;border-radius:50%;background:rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;font-size:24px}
+.mic.rec{background:#E2321F}
+.mic.rec .ring2{animation:pulse 1s infinite}
+@keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.1)}100%{transform:scale(1)}}
+.wave{display:flex;gap:3px;align-items:center;justify-content:center;height:34px;margin:6px 0}
+.wave i{width:4px;background:#fff;border-radius:2px;height:8px;animation:w .8s infinite alternate}
+.wave i:nth-child(2n){animation-delay:.15s}.wave i:nth-child(3n){animation-delay:.3s}
+@keyframes w{from{height:6px}to{height:30px}}
+@media (prefers-reduced-motion:reduce){.mic.rec .ring2{animation:none}.wave i{animation:none;height:16px}}
+.trans{background:#F7F8F8;border-radius:16px;padding:12px 14px;font-size:14px;margin-bottom:10px;font-style:italic;color:#3C4A52}
+.trans small{display:block;font-style:normal;color:#6B7378;font-size:12px;margin-bottom:4px;font-weight:700}
+.q{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:14px;margin-bottom:8px}
+.q p{margin:0 0 10px;font-weight:700;font-size:15px}
+.q small{display:block;color:#6B7378;font-size:12px;margin-bottom:6px;font-weight:600}
+.opts{display:flex;gap:6px;flex-wrap:wrap}
+.opts button{border:1.5px solid #111417;background:#fff;color:#111417;border-radius:999px;padding:9px 15px;font-weight:700;font-size:14px;min-height:42px}
+.opts button.on{background:#000;color:#fff;border-color:#000}
+.result{border-radius:18px;padding:14px 16px;margin-bottom:10px;display:flex;justify-content:space-between;align-items:center;gap:10px}
+.result.good{background:#E3F5EA;color:#0F6E3D}
+.result.dev{background:#FFF3C7;color:#7A5A00}
+.result.act{background:#FCE6E3;color:#A31F12}
+.result b{display:block;font-size:19px;font-weight:800;letter-spacing:-.02em}
+.result small{font-size:13px;font-weight:600}
+.tog{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#fff;border:1px solid #E4E6E8;border-radius:14px;padding:11px 14px;margin-bottom:8px;width:100%;text-align:left}
+.tog b{display:block;font-weight:700;font-size:14px}
+.tog small{color:#6B7378;font-size:12.5px}
+.sw{width:46px;height:28px;border-radius:14px;background:#CFD3D6;position:relative;flex:none;transition:background .15s}
+.sw::after{content:"";position:absolute;top:3px;left:3px;width:22px;height:22px;border-radius:50%;background:#fff;transition:left .15s}
+.sw.on{background:#000}.sw.on::after{left:21px}
+.opm{width:100%;border:1.5px solid #E4E6E8;border-radius:14px;padding:11px 12px;font:inherit;font-size:14px;min-height:64px;resize:vertical;background:#fff}
+.reasons{display:grid;gap:8px}
+.reasons button{border:1.5px solid #E4E6E8;background:#fff;border-radius:14px;padding:14px;text-align:left;font-weight:700;font-size:15px;min-height:52px}
+.map{background:#E8ECE9;border-radius:20px;height:330px;position:relative;overflow:hidden;margin-bottom:10px}
+.map svg{width:100%;height:100%;display:block}
+.map .ctl{position:absolute;right:10px;top:10px;width:36px;height:36px;border-radius:10px;background:#fff;border:1.5px solid #E4E6E8;font-size:16px;display:flex;align-items:center;justify-content:center}
+.map .gps{position:absolute;left:10px;bottom:8px;background:rgba(255,255,255,.85);border-radius:999px;font-size:10.5px;font-weight:700;color:#6B7378;padding:2px 8px}
+.pin{cursor:pointer}
+.toast{position:absolute;left:14px;right:14px;bottom:14px;background:#111417;color:#fff;padding:11px 14px;border-radius:14px;font-size:13.5px;font-weight:600;box-shadow:0 8px 24px rgba(0,0,0,.25);z-index:5}
+.week-day{background:#fff;border:1px solid #E4E6E8;border-radius:16px;padding:12px;margin-bottom:8px;display:flex;gap:12px;align-items:center;text-align:left;width:100%}
+.week-day .d{width:46px;flex:none;text-align:center;background:#F2F3F3;border-radius:12px;padding:6px 0}
+.week-day .d b{display:block;font-size:15px;font-weight:800}
+.week-day .d small{display:block;font-size:11px;color:#6B7378;font-weight:600}
+.week-day .t{flex:1}
+.week-day .t b{display:block;font-weight:700;font-size:14.5px}
+.week-day .t small{display:block;color:#6B7378;font-size:12.5px}
+.week-day.today{border-color:#111417}
+.week-day.today .d{background:#000;color:#fff}.week-day.today .d small{color:rgba(255,255,255,.7)}
+.done-big{text-align:center;padding:16px 0 10px}
+.done-big .ck{width:64px;height:64px;border-radius:50%;background:#E3F5EA;color:#17A35B;font-size:30px;display:flex;align-items:center;justify-content:center;margin:0 auto 10px;font-weight:800}
+.done-big.dev .ck{background:#FFF3C7;color:#7A5A00}
+
+/* bottom sheet in de telefoon */
+.sheet-bg{position:absolute;inset:0;background:rgba(17,20,23,.45);z-index:8;display:flex;align-items:flex-end}
+.sheet{background:#fff;border-radius:22px 22px 0 0;padding:10px 16px 18px;width:100%;max-height:88%;overflow:auto;box-shadow:0 -10px 40px rgba(0,0,0,.25);position:relative}
+.sheet .grip{width:38px;height:4px;border-radius:2px;background:#CFD3D6;margin:0 auto 10px}
+.sheet .close{position:absolute;right:10px;top:8px;width:34px;height:34px;border-radius:50%;border:0;background:#F2F3F3;font-size:18px;line-height:1;color:#111417;display:flex;align-items:center;justify-content:center}
+.sheet h3{font-size:17px;font-weight:800;margin-bottom:4px}
+.sheet .sub{margin-bottom:10px}
+.sheet .menu button{display:flex;width:100%;text-align:left;border:0;background:transparent;padding:12px 4px;border-bottom:1px solid #EEF0F2;font-size:15px;font-weight:600;gap:10px;align-items:center}
+.sheet .menu button small{margin-left:auto;color:#6B7378;font-weight:600;font-size:12px}
+.sheet .menu .grp{font-size:11.5px;color:#6B7378;font-weight:700;padding:12px 4px 2px}
+
+/* dashboard (ongewijzigd t.o.v. v3) */
+.dash{display:grid;grid-template-columns:220px minmax(0,1fr);gap:0;background:var(--paper);border:1px solid var(--line);border-radius:18px;overflow:hidden;min-height:760px}
+@media (max-width:900px){.dash{grid-template-columns:1fr}}
+.dnav{background:#000;color:#fff;padding:18px 12px;display:flex;flex-direction:column;gap:4px}
+.dnav .wm{font-weight:800;font-size:22px;letter-spacing:-.04em;padding:4px 10px 14px}
+.dnav .wm small{display:block;font-size:12px;font-weight:600;opacity:.6;letter-spacing:0;margin-top:4px}
+.dnav button{border:0;background:transparent;color:rgba(255,255,255,.7);text-align:left;padding:10px 12px;border-radius:10px;font-weight:600;font-size:14px;display:flex;justify-content:space-between;align-items:center}
+.dnav button.on{background:#fff;color:#000}
+.dnav button .cnt{font-size:11px;background:rgba(255,255,255,.15);padding:2px 7px;border-radius:999px}
+.dnav button.on .cnt{background:#000;color:#fff}
+.dnav button .cnt.red{background:var(--act)}
+.dnav .user{margin-top:auto;padding:14px 10px 4px;font-size:12.5px;opacity:.7;border-top:1px solid rgba(255,255,255,.15)}
+@media (max-width:900px){.dnav{flex-direction:row;flex-wrap:wrap;padding:10px}.dnav .wm{display:none}.dnav .user{display:none}.dnav button{padding:8px 10px;font-size:13px}}
+.dmain{padding:22px 24px;background:var(--bg);min-width:0}
+.dhead{display:flex;justify-content:space-between;align-items:flex-start;gap:14px;flex-wrap:wrap;margin-bottom:16px}
+.dhead h2{font-size:24px;font-weight:800;letter-spacing:-.03em}
+.dhead p{margin:4px 0 0;color:var(--muted);font-size:13.5px}
+.filters{display:flex;gap:6px;flex-wrap:wrap}
+.filters button{border:1px solid var(--line2);background:var(--paper);padding:7px 12px;border-radius:999px;font-weight:600;font-size:13px}
+.filters button.on{background:var(--ink);color:var(--paper);border-color:var(--ink)}
+.kpis{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:12px;margin-bottom:16px}
+.kpi{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:16px;text-align:left}
+.kpi small{display:block;color:var(--muted);font-size:12.5px;font-weight:600;margin-bottom:6px}
+.kpi b{display:block;font-size:28px;font-weight:800;letter-spacing:-.03em;line-height:1}
+.kpi .d{font-size:12.5px;color:var(--muted);margin-top:6px;display:block}
+.kpi.good b{color:var(--good-ink)}.kpi.warn b{color:var(--warn-ink)}.kpi.act b{color:var(--act-ink)}
+button.kpi:hover{border-color:var(--ink)}
+.dgrid{display:grid;grid-template-columns:1.2fr 1fr;gap:12px;margin-bottom:12px}
+@media (max-width:1100px){.dgrid{grid-template-columns:1fr}}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.panel h3{font-size:15px;font-weight:800;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.panel h3 span{font-size:12px;color:var(--muted);font-weight:600}
+.stackbar{display:flex;height:22px;border-radius:8px;overflow:hidden;margin-bottom:8px}
+.stackbar i{display:block;height:100%}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--muted);font-weight:600}
+.legend span::before{content:"";display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:-1px}
+.legend .lg::before{background:var(--good)}.legend .lw::before{background:var(--warn)}.legend .la::before{background:var(--act)}.legend .ln::before{background:var(--line2)}
+.bars{display:grid;gap:8px}
+.bar{display:grid;grid-template-columns:150px 1fr 44px;gap:10px;align-items:center;font-size:13px}
+.bar .lbl{font-weight:600;margin:0;display:block}
+.bar .tr{height:10px;background:var(--soft);border-radius:5px;overflow:hidden}
+.bar .tr i{display:block;height:100%;background:var(--ink);border-radius:5px}
+.bar .tr i.w{background:var(--warn)}.bar .tr i.a{background:var(--act)}
+.bar .v{text-align:right;font-weight:700;color:var(--muted)}
+@media (max-width:600px){.bar{grid-template-columns:110px 1fr 40px}}
+table.t{width:100%;border-collapse:collapse;font-size:13.5px}
+table.t th{text-align:left;font-size:12px;color:var(--muted);font-weight:700;padding:8px 10px;border-bottom:1px solid var(--line)}
+table.t td{padding:10px;border-bottom:1px solid var(--line);vertical-align:middle}
+table.t tr.row{cursor:pointer}
+table.t tr.row:hover td{background:var(--soft)}
+table.t td.num,table.t th.num{text-align:right;font-variant-numeric:tabular-nums}
+.tw{overflow-x:auto}
+.mini{height:8px;background:var(--soft);border-radius:4px;overflow:hidden;min-width:80px}
+.mini i{display:block;height:100%;background:var(--ink)}
+.search{border:1px solid var(--line2);border-radius:10px;padding:8px 12px;font:inherit;font-size:14px;background:var(--paper);color:var(--ink);width:260px;max-width:100%}
+.crumb{display:flex;gap:8px;align-items:center;font-size:13px;color:var(--muted);margin-bottom:12px;flex-wrap:wrap}
+.crumb button{border:0;background:transparent;color:var(--ink);font-weight:700;padding:0;text-decoration:underline}
+.objrow{display:grid;grid-template-columns:auto 1fr auto;gap:12px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);text-align:left;width:100%;background:transparent;border-left:0;border-right:0;border-top:0}
+.objrow:hover{background:var(--soft)}
+.objrow .st{width:10px;height:10px;border-radius:50%;background:var(--line2)}
+.objrow .st.g{background:var(--good)}.objrow .st.w{background:var(--warn)}.objrow .st.a{background:var(--act)}
+.objrow b{font-weight:700;font-size:14px;display:block}
+.objrow small{color:var(--muted);font-size:12.5px}
+.inspgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+@media (max-width:900px){.inspgrid{grid-template-columns:1fr}}
+.insp{background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:18px}
+.insp .av{width:44px;height:44px;border-radius:50%;background:var(--ink);color:var(--paper);display:flex;align-items:center;justify-content:center;font-weight:800;font-size:16px;margin-bottom:10px}
+.insp h4{font-size:17px;font-weight:800;letter-spacing:-.02em}
+.insp .reg{color:var(--muted);font-size:13px;margin-bottom:12px}
+.insp .m{display:flex;justify-content:space-between;font-size:13.5px;padding:7px 0;border-top:1px solid var(--line)}
+.insp .m b{font-weight:700}
+.dtoast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);background:#000;color:#fff;padding:12px 18px;border-radius:14px;font-weight:600;z-index:50;box-shadow:0 10px 30px rgba(0,0,0,.3)}
+.photos{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:12px}
+.photo{width:120px;height:90px;border-radius:12px;background:#1c2226;position:relative;overflow:hidden}
+.photo::after{content:"";position:absolute;inset:18px 34px 14px 34px;background:#F0B400;border-radius:3px}
+.photo.dmg::after{background:#E2321F}
+.photo span{position:absolute;left:8px;bottom:6px;color:#fff;font-size:11px;font-weight:700}
+.risklogic{font-size:13px;color:var(--muted);border-top:1px dashed var(--line);padding-top:10px;margin-top:10px}
+.status{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:999px;background:var(--soft);color:var(--ink);white-space:nowrap}
+.status::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.status.nieuw{background:var(--act-soft);color:var(--act-ink)}
+.status.gemeld{background:var(--warn-soft);color:var(--warn-ink)}
+.status.beh{background:#E3ECFA;color:#1D4B99}
+.status.opgelost{background:var(--good-soft);color:var(--good-ink)}
+.status.herc{background:var(--soft);color:var(--ink)}
+.timeline{display:grid;gap:0;margin:8px 0}
+.timeline div{display:grid;grid-template-columns:14px 1fr;gap:10px;font-size:13px;padding:6px 0;position:relative}
+.timeline div::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--line2);margin-top:4px}
+.timeline div.done::before{background:var(--ink)}
+.timeline div small{display:block;color:var(--muted)}
+.report{background:var(--paper);border:1px solid var(--line);border-radius:18px;padding:32px;max-width:900px}
+.report .rh{display:flex;justify-content:space-between;align-items:flex-start;border-bottom:2px solid var(--ink);padding-bottom:14px;margin-bottom:18px}
+.report .rh h2{font-size:26px;font-weight:800;letter-spacing:-.03em}
+.report .rh .wm{font-weight:800;font-size:22px;letter-spacing:-.04em}
+.report h3{font-size:15px;font-weight:800;margin:18px 0 8px}
+.report p{margin:0 0 8px;font-size:14px}
+.report .rk{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
+.report .rk div{border:1px solid var(--line);border-radius:12px;padding:12px}
+.report .rk b{display:block;font-size:24px;font-weight:800}
+.report .rk small{color:var(--muted);font-size:12px;font-weight:600}
+@media (max-width:700px){.report{padding:18px}.report .rk{grid-template-columns:1fr 1fr}}
+.teamcard{background:var(--ink);color:var(--paper);border-radius:16px;padding:20px;margin-bottom:12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:14px}
+.teamcard b{display:block;font-size:26px;font-weight:800;letter-spacing:-.03em}
+.teamcard small{font-size:12.5px;opacity:.7;font-weight:600}
+
+/* ===== demo-tab (mobiel) ===== */
+.demo-tab{display:none;position:fixed;left:0;top:44%;z-index:40;border:0;background:rgba(17,20,23,.72);color:#fff;font-size:11px;font-weight:700;letter-spacing:.06em;padding:10px 5px;border-radius:0 8px 8px 0;writing-mode:vertical-rl;text-orientation:mixed}
+.demo-bg{display:none;position:fixed;inset:0;background:rgba(17,20,23,.5);z-index:45;align-items:flex-end}
+.demo-bg.open{display:flex}
+.demo-sheet{background:#fff;color:#111417;width:100%;border-radius:22px 22px 0 0;padding:10px 16px 20px;max-height:85vh;overflow:auto}
+.demo-sheet .grip{width:38px;height:4px;border-radius:2px;background:#CFD3D6;margin:0 auto 10px}
+.demo-sheet h3{font-size:16px;font-weight:800;margin-bottom:2px}
+.demo-sheet p{margin:0 0 10px;color:#6B7378;font-size:13px}
+.demo-sheet button{display:flex;width:100%;text-align:left;border:0;background:transparent;padding:12px 4px;border-bottom:1px solid #EEF0F2;font-size:15px;font-weight:600;gap:10px;align-items:center}
+.demo-sheet button small{margin-left:auto;color:#6B7378;font-weight:600;font-size:12px}
+.demo-sheet .grp{font-size:11.5px;color:#6B7378;font-weight:700;padding:12px 4px 2px}
+
+/* ===== mobiel: app vult het scherm, geen demo-shell ===== */
+@media (max-width:1000px){
+  .topbar,.rail,.notes{display:none}
+  .wrap{padding:0;max-width:none}
+  .view.on#view-dash,.view.on#view-flow,.view.on#view-screens{padding:10px}
+  .proto,.proto.nonotes{display:block}
+  .phone{width:100%;height:100vh;height:100dvh;min-height:0;max-height:none;border:0;border-radius:0;box-shadow:none}
+  .ph-status{display:none}
+  .ph-head{padding-top:10px}
+  .demo-tab{display:block}
+}
+</style>
+</head>
+<body>
+<header class="topbar"><div class="in">
+  <a class="wordmark" href="#" onclick="return false">global</a>
+  <span class="prod">Kwaliteitscontrole 2.0 · v4 mobiel</span>
+  <nav class="tabs" role="tablist">
+    <button role="tab" aria-selected="true" data-tab="proto">App</button>
+    <button role="tab" aria-selected="false" data-tab="dash">Dashboard</button>
+    <button role="tab" aria-selected="false" data-tab="flow">Procesflow</button>
+    <button role="tab" aria-selected="false" data-tab="screens">Schermen</button>
+  </nav>
+  <div class="util"><button id="notesbtn" class="on" title="Toelichting per scherm aan of uit">Toelichting</button></div>
+</div></header>
+
+<div class="wrap">
+
+<!-- ===== APP ===== -->
+<section class="view on" id="view-proto">
+  <div class="proto" id="protogrid">
+    <nav class="rail" id="rail" aria-label="Schermen"></nav>
+    <div class="phone-wrap">
+      <div class="phone" id="phone">
+        <div class="ph-status"><span id="clock">08:40</span><span style="font-weight:800;letter-spacing:-.04em;font-size:15px">global</span></div>
+        <div class="ph-head" id="head">
+          <button class="back" id="back" aria-label="Terug">‹</button>
+          <div class="ttl"><b id="ph-title"></b><span id="ph-sub"></span></div>
+          <div class="right" id="ph-right"></div>
+        </div>
+        <div id="stepsbar"></div>
+        <div class="ph-body" id="body"></div>
+        <div class="ph-foot" id="foot"></div>
+        <div class="tabbar" id="tabbar"></div>
+        <div id="sheet"></div>
+      </div>
+    </div>
+    <aside class="notes" id="notes"></aside>
+  </div>
+</section>
+
+<!-- ===== DASHBOARD ===== -->
+<section class="view" id="view-dash">
+  <div class="dash">
+    <nav class="dnav" id="dnav"></nav>
+    <div class="dmain" id="dmain"></div>
+  </div>
+</section>
+
+<!-- ===== FLOW ===== -->
+<section class="view" id="view-flow">
+  <div class="stack">
+    <div class="card">
+      <h2>Drie modules, één keten</h2>
+      <p class="lead">Module 1 bepaalt wat er gecontroleerd wordt, module 2 legt de controle vast in het veld, module 3 maakt er sturingsinformatie van voor de leidinggevende. De App en het Dashboard in deze pagina zijn module 2 en 3; module 1 is beschreven, niet gebouwd.</p>
+      <div class="modules">
+        <div class="mod">
+          <span class="chip">Grootste complexiteit · twee smaken</span>
+          <h3>1. Plannen</h3>
+          <ol>
+            <li>Input: wekelijkse TOOC lijst (week 39: 1.298 objecten in 48 routes met volgnummer)</li>
+            <li>Alleen objecten die deze week onderhoud kregen</li>
+            <li>Langst geleden gecontroleerd eerst</li>
+            <li>Elke gemeente minimaal 1x per jaar, ook de kleine</li>
+            <li>Geografisch gebundeld per regio en route</li>
+            <li>Uitkomst: weekplanning per inspecteur in rijvolgorde</li>
+          </ol>
+          <div class="foot">Smaak A: eigen deterministische formule, eerste versie nu al mogelijk op route en volgnummer uit de TOOC lijst. Smaak B: planning van Routigo als input. Voorkeur B, mits export en livegang passen.</div>
+        </div>
+        <div class="mod now">
+          <span class="chip ink">App · module 2 · v4</span>
+          <h3>2. Controleren</h3>
+          <ol>
+            <li>Startscherm Vandaag met gisteren en morgen, te doen in één blik</li>
+            <li>Object zoeken op nummer, straat of halte, of via de kaart met je eigen positie</li>
+            <li>Vier stappen met procesbalk: nummer, foto's, observaties, controleren</li>
+            <li>Foto's volgens instructie, automatisch door na elke foto</li>
+            <li>7 controlepunten inspreken, AI structureert, maximaal twee vervolgvragen</li>
+            <li>Afgerond: data direct bij het object, terug op Vandaag met het volgende object</li>
+          </ol>
+          <div class="foot">Geen naverwerking meer op kantoor. Werkt ook zonder dekking.</div>
+        </div>
+        <div class="mod now">
+          <span class="chip ink">Dashboard · module 3</span>
+          <h3>3. Sturen</h3>
+          <ol>
+            <li>Webapplicatie voor de leidinggevende en Joost</li>
+            <li>Risk dashboard: goed, aandacht nodig, actie nodig</li>
+            <li>Doorsnede per gemeentelijk contract en per object</li>
+            <li>Data van TOOC gekoppeld per object</li>
+            <li>Prestaties per inspecteur: aantallen, fotokwaliteit, invoerkwaliteit, tijd per object</li>
+          </ol>
+          <div class="foot">Bouwt volledig op de gestructureerde invoer uit module 2. Wat je in de App afrondt, verschijnt in het Dashboard.</div>
+        </div>
+      </div>
+    </div>
+    <div class="card">
+      <h2>Module 2: van huidig naar nieuw</h2>
+      <p class="lead">Boven het huidige proces, onder de digitale variant. Klik een stap in de onderste rij om het scherm in de App te openen.</p>
+      <div class="row-label">HUIDIG</div>
+      <div class="steps7 old">
+        <div class="step"><span class="n">1</span><b>Papieren planningslijst</b>Excel van Sjaak, aankruisen waar je geweest bent</div>
+        <div class="step"><span class="n">2</span><b>Rijden en kijken</b>Met het blote oog controleren</div>
+        <div class="step"><span class="n">3</span><b>Losse camera</b>Wisselend aantal en kwaliteit, geen koppeling aan object</div>
+        <div class="step"><span class="n">4</span><b>Observaties op papier</b>Formuliertje per object</div>
+        <div class="step"><span class="n">5</span><b>Volgende dag op kantoor</b>SD kaart in de pc, foto's terugzoeken</div>
+        <div class="step"><span class="n">6</span><b>Handmatig koppelen</b>Foto's per object in SharePoint</div>
+        <div class="step"><span class="n">7</span><b>Overtikken in Excel</b>Dan is één object afgerond</div>
+      </div>
+      <div class="row-label">NIEUW</div>
+      <div class="steps7 new">
+        <button class="step" data-go="dag"><span class="n">1</span><b>Vandaag</b>Te doen, klaar, gisteren en morgen op één scherm<span class="scr">A0</span></button>
+        <button class="step" data-go="object"><span class="n">2</span><b>Object kiezen</b>Uit de lijst, op de kaart of via zoeken<span class="scr">A1 tot A3</span></button>
+        <button class="step" data-go="stap1"><span class="n">3</span><b>Stap 1 · Nummer</b>Intikken of scannen, verkeerd nummer vangt de app af<span class="scr">A4</span></button>
+        <button class="step" data-go="foto"><span class="n">4</span><b>Stap 2 · Foto's</b>Objectnummer, per zijde, dak; automatisch door<span class="scr">A5</span></button>
+        <button class="step" data-go="obs"><span class="n">5</span><b>Stap 3 · Observaties</b>Inspreken, AI structureert, vragen, schadefoto<span class="scr">A6</span></button>
+        <button class="step" data-go="stap4"><span class="n">6</span><b>Stap 4 · Controleren</b>Samenvatting, wat er na afronden gebeurt, opmerking<span class="scr">A7</span></button>
+        <button class="step" data-go="einde"><span class="n">7</span><b>Dag afsluiten</b>Gesynchroniseerd, niets meer op kantoor<span class="scr">A8</span></button>
+      </div>
+      <div class="row-label">BESLISREGELS</div>
+      <div class="rules">
+        <div class="rule"><b>Afwijking op een van de 7 punten</b> → minimaal één schadefoto, gevraagd ná de observaties, voordat je kunt afronden.</div>
+        <div class="rule"><b>AI kan een punt niet afleiden</b> → maximaal twee vervolgvragen met knoppen; bij zelf aanvinken stelt de app de veiligheidsvraag direct.</div>
+        <div class="rule"><b>Geen verbinding</b> → zelf aanvinken, opname bewaard, vragen gebundeld na synchronisatie.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== SCREENS ===== -->
+<section class="view" id="view-screens">
+  <div class="card">
+    <h2>Schermenoverzicht</h2>
+    <p class="lead">App (A0 tot A10) en Dashboard (D1 tot D7). Per scherm: wat het doet, waar het uit volgt en de status in dit prototype. Klik om te openen.</p>
+    <div class="grid" id="screengrid"></div>
+  </div>
+</section>
+
+</div>
+
+<!-- Demo-hulpmiddelen op de telefoon: geen productonderdeel -->
+<button class="demo-tab" id="demotab" aria-label="Demo-menu">Demo</button>
+<div class="demo-bg" id="demobg"><div class="demo-sheet" id="demosheet"></div></div>
+
+<script>
+/* ================= HELPERS ================= */
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const fmt=n=>Number(n).toLocaleString('nl-NL');
+function h(s){let x=2166136261;for(let i=0;i<s.length;i++){x^=s.charCodeAt(i);x=Math.imul(x,16777619);}return (x>>>0);}
+const hr=(s,i)=>h(s+'#'+i)/4294967295;
+const dist=(a,b)=>Math.hypot((a.lat-b.lat)*111,(a.lng-b.lng)*68);
+const fmtDist=km=>km<1?Math.max(50,Math.round(km*20)*50)+' m':km.toFixed(1).replace('.',',')+' km';
+const minRij=km=>Math.max(1,Math.round(km*2.5));
+
+/* ================= DATA ================= */
+const GEM = [["Den Haag",874,"2181","Sjaak","Zuid-West"],["Groningen",379,"1334","Dick","Noord"],["Eindhoven",298,"2186","Sjaak","Zuid-West"],["Apeldoorn",275,"2207","Dick","Oost"],["Alkmaar",209,"2199","Roy","West"],["Haarlemmermeer",208,"2179","Roy","West"],["Enschede",187,"2258","Dick","Oost"],["Alphen aan den Rijn",178,"1073","Roy","West"],["Amstelveen",177,"1299","Roy","West"],["Delft",145,"2182","Sjaak","Zuid-West"],["Purmerend",142,"2259","Roy","West"],["Amersfoort",138,"2192","Roy","Oost"],["Ede",133,"1417","Dick","Oost"],["Zoetermeer",127,"2181","Sjaak","Zuid-West"],["Hengelo",126,"1082","Dick","Oost"],["Lelystad",123,"1356","Roy","West"],["Leeuwarden",114,"2198","Roy","Noord"],["Nieuwegein",110,"1405","Dick","West"],["Deventer",105,"2272","Dick","Oost"],["Stichtse Vecht",102,"1125","Roy","West"],["Hilversum",99,"2205","Roy","West"],["Helmond",86,"1061","Sjaak","Zuid-West"],["Spijkenisse",85,"837","Sjaak","Zuid-West"],["Sittard-Geleen",79,"1402","Sjaak","Zuid-West"],["Súdwest-Fryslân",78,"1108","Roy","Noord"],["Barendrecht",76,"2210","Sjaak","Zuid-West"],["Westland",75,"2183","Sjaak","Zuid-West"],["Soest",70,"577","Roy","Oost"],["Huizen",69,"2178","Roy","West"],["Terneuzen",65,"1106","Sjaak","Zuid-West"],["Papendrecht",65,"2305","Sjaak","Zuid-West"],["Lansingerland",64,"2226","Sjaak","Zuid-West"],["Hoorn",64,"1321","Roy","West"],["Lingewaard",58,"2306","Dick","Oost"],["Middelburg",57,"986","Sjaak","Zuid-West"],["Weert",56,"602","Sjaak","Zuid-West"],["Geldrop-Mierlo",54,"1288","Sjaak","Zuid-West"],["Delfzijl",52,"1330","Dick","Noord"],["Leiderdorp",51,"1339","Roy","West"],["Veldhoven",51,"1328","Sjaak","Zuid-West"],["Etten-Leur",51,"1275","Sjaak","Zuid-West"],["Zutphen",49,"1103","Dick","Oost"],["Utrechtse Heuvelrug",48,"1347","Dick","Oost"],["Zwijndrecht",48,"757","Sjaak","Zuid-West"],["Heemskerk",47,"526","Roy","West"],["Edam-Volendam",47,"1399","Roy","West"],["Vlissingen",46,"1029","Sjaak","Zuid-West"],["Veendam",46,"767","Dick","Noord"],["Krimpen aan den Ijssel",46,"539","Sjaak","Zuid-West"],["Harderwijk",44,"2194","Dick","Oost"],["Heemstede",44,"2201","Roy","West"],["Heerenveen",43,"1088","Roy","Noord"],["Veenendaal",43,"1112","Dick","Oost"],["Leidschendam-Voorburg",42,"2181","Sjaak","Zuid-West"],["Tiel",40,"1345","Sjaak","Zuid-West"],["de Ronde Venen",35,"2263","Roy","West"],["Voorschoten",34,"954","Roy","West"],["Teylingen",34,"968","Roy","West"],["Hoogezand-Sappemeer",33,"1113","Dick","Noord"],["Aalsmeer",28,"2180","Roy","West"],["Muiden",26,"2190","Roy","West"],["Naarden",26,"2190","Roy","West"],["Valkenswaard",26,"1115","Sjaak","Zuid-West"],["Bussum",26,"2190","Roy","West"],["Bloemendaal",25,"1130","Roy","West"],["Zoeterwoude",25,"824","Roy","West"],["Nijkerk",23,"907","Dick","Oost"],["Goes",23,"1100","Sjaak","Zuid-West"],["Midden-Delfland",22,"2183","Sjaak","Zuid-West"],["Nieuwkoop",22,"1044","Roy","West"],["Weesp",19,"1354","Roy","West"],["Nunspeet",18,"554","Dick","Oost"],["Geldermalsen",18,"1131","Dick","Oost"],["Laren",18,"999","Roy","West"],["Waterland",15,"1401","Roy","West"],["Ijsselstein",14,"827","Sjaak","Zuid-West"],["Leeuwarderadeel",13,"2198","Roy","Noord"],["Losser",13,"1083","Dick","Oost"],["Bunnik",13,"956","Dick","Oost"],["Blaricum",12,"984","Roy","West"],["Landsmeer",12,"1400","Roy","West"],["Coevorden",11,"120","Dick","Noord"],["Scherpenzeel",10,"923","Dick","Oost"],["Schagen",8,"1272","Roy","West"],["Peel en Maas",8,"546","Sjaak","Zuid-West"],["Borne",6,"1087","Dick","Oost"],["Slochteren",6,"1334","Dick","Noord"],["Haarlemmerliede en Spaarnwoude",6,"2179","Roy","West"],["Deurne",5,"1021","Sjaak","Zuid-West"],["Bernisse",5,"837","Sjaak","Zuid-West"],["Beemster",4,"2259","Roy","West"],["Bodegraven-Reeuwijk",4,"564","Sjaak","Zuid-West"],["Lingewaal",4,"1131","Dick","Oost"],["Hardinxveld-Giessendam",3,"1043","Sjaak","Zuid-West"],["Amsterdam",3,"0","Roy","West"],["Baarn",3,"488","Roy","Oost"],["Montfoort",3,"950","Sjaak","Zuid-West"],["Littenseradiel",2,"2198","Roy","Noord"],["Wassenaar",2,"2181","Sjaak","Zuid-West"],["Rijswijk",2,"2181","Sjaak","Zuid-West"],["Woudenberg",2,"607","Dick","Oost"],["Rucphen",2,"1120","Sjaak","Zuid-West"],["Kaag en Braassem",1,"1339","Sjaak","Zuid-West"],["Leusden",1,"2192","Roy","West"],["Noordenveld",1,"1334","Dick","Noord"],["Ten Boer",1,"1334","Dick","Noord"],["Schermer",1,"2199","Roy","West"],["Sluis",1,"1106","Sjaak","Zuid-West"]];
+const PUNTEN = [
+  ['Verkeerde campagne','Andere campagne dan gepland voor deze week'],
+  ['Verkeerde uiting','Juiste campagne, verkeerde uiting of formaat'],
+  ['Object heeft schade','Glasbreuk, deuk, losse plaat'],
+  ['Object niet schoon','Vuil, stickers, graffiti na schoonmaakweek'],
+  ['Poster hangt niet correct','Kreukels, bobbels, vochtplekken'],
+  ['Geen verlichting','Verlichting brandt niet'],
+  ['Achterstallig onderhoud','Kapot bankje, hoog onkruid, veel vuil in abri']
+];
+const ACT_PUNTEN=[3,6,7];
+const OWNER=k=>[1,2,5].includes(+k)?'Global campagne':'TOOC onderhoud';
+const Q_LICHT = {id:'licht', q:'Je noemde niets over de verlichting. Werkt de verlichting?', opts:['Ja','Nee','Niet te beoordelen (overdag)'], punt:6};
+const Q_VEILIG = {id:'veilig', q:'Is de gebarsten glasplaat een veiligheidsrisico voor voorbijgangers?', opts:['Ja','Nee'], punt:3};
+const TYPES=['TOMEI 172/3','TOMEI 172/2','HSUM 180/3','LONDON 2','AQUI 2/3','HAAG 3'];
+
+/* Route van vandaag: 12 objecten in Hilversum (074 AMS) plus 3 buiten planning. */
+const OBJ = [
+  {nr:'12128',straat:'Mies Bouwmanboulevard',halte:'Mediapark',type:'TOMEI 172/3',vak:3,lat:52.23802,lng:5.17365,laatst:'14 apr 2026',mnd:5,camp:['Herfstvakantie NS','Kruidvat Vitamines']},
+  {nr:'12147',straat:'Mies Bouwmanboulevard',halte:'Mediapark',type:'TOMEI 172/3',vak:3,lat:52.23748,lng:5.17361,laatst:'14 apr 2026',mnd:5,camp:['Herfstvakantie NS']},
+  {nr:'12082',straat:'Mies Bouwmanboulevard',halte:'Mies Bouwmanboulevard',type:'TOMEI 172/3',vak:3,lat:52.24291,lng:5.17072,laatst:'3 feb 2026',mnd:7,camp:['Gemeente Hilversum Afvalkalender'],
+    tr:'Graffiti op het rechter zijpaneel, en het onkruid rond de voet staat kniehoog.',dev:{4:'Graffiti op zijpaneel rechts',7:'Hoog onkruid rond de voet'},nb:[6],vragen:[Q_LICHT],
+    let:[['TOOC','Graffiti eerder gemeld en verwijderd in week 36. Controleer of het terug is.']]},
+  {nr:'12044',straat:'Erfgooiersstraat',halte:'De Kupstraat',type:'TOMEI 172/3',vak:3,lat:52.24330,lng:5.17960,laatst:'3 feb 2026',mnd:7,camp:['Herfstvakantie NS','Albert Heijn']},
+  {nr:'12045',straat:'Erfgooiersstraat',halte:'Sauerstraat',type:'TOMEI 172/3',vak:3,lat:52.24263,lng:5.18188,laatst:'3 feb 2026',mnd:7,camp:['Albert Heijn']},
+  {nr:'12016',straat:'Jacob van Campenlaan',halte:'Hendrik Smitstraat',type:'TOMEI 172/3',vak:3,lat:52.24151,lng:5.18470,laatst:'21 okt 2025',mnd:11,camp:['Kruidvat Vitamines'],
+    tr:'Deze is netjes schoongemaakt, posters zitten er goed in, juiste campagne. Alleen linksonder een barst in de glasplaat, een centimeter of tien. Verder niks bijzonders.',dev:{3:'Barst in glasplaat linksonder, circa 10 cm'},nb:[6],vragen:[Q_LICHT,Q_VEILIG],
+    let:[['Gemeente','Melding van een bewoner over een losse zijplaat, 9 september. Kijk extra naar de zijpanelen.']]},
+  {nr:'12040',straat:'Laan 1940 1945',halte:'Lopes Diaslaan',type:'TOMEI 172/3',vak:3,lat:52.24171,lng:5.17724,laatst:'21 okt 2025',mnd:11,camp:['Herfstvakantie NS','Gemeente Hilversum Afvalkalender']},
+  {nr:'12043',straat:'Snelliuslaan',halte:'Stephensonlaan',type:'TOMEI 172/3',vak:3,lat:52.23803,lng:5.17794,laatst:'21 okt 2025',mnd:11,camp:['Albert Heijn']},
+  {nr:'12111',straat:'Professor Kochstraat',halte:'Bordetstraat',type:'TOMEI 172/3, verticaal groen',vak:3,lat:52.22532,lng:5.18638,laatst:'9 dec 2025',mnd:9,camp:['Kruidvat Vitamines'],
+    tr:'Er hangt nog de zomercampagne van Kruidvat, dat moet de vitaminecampagne zijn. Verder prima.',dev:{1:'Zomercampagne hangt nog, gepland: Kruidvat Vitamines'},nb:[],vragen:[]},
+  {nr:'12125',straat:'Van Riebeeckweg',halte:'Compagnieweg',type:'TOMEI 172/3, verticaal groen',vak:3,lat:52.21718,lng:5.19796,laatst:'9 dec 2025',mnd:9,camp:['Herfstvakantie NS']},
+  {nr:'12026',straat:'Soestdijkerstraatweg',halte:'Station Sportpark',type:'HSUM 180/3',vak:3,dak:true,lat:52.21609,lng:5.18835,laatst:'9 dec 2025',mnd:9,camp:['Albert Heijn','Kruidvat Vitamines'],
+    tr:'Verlichting brandt niet, en aan de B kant zitten vochtplekken in de poster.',dev:{5:'Vochtplekken in poster zijde B',6:'Verlichting brandt niet'},nb:[],vragen:[],
+    let:[['Historie','Vorige controle: verlichting flikkerde. TOOC heeft de armatuur in mei vervangen.']]},
+  {nr:'12004',straat:'Emmastraat',halte:'Hollandselaan',type:'TOMEI 172/2 (2 vakken)',vak:2,dak:true,lat:52.21888,lng:5.18208,laatst:'27 mei 2026',mnd:4,camp:['Gemeente Hilversum Afvalkalender'],
+    hist:'27 mei 2026, Roy: bankje losgeraakt, gemeld bij TOOC.',why:'Hercontrole na melding bankje',
+    let:[['Historie','27 mei: bankje losgeraakt, gemeld bij TOOC. Controleer of de reparatie is uitgevoerd.']]}
+];
+const EXTRA = [
+  {nr:'12050',straat:'Kerkbrink',halte:'Kerkbrink',type:'TOMEI 172/3',vak:3,lat:52.2238,lng:5.1765,laatst:'2 mrt 2026',mnd:6,camp:['Herfstvakantie NS']},
+  {nr:'12061',straat:'Larenseweg',halte:'Oosterengweg',type:'TOMEI 172/3',vak:3,lat:52.2295,lng:5.1905,laatst:'18 nov 2025',mnd:10,camp:['Albert Heijn','Kruidvat Vitamines']},
+  {nr:'12099',straat:'Gijsbrecht van Amstelstraat',halte:'Neuweg',type:'HSUM 180/3',vak:3,dak:true,lat:52.2205,lng:5.1712,laatst:'6 jan 2026',mnd:8,camp:['Gemeente Hilversum Afvalkalender']}
+];
+function normObj(o){ if(!o.tr){o.tr='Alles in orde, schoon, juiste posters, geen schade.';o.dev={};o.nb=[];o.vragen=[];} if(!o.let)o.let=[]; return o; }
+OBJ.forEach(normObj); EXTRA.forEach(normObj);
+const SKIP_REASONS=['Niet bereikbaar','Wegwerkzaamheden','Object staat er niet meer','Anders'];
+
+/* Overige objecten in Hilversum (voorbeeld): zodat zoeken over álle objecten werkt. */
+const ELDERS_STREETS=['Loosdrechtseweg','Bosdrift','Neuweg','Havenstraat','Vaartweg','Johannes Geradtsweg','Schoolstraat','Utrechtseweg','Diependaalselaan','Zeverijnstraat','Minckelersstraat','Kleine Drift','Eikbosserweg','Insulindelaan','Oude Amersfoortseweg','Liebergerweg','Jan van der Heijdenstraat','Godelindeweg','Bussumergrintweg','Koninginneweg','Hoge Naarderweg','Lage Naarderweg','Simon Stevinweg','Kerkstraat','Groest','Stationsplein','Noorderweg','Vreelandseweg','Kolhornseweg','Lorentzweg'];
+const CAMPS=['Herfstvakantie NS','Kruidvat Vitamines','Albert Heijn','Gemeente Hilversum Afvalkalender','Hema Najaar','Jumbo Weekdeals'];
+const ELDERS=Array.from({length:41},(_,i)=>{const k='eld/'+i;const s=ELDERS_STREETS[i%ELDERS_STREETS.length];
+  return normObj({nr:String(12200+Math.floor(hr(k,1)*700)),straat:s,halte:s+(hr(k,2)<.5?'':' '+(1+Math.floor(hr(k,3)*40))),type:TYPES[Math.floor(hr(k,4)*TYPES.length)],vak:3,dak:hr(k,5)<.2,lat:52.212+hr(k,6)*.036,lng:5.152+hr(k,7)*.05,laatst:['12 jan 2026','3 mrt 2026','28 apr 2026','19 jun 2026','2 sep 2026'][Math.floor(hr(k,8)*5)],mnd:1+Math.floor(hr(k,9)*11),camp:[CAMPS[Math.floor(hr(k,10)*CAMPS.length)]],elders:true});});
+
+/* Week van Roy. Vandaag is dinsdag 22 september. */
+const DAYS=[
+  {off:-1,dag:'Ma',dat:'21 sep',label:'Gisteren',route:'075 AMS',plaats:'Laren en Blaricum',n:18},
+  {off:0,dag:'Di',dat:'22 sep',label:'Vandaag',route:'074 AMS',plaats:'Hilversum',n:12},
+  {off:1,dag:'Wo',dat:'23 sep',label:'Morgen',route:'070 AMS',plaats:'Huizen',n:24,km:38,waarom:'TOOC maakt deze objecten deze week schoon · 3 objecten bijna een jaar niet gezien',bijzonder:['3','bijna een jaar']},
+  {off:2,dag:'Do',dat:'24 sep',label:'Donderdag',route:'040 AMS',plaats:'Amstelveen',n:25,km:44,waarom:'TOOC-week 39 · langst geleden gecontroleerd eerst',bijzonder:['2','met dakglas']},
+  {off:3,dag:'Vr',dat:'25 sep',label:'Vrijdag',route:'057 AMS',plaats:'Alphen aan den Rijn',n:25,km:61,waarom:'Gemeente Kaag en Braassem dit jaar nog niet bezocht · langst geleden gecontroleerd eerst',bijzonder:['1','gemeente nog niet bezocht']}
+];
+const dayOf=off=>DAYS.find(d=>d.off===off);
+
+/* Gisteren (voorbeeld): 18 objecten, 16 gecontroleerd, 2 overgeslagen, 3 afwijkingen, 1 melding. */
+const YDAY_STREETS=['Brink','Torenlaan','Eemnesserweg','Naarderstraat','Zevenend','Stationsweg','Huizerweg','Bergweg','Meentzoom','Kerklaan','Schapendrift','Melkweg','Engweg','Hilversumseweg','Sint Janstraat','Molenweg','Burgemeester le Coultrestraat','Noolseweg'];
+const YDAY={objs:YDAY_STREETS.map((s,i)=>{const k='y/'+i;const o={nr:String(20000+Math.floor(hr(k,1)*900)),straat:s,halte:s,type:TYPES[Math.floor(hr(k,2)*TYPES.length)],lat:52.245+hr(k,3)*.03,lng:5.205+hr(k,4)*.04,tijd:'',status:'done',res:'good',punten:{},sync:'synced'};
+    const m=8*60+52+i*14-(i>4?3:0)-(i>11?3:0);o.tijd=String(Math.floor(m/60)).padStart(2,'0')+':'+String(m%60).padStart(2,'0');
+    if(i===4){o.status='skipped';o.reden='Wegwerkzaamheden';o.sync=null;}
+    if(i===11){o.status='skipped';o.reden='Niet bereikbaar';o.sync=null;}
+    if(i===2){o.res='dev';o.punten={4:'Stickers op zijpaneel'};}
+    if(i===7){o.res='act';o.punten={3:'Glasplaat gebarsten zijde A'};o.melding='T-2026-4468';}
+    if(i===13){o.res='dev';o.punten={5:'Poster met vochtplekken'};}
+    if(i===16){o.sync='local';}
+    return o;}),
+  pending:[{nr:'',straat:'',q:Q_LICHT}]};
+YDAY.pending[0].nr=YDAY.objs[13].nr;YDAY.pending[0].straat=YDAY.objs[13].straat;
+
+/* Komende dagen (voorbeeld): objectenlijst per dag uit de weekplanning. */
+const FUT_STREETS={
+  1:['Huizermaatweg','Nieuwe Bussummerweg','Ceintuurbaan','Botterstraat','Gooilandweg','Bovenmaatweg','Blaricummerstraat','Crailoseweg','Naarderstraat','Zomerkade','Havenstraat','Ericaweg','Karel Doormanlaan','Bestevaer','Meentweg'],
+  2:['Amsterdamseweg','Keizer Karelweg','Van der Hooplaan','Rembrandtweg','Laan Nieuwer-Amstel','Handelsplein','Startbaan','Bovenkerkerweg','Ouderkerkerlaan','Lindenlaan','Sportlaan','Zonnestein','Groenelaan','Beneluxbaan','Camera Obscuralaan'],
+  3:['Stationsplein','Prins Bernhardlaan','Herenweg','Eisenhowerlaan','Europalaan','Kennedylaan','Zegerbaan','Ridderhof','Aarkade','Thorbeckeplein','Van Boetzelaerstraat','Laan der Continenten','Kerk en Zanen','Noordeinde','Hoorn']};
+const FUT_CENTER={1:[52.298,5.242],2:[52.303,4.862],3:[52.13,4.66]};
+const FUT={};
+[1,2,3].forEach(off=>{const d=dayOf(off);const st=FUT_STREETS[off];FUT[off]=Array.from({length:d.n},(_,i)=>{const k='f'+off+'/'+i;const r=hr(k,1);
+  const reden=off===3&&i<4?'gemeente Kaag en Braassem, nog niet bezocht dit jaar':r<.2?'bijna een jaar niet gezien':r<.3?'hercontrole na melding':r<.4?'dakglas':(6+Math.floor(hr(k,2)*5))+' mnd geleden';
+  return {nr:String(30000+off*1000+Math.floor(hr(k,3)*900)),straat:st[i%st.length]+(i>=st.length?' '+(2+Math.floor(hr(k,4)*60)):''),halte:st[(i+3)%st.length],type:TYPES[Math.floor(hr(k,5)*TYPES.length)],dak:reden==='dakglas',lat:FUT_CENTER[off][0]+hr(k,6)*.03,lng:FUT_CENTER[off][1]+hr(k,7)*.05,reden};});});
+
+/* Schermen (voor rail, schermenoverzicht, toelichting en Usersnap-context). */
+const SCREENS = [
+  {id:'dag',n:'A0',name:'Vandaag',doel:'Startscherm: dagwisselaar (gisteren, vandaag, morgen), voortgang, te doen of klaar, zoekregel en één startknop.',bron:'Hebben ze die hele lijst, dan gaan ze hun route rijden.',status:'ok',extra:'Nieuw in v4: dagnavigatie en het segment Te doen / Klaar / Alles.'},
+  {id:'kaart',n:'A1',name:'Kaart',doel:'Eigen positie, open objecten met nummer, afgeronde als vinkje. Tik een pin voor afstand en start.',bron:'Je staat bij een object, klik het object aan, start controle.',status:'ok',extra:'Positie is gesimuleerd; in de bouw echte GPS en offline kaarttegels.'},
+  {id:'zoek',n:'A2',name:'Zoeken',doel:'Alle objecten, ook buiten je ronde: nummer, straat of halte, intikken of plaatje scannen. Drie groepen op relevantie.',bron:'Als er een keer iets is met digitaal, dan kom je ook weer in die gemeente, dus dan zie je ook al heel veel.',status:'vs',extra:'Nieuw in v4: vervangt Object buiten planning.'},
+  {id:'object',n:'A3',name:'Object',doel:'Beslisscherm: waarom vandaag, referentiefoto, aandachtspunten. Start controle, Overslaan, Meer.',bron:'Een knopje start controle, en een knopje lees hier meer over dit object.',status:'ok',extra:'Van zeven blokken naar drie; campagnes en TOOC-vraag staan in de stap waar je ze nodig hebt.'},
+  {id:'stap1',n:'A4',name:'Stap 1 · Nummer',doel:'Nummer intikken of scannen. Verkeerd nummer geeft een waarschuwing en de optie om te wisselen.',bron:'Zodra ze de foto’s maken bij het eerste object, moeten ze die foto’s eigenlijk al koppelen aan het object, en dat werkt nu niet zo.',status:'vs',extra:'Procesbalk met vier stappen boven elke controlestap.'},
+  {id:'foto',n:'A5',name:'Stap 2 · Foto’s',doel:'Objectnummer, één foto per posterzijde, dak bij dakglas. Na elke foto automatisch door; tik een miniatuur om opnieuw te maken.',bron:'Soms hoef je maar vier foto’s te maken, een andere keer meerdere panelen, meerdere posterbakken, een ander dak.',status:'ok'},
+  {id:'obs',n:'A6',name:'Stap 3 · Observaties',doel:'"Let op bij dit object" bovenaan, de 7 punten en inspreken. Zelf aanvinken stelt de veiligheidsvraag direct.',bron:'Er staat een vragenlijst met let hier en hier op. Dan drukken ze op het knopje en spreken in wat ze zien.',status:'ok'},
+  {id:'opname',n:'A6b',name:'Opname',doel:'Opname loopt, stoppen met één tik.',bron:'Zelfde passage als A6.',status:'ok'},
+  {id:'gehoord',n:'A6c',name:'Dit heb ik gehoord',doel:'Transcriptie en de 7 punten ingevuld door AI.',bron:'Voldoende informatie die geanalyseerd wordt middels AI, zodat AI zegt: dit is het resultaat.',status:'ok'},
+  {id:'vragen',n:'A6d',name:'Vervolgvragen',doel:'Maximaal twee gerichte vragen met knoppen.',bron:'Ik heb nog een vraag over deze punten.',status:'ok'},
+  {id:'schade',n:'A6e',name:'Foto van de afwijking',doel:'Alleen als er een afwijking is: minimaal één foto, gevraagd ná de observaties.',bron:'Fotoinstructie Global: foto’s van eventuele schades.',status:'vs',extra:'Volgorde is een voorstel; inhoud van de foto-instructie is ongewijzigd.'},
+  {id:'stap4',n:'A7',name:'Stap 4 · Controleren',doel:'Resultaat, alleen afwijkende punten voluit, "Na afronden" altijd gevuld, optionele opmerking, Afronden.',bron:'Dan heb je observaties compleet en foto compleet. Dan zeg je afgerond.',status:'ok'},
+  {id:'einde',n:'A8',name:'Dag afsluiten',doel:'Dagoverzicht, meldingen, synchronisatie, gebundelde vragen.',bron:'Al die data wordt meteen gekoppeld aan het juiste object, zodat je niet meer op kantoor dingen hoeft in te vullen.',status:'ok'},
+  {id:'week',n:'A9',name:'Week',doel:'Weekplanning in rijvolgorde (uitkomst module 1) en de eigen cijfers.',bron:'Startpunt is een planningslijst digitaal in de volgorde hoe ze het beste kunnen rijden, de uitkomst van module 1.',status:'ok',extra:'B10: eigen prestaties voor de inspecteur, via het menu.'},
+  {id:'nazorg',n:'A10',name:'Nog af te ronden',doel:'Open vragen en objecten die nog op de telefoon staan, van gisteren of vandaag.',bron:'Voorstel offline modus.',status:'vs'},
+  {id:'d:overzicht',n:'D1',name:'Risk dashboard',doel:'Goed, aandacht, actie per regio en periode. Doorklik naar acties, gemeenten en het maandrapport.',bron:'Eén main dashboard dat automatisch aangeeft welke objecten goed gaan, welke aandacht nodig hebben en welke nu fout gaan.',status:'ok',extra:'B8 periodefilter.'},
+  {id:'d:acties',n:'D2',name:'Openstaande acties',doel:'Elk object met actie, de opvolgstatus en dagen open. Status is aan te passen.',bron:'Welke objecten gaan nu fout, dan moeten we nu echt actie ondernemen.',status:'vs',extra:'B4.'},
+  {id:'d:gemeenten',n:'D3',name:'Gemeentelijke contracten',doel:'Dekking, afwijkingen, afspraak met TOOC en op schema per contract. Doorklik naar objecten en rapport.',bron:'Per gemeentelijk contract kan je alles inzien.',status:'ok',extra:'B7 afspraken.'},
+  {id:'d:rapport',n:'D4',name:'Rapport voor gemeente',doel:'Eén pagina per contract: afspraak, dekking, afwijkingen en opvolging. Te downloaden als PDF.',bron:'Aantonen: wij hebben deze objecten gecontroleerd en het is zoals het hoort.',status:'vs',extra:'B7.'},
+  {id:'d:maand',n:'D5',name:'Maandrapport directie',doel:'Wat Dick nu handmatig maakt voor Joost en de directie, in één pagina.',bron:'Ik geef het door aan Joost en hij geeft het door aan de directie.',status:'vs',extra:'B7.'},
+  {id:'d:inspecteurs',n:'D6',name:'Inspecteurs',doel:'Team eerst, per inspecteur op doorklik. Tijd per object als gemiddelde, niet als ranglijst.',bron:'Hoe kunnen we hen helpen om het makkelijker te maken.',status:'ok',extra:'B10.'},
+  {id:'d:tooc',n:'D7',name:'TOOC',doel:'Onderhoud deze week, meldingen vanuit de app, opmerkingen en reparaties.',bron:'Data vanuit TOC erin koppelen, zodat je één overzicht hebt.',status:'ph'}
+];
+const NOTES={
+  dag:['Nieuw: dagwisselaar. Gisteren is alleen lezen met een blok "Nog af te ronden"; morgen is voorbereiding zonder startknop.','Te doen staat standaard aan: het resterende werk is het overzicht. Vraag aan Roy en Sjaak: mis je iets uit de oude weeklijst?','De startknop slaat het objectscherm over voor het eerstvolgende object. Toetsen: voelt dat veilig genoeg, met de haltewaarschuwing in stap 1?'],
+  kaart:['Blauwe stip is nu gesimuleerd (je staat bij het laatst afgeronde object). Echte GPS en offline tegels in de bouw.','Alleen open objecten dragen een nummer; klaar is een vinkje, gemeld een uitroepteken.'],
+  zoek:['Zoekt over alle objecten in de gemeente, niet alleen de drie voorbeelden. In de bouw: geofilter op afstand.','Scan is gesimuleerd: vult het nummer van het dichtstbijzijnde open object in.'],
+  object:['B1: referentiefoto en waarschuwing bij meerdere objecten op één halte (Mediapark).','Verwachte campagnes verhuisden naar de fotostap, de TOOC-controlevraag naar de observatiestap. Mist iemand ze hier?'],
+  stap1:['B1: intikken of scannen. Verkeerd nummer dat wel in de ronde zit geeft de optie te wisselen.','Onleesbaar krijgt gevolg: stap 4 en het dashboard tonen "nummer niet bevestigd".'],
+  foto:['Na elke foto automatisch door. Opnieuw maken via de miniatuur bovenin.','Aantal zijden uit vakken en campagneplanning; dak alleen bij dakglas.'],
+  obs:['B2: alle aandachtspunten in het gele blok, ook de TOOC-controlevraag.','Zelf aanvinken: bij punt 3 stelt de app direct de veiligheidsvraag (in v3 alleen op het AI-pad).'],
+  opname:['Transcriptie op de telefoon of in de cloud bepaalt of inspreken offline direct resultaat geeft.'],
+  gehoord:['B9: alleen Goed en Afwijking in de app. Geen Aandacht of Actie meer.','De inspecteur blijft eindverantwoordelijk: elk punt is aanpasbaar in stap 4.'],
+  vragen:['Maximaal twee vragen per object, altijd met knoppen.'],
+  schade:['Voorstel: schadefoto ná de observaties, alleen bij een afwijking. Bespaart een stap bij elk goed object. Beslissing van Global, eigenaar van de foto-instructie.'],
+  stap4:['Alleen afwijkende punten voluit; tik een afwijking om de toelichting aan te passen (kon niet in v3).','"Na afronden" is altijd gevuld, ook bij alleen punt 4 (in v3 leeg). Punt 4 gaat nu via de weekrapportage naar TOOC: voorstel, beslissing van Dick.','Nieuw: optionele opmerking voor kantoor of TOOC.'],
+  einde:['Overgeslagen objecten en meldingen in het dagoverzicht.'],
+  week:['Weekoverzicht en eigen cijfers zitten achter het menu, niet meer op het startscherm.'],
+  nazorg:['Bundelt wat in v3 verspreid stond: vragen na een offline periode en objecten die nog op de telefoon staan.'],
+  'd:overzicht':['B8: periodefilter. Cijfers per gemeente zijn voorbeeld, objectaantallen zijn echt.','Risicologica als voorstel onderaan: Aandacht = punt 1, 2, 4, 5. Actie = punt 3, 6, 7 of veiligheidsrisico.'],
+  'd:acties':['B4: opvolgstatus per object, dagen open, status is aan te passen. Meldingen uit de app komen hier binnen als "Gemeld aan TOOC".'],
+  'd:gemeenten':['B7: kolom Afspraak TOOC en op schema. Sorteervolgorde: meeste actie eerst.'],
+  'd:rapport':['B7: het bewijs richting de gemeente. In de bouw als PDF met foto’s per object.'],
+  'd:maand':['B7: vervangt wat Dick nu handmatig maakt voor Joost.'],
+  'd:inspecteurs':['B10: team eerst, per inspecteur op doorklik. Tijd per object als gemiddelde.'],
+  'd:tooc':['Aantallen week 39 per depot zijn echt. Meldingen vanuit de app zijn live; opmerkingen en reparaties zijn voorbeeld.']
+};
+
+/* ================= APP STATE ================= */
+const S={screen:'dag',day:0,filter:'todo',mapFilter:'todo',obj:0,online:true,hist:[],selPin:null,res:{},photos:{},recording:false,recSec:0,aiDone:false,answers:{},pending:[],toast:null,order:null,nrInput:'',q:'',zoekPad:false,lastDone:null,showAll:false,sheet:null,obsMode:null,pos:null,meldNr:4470,notes:true,fromStap4:false,
+  yday:{pending:YDAY.pending.slice(),local:YDAY.objs.filter(o=>o.sync==='local').map(o=>o.nr)}};
+function initObj(o){S.res[o.nr]={status:'open',punten:{},sync:null,manual:false,answers:{},meld:true,melding:null,reden:null,nrConfirmed:null,opmerking:''};S.photos[o.nr]={p1:false,p2:o.camp.map(()=>false),dak:false,p3:0};}
+OBJ.forEach(initObj);
+S.pos={lat:OBJ[0].lat-0.0015,lng:OBJ[0].lng-0.0012};
+const cur=()=>OBJ[S.obj], R=()=>S.res[cur().nr], P=()=>S.photos[cur().nr];
+const hasDev=r=>Object.keys(r.punten).length>0;
+function riskOf(punten,answers){const ks=Object.keys(punten).map(Number);if(!ks.length)return 'good';if(ks.some(k=>ACT_PUNTEN.includes(k))||(answers&&answers.veilig==='Ja'))return 'act';return 'warn';}
+const RISKTXT={good:'Goed',warn:'Aandacht',act:'Actie'};
+const liveRisk=r=>riskOf(r.punten,r.answers);
+const order=()=>S.order||OBJ.map((_,i)=>i);
+function go(id,push=true){if(push&&S.screen!==id)S.hist.push(S.screen);S.screen=id;S.toast=null;S.sheet=null;render();const b=document.getElementById('body');if(b)b.scrollTop=0;}
+function back(){const p=S.hist.pop();S.sheet=null;if(p){S.screen=p;render();}else{go('dag',false);}}
+function toast(m){S.toast=m;render();clearTimeout(S._t);S._t=setTimeout(()=>{S.toast=null;render();},2400);}
+function setOnline(v){S.online=v;if(v){let n=0;OBJ.forEach(o=>{const r=S.res[o.nr];if(r.status==='done'&&r.sync==='local'){r.sync='synced';n++;if(r.melding&&r.melding.status==='Wordt gemeld bij synchronisatie'){r.melding.status='Gemeld aan TOOC';}}});if(n)toast(n+' object'+(n>1?'en':'')+' gesynchroniseerd'+(S.pending.length?', '+S.pending.length+' '+(S.pending.length>1?'vragen':'vraag')+' over vandaag':''));else render();}else toast('Offline. Alles wordt op de telefoon bewaard.');}
+const doneObjs=()=>OBJ.filter(o=>S.res[o.nr].status==='done');
+const doneCount=()=>doneObjs().length;
+const skipCount=()=>OBJ.filter(o=>S.res[o.nr].status==='skipped').length;
+const devCount=()=>doneObjs().filter(o=>hasDev(S.res[o.nr])).length;
+const meldCount=()=>doneObjs().filter(o=>S.res[o.nr].melding).length;
+const localCount=()=>OBJ.filter(o=>S.res[o.nr].sync==='local').length;
+const openIdx=()=>order().filter(i=>S.res[OBJ[i].nr].status==='open');
+const firstOpen=()=>{const o=openIdx();return o.length?o[0]:-1;};
+const nextOpen=()=>{const ord=order();const pos=ord.indexOf(S.obj);for(let k=pos+1;k<ord.length;k++){if(S.res[OBJ[ord[k]].nr].status==='open')return ord[k];}for(let k=0;k<pos;k++){if(S.res[OBJ[ord[k]].nr].status==='open')return ord[k];}return -1;};
+function setObj(i){S.obj=i;S.aiDone=false;S.answers={};S.recording=false;S.nrInput='';S.obsMode=null;S.showAll=false;S.fromStap4=false;}
+function whyList(o){const w=[];if(o.why)w.push(o.why);w.push(o.mnd+' maanden geleden gecontroleerd'+(o.mnd>=10?', moet dit jaar nog':''));w.push('TOOC schoongemaakt ma 21 sep, klein onderhoud');if(o.ongepland)w.unshift('Buiten planning');return w;}
+function sameHalte(o){return OBJ.filter(x=>x.nr!==o.nr&&x.halte===o.halte);}
+function photoSubs(o){const p=S.photos[o.nr];const s=[{k:'p1',label:'Objectnummer',hint:'Richt op het nummerplaatje onderaan de zijkant',taken:p.p1}];o.camp.forEach((c,i)=>s.push({k:'z'+i,label:'Zijde '+'AB'[i],hint:'Zijde '+'AB'[i]+': hele poster in beeld, recht van voren',camp:c,taken:!!p.p2[i]}));if(o.dak)s.push({k:'dak',label:'Dak',hint:'Dak en dakrand: hele dakplaat in beeld, let op scheuren en vuil',taken:p.dak,roof:true});return s;}
+function setPhoto(o,k,v){const p=S.photos[o.nr];if(k==='p1')p.p1=v;else if(k==='dak')p.dak=v;else if(k[0]==='z')p.p2[+k.slice(1)]=v;}
+const photoCount=(o,p)=>1+o.camp.length+(o.dak?1:0)+p.p3;
+function nearestOpen(){const ids=openIdx();if(!ids.length)return -1;return ids.slice().sort((a,b)=>dist(OBJ[a],S.pos)-dist(OBJ[b],S.pos))[0];}
+/* Volgende stap na de observaties: schadefoto bij een afwijking zonder foto, anders controleren. */
+function afterObs(){const r=R(),p=P();return hasDev(r)&&p.p3===0?'schade':'stap4';}
+
+/* ================= BOUWSTENEN ================= */
+const ICONS={dag:'<svg viewBox="0 0 24 24"><path d="M4 6h16M4 12h16M4 18h10"/></svg>',kaart:'<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8"/><circle cx="12" cy="12" r="3"/></svg>',zoek:'<svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="6.5"/><path d="m20 20-4.2-4.2"/></svg>'};
+const abriSVG=(dmg,roof)=>`<svg viewBox="0 0 300 220" aria-hidden="true"><rect width="300" height="220" fill="#232a2f"/><rect y="176" width="300" height="44" fill="#31393f"/><rect x="58" y="38" width="184" height="10" rx="3" fill="#8b969d"/>${roof?'<rect x="52" y="22" width="196" height="18" rx="4" fill="#a9c7d8" opacity=".5"/>':''}<rect x="68" y="48" width="6" height="128" fill="#8b969d"/><rect x="226" y="48" width="6" height="128" fill="#8b969d"/><rect x="80" y="54" width="72" height="122" fill="#a9c7d8" opacity=".55"/><rect x="160" y="54" width="60" height="122" fill="#F0B400"/><rect x="166" y="62" width="48" height="62" fill="#111417" opacity=".9"/><rect x="166" y="130" width="48" height="8" fill="#fff"/><rect x="166" y="144" width="34" height="8" fill="#fff"/><rect x="84" y="162" width="14" height="8" fill="#111417"/>${dmg?'<path d="M170 150 l14 -20 l-6 22 l16 -18" stroke="#E2321F" stroke-width="3" fill="none"/>':''}</svg>`;
+const camFrame=(taken,hint,dmg,okTxt,roof)=>`<div class="cam ${taken?'taken':''}">${abriSVG(dmg,roof)}<span class="corner c1"></span><span class="corner c2"></span><span class="corner c3"></span><span class="corner c4"></span><p class="hint">${hint}</p>${taken?`<span class="ok">${okTxt||'Gemaakt'}</span>`:''}</div>`;
+const shutter=(a,k,txt)=>`<button class="shutter" data-a="${a}" data-k="${k}"><span class="dot"></span>${txt}</button>`;
+const badgeFor=r=>r.status==='skipped'?'<span class="badge">Overgeslagen</span>':r.status==='done'?(hasDev(r)?'<span class="badge dev">Afwijking</span>':'<span class="badge good">Goed</span>'):'<span class="badge">Open</span>';
+const itemClass=r=>r.status==='skipped'?'skip':r.status!=='done'?'':(hasDev(r)?(r.melding?'act':'dev'):'good');
+const syncTxt=r=>r.status!=='done'?'':(r.sync==='local'?'<span class="sync">Op telefoon</span>':'<span class="sync">Gesynchroniseerd</span>')+(r.melding?' <span class="sync">· gemeld aan TOOC</span>':'');
+const menuBtn=()=>'<button class="menubtn" data-a="sheet" data-v="menu" aria-label="Menu">≡</button>';
+const connLabel=()=>`<span class="conn ${S.online?'':'off'}"><i></i>${S.online?'Online':'Offline'}</span>`;
+const STEPNAMES=['Nummer','Foto’s','Observaties','Controleren'];
+function stepsBar(cur,subs,idx){return `<div class="steps">${STEPNAMES.map((s,i)=>`<div class="${i+1<cur?'done':i+1===cur?'cur':''}">${i+1} ${s}</div>`).join('')}</div>${subs?`<div class="dots">${Array.from({length:subs}).map((_,i)=>`<i class="${i<idx?'dn':i===idx?'on':''}"></i>`).join('')}</div>`:''}`;}
+function daySwitcher(){let offs=[S.day-1,S.day,S.day+1];if(S.day<=-1)offs=[-1,0,1];if(S.day>=3)offs=[1,2,3];
+  return `<div class="days"><button class="arr" data-a="day" data-v="${S.day-1}" ${S.day<=-1?'disabled':''} aria-label="Vorige dag">‹</button>${offs.map(off=>{const d=dayOf(off);return `<button data-a="day" data-v="${off}" class="${off===S.day?'on':''}"><b>${d.dag} ${d.dat.split(' ')[0]}</b><small>${off===-1?'gisteren':off===0?'vandaag':off===1?'morgen':d.label.toLowerCase()}</small></button>`}).join('')}<button class="arr" data-a="day" data-v="${S.day+1}" ${S.day>=3?'disabled':''} aria-label="Volgende dag">›</button></div>`;}
+const letop=o=>{const items=[...o.let.map(l=>[l[0],l[1],true]),['TOOC','Klein onderhoud op ma 21 sep, schoonmaak zonder glaswerk. Controleer of dit is uitgevoerd.',false]];return `<div class="letop"><h4>Let op bij dit object</h4>${items.map(l=>`<p><b>${l[0]}</b> · ${esc(l[1])}${l[2]?'<span class="vb">voorbeeld</span>':''}</p>`).join('')}</div>`;};
+function resultBanner(){if(!S.lastDone)return '';const o=OBJ.find(x=>x.nr===S.lastDone);if(!o)return '';const r=S.res[o.nr];const nx=firstOpen();const n=nx>=0?OBJ[nx]:null;const dev=hasDev(r);
+  const acts=[];if(r.melding)acts.push('Melding '+r.melding.id+' · '+r.melding.status.toLowerCase()+(r.answers.veilig==='Ja'?' met voorrang':''));if(Object.keys(r.punten).some(k=>[1,2,5].includes(+k)))acts.push('doorgezet naar Global campagne');if(r.sync==='local')acts.push('bewaard op telefoon');
+  return `<div class="resultb"><div class="hd"><b>${dev?'!':'✓'} ${o.nr} afgerond · ${dev?'Afwijking':'Goed'}</b><button class="x" data-a="dismiss" aria-label="Sluiten">×</button></div>${acts.length?`<small>${esc(acts.join(' · '))}</small>`:''}${n?`<div class="nxt"><b>Volgende: ${esc(n.straat)}</b><br><small style="color:#6B7378">halte ${esc(n.halte)} · ${n.nr} · ${fmtDist(dist(S.pos,n))} · ${minRij(dist(S.pos,n))} min rijden</small><div class="actions" style="margin-top:8px"><button data-a="nav" data-i="${nx}">Start navigatie</button></div></div>`:`<div class="nxt"><b>Dit was het laatste object van de ronde.</b> Sluit de dag af met de knop onderaan.</div>`}</div>`;}
+
+/* ================= VIEWS: STARTSCHERM ================= */
+const V={};
+function todayItem(i){const o=OBJ[i],r=S.res[o.nr];const pos=order().indexOf(i)+1;const nxt=i===firstOpen();
+  return `<button class="item ${itemClass(r)} ${nxt?'cur':''}" data-a="obj" data-i="${i}"><span class="no">${pos}</span><span class="t"><b>${esc(o.straat)}</b><small>halte ${esc(o.halte)} · ${o.nr}${o.ongepland?' · <b>buiten planning</b>':''}${r.status==='open'?' · '+(o.why?esc(o.why):o.mnd+' mnd geleden'):''}${r.status==='skipped'?' · '+esc(r.reden):''}</small>${syncTxt(r)}</span>${r.status==='open'&&nxt?'<span class="badge ink">Volgende</span>':badgeFor(r)}</button>`;}
+function todayView(d,sw){const n=OBJ.length,dn=doneCount(),sk=skipCount(),open=n-dn-sk;
+  const list=order().filter(i=>{const st=S.res[OBJ[i].nr].status;return S.filter==='all'||(S.filter==='todo'?st==='open':st!=='open');});
+  const body=`${sw}
+  <div class="prog"><div class="bar"><i style="width:${(dn+sk)/n*100}%"></i></div><span>${dn} van ${n} klaar${devCount()?' · '+devCount()+' afwijking'+(devCount()===1?'':'en'):''}${meldCount()?' · '+meldCount()+' gemeld':''}</span></div>
+  ${!S.online?`<div class="banner off"><span class="ic"></span><div><b>Geen verbinding.</b> Alles wordt op de telefoon bewaard en later gesynchroniseerd.</div></div>`:''}
+  ${S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="nazorg"><span class="ic"></span><div><b>${S.pending.length} ${S.pending.length>1?'vragen':'vraag'} over vandaag</b><br>Van de objecten die je offline hebt gedaan.</div></button>`:''}
+  ${resultBanner()}
+  <div class="seg"><button class="${S.filter==='todo'?'on':''}" data-a="filter" data-v="todo">Te doen ${open}</button><button class="${S.filter==='done'?'on':''}" data-a="filter" data-v="done">Klaar ${dn+sk}</button><button class="${S.filter==='all'?'on':''}" data-a="filter" data-v="all">Alles</button></div>
+  <button class="searchbtn" data-a="go" data-v="zoek">${ICONS.zoek}Zoek objectnummer, straat of halte</button>
+  <div class="lbl"><span>Volgorde: ${S.order?'dichtstbijzijnde eerst':'TOOC route'}</span><button data-a="reorder">${S.order?'Terug naar route':'Dichtstbijzijnde eerst'}</button></div>
+  <div class="list">${list.map(todayItem).join('')||'<p class="sub">Niets in deze selectie.</p>'}</div>`;
+  const foot=firstOpen()>=0?`<button class="btn p" data-a="startnext">Start volgende: ${esc(OBJ[firstOpen()].straat)}</button>`:`<button class="btn p" data-a="go" data-v="einde">Dag afsluiten</button>`;
+  return {title:'Vandaag',sub:`Route ${d.route} · ${d.plaats} · ${n} objecten`,right:menuBtn(),body,foot,tab:'dag'};}
+const yBadge=o=>o.status==='skipped'?'<span class="badge">Overgeslagen</span>':o.res==='good'?'<span class="badge good">Goed</span>':'<span class="badge dev">Afwijking</span>';
+const yClass=o=>o.status==='skipped'?'skip':o.res==='good'?'good':o.res==='act'?'act':'dev';
+function ydayView(d,sw){const objs=YDAY.objs;const done=objs.filter(o=>o.status==='done');const openN=S.yday.pending.length+S.yday.local.length;
+  const body=`${sw}
+  <div class="kpi3"><div><b>${done.length}</b><small>gecontroleerd</small></div><div><b>${done.filter(o=>o.res!=='good').length}</b><small>afwijkingen</small></div><div><b>${done.filter(o=>o.melding).length}</b><small>gemeld aan TOOC</small></div></div>
+  ${openN?`<button class="banner warn" data-a="go" data-v="nazorg"><span class="ic"></span><div><b>Nog af te ronden (${openN})</b><br>${S.yday.pending.length?S.yday.pending.length+' vraag over de verlichting bij '+S.yday.pending[0].nr:''}${S.yday.pending.length&&S.yday.local.length?' · ':''}${S.yday.local.length?S.yday.local.length+' object nog op telefoon':''}</div></button>`:`<div class="banner good"><span class="ic"></span><div><b>Alles afgerond en gesynchroniseerd.</b></div></div>`}
+  <div class="lbl"><span>Afgerond, alleen lezen</span></div>
+  <div class="list">${objs.map((o,i)=>`<button class="item ${yClass(o)}" data-a="sheet" data-v="yobj" data-i="${i}"><span class="no">${i+1}</span><span class="t"><b>${esc(o.straat)}</b><small>${o.nr} · ${o.status==='skipped'?'overgeslagen: '+esc(o.reden):o.tijd+(o.melding?' · melding '+o.melding:'')+(S.yday.local.includes(o.nr)?' · op telefoon':'')}</small></span>${yBadge(o)}</button>`).join('')}</div>`;
+  return {title:'Gisteren',sub:`${d.dag} ${d.dat} · Route ${d.route} · ${d.plaats}`,right:menuBtn(),body,foot:openN?`<button class="btn p" data-a="go" data-v="nazorg">Rond de ${openN} open punten af</button>`:'',tab:'dag'};}
+function futureView(d,sw){const objs=FUT[d.off];
+  const body=`${sw}
+  <div class="kpi3"><div><b>${d.n}</b><small>objecten</small></div><div><b>${d.bijzonder[0]}</b><small>${d.bijzonder[1]}</small></div><div><b>${d.km} km</b><small>route</small></div></div>
+  <div class="pcard"><h4>Waarom deze objecten</h4><div style="font-size:13.5px">${esc(d.waarom)}</div></div>
+  <button class="btn g" data-a="go" data-v="kaart" style="margin-bottom:10px">Bekijk op kaart</button>
+  <div class="lbl"><span>Gepland, alleen lezen</span></div>
+  <div class="list">${objs.map((o,i)=>`<button class="item" data-a="sheet" data-v="fobj" data-i="${i}"><span class="no">${i+1}</span><span class="t"><b>${esc(o.straat)}</b><small>halte ${esc(o.halte)} · ${o.nr} · ${esc(o.reden)}</small></span><span class="badge">Gepland</span></button>`).join('')}</div>`;
+  return {title:d.label,sub:`${d.dag} ${d.dat} · Route ${d.route} · ${d.plaats}`,right:menuBtn(),body,foot:`<p class="hint" style="margin:0;flex:1">Deze route start ${d.off===1?'morgen':d.label.toLowerCase()}. Voorbereiden kan, starten niet.</p>`,tab:'dag'};}
+V.dag=()=>{const d=dayOf(S.day)||dayOf(0);const sw=daySwitcher();if(d.off===0)return todayView(d,sw);if(d.off<0)return ydayView(d,sw);return futureView(d,sw);};
+
+/* ================= VIEWS: KAART EN ZOEKEN ================= */
+V.kaart=()=>{const d=dayOf(S.day)||dayOf(0);const today=d.off===0;const objs=today?OBJ:(d.off<0?YDAY.objs:FUT[d.off]);
+  const lats=objs.map(o=>o.lat),lngs=objs.map(o=>o.lng);if(today&&S.pos){lats.push(S.pos.lat);lngs.push(S.pos.lng);}
+  const mnl=Math.min(...lats),mxl=Math.max(...lats),mng=Math.min(...lngs),mxg=Math.max(...lngs);const W=340,H=330,pad=34;
+  const X=g=>pad+(g-mng)/(mxg-mng||1)*(W-2*pad),Y=l=>H-pad-(l-mnl)/(mxl-mnl||1)*(H-2*pad);
+  const streets=[[0,60,340,40],[0,120,340,140],[0,200,340,190],[0,270,340,290],[60,0,80,340],[150,0,170,340],[250,0,240,340]].map(s=>`<line x1="${s[0]}" y1="${s[1]}" x2="${s[2]}" y2="${s[3]}" stroke="#fff" stroke-width="10" stroke-linecap="round"/>`).join('');
+  const placed=[];const pts=objs.map(o=>{let px=X(o.lng),py=Y(o.lat);if(placed.some(q=>Math.hypot(q[0]-px,q[1]-py)<18)){px-=16;py-=14;}placed.push([px,py]);return [px,py];});
+  const idxs=today?order():objs.map((_,i)=>i);
+  const shown=idxs.filter(i=>{if(!today)return true;const st=S.res[objs[i].nr].status;return S.mapFilter==='all'||st==='open';});
+  const route=(today?idxs.filter(i=>S.res[objs[i].nr].status==='open'):idxs).map(i=>pts[i].join(',')).join(' ');
+  let openPos=0;
+  const pins=shown.map(i=>{const o=objs[i];let cls='',txt='',c='#111417',tx='#fff',r=12;
+    if(today){const rr=S.res[o.nr];const st=rr.status;if(st==='open'){openPos++;txt=String(openPos);}else if(st==='skipped'){c='#CFD3D6';tx='#111417';txt='–';r=10;}else if(hasDev(rr)){c=rr.melding?'#E2321F':'#F0B400';tx=rr.melding?'#fff':'#111417';txt='!';r=10;}else{c='#17A35B';txt='✓';r=10;}}
+    else{txt=String(i+1);if(d.off<0){const yo=objs[i];c=yo.status==='skipped'?'#CFD3D6':yo.res==='good'?'#17A35B':yo.res==='act'?'#E2321F':'#F0B400';tx=yo.res==='dev'||yo.status==='skipped'?'#111417':'#fff';txt=yo.status==='skipped'?'–':yo.res==='good'?'✓':'!';r=10;}}
+    return `<g class="pin" data-a="pin" data-i="${i}"><circle cx="${pts[i][0]}" cy="${pts[i][1]}" r="${S.selPin===i?r+3:r}" fill="${c}" stroke="#fff" stroke-width="2.5"/><text x="${pts[i][0]}" y="${pts[i][1]+4}" text-anchor="middle" font-size="11" font-weight="800" fill="${tx}">${txt}</text></g>`}).join('');
+  const me=today&&S.pos?`<g><circle cx="${X(S.pos.lng)}" cy="${Y(S.pos.lat)}" r="22" fill="#1D5FD6" opacity=".14"/><circle cx="${X(S.pos.lng)}" cy="${Y(S.pos.lat)}" r="9" fill="#1D5FD6" stroke="#fff" stroke-width="3"/></g>`:'';
+  const sel=S.selPin!=null&&objs[S.selPin]?objs[S.selPin]:null;
+  let card='';
+  if(sel){if(today){const rr=S.res[sel.nr];const km=dist(S.pos,sel);card=`<div class="pcard white"><div style="display:flex;justify-content:space-between;align-items:flex-start;gap:8px"><div><b style="font-size:15px">${order().indexOf(S.selPin)+1} · ${esc(sel.straat)}</b><br><small style="color:#6B7378">halte ${esc(sel.halte)} · ${sel.nr} · ${fmtDist(km)} · ${minRij(km)} min</small></div>${badgeFor(rr)}</div><div style="display:flex;gap:8px;margin-top:10px"><button class="btn s" data-a="obj" data-i="${S.selPin}">Details</button><button class="btn p" data-a="start" data-i="${S.selPin}" ${rr.status!=='open'?'disabled':''}>Start controle</button></div></div>`;}
+    else card=`<div class="pcard white"><b style="font-size:15px">${S.selPin+1} · ${esc(sel.straat)}</b><br><small style="color:#6B7378">${sel.nr}${sel.halte?' · halte '+esc(sel.halte):''} · ${d.off<0?(sel.status==='skipped'?'overgeslagen':sel.tijd):esc(sel.reden)}</small></div>`;}
+  else card=`<p class="sub" style="margin:0">Tik een nummer op de kaart.${today?' Blauwe stip: jij.':''}</p>`;
+  const openN=today?openIdx().length:objs.length;
+  return {title:'Kaart',sub:today?`Vandaag · ${openN} te doen`:`${d.label} · ${objs.length} objecten`,right:today?`<div class="actions"><button class="${S.mapFilter==='todo'?'p':''}" data-a="mapfilter" data-v="todo">Te doen</button><button class="${S.mapFilter==='all'?'p':''}" data-a="mapfilter" data-v="all">Alles</button></div>`:'',
+    body:`<div class="map"><svg viewBox="0 0 ${W} ${H}" role="img" aria-label="Schematische kaart">${streets}<polyline points="${route}" fill="none" stroke="#111417" stroke-opacity=".25" stroke-width="3" stroke-dasharray="6 5"/>${pins}${me}</svg>${today?'<button class="ctl" data-a="center" aria-label="Centreer op mijn positie">◎</button><span class="gps">GPS gesimuleerd</span>':''}</div>${card}`,foot:'',tab:'kaart'};};
+
+function zoekItem(o,kind,i){const km=S.pos?dist(S.pos,o):0;
+  if(kind==='route'){const r=S.res[o.nr];return `<button class="item ${itemClass(r)}" data-a="obj" data-i="${i}"><span class="no">${order().indexOf(i)+1}</span><span class="t"><b>${esc(o.straat)}</b><small>${o.nr} · halte ${esc(o.halte)} · ${fmtDist(km)}</small></span>${badgeFor(r)}</button>`;}
+  if(kind==='extra')return `<button class="item" data-a="adhoc" data-nr="${o.nr}"><span class="no">+</span><span class="t"><b>${esc(o.straat)}</b><small>${o.nr} · halte ${esc(o.halte)} · ${fmtDist(km)} · ${o.mnd} mnd geleden</small></span><span class="badge unpl">Toevoegen</span></button>`;
+  return `<button class="item" data-a="sheet" data-v="objinfo" data-nr="${o.nr}"><span class="no">·</span><span class="t"><b>${esc(o.straat)}</b><small>${o.nr} · halte ${esc(o.halte)} · ${fmtDist(km)}</small></span><span class="badge">Bekijk</span></button>`;}
+V.zoek=()=>{const q=S.q.trim().toLowerCase();const m=o=>!q||o.nr.includes(q)||o.straat.toLowerCase().includes(q)||o.halte.toLowerCase().includes(q);
+  const inRoute=q?OBJ.map((o,i)=>[o,i]).filter(([o])=>m(o)):[];
+  const extra=EXTRA.filter(e=>!OBJ.find(o=>o.nr===e.nr)).filter(m);
+  const elders=q?ELDERS.filter(m):[];
+  const none=q&&!inRoute.length&&!extra.length&&!elders.length;
+  return {title:'Zoeken',sub:'Alle objecten, ook buiten je ronde',right:connLabel(),body:`
+  <input class="search-in" data-in="zoek" placeholder="Nummer, straat of halte" value="${esc(S.q)}" inputmode="${S.zoekPad?'none':'search'}" autocomplete="off">
+  <div style="display:flex;gap:8px;margin-bottom:10px"><button class="btn g auto" style="flex:1" data-a="zoekpad">${S.zoekPad?'Toetsenblok sluiten':'Nummer intikken'}</button><button class="btn g auto" style="flex:1" data-a="zoekscan">Scan plaatje</button></div>
+  ${S.zoekPad?`<div class="keypad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button data-a="zkey" data-v="${k}">${k}</button>`).join('')}<button class="alt" data-a="zkey" data-v="clear">Wis</button><button data-a="zkey" data-v="0">0</button><button class="alt" data-a="zkey" data-v="del">⌫</button></div>`:''}
+  ${inRoute.length?`<div class="lbl"><span>In je ronde van vandaag · ${inRoute.length}</span></div><div class="list">${inRoute.map(([o,i])=>zoekItem(o,'route',i)).join('')}</div>`:''}
+  ${extra.length?`<div class="lbl"><span>Dichtbij, niet gepland · ${extra.length}</span></div><div class="list">${extra.map(o=>zoekItem(o,'extra')).join('')}</div>`:''}
+  ${q?(elders.length?`<div class="lbl"><span>Elders in Hilversum · ${elders.length}</span></div><div class="list">${elders.slice(0,6).map(o=>zoekItem(o,'elders')).join('')}</div>${elders.length>6?`<p class="hint">en ${elders.length-6} meer, typ verder om te verfijnen</p>`:''}`:''):`<p class="hint" style="margin-top:14px">Elders in Hilversum: ${ELDERS.length} objecten. Typ een nummer, straat of halte om te zoeken.</p>`}
+  ${none?'<p class="sub" style="margin-top:12px">Niets gevonden. Controleer het nummer.</p>':''}`,foot:'',tab:'zoek'};};
+
+/* ================= VIEW: OBJECT (BESLISSCHERM) ================= */
+V.object=()=>{const o=cur(),r=R();const twins=sameHalte(o);const acties=r.status==='open'
+  ?`<button class="btn g auto" data-a="sheet" data-v="skip">Overslaan</button><button class="btn s auto" data-a="sheet" data-v="meer">Meer</button><button class="btn p" data-a="start" data-i="${S.obj}">Start controle</button>`
+  :`<button class="btn s" data-a="sheet" data-v="meer">Meer over dit object</button>`;
+  return {title:`${o.nr} · ${esc(o.straat)}`,sub:`halte ${esc(o.halte)} · ${esc(o.type)} · ${o.dak?'dakglas':'geen dakglas'}`,compact:true,right:connLabel(),body:`
+  <div class="pcard"><h4>Waarom vandaag</h4><div style="font-size:13.5px">${whyList(o).map(esc).join(' · ')}</div></div>
+  <div class="refphoto">${abriSVG(false,o.dak)}<span>Referentiefoto · ${o.laatst}</span></div>
+  ${twins.length?`<div class="banner warn"><span class="ic"></span><div><b>${twins.length+1} objecten bij deze halte.</b> Dit is <b>${o.nr}</b>${twins.length===1?', de andere is '+twins[0].nr:''}. Het nummer bevestig je in stap 1.</div></div>`:''}
+  <div class="why">${o.let.length?`<span>Let op: ${o.let.length} aandachtspunt${o.let.length>1?'en':''}</span>`:''}<span>Vorige controle: ${o.hist?'afwijking gemeld':'goed'}</span>${o.ongepland?'<span class="hi">Buiten planning</span>':''}</div>
+  ${r.status==='done'?`<div class="result ${hasDev(r)?'dev':'good'}"><div><b>${hasDev(r)?'Afwijking':'Goed'}</b><small>Vandaag gecontroleerd · ${r.sync==='local'?'nog op telefoon':'gesynchroniseerd'}${r.melding?' · gemeld aan TOOC':''}</small></div></div>`:''}
+  ${r.status==='skipped'?`<div class="result" style="background:#F2F3F3"><div><b>Overgeslagen</b><small>${esc(r.reden)}</small></div><button class="badge" data-a="unskip" style="border:0">Toch controleren</button></div>`:''}
+  <p class="hint" style="text-align:left">Verwachte campagnes, TOOC-afspraken en historie: onder Meer, en in de stap waar je ze nodig hebt.</p>`,foot:acties};};
+
+/* ================= VIEWS: CONTROLEFLOW (vier stappen) ================= */
+const ctrlHead=o=>({title:`${o.nr} · ${esc(o.straat)}`,sub:`halte ${esc(o.halte)}`,compact:true,right:connLabel()});
+V.stap1=()=>{const o=cur();const inp=S.nrInput;const ok=inp===o.nr;const other=inp.length===5&&!ok?(OBJ.find(x=>x.nr===inp)||EXTRA.find(x=>x.nr===inp)||ELDERS.find(x=>x.nr===inp)):null;const bad=inp.length===5&&!ok;const twins=sameHalte(o);
+  return {...ctrlHead(o),steps:{cur:1},body:`
+  ${twins.length?`<div class="banner warn"><span class="ic"></span><div><b>${twins.length+1} objecten bij deze halte.</b> Dit moet <b>${o.nr}</b> zijn${twins.length===1?', de andere is '+twins[0].nr:''}.</div></div>`:''}
+  <p class="sub" style="margin-bottom:2px">Tik het nummer van het plaatje op het object in, of scan het.</p>
+  <div class="nrbox ${ok?'ok':bad?'bad':''}">${[0,1,2,3,4].map(i=>`<i class="${i===inp.length?'on':''}">${inp[i]||''}</i>`).join('')}</div>
+  ${ok?`<div class="banner good"><span class="ic"></span><div><b>Klopt.</b> Dit is ${o.nr}, ${esc(o.straat)}.</div></div>`:''}
+  ${bad&&other?`<button class="banner warn" data-a="switchto" data-nr="${other.nr}"><span class="ic"></span><div><b>Dit is niet ${o.nr}.</b> ${other.nr} is ${esc(other.straat)}, halte ${esc(other.halte)}. Tik hier om dat object te controleren.</div></button>`:''}
+  ${bad&&!other?`<div class="banner act"><span class="ic"></span><div><b>${inp} ken ik niet in Hilversum.</b> Controleer het plaatje of zoek het object via Zoeken.</div></div>`:''}
+  <div class="keypad">${[1,2,3,4,5,6,7,8,9].map(k=>`<button data-a="key" data-v="${k}">${k}</button>`).join('')}<button class="alt" data-a="scan">Scan plaatje</button><button data-a="key" data-v="0">0</button><button class="alt" data-a="key" data-v="del">⌫</button></div>
+  <p class="hint">Onleesbaar plaatje? Ga verder; het object wordt gemarkeerd en je ziet dat terug in stap 4.</p>`,
+  foot:`<button class="btn g auto" data-a="nrskip">Onleesbaar</button><button class="btn p" data-a="nrok" ${ok?'':'disabled'}>Bevestig en start foto’s</button>`};};
+
+V.foto=()=>{const o=cur();const subs=photoSubs(o);const ci=subs.findIndex(s=>!s.taken);const c=ci>=0?subs[ci]:null;
+  const strip=`<div class="strip">${subs.map(s=>`<button data-a="${s.taken?'retake':'noop'}" data-k="${s.k}" ${s.taken?'':'disabled'} title="${s.taken?'Opnieuw maken':''}"><span class="thumb ${s.taken?'':'pend'}"></span>${s.label}${s.taken?' ✓':''}</button>`).join('')}</div>`;
+  if(!c)return {...ctrlHead(o),steps:{cur:2,subs:subs.length,idx:subs.length},body:`${strip}<div class="banner good"><span class="ic"></span><div><b>Alle foto’s gemaakt.</b> Tik een miniatuur om een foto opnieuw te maken.</div></div>`,foot:`<button class="btn p" data-a="go" data-v="obs">Verder naar observaties</button>`};
+  return {...ctrlHead(o),steps:{cur:2,subs:subs.length,idx:ci},body:`${strip}${camFrame(false,c.hint,false,'',!!c.roof)}${shutter('shoot',c.k,'Maak foto: '+c.label)}${c.camp?`<div class="side"><b>${c.label}</b><small>Hoort te hangen: ${esc(c.camp)}</small></div>`:''}<p class="hint">Na de foto ga je automatisch door naar ${ci<subs.length-1?subs[ci+1].label.toLowerCase():'de observaties'}.</p>`,foot:''};};
+
+function inlineVeilig(){return `<div class="inline-q"><p>Is dit een veiligheidsrisico voor voorbijgangers?</p><div class="opts">${['Ja','Nee'].map(op=>`<button class="${S.answers.veilig===op?'on':''}" data-a="ans" data-q="veilig" data-v="${op}">${op}</button>`).join('')}</div></div>`;}
+V.obs=()=>{const o=cur(),r=R();const manual=!S.online||S.obsMode==='manual';
+  const pts=manual
+    ?PUNTEN.map((p,i)=>{const k=i+1;const on=!!r.punten[k];return `<label class="pt ${on?'dev':''}"><input type="checkbox" data-a="tick" data-k="${k}" ${on?'checked':''}><span class="lbl2"><b>${k}. ${p[0]}</b><small>${p[1]}</small></span></label>${k===3&&on?inlineVeilig():''}`;}).join('')
+    :PUNTEN.map((p,i)=>`<div class="pt compact"><span class="num">${i+1}</span><span class="lbl2"><b>${p[0]}</b><small>${p[1]}</small></span></div>`).join('');
+  const body=`${letop(o)}${!S.online?`<div class="banner off"><span class="ic"></span><div><b>Geen verbinding.</b> Vink de punten zelf aan. Je opname wordt bewaard en na synchronisatie alsnog geanalyseerd.</div></div>`:''}${pts}
+  ${!S.online?`<button class="mic ${S.recording?'rec':''}" data-a="rec" style="margin-top:6px"><span class="ring2">${S.recording?'■':'●'}</span>${S.recording?'Opname loopt, tik om te stoppen':(r.opname?'Opname bewaard (0:14). Opnieuw?':'Toelichting inspreken (optioneel)')}</button>`:''}`;
+  const foot=manual
+    ?`${S.online?'<button class="btn g auto" data-a="obsmode" data-v="kies">Toch inspreken</button>':''}<button class="btn p" data-a="manualdone">Verder</button>`
+    :`<div style="display:flex;flex-direction:column;gap:6px;width:100%"><button class="btn p" data-a="rec"><span style="display:inline-block;width:10px;height:10px;border-radius:50%;background:#E2321F;margin-right:8px;vertical-align:middle"></span>Inspreken</button><button class="btn g" data-a="obsmode" data-v="manual">Liever zelf aanvinken</button></div>`;
+  return {...ctrlHead(o),steps:{cur:3,subs:5,idx:0},body,foot};};
+
+V.opname=()=>({...ctrlHead(cur()),steps:{cur:3,subs:5,idx:1},body:`<div style="height:20px"></div>
+  <button class="mic rec" data-a="stoprec"><span class="ring2">■</span>Tik om te stoppen<div class="wave">${'<i></i>'.repeat(14)}</div><span style="font-weight:600;font-size:13px;opacity:.9">0:0${S.recSec||1}</span></button>
+  <p class="sub" style="margin-top:14px;text-align:center">Praat gewoon. De app maakt er zelf de 7 punten van.</p>`,foot:''});
+
+V.gehoord=()=>{const o=cur(),r=R();
+  const rows=PUNTEN.map((p,i)=>{const k=i+1;const dev=r.punten[k];const nb=o.nb.includes(k)&&!S.answers['licht'];const cls=dev?'dev':nb?'nb':'';
+    return `<div class="pt compact ${cls}"><span class="num">${k}</span><span class="lbl2"><b>${p[0]}</b><small>${dev?esc(dev):nb?'Niet uit de opname af te leiden':'Geen afwijking'}</small></span><span class="st ${dev?'d':nb?'n':'g'}">${dev?'Afwijking':nb?'Vraag volgt':'✓'}</span></div>`}).join('');
+  const open=o.vragen.filter(q=>!S.answers[q.id]);
+  return {...ctrlHead(o),steps:{cur:3,subs:5,idx:2},body:`<div class="trans"><small>Jouw opname · 0:14</small>${esc(o.tr)}</div>${rows}
+  ${open.length?`<div class="banner info" style="margin-top:8px"><span class="ic"></span><div><b>Ik heb nog ${open.length} ${open.length>1?'vragen':'vraag'}</b> over de punten die hierboven open staan.</div></div>`:''}`,
+  foot:open.length?`<button class="btn p" data-a="go" data-v="vragen">Beantwoord ${open.length} ${open.length>1?'vragen':'vraag'}</button>`:`<button class="btn p" data-a="aidone">Klopt, verder</button>`};};
+
+V.vragen=()=>{const o=cur();return {...ctrlHead(o),steps:{cur:3,subs:5,idx:3},body:`
+  ${o.vragen.map(q=>`<div class="q"><small>Punt ${q.punt}: ${PUNTEN[q.punt-1][0]}</small><p>${esc(q.q)}</p><div class="opts">${q.opts.map(op=>`<button class="${S.answers[q.id]===op?'on':''}" data-a="ans" data-q="${q.id}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`).join('')}`,
+  foot:`<button class="btn p" data-a="aidone" ${o.vragen.every(q=>S.answers[q.id])?'':'disabled'}>Verder</button>`};};
+
+V.schade=()=>{const o=cur(),p=P();return {...ctrlHead(o),steps:{cur:3,subs:5,idx:4},body:`
+  <div class="banner warn"><span class="ic"></span><div><b>Er is een afwijking vastgelegd.</b> Maak minimaal één foto van wat je hebt gezien.</div></div>
+  ${camFrame(p.p3>0,'Dichtbij en scherp. Meerdere foto’s mag.',true,p.p3+' foto'+(p.p3>1?'’s':''),o.dak)}
+  ${shutter('shoot','p3',p.p3?'Nog een foto':'Maak schadefoto')}
+  ${p.p3?`<div class="strip">${Array.from({length:p.p3}).map(()=>'<span class="thumb dmg"></span>').join('')}</div>`:''}`,
+  foot:`<button class="btn p" data-a="schadeklaar" ${p.p3===0?'disabled':''}>${p.p3===0?'Maak eerst een foto':'Verder naar controleren'}</button>`};};
+
+V.stap4=()=>{const o=cur(),r=R(),p=P();const dev=hasDev(r);const rk=riskOf(r.punten,S.answers);const ks=Object.keys(r.punten).map(Number);
+  const toTooc=rk==='act';const toGlobal=ks.some(k=>[1,2,5].includes(k));const toRap=!toTooc&&ks.includes(4);const nA=Object.keys(S.answers).length;
+  const chips=`<div class="why"><span class="${r.nrConfirmed===false?'hi':''}">${r.nrConfirmed===false?'Nummer niet bevestigd':'Nummer bevestigd'}</span><span>${photoCount(o,p)} foto’s</span>${nA?`<span>${nA} ${nA>1?'vragen':'vraag'} beantwoord</span>`:''}${dev?`<button class="badge" data-a="go" data-v="schade" style="border:0;cursor:pointer">+ schadefoto</button>`:''}</div>`;
+  const devRows=ks.map(k=>`<button class="pt ${ACT_PUNTEN.includes(k)?'act':'dev'}" data-a="sheet" data-v="punt" data-k="${k}"><span class="num">${k}</span><span class="lbl2"><b>${PUNTEN[k-1][0]}</b><small>${esc(r.punten[k])} · ${OWNER(k)}</small>${k===3&&S.answers.veilig?`<small>Veiligheidsrisico: ${S.answers.veilig.toLowerCase()}</small>`:''}${k===6&&S.answers.licht?`<small>Verlichting: ${esc(S.answers.licht.toLowerCase())}</small>`:''}</span><span class="st ${ACT_PUNTEN.includes(k)?'a':'d'}">✎</span></button>`).join('');
+  const goodKs=PUNTEN.map((_,i)=>i+1).filter(k=>!r.punten[k]);
+  const goodRows=S.showAll?goodKs.map(k=>`<button class="pt compact" data-a="toggle" data-k="${k}"><span class="num">${k}</span><span class="lbl2"><b>${PUNTEN[k-1][0]}</b><small>Geen afwijking · tik om als afwijking te markeren</small></span><span class="st g">✓</span></button>`).join(''):'';
+  const na=[];
+  if(toTooc)na.push(`<button class="tog" data-a="meldtog"><span><b>Melden aan TOOC</b><small>Reparatie of onderhoud nodig${S.answers.veilig==='Ja'?' · met voorrang, veiligheidsrisico':''}. Dick volgt de status in het dashboard.</small></span><span class="sw ${r.meld?'on':''}"></span></button>`);
+  if(toGlobal)na.push(`<div class="tog"><span><b>Naar Global campagne</b><small>${ks.filter(k=>[1,2,5].includes(k)).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')} · gaat automatisch naar het campagneteam.</small></span><span class="badge good">Automatisch</span></div>`);
+  if(toRap)na.push(`<div class="tog"><span><b>Naar TOOC via de weekrapportage</b><small>Niet schoon telt als aandacht, geen directe melding. Voorstel, te toetsen met Dick.</small></span><span class="badge">Rapportage</span></div>`);
+  if(r.nrConfirmed===false)na.push(`<div class="tog"><span><b>Objectnummer niet bevestigd</b><small>Kantoor controleert de foto van het plaatje voordat de controle definitief aan ${o.nr} hangt.</small></span><span class="badge dev">Controle</span></div>`);
+  if(!dev&&r.nrConfirmed!==false)na.push(`<div class="tog"><span><b>Geen vervolgacties</b><small>Object is in orde. Het resultaat staat direct in het dashboard.</small></span><span class="badge good">Klaar</span></div>`);
+  const body=`<div class="result ${dev?'dev':'good'}"><div><b>${dev?'Afwijking':'Goed'}</b><small>${dev?ks.length+' van 7 punten afwijkend'+(S.answers.veilig==='Ja'?' · veiligheidsrisico':''):'Geen van de 7 punten afwijkend'}</small></div></div>
+  ${chips}${devRows}
+  <button class="lbl" data-a="toggleall" style="border:0;background:transparent;width:100%;padding:0;cursor:pointer;font:inherit;font-size:12px;font-weight:700;color:#6B7378"><span>${S.showAll?'Punten zonder afwijking':'+ '+goodKs.length+' punt'+(goodKs.length===1?'':'en')+' zonder afwijking'}</span><span style="text-decoration:underline;color:#111417">${S.showAll?'verberg':'toon'}</span></button>${goodRows}
+  <div class="pcard white" style="margin-top:8px"><h4>Na afronden</h4>${na.join('')}</div>
+  <textarea class="opm" data-in="opm" placeholder="Opmerking voor kantoor of TOOC (optioneel)">${esc(r.opmerking||'')}</textarea>`;
+  const foot=dev&&p.p3===0?`<button class="btn w" data-a="go" data-v="schade">Maak eerst een schadefoto</button>`:`<button class="btn p" data-a="afronden">Afronden</button>`;
+  return {...ctrlHead(o),steps:{cur:4},body,foot};};
+
+/* ================= VIEWS: AFSLUITEN, NAZORG, WEEK ================= */
+V.einde=()=>{const d=doneCount(),dv=devCount(),lc=localCount(),sk=skipCount();const openQ=S.pending.length;return {title:'Dag afsluiten',sub:'Di 22 sep · Route 074 AMS · Hilversum',right:connLabel(),body:`
+  <div class="kpi3"><div><b>${d}</b><small>gecontroleerd</small></div><div><b>${dv}</b><small>afwijkingen</small></div><div><b>${meldCount()}</b><small>gemeld aan TOOC</small></div></div>
+  ${firstOpen()>=0?`<div class="banner warn"><span class="ic"></span><div><b>${openIdx().length} object${openIdx().length>1?'en':''} nog open.</b> Die komen terug in de planning als je nu afsluit.</div></div>`:''}
+  ${sk?`<div class="banner off"><span class="ic"></span><div><b>${sk} object${sk>1?'en':''} overgeslagen.</b> ${OBJ.filter(o=>S.res[o.nr].status==='skipped').map(o=>esc(o.straat)+' ('+esc(S.res[o.nr].reden)+')').join(', ')}. Komt terug in de planning.</div></div>`:''}
+  ${lc?`<div class="banner off"><span class="ic"></span><div><b>${lc} object${lc>1?'en':''} nog op de telefoon.</b> Wordt automatisch gesynchroniseerd zodra er verbinding is.</div></div>`:`<div class="banner good"><span class="ic"></span><div><b>Alles gesynchroniseerd.</b> Er is niets meer op kantoor in te vullen.</div></div>`}
+  ${S.online&&openQ?`<button class="banner warn" data-a="go" data-v="nazorg"><span class="ic"></span><div><b>${openQ} ${openQ>1?'vragen':'vraag'} over vandaag</b><br>Beantwoord ze nu, dan is de dag af.</div></button>`:''}
+  <div class="pcard white"><h4>Afwijkingen vandaag</h4>${OBJ.filter(o=>hasDev(S.res[o.nr])).map(o=>{const r=S.res[o.nr];return `<div style="font-size:13.5px;padding:5px 0;display:flex;justify-content:space-between;gap:8px;border-top:1px solid #EEF0F2"><span><b>${esc(o.straat)}</b><br><small style="color:#6B7378">${Object.keys(r.punten).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')}</small></span><span class="badge ${r.melding?'act':'dev'}" style="align-self:center">${r.melding?'Gemeld aan TOOC':(Object.keys(r.punten).some(k=>[1,2,5].includes(+k))?'Global campagne':'Rapportage TOOC')}</span></div>`}).join('')||'<small style="color:#6B7378">Geen</small>'}</div>
+  <div class="pcard"><h4>Vandaag</h4><div class="kv"><div><small>Gemiddelde tijd per object</small><b>4 min 10</b></div><div><small>Foto’s per object</small><b>3,4</b></div></div></div>`,
+  foot:`${lc?`<button class="btn s auto" data-a="syncnow">Nu synchroniseren</button>`:''}<button class="btn p" data-a="menugo" data-v="week">Naar mijn week</button>`};};
+
+V.nazorg=()=>{const items=[];
+  S.pending.forEach((it,idx)=>items.push(`<div class="q"><small>Vandaag · ${esc(it.straat)} · ${it.nr} · punt ${it.q.punt}</small><p>${esc(it.q.q)}</p><div class="opts">${it.q.opts.map(op=>`<button data-a="pans" data-idx="${idx}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`));
+  S.yday.pending.forEach((it,idx)=>items.push(`<div class="q"><small>Gisteren · ${esc(it.straat)} · ${it.nr} · punt ${it.q.punt}</small><p>${esc(it.q.q)}</p><div class="opts">${it.q.opts.map(op=>`<button data-a="ypans" data-idx="${idx}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`));
+  const loc=[...OBJ.filter(o=>S.res[o.nr].sync==='local').map(o=>['Vandaag',o.straat,o.nr]),...S.yday.local.map(nr=>{const o=YDAY.objs.find(x=>x.nr===nr);return ['Gisteren',o.straat,nr];})];
+  return {title:'Nog af te ronden',sub:`${items.length} ${items.length===1?'vraag':'vragen'} · ${loc.length} op telefoon`,right:connLabel(),body:`
+  ${items.join('')}
+  ${loc.length?`<div class="pcard white"><h4>Nog op de telefoon · ${loc.length}</h4>${loc.map(l=>`<div style="font-size:13.5px;padding:4px 0"><b>${esc(l[1])}</b> <small style="color:#6B7378">${l[2]} · ${l[0]}</small></div>`).join('')}<button class="btn s" data-a="syncnow" style="margin-top:8px">Nu synchroniseren</button></div>`:''}
+  ${!items.length&&!loc.length?'<div class="banner good"><span class="ic"></span><div><b>Alles afgerond en gesynchroniseerd.</b></div></div>':''}`,
+  foot:`<button class="btn p" data-a="back">Terug</button>`};};
+
+V.week=()=>({title:'Mijn week',sub:'Week 39 · Roy · regio West',right:connLabel(),body:`
+  ${DAYS.map(d=>{const today=d.off===0;const y=d.off<0;const done=y?YDAY.objs.filter(o=>o.status==='done').length:today?doneCount():0;
+    return `<button class="week-day ${today?'today':''}" data-a="dayweek" data-v="${d.off}"><div class="d"><b>${d.dag}</b><small>${d.dat.split(' ')[0]} sep</small></div><div class="t"><b>Route ${d.route} · ${esc(d.plaats)}</b><small>${d.n} objecten${today?' · '+done+' afgerond'+(skipCount()?' · '+skipCount()+' overgeslagen':''):y?' · '+done+' gecontroleerd, 2 overgeslagen':d.bijzonder?' · '+d.bijzonder[0]+' '+d.bijzonder[1]:''}</small></div><span class="badge ${y?'good':today?'ink':''}">${y?'Klaar':today?'Vandaag':'Gepland'}</span></button>`}).join('')}
+  <button class="btn g" data-a="menugo" data-v="cijfers" style="margin-top:6px">Mijn cijfers</button>
+  <div class="banner info" style="margin-top:10px"><span class="ic"></span><div><b>Waarom deze objecten?</b><br>Langst geleden gecontroleerd, gemeenten die dit jaar nog niet gezien zijn, en alleen wat TOOC deze week heeft schoongemaakt.</div></div>`,foot:''});
+
+V.cijfers=()=>({title:'Mijn cijfers',sub:'Alleen jij ziet dit · Dick ziet teamcijfers',right:connLabel(),body:`
+  <div class="mini-stat"><div><b>${38+doneCount()}</b><small>gecontroleerd</small></div><div><b>${4+devCount()}</b><small>afwijkingen</small></div><div><b>4:10</b><small>gem. per object</small></div><div><b>96%</b><small>foto’s compleet</small></div></div>
+  <p class="sub">Vorige week: 41 objecten, 5 afwijkingen. Je zit op schema voor de jaarlijkse dekking van regio West (73%).</p>
+  <div class="pcard"><h4>Deze week per dag</h4><div class="kv"><div><small>Maandag</small><b>16 gecontroleerd</b></div><div><small>Dinsdag</small><b>${doneCount()} gecontroleerd</b></div><div><small>Woensdag tot vrijdag</small><b>74 gepland</b></div><div><small>Gemeenten deze week</small><b>6</b></div></div></div>`,foot:''});
+
+/* ================= SHEETS (onderbladen in de telefoon) ================= */
+function meerHtml(){const o=cur(),r=R();return `
+  <details class="acc" open><summary>Verwachte campagne${o.camp.length>1?'s':''}</summary><div class="in">${o.camp.map((c,i)=>`<div style="display:flex;justify-content:space-between;font-size:14px;padding:4px 0"><span style="color:#6B7378">Zijde ${'AB'[i]}</span><b>${esc(c)}</b></div>`).join('')}</div></details>
+  <details class="acc"><summary>Eerdere controles</summary><div class="in">${r.status==='done'?`<p><b>Vandaag, Roy:</b> ${hasDev(r)?Object.keys(r.punten).map(k=>'punt '+k+' '+PUNTEN[k-1][0].toLowerCase()).join(', '):'geen afwijkingen'}</p>`:''}${o.hist?`<p><b>${esc(o.hist)}</b></p>`:''}<p>${o.laatst}, ${['Roy','Roy','Sjaak'][S.obj%3]}: geen afwijkingen.</p><p style="color:#6B7378">Vorig jaar 2x gecontroleerd, beide keren goed.</p></div></details>
+  <details class="acc"><summary>Objectgegevens</summary><div class="in"><div class="kv"><div><small>Omschrijving</small><b>${esc(o.type)}</b></div><div><small>Vakken</small><b>${o.vak}</b></div><div><small>Dakglas</small><b>${o.dak?'Ja':'Nee'}</b></div><div><small>Status</small><b>Actief</b></div><div><small>Coördinaten</small><b>${o.lat}, ${o.lng}</b></div><div><small>Contract</small><b>2205 Hilversum</b></div></div></div></details>
+  <details class="acc"><summary>TOOC deze week</summary><div class="in"><p>Route 074 AMS, volgnummer ${(S.obj+1)*10+20}. Schoongemaakt <b>ma 21 sep</b>, klein onderhoud. Frequentie contract: 1x per 6 weken.</p></div></details>
+  <details class="acc"><summary>Afspraken gemeente <span class="vb">voorbeeld</span></summary><div class="in"><p>Contract 2205: schoonmaak 1x per 6 weken, reparatie binnen 5 werkdagen na melding. Geen onderhoud op donderdag tijdens de weekmarkt (centrum).</p></div></details>
+  <details class="acc"><summary>Meldingen gemeente <span class="vb">voorbeeld</span></summary><div class="in">${o.let.filter(l=>l[0]==='Gemeente').map(l=>`<p>${esc(l[1])}</p>`).join('')||'<p style="color:#6B7378">Geen open meldingen voor dit object.</p>'}</div></details>
+  <details class="acc"><summary>Reparatiehistorie TOOC <span class="vb">voorbeeld</span></summary><div class="in">${o.hist?'<p>14 jun 2026: bankje opnieuw bevestigd (melding 27 mei).</p>':''}<p>12 mrt 2025: glasplaat zijde A vervangen na vandalisme.</p><p style="color:#6B7378">Bron: TOOC koppeling, nog te realiseren.</p></div></details>`;}
+function notesHtml(id){const sc=SCREENS.find(s=>s.id===id)||{n:'',name:id==='cijfers'?'Mijn cijfers':'',doel:'',bron:''};const nt=NOTES[id]||[];
+  return `<h3>${sc.n} ${esc(sc.name)}</h3><p>${esc(sc.doel)}</p>${sc.bron?`<h4>Uit de transcriptie</h4><p class="q">${esc(sc.bron)}</p>`:''}${sc.extra?`<h4>Status</h4><p>${esc(sc.extra)}</p>`:''}${nt.length?`<h4>Te toetsen met Dick, Roy en Sjaak</h4><ul style="margin:0;padding-left:18px">${nt.map(x=>`<li>${esc(x)}</li>`).join('')}</ul>`:''}`;}
+function sheetHtml(){const sh=S.sheet;if(!sh)return '';let inner='';
+  if(sh.type==='menu'){const openN=S.pending.length+S.yday.pending.length+localCount()+S.yday.local.length;inner=`<h3>Menu</h3><div class="menu"><button data-a="menugo" data-v="week">Weekoverzicht</button><button data-a="menugo" data-v="cijfers">Mijn cijfers</button><button data-a="menugo" data-v="nazorg">Nog af te ronden<small>${openN||'niets'}</small></button><button data-a="menugo" data-v="einde">Dag afsluiten</button><div class="grp">Demo, geen productonderdeel</div><button data-a="toggleconn">${S.online?'Zet offline':'Zet online'}<small>simulatie</small></button><button data-a="reset">Ronde opnieuw</button><button data-a="tabgo" data-v="dash">Dashboard van Dick</button><button data-a="tabgo" data-v="flow">Procesflow</button><button data-a="tabgo" data-v="screens">Schermenoverzicht</button><button data-a="sheet" data-v="notes">Toelichting bij dit scherm</button></div>`;}
+  else if(sh.type==='skip'){inner=`<h3>Overslaan</h3><p class="sub">Waarom sla je dit object over? Het komt terug op de lijst van volgende week, behalve als het er niet meer staat.</p><div class="reasons">${SKIP_REASONS.map(r=>`<button data-a="doskip" data-v="${esc(r)}">${esc(r)}</button>`).join('')}</div>`;}
+  else if(sh.type==='meer'){const o=cur();inner=`<h3>Meer over dit object</h3><p class="sub">${o.nr} · ${esc(o.straat)}</p>${meerHtml()}`;}
+  else if(sh.type==='punt'){const k=sh.k;const r=R();inner=`<h3>Punt ${k} · ${PUNTEN[k-1][0]}</h3><p class="sub">Pas de toelichting aan, of haal de afwijking weg.</p><textarea class="opm" data-in="punttxt">${esc(r.punten[k]||'')}</textarea><div style="display:flex;gap:8px;margin-top:10px"><button class="btn g auto" data-a="puntweg" data-k="${k}">Geen afwijking</button><button class="btn p" data-a="puntsave" data-k="${k}">Opslaan</button></div>`;}
+  else if(sh.type==='objinfo'){const o=ELDERS.find(x=>x.nr===sh.nr)||EXTRA.find(x=>x.nr===sh.nr);if(!o)return '';const km=dist(S.pos,o);inner=`<h3>${o.nr} · ${esc(o.straat)}</h3><p class="sub">halte ${esc(o.halte)} · ${esc(o.type)} · ${fmtDist(km)} van je positie</p><div class="pcard"><div class="kv"><div><small>Laatst gecontroleerd</small><b>${o.laatst}</b></div><div><small>Dakglas</small><b>${o.dak?'Ja':'Nee'}</b></div><div><small>Campagne</small><b>${esc(o.camp[0])}</b></div><div><small>Gemeente</small><b>Hilversum · 2205</b></div></div></div><p class="hint" style="text-align:left">Niet in je ronde. Toevoegen telt als controle buiten planning en komt achteraan in de lijst.</p><button class="btn p" data-a="adhoc" data-nr="${o.nr}">Toevoegen aan vandaag</button>`;}
+  else if(sh.type==='yobj'){const o=YDAY.objs[sh.i];if(!o)return '';inner=`<h3>${o.nr} · ${esc(o.straat)}</h3><p class="sub">Gisteren ${o.status==='skipped'?'overgeslagen':'om '+o.tijd} · alleen lezen</p>${o.status==='skipped'?`<div class="result" style="background:#F2F3F3"><div><b>Overgeslagen</b><small>${esc(o.reden)}</small></div></div>`:`<div class="result ${o.res==='good'?'good':'dev'}"><div><b>${o.res==='good'?'Goed':'Afwijking'}</b><small>${o.res==='good'?'Geen van de 7 punten afwijkend':Object.keys(o.punten).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')}${o.melding?' · melding '+o.melding:''}${S.yday.local.includes(o.nr)?' · nog op telefoon':''}</small></div></div>`}<p class="hint" style="text-align:left">Een afgeronde controle wijzig je niet meer. Een aanvulling wordt een nieuwe notitie met tijdstempel (voorstel).</p>`;}
+  else if(sh.type==='fobj'){const o=(FUT[S.day]||[])[sh.i];if(!o)return '';inner=`<h3>${o.nr} · ${esc(o.straat)}</h3><p class="sub">halte ${esc(o.halte)} · ${esc(o.type)}${o.dak?' · dakglas':''}</p><div class="pcard"><h4>Waarom op de lijst</h4><div style="font-size:13.5px">${esc(o.reden)}</div></div><p class="hint" style="text-align:left">Gepland voor ${dayOf(S.day).label.toLowerCase()}. Starten kan op de dag zelf.</p>`;}
+  else if(sh.type==='notes'){inner=`<div class="notes" style="position:static;border:0;padding:0">${notesHtml(S.screen)}</div>`;}
+  return `<div class="sheet-bg" data-a="sheetclose"><div class="sheet"><div class="grip"></div><button class="close" data-a="sheetclose" aria-label="Sluiten">×</button>${inner}</div></div>`;}
+
+/* ================= RENDER ================= */
+function render(){
+  const v=(V[S.screen]||V.dag)();
+  document.getElementById('ph-title').innerHTML=v.title;
+  document.getElementById('ph-sub').innerHTML=v.sub||'';
+  document.getElementById('head').classList.toggle('compact',!!v.compact);
+  document.getElementById('ph-right').innerHTML=v.right||'';
+  document.getElementById('stepsbar').innerHTML=v.steps?stepsBar(v.steps.cur,v.steps.subs,v.steps.idx):'';
+  document.getElementById('body').innerHTML=v.body;
+  const foot=document.getElementById('foot');foot.innerHTML=v.foot||'';foot.style.display=v.foot?'flex':'none';
+  const tb=document.getElementById('tabbar');
+  if(v.tab){tb.style.display='flex';tb.innerHTML=[['dag','Vandaag'],['kaart','Kaart'],['zoek','Zoeken']].map(t=>`<button class="${v.tab===t[0]?'on':''}" data-a="tab" data-v="${t[0]}">${ICONS[t[0]]}${t[1]}</button>`).join('');}else tb.style.display='none';
+  document.getElementById('back').disabled=!!v.tab||S.hist.length===0;
+  document.getElementById('sheet').innerHTML=sheetHtml()+(S.toast?`<div class="toast" style="bottom:${v.tab?'128px':'86px'}">${esc(S.toast)}</div>`:'');
+  document.getElementById('rail').innerHTML=`<div class="grp">App · module 2 · v4</div>`+SCREENS.filter(s=>!s.id.startsWith('d:')).map(s=>`<button class="${s.id===S.screen?'cur':''}" data-a="jump" data-v="${s.id}"><span class="k">${s.n}</span>${esc(s.name)}</button>`).join('')+`<div class="grp">Demo</div><button data-a="toggleconn"><span class="k">●</span>${S.online?'Zet offline':'Zet online'}</button><button data-a="reset"><span class="k">↺</span>Ronde opnieuw</button>`;
+  renderNotes(S.screen);
+  if(S._focus){const el=document.querySelector(S._focus.sel);if(el){el.focus();try{el.setSelectionRange(S._focus.pos,S._focus.pos);}catch(e){}}S._focus=null;}
+}
+function renderNotes(id){document.getElementById('notes').innerHTML=notesHtml(id);}
+
+/* ================= DASHBOARD (module 3, overgenomen uit v3) =================
+   Twee toevoegingen t.o.v. v3: de opmerking van de inspecteur en "nummer niet
+   bevestigd" op de objectkaart. Verder ongewijzigd. */
+const D={view:'overzicht',regio:'Alle',period:'jaar',gem:null,obj:null,q:'',follow:{},showInsp:false,stf:'open'};
+const REGIOS=['Alle','West','Zuid-West','Oost','Noord'];
+const PERIODS=[['week','Deze week'],['maand','Deze maand'],['jaar','Dit jaar']];
+const FAC={jaar:1,maand:0.11,week:0.028};
+const PERTXT={jaar:'dit jaar',maand:'deze maand',week:'deze week'};
+const INSP={Roy:'West',Sjaak:'Zuid-West',Dick:'Oost en Noord'};
+const STATUSES=['Nieuw','Gemeld aan TOOC','In behandeling','Hercontrole gepland','Opgelost'];
+const STCLS={'Nieuw':'nieuw','Gemeld aan TOOC':'gemeld','In behandeling':'beh','Hercontrole gepland':'herc','Opgelost':'opgelost'};
+const STREETS=['Stationsplein','Kerkstraat','Dorpsstraat','Molenweg','Hoofdstraat','Julianalaan','Wilhelminastraat','Parklaan','Nieuwstraat','Marktplein','Schoolstraat','Burgemeester de Vlugtlaan','Rijksweg','Beatrixlaan','Sportlaan','Industrieweg','Zuiderweg','Oranjelaan','Havenstraat','Prins Bernhardlaan'];
+function afspraak(g){const name=g[0];if(name==='Hilversum')return {freq:6,last:0,ok:true};const freq=[4,6,8][Math.floor(hr(name,11)*3)];const last=Math.floor(hr(name,12)*freq*1.35);return {freq,last,ok:last<=freq};}
+function gemBase(g,f){const [name,n]=g;const s=name;if(f===undefined)f=FAC[D.period];const cov=0.55+hr(s,1)*0.42;let ctrl=Math.round(n*cov*f);const notVisited=n<=6&&hr(s,2)<0.3;if(notVisited)ctrl=0;const afw=Math.round(ctrl*(0.05+hr(s,3)*0.11));const act=Math.round(afw*(0.3+hr(s,4)*0.2));const warn=afw-act;const good=ctrl-afw;const last=notVisited?99:Math.floor(hr(s,5)*30);const tooc=hr(s,6)<0.22?['Graffiti terugkerend op 3 objecten','Glasbreuk gemeld, reparatie gepland','Verlichting storing centrum','Onkruid rond voeten, extra ronde gepland'][Math.floor(hr(s,7)*4)]:'';return {n,ctrl,good,warn,act,last,tooc,notVisited,live:0,af:afspraak(g)};}
+function gemStat(g){const base=gemBase(g);if(g[0]!=='Hilversum')return base;const live=OBJ.map(o=>S.res[o.nr]).filter(r=>r.status==='done');const lg=live.filter(r=>!hasDev(r)).length,la=live.filter(r=>hasDev(r)&&liveRisk(r)==='act').length,lw=live.filter(r=>hasDev(r)&&liveRisk(r)==='warn').length;return {...base,ctrl:Math.min(base.n,base.ctrl+live.length),good:base.good+lg,warn:base.warn+lw,act:base.act+la,last:live.length?0:base.last,live:live.length};}
+function followOf(o){if(D.follow[o.nr])return D.follow[o.nr];if(o.live){const r=S.res[o.nr];if(r&&r.melding)return {status:r.melding.status==='Gemeld aan TOOC'?'Gemeld aan TOOC':'Nieuw',days:0};return {status:'Nieuw',days:0};}const k=o.gem+'/'+o.nr;const days=o.dd!==undefined?Math.max(0,o.dd-Math.floor(hr(k,22)*2)):1+Math.floor(hr(k,21)*38);return {status:['Nieuw','Gemeld aan TOOC','Gemeld aan TOOC','In behandeling','In behandeling','Hercontrole gepland'][Math.floor(hr(k,20)*6)],days};}
+function genObjects(g,limit){const [name,n,contract,insp]=g;const out=[];
+  if(name==='Hilversum'){OBJ.forEach((o,i)=>{const r=S.res[o.nr];out.push({nr:o.nr,straat:o.straat+' · halte '+o.halte,type:o.type,insp:'Roy',status:r.status==='done'?liveRisk(r):'open',punten:r.status==='done'?r.punten:{},answers:r.answers,laatst:r.status==='done'?'22 sep 2026':o.laatst,live:true,gem:name,contract,p3:S.photos[o.nr].p3,camp:o.camp.length,dak:!!o.dak,ongepland:!!o.ongepland,skipped:r.status==='skipped',reden:r.reden,opm:r.opmerking,nrc:r.nrConfirmed});});}
+  const cnt=Math.min(limit||18,Math.max(0,n-out.length));
+  for(let i=0;i<cnt;i++){const k=name+'/'+i;const r1=hr(k,1);const status=r1<0.08?'act':r1<0.2?'warn':r1<0.9?'good':'open';let punten={};if(status==='act'){const pk=ACT_PUNTEN[Math.floor(hr(k,2)*3)];punten[pk]=['','','Glasplaat gebarsten','','','Verlichting brandt niet','Bankje los, onkruid'][pk-1];if(hr(k,5)<0.4)punten[4]='Stickers op zijpaneel';}else if(status==='warn'){const pk=[1,2,4,5][Math.floor(hr(k,2)*4)];punten[pk]=['Vorige campagne hangt nog','Verkeerd formaat uiting','','Graffiti op zijpaneel','Poster met vochtplekken'][pk-1];}
+    const dd=Math.floor(hr(k,3)*300);const dt=new Date(2026,8,22);dt.setDate(dt.getDate()-dd);
+    out.push({nr:String(20000+Math.floor(hr(k,4)*70000)),straat:STREETS[Math.floor(hr(k,6)*STREETS.length)]+' '+(1+Math.floor(hr(k,7)*120)),type:TYPES[Math.floor(hr(k,8)*TYPES.length)],insp,status,punten,answers:{},laatst:status==='open'?'nog niet dit jaar':dt.toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'}),live:false,gem:name,contract,p3:status==='good'?0:1+Math.floor(hr(k,9)*2),camp:1+Math.floor(hr(k,10)*2),dak:false});}
+  return out;}
+function genActObjs(g){const [name,n,contract,insp]=g;const s=gemStat(g);const out=[];
+  if(name==='Hilversum'){genObjects(g,0).forEach(o=>{if(o.live&&o.status==='act')out.push(o);});}
+  const cnt=Math.max(0,s.act-out.length);const span=D.period==='week'?7:D.period==='maand'?30:300;
+  for(let i=0;i<cnt;i++){const k=name+'/A'+i;const pk=ACT_PUNTEN[Math.floor(hr(k,2)*3)];const punten={};punten[pk]=['','','Glasplaat gebarsten','','','Verlichting brandt niet','Bankje los, onkruid'][pk-1];if(hr(k,5)<0.4)punten[4]='Stickers op zijpaneel';
+    const dd=Math.floor(hr(k,3)*span);const dt=new Date(2026,8,25);dt.setDate(dt.getDate()-dd);
+    out.push({nr:String(30000+Math.floor(hr(k,4)*60000)),straat:STREETS[Math.floor(hr(k,6)*STREETS.length)]+' '+(1+Math.floor(hr(k,7)*120)),type:TYPES[Math.floor(hr(k,8)*TYPES.length)],insp,status:'act',punten,answers:{},laatst:dt.toLocaleDateString('nl-NL',{day:'numeric',month:'short',year:'numeric'}),live:false,gem:name,contract,p3:1+Math.floor(hr(k,9)*2),camp:1+Math.floor(hr(k,10)*2),dak:false,dd});}
+  return out;}
+function findObj(gem,nr){const g=GEM.find(x=>x[0]===gem);if(!g)return null;return genObjects(g,18).find(x=>x.nr===nr)||genActObjs(g).find(x=>x.nr===nr)||null;}
+function filteredGem(){return GEM.filter(g=>D.regio==='Alle'||g[4]===D.regio);}
+function totals(){const t={n:0,ctrl:0,good:0,warn:0,act:0,nv:0,gem:0,offs:0};filteredGem().forEach(g=>{const s=gemStat(g);t.n+=s.n;t.ctrl+=s.ctrl;t.good+=s.good;t.warn+=s.warn;t.act+=s.act;if(s.notVisited)t.nv++;if(!s.af.ok)t.offs++;t.gem++;});return t;}
+function allActs(){const all=[];filteredGem().forEach(g=>genActObjs(g).forEach(o=>{o.f=followOf(o);all.push(o);}));all.sort((a,b)=>(b.live-a.live)||(b.f.days-a.f.days));return all;}
+function puntenDist(){const base=[9,5,21,30,13,13,9];return base.map((b,i)=>Math.max(2,Math.round(b*(0.8+hr(D.regio,i)*0.4))));}
+function dtoast(m){const t=document.createElement('div');t.className='dtoast';t.textContent=m;document.body.appendChild(t);setTimeout(()=>t.remove(),2200);}
+const dnavItems=[['overzicht','Risk dashboard'],['acties','Openstaande acties'],['gemeenten','Gemeenten'],['inspecteurs','Inspecteurs'],['tooc','TOOC']];
+const regioFilter=()=>`<div class="filters">${REGIOS.map(r=>`<button class="${D.regio===r?'on':''}" data-d="regio" data-v="${r}">${r}</button>`).join('')}</div>`;
+const periodFilter=()=>`<div class="filters">${PERIODS.map(p=>`<button class="${D.period===p[0]?'on':''}" data-d="period" data-v="${p[0]}">${p[1]}</button>`).join('')}</div>`;
+const stDot=s=>`<span class="st ${s==='good'?'g':s==='warn'?'w':s==='act'?'a':''}"></span>`;
+const stPill=st=>`<span class="status ${STCLS[st]}">${st}</span>`;
+const objRow=o=>`<button class="objrow" data-d="obj" data-nr="${o.nr}" data-gem="${esc(o.gem)}">${stDot(o.status)}<span><b>${esc(o.straat)}</b><small>${o.nr} · ${esc(o.type)} · ${esc(o.gem)} · ${o.skipped?'overgeslagen: '+esc(o.reden):o.laatst}${o.ongepland?' · <strong>ongepland</strong>':''}${o.live?(o.status==='open'?(o.skipped?'':' · in de ronde van vandaag'):' · <strong>vandaag via de app</strong>'):''}</small></span><span style="display:flex;gap:6px;align-items:center">${o.status==='act'?stPill(followOf(o).status):''}<span class="chip ${o.status==='good'?'good':o.status==='warn'?'warn':o.status==='act'?'act':''}">${o.status==='open'?(o.skipped?'Overgeslagen':'Open'):RISKTXT[o.status]}</span></span></button>`;
+const DV={};
+DV.overzicht=()=>{const t=totals();const pct=t.n?t.ctrl/t.n:0;const dist=puntenDist();const sum=dist.reduce((a,b)=>a+b,0);const acts=allActs();const openActs=acts.filter(o=>o.f.status!=='Opgelost');
+  const nv=filteredGem().filter(g=>gemStat(g).notVisited);const ctrl=Math.max(1,t.ctrl);
+  return `<div class="dhead"><div><h2>Risk dashboard</h2><p>Abri’s en posterobjecten · ${t.gem} gemeenten · stand vrijdag 25 september 2026</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}${periodFilter()}</div></div>
+  <div class="kpis">
+    <button class="kpi" data-d="view" data-v="gemeenten"><small>Objecten</small><b>${fmt(t.n)}</b><span class="d">in ${t.gem} gemeentelijke contracten</span></button>
+    <div class="kpi"><small>Gecontroleerd ${PERTXT[D.period]}</small><b>${D.period==='jaar'?Math.round(pct*100)+'%':fmt(t.ctrl)}</b><span class="d">${D.period==='jaar'?fmt(t.ctrl)+' objecten · doel 100% per 31 dec':Math.round(pct*100)+'% van alle objecten'}</span></div>
+    <div class="kpi good"><small>Goed</small><b>${fmt(t.good)}</b><span class="d">geen afwijking bij laatste controle</span></div>
+    <div class="kpi warn"><small>Aandacht nodig</small><b>${fmt(t.warn)}</b><span class="d">campagne, uiting, schoon of poster</span></div>
+    <button class="kpi act" data-d="view" data-v="acties"><small>Actie nodig</small><b>${fmt(t.act)}</b><span class="d">${fmt(openActs.filter(o=>o.f.status==='Nieuw').length)} nog niet gemeld · klik voor opvolging</span></button>
+    <button class="kpi" data-d="view" data-v="gemeenten"><small>Gemeenten nog niet bezocht</small><b>${t.nv}</b><span class="d">eis: elke gemeente 1x per jaar</span></button>
+    <button class="kpi ${t.offs?'warn':''}" data-d="view" data-v="gemeenten"><small>TOOC niet op schema</small><b>${t.offs}</b><span class="d">contracten waar de schoonmaakfrequentie is overschreden</span></button>
+  </div>
+  <div class="dgrid">
+    <div class="panel"><h3>Verdeling gecontroleerde objecten <span>${fmt(t.ctrl)} controles ${PERTXT[D.period]}</span></h3>
+      <div class="stackbar"><i style="width:${t.good/ctrl*100}%;background:var(--good)"></i><i style="width:${t.warn/ctrl*100}%;background:var(--warn)"></i><i style="width:${t.act/ctrl*100}%;background:var(--act)"></i></div>
+      <div class="legend"><span class="lg">Goed ${Math.round(t.good/ctrl*100)}%</span><span class="lw">Aandacht ${Math.round(t.warn/ctrl*100)}%</span><span class="la">Actie ${Math.round(t.act/ctrl*100)}%</span></div>
+      <h3 style="margin-top:20px">Afwijkingen per controlepunt <span>aandeel</span></h3>
+      <div class="bars">${PUNTEN.map((p,i)=>`<div class="bar"><span class="lbl">${i+1}. ${p[0]}</span><span class="tr"><i class="${ACT_PUNTEN.includes(i+1)?'a':'w'}" style="width:${dist[i]/sum*100*2.2}%"></i></span><span class="v">${Math.round(dist[i]/sum*100)}%</span></div>`).join('')}</div>
+      <div class="risklogic"><b>Risicologica (voorstel):</b> Goed = geen afwijking · Aandacht = punt 1, 2, 4 of 5 · Actie = punt 3, 6 of 7 of een gemeld veiligheidsrisico. Actie gaat automatisch als melding naar TOOC.</div>
+      <div class="actions" style="margin-top:14px"><button class="p" data-d="view" data-v="maand">Maandrapport voor directie</button><button data-d="view" data-v="gemeenten">Rapport per gemeente</button></div>
+    </div>
+    <div class="panel"><h3>Openstaande acties <span>${openActs.length} open · langst open eerst</span></h3>${openActs.slice(0,7).map(objRow).join('')||'<p class="lead">Geen open acties in deze selectie.</p>'}<button class="chip" data-d="view" data-v="acties" style="margin-top:12px;border:0">Alle ${openActs.length} acties met opvolging ›</button>
+      <h3 style="margin-top:18px">Nog niet bezocht dit jaar <span>${nv.length} gemeenten</span></h3>${nv.slice(0,5).map(g=>`<button class="objrow" data-d="gem" data-v="${esc(g[0])}"><span class="st"></span><span><b>${esc(g[0])}</b><small>${g[1]} object${g[1]>1?'en':''} · ${g[3]} · regio ${g[4]}</small></span><span class="chip">Plan in</span></button>`).join('')||'<p class="lead">Alle gemeenten in deze selectie zijn dit jaar bezocht.</p>'}</div>
+  </div>`;};
+DV.acties=()=>{const acts=allActs();const shown=acts.filter(o=>D.stf==='open'?o.f.status!=='Opgelost':D.stf==='alle'?true:o.f.status===D.stf);
+  return `<div class="dhead"><div><h2>Openstaande acties</h2><p>${shown.length} van ${acts.length} objecten met actie · elke melding uit de app komt hier binnen</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}<div class="filters"><button class="${D.stf==='open'?'on':''}" data-d="stf" data-v="open">Open</button>${STATUSES.map(s=>`<button class="${D.stf===s?'on':''}" data-d="stf" data-v="${s}">${s}</button>`).join('')}<button class="${D.stf==='alle'?'on':''}" data-d="stf" data-v="alle">Alle</button></div></div></div>
+  <div class="kpis">${STATUSES.map(s=>`<button class="kpi" data-d="stf" data-v="${s}"><small>${s}</small><b>${acts.filter(o=>o.f.status===s).length}</b></button>`).join('')}</div>
+  <div class="panel tw"><table class="t"><thead><tr><th>Object</th><th>Gemeente</th><th>Afwijking</th><th>Gemeld door</th><th>Status</th><th class="num">Dagen open</th><th>Volgende stap</th></tr></thead><tbody>
+  ${shown.slice(0,60).map(o=>{const st=o.f.status;const nxt=STATUSES[Math.min(STATUSES.indexOf(st)+1,STATUSES.length-1)];return `<tr class="row" data-d="obj" data-nr="${o.nr}" data-gem="${esc(o.gem)}"><td><b>${esc(o.straat)}</b><br><small style="color:var(--muted)">${o.nr}${o.live?' · vandaag via de app':''}</small></td><td>${esc(o.gem)}</td><td>${Object.keys(o.punten).map(k=>PUNTEN[k-1][0]).join(', ')}${o.answers&&o.answers.veilig==='Ja'?' <span class="chip act">veiligheid</span>':''}</td><td>${o.insp} · ${o.live?'22 sep':o.laatst}</td><td>${stPill(st)}</td><td class="num">${o.f.days}</td><td>${st==='Opgelost'?'<span class="chip good">Afgerond</span>':`<div class="actions"><button class="p" data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${nxt}">→ ${nxt}</button></div>`}</td></tr>`}).join('')||'<tr><td colspan="7" class="lead">Geen acties met deze status.</td></tr>'}</tbody></table></div>`;};
+DV.gemeenten=()=>{const rows=filteredGem().map(g=>({g,s:gemStat(g)})).filter(x=>!D.q||x.g[0].toLowerCase().includes(D.q.toLowerCase())).sort((a,b)=>b.s.act-a.s.act||b.s.warn-a.s.warn);
+  return `<div class="dhead"><div><h2>Gemeentelijke contracten</h2><p>${rows.length} gemeenten · objectaantallen uit de objectenlijst van 8 september · klik een rij voor objecten en rapport</p></div><div style="display:grid;gap:8px;justify-items:end">${regioFilter()}<input class="search" placeholder="Zoek gemeente" value="${esc(D.q)}" data-d="q"></div></div>
+  <div class="panel tw"><table class="t"><thead><tr><th>Gemeente</th><th>Inspecteur</th><th class="num">Objecten</th><th>Gecontroleerd ${PERTXT[D.period]}</th><th class="num">Goed</th><th class="num">Aandacht</th><th class="num">Actie</th><th>Laatste bezoek</th><th>Afspraak TOOC</th><th>Op schema</th></tr></thead><tbody>
+  ${rows.map(({g,s})=>`<tr class="row" data-d="gem" data-v="${esc(g[0])}"><td><b>${esc(g[0])}</b><br><small style="color:var(--muted)">contract ${g[2]}</small>${s.live?' <span class="chip ink">vandaag</span>':''}</td><td>${g[3]}</td><td class="num">${fmt(s.n)}</td><td><div style="display:flex;gap:8px;align-items:center"><span class="mini"><i style="width:${s.n?Math.min(100,s.ctrl/s.n*100):0}%"></i></span><span style="font-variant-numeric:tabular-nums;font-weight:700;font-size:12.5px">${s.n?Math.round(s.ctrl/s.n*100):0}%</span></div></td><td class="num">${fmt(s.good)}</td><td class="num">${s.warn?`<span class="chip warn">${s.warn}</span>`:'0'}</td><td class="num">${s.act?`<span class="chip act">${s.act}</span>`:'0'}</td><td>${s.notVisited?'<span class="chip act dot">niet bezocht</span>':s.last===0?'vandaag':s.last+' wk geleden'}</td><td style="white-space:nowrap">1x per ${s.af.freq} wk · laatste ${s.af.last===0?'deze week':s.af.last+' wk'}</td><td>${s.af.ok?'<span class="chip good">ja</span>':`<span class="chip act">nee, ${s.af.last-s.af.freq} wk over</span>`}</td></tr>`).join('')}</tbody></table></div>`;};
+DV.gem=()=>{const g=GEM.find(x=>x[0]===D.gem);if(!g)return DV.gemeenten();const s=gemStat(g);const objs=genObjects(g,18);
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><span>${esc(g[0])}</span></div>
+  <div class="dhead"><div><h2>${esc(g[0])}</h2><p>Contract ${g[2]} · inspecteur ${g[3]} · regio ${g[4]} · afspraak TOOC 1x per ${s.af.freq} weken${s.tooc?' · TOOC: '+esc(s.tooc):''}</p></div><div class="actions"><button class="p" data-d="view" data-v="rapport">Rapport voor gemeente</button><button data-d="toast" data-v="Hercontrole ingepland voor ${esc(g[0])} (simulatie)">Plan hercontrole</button></div></div>
+  <div class="kpis"><div class="kpi"><small>Objecten</small><b>${fmt(s.n)}</b></div><div class="kpi"><small>Gecontroleerd ${PERTXT[D.period]}</small><b>${s.n?Math.round(s.ctrl/s.n*100):0}%</b><span class="d">${fmt(s.ctrl)} objecten</span></div><div class="kpi good"><small>Goed</small><b>${fmt(s.good)}</b></div><div class="kpi warn"><small>Aandacht</small><b>${fmt(s.warn)}</b></div><div class="kpi act"><small>Actie</small><b>${fmt(s.act)}</b></div><div class="kpi ${s.af.ok?'':'warn'}"><small>TOOC op schema</small><b style="font-size:20px">${s.af.ok?'Ja':'Nee'}</b><span class="d">laatste schoonmaak ${s.af.last===0?'deze week':s.af.last+' weken geleden'}</span></div></div>
+  <div class="dgrid"><div class="panel"><h3>Objecten met actie <span>${s.act} · opvolging</span></h3>${genActObjs(g).map(objRow).join('')||'<p class="lead">Geen open acties.</p>'}</div>
+  <div class="panel"><h3>Objecten <span>${objs.length} van ${s.n} getoond${s.live?' · '+s.live+' vandaag via de app':''}</span></h3>${objs.filter(o=>o.status!=='act').map(objRow).join('')}</div></div>`;};
+DV.obj=()=>{const g=GEM.find(x=>x[0]===D.gem);const o=findObj(D.gem,D.obj);if(!o)return DV.gemeenten();const rk=o.status;const ks=Object.keys(o.punten);const f=rk==='act'?followOf(o):null;const stIdx=f?STATUSES.indexOf(f.status):-1;
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><button data-d="gem" data-v="${esc(o.gem)}">${esc(o.gem)}</button><span>›</span><span>${o.nr}</span></div>
+  <div class="dhead"><div><h2>${esc(o.straat)}</h2><p>Object ${o.nr} · ${esc(o.type)} · contract ${o.contract} · inspecteur ${o.insp} · laatste controle ${o.laatst}${o.ongepland?' · ongeplande controle':''}${o.live&&o.nrc===false?' · <span class="chip warn">nummer niet bevestigd</span>':''}</p></div><div class="actions"><button data-d="toast" data-v="Hercontrole object ${o.nr} ingepland (simulatie)">Plan hercontrole</button></div></div>
+  <div class="dgrid"><div class="panel"><h3>Laatste controle <span>${o.live?'vandaag via de app':o.laatst}</span></h3>
+    ${o.status==='open'?`<p class="lead">${o.skipped?'Vandaag overgeslagen: '+esc(o.reden)+'. Komt terug in de planning.':'Dit object is dit jaar nog niet gecontroleerd.'}</p>`:`<div class="result ${rk==='good'?'good':rk==='act'?'act':'dev'}" style="margin-bottom:14px"><div><b>${ks.length?'Afwijking':'Goed'}</b><small>${ks.length?ks.length+' van 7 punten afwijkend':'Geen van de 7 punten afwijkend'}${o.answers&&o.answers.veilig==='Ja'?' · veiligheidsrisico gemeld':''}</small></div>${ks.length?`<span class="chip ${rk==='act'?'act':'warn'}">${RISKTXT[rk]}</span>`:''}</div>
+    <div class="photos"><div class="photo"><span>Objectnummer</span></div>${Array.from({length:o.camp}).map((_,i)=>`<div class="photo"><span>Zijde ${'AB'[i]}</span></div>`).join('')}${o.dak?'<div class="photo"><span>Dak</span></div>':''}${Array.from({length:o.p3}).map((_,i)=>`<div class="photo dmg"><span>Schade ${i+1}</span></div>`).join('')}</div>
+    ${PUNTEN.map((p,i)=>{const k=i+1;const d=o.punten[k];return `<div class="pt ${d?(ACT_PUNTEN.includes(k)?'act':'dev'):''}" style="background:var(--paper);border-color:var(--line);color:var(--ink)"><span class="num">${k}</span><span class="lbl2"><b>${p[0]}</b><small>${d?esc(d)+' · '+OWNER(k):'Geen afwijking'}</small></span><span class="st ${d?(ACT_PUNTEN.includes(k)?'a':'d'):'g'}">${d?'Afwijking':'✓'}</span></div>`}).join('')}
+    ${o.opm?`<div class="pcard" style="margin-top:10px;background:var(--soft);color:var(--ink)"><h4>Opmerking inspecteur</h4><div style="font-size:13.5px">${esc(o.opm)}</div></div>`:''}`}
+  </div>
+  <div>${f?`<div class="panel" style="margin-bottom:12px"><h3>Opvolging <span>${f.days} dag${f.days===1?'':'en'} open</span></h3>${stPill(f.status)}
+    <div class="timeline" style="margin-top:12px">${STATUSES.map((s,i)=>`<div class="${i<=stIdx?'done':''}"><span>${s}<small>${i<stIdx?'afgerond':i===stIdx?'huidige status':'nog niet'}</small></span></div>`).join('')}</div>
+    <div class="actions">${stIdx<STATUSES.length-1?`<button class="p" data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${STATUSES[stIdx+1]}">→ ${STATUSES[stIdx+1]}</button>`:''}${stIdx>0?`<button data-d="status" data-nr="${o.nr}" data-gem="${esc(o.gem)}" data-v="${STATUSES[stIdx-1]}">← ${STATUSES[stIdx-1]}</button>`:''}</div></div>`:''}
+  <div class="panel" style="margin-bottom:12px"><h3>TOOC</h3><div class="kv"><div><small>Onderhoud deze week</small><b>${o.live?'Klein, ma 21 sep, route 074 AMS':'Klein, week 38'}</b></div><div><small>Frequentie contract</small><b>1x per ${afspraak(g).freq} weken</b></div><div><small>Openstaande reparatie</small><b>${rk==='act'?'Ja, '+(f.status==='Nieuw'?'nog niet gemeld':'melding '+(o.live?'vandaag':'week 37')):'Geen'}</b></div><div><small>Laatste opmerking TOOC</small><b>${rk==='act'&&f.status!=='Nieuw'?'Onderdelen besteld':'–'}</b></div></div></div>
+  <div class="panel"><h3>Historie</h3><div class="in" style="padding:0;font-size:13.5px">${o.live&&o.status!=='open'?'<p><b>22 sep 2026</b> · Roy · via de app</p>':''}<p><b>${o.live?'21 okt 2025':'vorige controle'}</b> · ${o.insp} · geen afwijkingen</p><p><b>2025</b> · 2 controles, beide goed</p><p style="color:var(--muted)">Meldingen gemeente en reparatiehistorie TOOC volgen na koppeling.</p></div></div></div></div>`;};
+DV.rapport=()=>{const g=GEM.find(x=>x[0]===D.gem);if(!g)return DV.gemeenten();const s=gemStat(g);const objs=genObjects(g,18);const afw=[...genActObjs(g),...objs.filter(o=>o.status==='warn')];
+  return `<div class="crumb"><button data-d="view" data-v="gemeenten">Gemeenten</button><span>›</span><button data-d="gem" data-v="${esc(g[0])}">${esc(g[0])}</button><span>›</span><span>Rapport</span></div>
+  <div class="actions" style="margin-bottom:12px"><button class="p" data-d="toast" data-v="Rapport ${esc(g[0])} gedownload als PDF (simulatie)">Download PDF</button><button data-d="toast" data-v="Rapport verstuurd naar concessiemanager (simulatie)">Stuur naar concessiemanager</button></div>
+  <div class="report"><div class="rh"><div><h2>Kwaliteitsrapport ${esc(g[0])}</h2><p style="color:var(--muted)">Contract ${g[2]} · ${PERTXT[D.period]} · opgesteld 25 september 2026 · inspecteur ${g[3]}</p></div><span class="wm">global</span></div>
+  <h3>Afspraken</h3><p>Schoonmaak en onderhoud door TOOC: 1x per ${s.af.freq} weken. Laatste schoonmaakronde: ${s.af.last===0?'deze week':s.af.last+' weken geleden'} (${s.af.ok?'op schema':'niet op schema, '+(s.af.last-s.af.freq)+' weken over'}). Kwaliteitscontrole door Global: elk object minimaal 1x per jaar.</p>
+  <h3>Resultaat</h3><div class="rk"><div><b>${fmt(s.n)}</b><small>objecten in contract</small></div><div><b>${s.n?Math.round(s.ctrl/s.n*100):0}%</b><small>gecontroleerd ${PERTXT[D.period]}</small></div><div><b>${s.ctrl?Math.round(s.good/s.ctrl*100):0}%</b><small>zonder afwijking</small></div><div><b>${s.act}</b><small>met actie, alle gemeld aan TOOC</small></div></div>
+  <h3>Afwijkingen en opvolging</h3>${afw.length?`<table class="t"><thead><tr><th>Object</th><th>Datum</th><th>Afwijking</th><th>Opvolging</th></tr></thead><tbody>${afw.slice(0,8).map(o=>`<tr><td><b>${esc(o.straat)}</b><br><small style="color:var(--muted)">${o.nr}</small></td><td>${o.laatst}</td><td>${Object.keys(o.punten).map(k=>PUNTEN[k-1][0]).join(', ')}</td><td>${o.status==='act'?stPill(followOf(o).status):'Global campagne'}</td></tr>`).join('')}</tbody></table>`:'<p>Geen afwijkingen in deze periode.</p>'}
+  <h3>Bewijs</h3><p>Per gecontroleerd object zijn beschikbaar: foto van het objectnummer, foto per posterzijde${objs.some(o=>o.dak)?', dakfoto':''} en foto’s van afwijkingen, met datum, tijd, locatie en inspecteur. In de PDF worden deze per object bijgevoegd.</p></div>`;};
+DV.maand=()=>{const t=totals();const acts=allActs();const open=acts.filter(o=>o.f.status!=='Opgelost');const top=filteredGem().map(g=>({g,s:gemStat(g)})).sort((a,b)=>b.s.act-a.s.act).slice(0,5);const nv=filteredGem().filter(g=>gemStat(g).notVisited);
+  return `<div class="crumb"><button data-d="view" data-v="overzicht">Risk dashboard</button><span>›</span><span>Maandrapport</span></div>
+  <div class="actions" style="margin-bottom:12px"><button class="p" data-d="toast" data-v="Maandrapport gedownload als PDF (simulatie)">Download PDF</button><button data-d="toast" data-v="Maandrapport gedeeld met Joost (simulatie)">Deel met Joost</button></div>
+  <div class="report"><div class="rh"><div><h2>Maandrapport kwaliteitscontrole</h2><p style="color:var(--muted)">September 2026 · regio ${D.regio} · opgesteld door Dick · voor Joost en directie</p></div><span class="wm">global</span></div>
+  <h3>In één oogopslag</h3><div class="rk"><div><b>${fmt(t.ctrl)}</b><small>objecten gecontroleerd ${PERTXT[D.period]}</small></div><div><b>${Math.round(t.ctrl/Math.max(1,t.n)*100)}%</b><small>van ${fmt(t.n)} objecten</small></div><div><b>${fmt(t.act)}</b><small>met actie · ${open.length} nog open</small></div><div><b>${t.nv}</b><small>gemeenten nog niet bezocht</small></div></div>
+  <h3>Dekking per regio</h3><div class="bars">${REGIOS.slice(1).map(r=>{let n=0,c=0;GEM.filter(g=>g[4]===r).forEach(g=>{const s=gemBase(g,1);n+=s.n;c+=s.ctrl;});return `<div class="bar"><span class="lbl">${r}</span><span class="tr"><i style="width:${c/n*100}%"></i></span><span class="v">${Math.round(c/n*100)}%</span></div>`}).join('')}</div>
+  <h3>Gemeenten met de meeste actie</h3><table class="t"><thead><tr><th>Gemeente</th><th class="num">Objecten</th><th class="num">Actie</th><th>TOOC op schema</th></tr></thead><tbody>${top.map(({g,s})=>`<tr><td><b>${esc(g[0])}</b></td><td class="num">${fmt(s.n)}</td><td class="num">${s.act}</td><td>${s.af.ok?'ja':'nee'}</td></tr>`).join('')}</tbody></table>
+  <h3>Opvolging door TOOC</h3><p>${open.filter(o=>o.f.status==='Gemeld aan TOOC').length} meldingen wachten op reactie van TOOC, ${open.filter(o=>o.f.status==='In behandeling').length} in behandeling, ${acts.filter(o=>o.f.status==='Opgelost').length} opgelost. Gemiddelde doorlooptijd van melding tot oplossing: 9 dagen (voorbeeld).</p>
+  <h3>Nog te doen dit jaar</h3><p>${nv.length?nv.map(g=>esc(g[0])).join(', ')+' zijn dit jaar nog niet bezocht en staan ingepland voor oktober.':'Alle gemeenten zijn dit jaar bezocht.'} Doel: 100% van de objecten gecontroleerd per 31 december.</p></div>`;};
+DV.inspecteurs=()=>{let TN=0,TC=0,TA=0;const per=Object.keys(INSP).map(name=>{const gs=GEM.filter(g=>g[3]===name);let n=0,ctrl=0,act=0;gs.forEach(g=>{const s=gemStat(g);n+=s.n;ctrl+=s.ctrl;act+=s.act+s.warn;});TN+=n;TC+=ctrl;TA+=act;const wk=name==='Roy'?38+doneCount():name==='Sjaak'?44:36;const t=name==='Roy'?'4:10':name==='Sjaak'?'3:40':'5:05';const fq=name==='Roy'?96:name==='Sjaak'?91:98;const iq=name==='Roy'?99:name==='Sjaak'?94:97;return {name,gs,n,ctrl,act,wk,t,fq,iq};});
+  return `<div class="dhead"><div><h2>Inspecteurs</h2><p>Team eerst. Cijfers per persoon op doorklik, als hulpmiddel en niet als ranglijst.</p></div>${regioFilter()}</div>
+  <div class="teamcard"><div><b>${fmt(TC)}</b><small>gecontroleerd ${PERTXT[D.period]} · ${Math.round(TC/Math.max(1,TN)*100)}% van ${fmt(TN)}</small></div><div><b>${per.reduce((a,p)=>a+p.wk,0)}</b><small>objecten deze week</small></div><div><b>${Math.round(TA/Math.max(1,TC)*100)}%</b><small>afwijkingen gevonden</small></div><div><b>4:18</b><small>gemiddelde tijd per object</small></div><div><b>95%</b><small>foto’s compleet en scherp</small></div><div><b>97%</b><small>invoer compleet</small></div></div>
+  <div class="panel" style="margin-bottom:12px"><h3>Dekking per regio <span>eis: elk object en elke gemeente 1x per jaar</span></h3><div class="bars">${REGIOS.slice(1).map(r=>{let n=0,c=0;GEM.filter(g=>g[4]===r).forEach(g=>{const s=gemBase(g,1);n+=s.n;c+=s.ctrl;});return `<div class="bar"><span class="lbl">${r}</span><span class="tr"><i style="width:${c/n*100}%"></i></span><span class="v">${Math.round(c/n*100)}%</span></div>`}).join('')}</div></div>
+  <div class="actions" style="margin-bottom:12px"><button class="${D.showInsp?'':'p'}" data-d="insp">${D.showInsp?'Verberg per inspecteur':'Toon per inspecteur'}</button></div>
+  ${D.showInsp?`<div class="inspgrid">${per.map(p=>`<div class="insp"><div class="av">${p.name[0]}</div><h4>${p.name}</h4><div class="reg">Regio ${INSP[p.name]} · ${p.gs.length} gemeenten · ${fmt(p.n)} objecten</div>
+    <div class="m"><span>Gecontroleerd ${PERTXT[D.period]}</span><b>${fmt(p.ctrl)} · ${Math.round(p.ctrl/Math.max(1,p.n)*100)}%</b></div><div class="m"><span>Deze week</span><b>${p.wk} objecten</b></div><div class="m"><span>Afwijkingen gevonden</span><b>${Math.round(p.act/Math.max(1,p.ctrl)*100)}%</b></div><div class="m"><span>Gemiddelde tijd per object</span><b>${p.t}</b></div><div class="m"><span>Foto’s compleet en scherp</span><b>${p.fq}%</b></div><div class="m"><span>Invoer compleet</span><b>${p.iq}%</b></div></div>`).join('')}</div>`:''}`;};
+DV.tooc=()=>{const live=OBJ.filter(o=>S.res[o.nr].melding);return `<div class="dhead"><div><h2>TOOC</h2><p>Onderhoud week 39 · bron: wekelijkse TOOC lijst · 1.298 objecten in 48 routes</p></div></div>
+  <div class="kpis"><div class="kpi"><small>Objecten onderhouden</small><b>1.298</b><span class="d">week 39, alle depots</span></div><div class="kpi"><small>Routes</small><b>48</b><span class="d">20 tot 55 objecten per route</span></div><div class="kpi"><small>Gecontroleerd door Global</small><b>${86+doneCount()}</b><span class="d">van 1.298 · ${Math.round((86+doneCount())/1298*100)}% steekproef deze week</span></div><button class="kpi act" data-d="view" data-v="acties"><small>Meldingen open bij TOOC</small><b>${allActs().filter(o=>o.f.status==='Gemeld aan TOOC'||o.f.status==='In behandeling').length}</b><span class="d">klik voor opvolging</span></button></div>
+  <div class="dgrid"><div class="panel"><h3>Onderhoud per depot <span>week 39, echte aantallen</span></h3><div class="bars">${[['Zuid-West (ZW)',585],['West (W)',303],['Oost (O)',257],['Noord (N)',153]].map(d=>`<div class="bar"><span class="lbl">${d[0]}</span><span class="tr"><i style="width:${d[1]/585*100}%"></i></span><span class="v">${d[1]}</span></div>`).join('')}</div>
+    <h3 style="margin-top:20px">Type onderhoud <span>voorbeeldverdeling</span></h3><div class="bars">${[['Klein',72],['Klein met glas',14],['Alleen posterbak',8],['Groot',4],['Groot met glas',2]].map(d=>`<div class="bar"><span class="lbl">${d[0]}</span><span class="tr"><i style="width:${d[1]}%"></i></span><span class="v">${d[1]}%</span></div>`).join('')}</div></div>
+  <div class="panel"><h3>Meldingen vanuit de app vandaag <span>live</span></h3>${live.map(o=>{const r=S.res[o.nr];return `<button class="objrow" data-d="obj" data-nr="${o.nr}" data-gem="Hilversum">${stDot('act')}<span><b>${esc(o.straat)}</b><small>${o.nr} · ${Object.keys(r.punten).filter(k=>ACT_PUNTEN.includes(+k)).map(k=>PUNTEN[k-1][0]).join(', ')} · melding ${r.melding.id}</small></span>${stPill(followOf({nr:o.nr,live:true,gem:'Hilversum'}).status)}</button>`}).join('')||'<p class="lead">Nog geen meldingen vandaag. Rond in de App een object met schade af en het verschijnt hier.</p>'}
+    <h3 style="margin-top:18px">Opmerkingen van TOOC <span>voorbeelddata</span></h3>${[['Den Haag','Graffiti terugkerend Spui, extra schoonmaakronde','warn'],['Groningen','Verlichtingsstoring 4 objecten Grote Markt','act'],['Apeldoorn','Bankje vervangen Stationsplein','good'],['Eindhoven','Onkruid rond voeten, extra ronde gepland','warn']].map(r=>`<button class="objrow" data-d="gem" data-v="${r[0]}">${stDot(r[2])}<span><b>${r[0]}</b><small>${r[1]}</small></span><span class="chip">Open ›</span></button>`).join('')}</div></div>`;};
+function renderDash(){
+  const openN=allActs().filter(o=>o.f.status!=='Opgelost').length;
+  document.getElementById('dnav').innerHTML=`<div class="wm">global<small>Kwaliteitscontrole · Dashboard</small></div>`+dnavItems.map(i=>`<button class="${(D.view===i[0]||(['gem','obj','rapport'].includes(D.view)&&i[0]==='gemeenten')||(D.view==='maand'&&i[0]==='overzicht'))?'on':''}" data-d="view" data-v="${i[0]}">${i[1]}${i[0]==='acties'?`<span class="cnt red">${fmt(openN)}</span>`:''}</button>`).join('')+`<div class="user">Ingelogd als Dick · leidinggevende</div>`;
+  document.getElementById('dmain').innerHTML=DV[D.view]();
+  renderNotes('d:'+(['gem','obj'].includes(D.view)?'gemeenten':D.view));
+}
+
+/* ================= ACTIES ================= */
+function startRec(){S.recSec=1;go('opname');clearInterval(S._rec);S._rec=setInterval(()=>{S.recSec++;if(S.recSec>=9){clearInterval(S._rec);finishRec();}else render();},600);}
+function finishRec(){const o=cur(),r=R();clearInterval(S._rec);r.punten={...o.dev};S.aiDone=false;go('gehoord',false);}
+function startControl(i){setObj(i);S.lastDone=null;go('stap1');}
+function addAdhoc(nr){const e=EXTRA.find(x=>x.nr===nr)||ELDERS.find(x=>x.nr===nr);if(!e)return -1;const o={...e,ongepland:true};OBJ.push(o);initObj(o);if(S.order)S.order.push(OBJ.length-1);return OBJ.length-1;}
+function reorderNearest(){const done=order().filter(i=>S.res[OBJ[i].nr].status!=='open');let open=order().filter(i=>S.res[OBJ[i].nr].status==='open');const out=[...done];let me=S.pos;while(open.length){open.sort((a,b)=>dist(OBJ[a],me)-dist(OBJ[b],me));const n=open.shift();out.push(n);me=OBJ[n];}S.order=out;}
+function resetAll(){while(OBJ.length>12)OBJ.pop();OBJ.forEach(initObj);S.pending=[];S.answers={};S.aiDone=false;S.hist=[];S.order=null;S.q='';S.zoekPad=false;S.lastDone=null;S.filter='todo';S.mapFilter='todo';S.selPin=null;S.day=0;S.online=true;S.sheet=null;S.meldNr=4470;S.pos={lat:OBJ[0].lat-0.0015,lng:OBJ[0].lng-0.0012};S.yday={pending:YDAY.pending.slice(),local:YDAY.objs.filter(o=>o.sync==='local').map(o=>o.nr)};D.follow={};setObj(0);go('dag',false);}
+function showTab(id){document.querySelectorAll('.tabs [role=tab]').forEach(b=>b.setAttribute('aria-selected',b.dataset.tab===id));document.querySelectorAll('.view').forEach(v=>v.classList.toggle('on',v.id==='view-'+id));if(id==='dash')renderDash();if(id==='proto')render();try{localStorage.setItem('kc4-tab',id);}catch(e){}window.scrollTo(0,0);}
+function jumpApp(id){if(id.startsWith('d:')){D.view=id.slice(2);if(D.view==='rapport'&&!D.gem)D.gem='Hilversum';showTab('dash');return;}
+  const ctrl=['object','stap1','foto','obs','opname','gehoord','vragen','schade','stap4'];
+  if(ctrl.includes(id)&&R().status!=='open'){const f=firstOpen();if(f>=0)setObj(f);}
+  if(['gehoord','vragen','stap4','schade'].includes(id)){R().punten={...cur().dev};S.aiDone=true;if(id==='stap4'||id==='schade'){const p=P();p.p1=true;p.p2=p.p2.map(()=>true);p.dak=true;}}
+  if(['dag','kaart','zoek','week','cijfers','nazorg','einde'].includes(id))S.hist=[];
+  if(id==='dag')S.day=0;
+  showTab('proto');
+  if(id==='opname'){setPhotoAll();startRec();return;}
+  go(id);}
+function setPhotoAll(){const p=P();p.p1=true;p.p2=p.p2.map(()=>true);if(cur().dak)p.dak=true;}
+
+document.addEventListener('input',e=>{
+  if(e.target.dataset.d==='q'){D.q=e.target.value;const pos=e.target.selectionStart;renderDash();const inp=document.querySelector('[data-d="q"]');if(inp){inp.focus();inp.setSelectionRange(pos,pos);}return;}
+  if(e.target.dataset.in==='zoek'){S.q=e.target.value;S._focus={sel:'[data-in="zoek"]',pos:e.target.selectionStart};render();return;}
+  if(e.target.dataset.in==='opm'){R().opmerking=e.target.value;return;}
+  if(e.target.dataset.in==='punttxt'){S._punttxt=e.target.value;return;}
+});
+
+document.addEventListener('click',e=>{
+  const t=e.target.closest('[data-a],[data-tab],[data-go],[data-d]');if(!t)return;
+  if(t.dataset.tab){showTab(t.dataset.tab);return;}
+  if(t.dataset.go){const id=t.dataset.go;if(['object','stap1','foto','obs','stap4'].includes(id)){const f=firstOpen();const i=f===-1?5:Math.max(f,5);setObj(i);}jumpApp(id);return;}
+  if(t.dataset.d){const d=t.dataset.d,v=t.dataset.v;
+    if(d==='view'){D.view=v;if(v==='gemeenten')D.gem=null;}
+    else if(d==='regio')D.regio=v;else if(d==='period')D.period=v;else if(d==='stf')D.stf=v;
+    else if(d==='gem'){D.gem=v;D.view='gem';}
+    else if(d==='obj'){D.gem=t.dataset.gem;D.obj=t.dataset.nr;D.view='obj';}
+    else if(d==='status'){e.stopPropagation();const prev=followOf({nr:t.dataset.nr,gem:t.dataset.gem,live:!!OBJ.find(o=>o.nr===t.dataset.nr)});D.follow[t.dataset.nr]={status:v,days:prev.days};dtoast('Status '+t.dataset.nr+': '+v);}
+    else if(d==='insp')D.showInsp=!D.showInsp;
+    else if(d==='toast'){dtoast(v);return;}
+    else if(d==='q')return;
+    renderDash();if(d!=='status'&&d!=='insp')document.getElementById('view-dash').scrollIntoView({block:'start'});return;}
+  const a=t.dataset.a;
+  if(a==='sheetclose'&&t.classList.contains('sheet-bg')&&e.target.closest('.sheet'))return;
+  const v=t.dataset.v;
+  /* acties die geen actief object nodig hebben */
+  switch(a){
+    case 'noop':return;
+    case 'go':go(v);return;
+    case 'back':back();return;
+    case 'tab':S.hist=[];S.sheet=null;go(v,false);return;
+    case 'day':S.day=Math.max(-1,Math.min(3,+v));S.selPin=null;render();return;
+    case 'dayweek':S.day=+v;S.hist=[];go('dag',false);return;
+    case 'filter':S.filter=v;render();return;
+    case 'mapfilter':S.mapFilter=v;S.selPin=null;render();return;
+    case 'reorder':if(S.order)S.order=null;else reorderNearest();toast(S.order?'Volgorde: dichtstbijzijnde eerst':'Volgorde: TOOC route');return;
+    case 'obj':setObj(+t.dataset.i);S.selPin=null;go('object');return;
+    case 'start':startControl(+t.dataset.i);return;
+    case 'startnext':{const i=firstOpen();if(i>=0)startControl(i);return;}
+    case 'dismiss':S.lastDone=null;render();return;
+    case 'nav':toast('Navigatie geopend in de kaarten app van de telefoon');return;
+    case 'sheet':S.sheet={type:v,k:+t.dataset.k,nr:t.dataset.nr,i:+t.dataset.i};S._punttxt=null;render();return;
+    case 'sheetclose':S.sheet=null;render();return;
+    case 'menugo':S.sheet=null;go(v);return;
+    case 'tabgo':S.sheet=null;closeDemo();showTab(v);return;
+    case 'pin':S.selPin=+t.dataset.i;render();return;
+    case 'center':toast('Gecentreerd op je positie (GPS gesimuleerd)');return;
+    case 'zoekpad':S.zoekPad=!S.zoekPad;render();return;
+    case 'zoekscan':{const i=nearestOpen();S.q=i>=0?OBJ[i].nr:EXTRA[0].nr;S.zoekPad=false;toast('Plaatje gescand: '+S.q);return;}
+    case 'zkey':{if(v==='del')S.q=S.q.slice(0,-1);else if(v==='clear')S.q='';else if(S.q.length<5)S.q+=v;render();return;}
+    case 'adhoc':{const i=addAdhoc(t.dataset.nr);if(i>=0){setObj(i);S.q='';S.zoekPad=false;S.sheet=null;go('object');toast('Toegevoegd als controle buiten planning');}return;}
+    case 'toggleconn':S.sheet=null;closeDemo();setOnline(!S.online);return;
+    case 'syncnow':if(S.online){S.yday.local=[];setOnline(true);toast('Alles gesynchroniseerd');}else toast('Nog geen verbinding');return;
+    case 'pans':{const it=S.pending[+t.dataset.idx];if(!it)return;const rr=S.res[it.nr];if(it.q.id==='licht'&&v==='Nee')rr.punten[6]='Verlichting werkt niet (antwoord inspecteur)';if(it.q.id==='veilig')rr.answers.veilig=v;S.pending.splice(+t.dataset.idx,1);render();return;}
+    case 'ypans':S.yday.pending.splice(+t.dataset.idx,1);toast('Antwoord opgeslagen bij gisteren');return;
+    case 'reset':closeDemo();resetAll();return;
+    case 'jump':jumpApp(v);return;
+    case 'demonotes':{const el=document.getElementById('demonotes');if(el)el.hidden=!el.hidden;return;}
+  }
+  /* acties op het actieve object */
+  const o=cur(),r=R(),p=P();
+  switch(a){
+    case 'doskip':r.status='skipped';r.reden=v;S.sheet=null;S.hist=[];S.day=0;go('dag',false);toast('Overgeslagen: '+v);break;
+    case 'unskip':r.status='open';r.reden=null;render();break;
+    case 'key':{if(v==='del')S.nrInput=S.nrInput.slice(0,-1);else if(S.nrInput.length<5)S.nrInput+=v;render();break;}
+    case 'scan':S.nrInput=o.nr;toast('Plaatje gescand');break;
+    case 'nrok':r.nrConfirmed=true;go('foto');break;
+    case 'nrskip':r.nrConfirmed=false;toast('Nummer niet bevestigd, wordt gemarkeerd');go('foto');break;
+    case 'switchto':{const nr=t.dataset.nr;let i=OBJ.findIndex(x=>x.nr===nr);if(i<0)i=addAdhoc(nr);if(i>=0){setObj(i);S.nrInput=nr;toast('Gewisseld naar '+nr);}break;}
+    case 'shoot':{const k=t.dataset.k;if(k==='p3'){p.p3++;render();break;}setPhoto(o,k,true);if(photoSubs(o).every(s=>s.taken))go('obs');else render();break;}
+    case 'retake':setPhoto(o,t.dataset.k,false);render();break;
+    case 'obsmode':S.obsMode=v;render();break;
+    case 'rec':if(!S.online){if(S.recording){S.recording=false;r.opname=true;}else{S.recording=true;setTimeout(()=>{if(S.recording){S.recording=false;r.opname=true;render();}},2500);}render();}else startRec();break;
+    case 'stoprec':finishRec();break;
+    case 'tick':if(t.checked)r.punten[+t.dataset.k]='Aangevinkt door inspecteur';else{delete r.punten[+t.dataset.k];if(+t.dataset.k===3)delete S.answers.veilig;}render();break;
+    case 'manualdone':r.manual=true;S.aiDone=true;if(!S.online){r.sync='local';o.vragen.forEach(q=>{if(q.id==='licht'&&!r.punten[6]&&!S.pending.find(x=>x.nr===o.nr&&x.q.id===q.id))S.pending.push({nr:o.nr,straat:o.straat,q});});}go(afterObs());break;
+    case 'ans':S.answers[t.dataset.q]=v;if(t.dataset.q==='licht'&&v==='Nee')r.punten[6]='Verlichting werkt niet (antwoord inspecteur)';if(t.dataset.q==='licht'&&v!=='Nee')delete r.punten[6];render();break;
+    case 'aidone':S.aiDone=true;go(afterObs());break;
+    case 'schadeklaar':go('stap4');break;
+    case 'toggle':{const k=+t.dataset.k;if(r.punten[k])delete r.punten[k];else r.punten[k]='Aangevinkt door inspecteur';render();break;}
+    case 'toggleall':S.showAll=!S.showAll;render();break;
+    case 'puntsave':{const k=+t.dataset.k;const txt=(S._punttxt!=null?S._punttxt:r.punten[k]||'').trim();r.punten[k]=txt||'Aangevinkt door inspecteur';S.sheet=null;render();break;}
+    case 'puntweg':{const k=+t.dataset.k;delete r.punten[k];if(k===3)delete S.answers.veilig;S.sheet=null;render();break;}
+    case 'meldtog':r.meld=!r.meld;render();break;
+    case 'afronden':{r.status='done';r.answers={...S.answers};r.sync=S.online?'synced':'local';const rk=riskOf(r.punten,r.answers);if(rk==='act'&&r.meld){r.melding={id:'T-2026-'+(++S.meldNr),status:S.online?'Gemeld aan TOOC':'Wordt gemeld bij synchronisatie'};}else r.melding=null;S.pos={lat:o.lat,lng:o.lng};S.lastDone=o.nr;S.hist=[];S.day=0;S.filter='todo';go('dag',false);break;}
+  }
+});
+document.getElementById('back').addEventListener('click',back);
+
+/* Demo-menu op de telefoon (buiten de app). */
+function renderDemo(){document.getElementById('demosheet').innerHTML=`<div class="grip"></div><h3>Demo</h3><p>Hulpmiddelen voor de test, geen onderdeel van de app.</p>
+  <button data-a="tabgo" data-v="proto">App</button><button data-a="tabgo" data-v="dash">Dashboard van Dick</button><button data-a="tabgo" data-v="flow">Procesflow</button><button data-a="tabgo" data-v="screens">Schermenoverzicht</button>
+  <div class="grp">Simulatie</div><button data-a="toggleconn">${S.online?'Zet offline':'Zet online'}</button><button data-a="reset">Ronde opnieuw</button>
+  <div class="grp">Toelichting bij dit scherm</div><div class="notes" style="position:static;border:0;padding:4px 0 0">${notesHtml(S.screen)}</div>`;}
+function openDemo(){renderDemo();document.getElementById('demobg').classList.add('open');}
+function closeDemo(){document.getElementById('demobg').classList.remove('open');}
+document.getElementById('demotab').addEventListener('click',openDemo);
+document.getElementById('demobg').addEventListener('click',e=>{if(e.target===e.currentTarget)closeDemo();});
+document.getElementById('notesbtn').addEventListener('click',e=>{S.notes=!S.notes;e.currentTarget.classList.toggle('on',S.notes);document.getElementById('protogrid').classList.toggle('nonotes',!S.notes);document.getElementById('notes').style.display=S.notes?'':'none';try{localStorage.setItem('kc4-notes',S.notes?'1':'0');}catch(e){}});
+document.getElementById('screengrid').innerHTML=SCREENS.map(s=>`<button class="scard" data-a="jump" data-v="${s.id}"><span class="num">${s.n}</span><h3>${esc(s.name)}</h3><p>${esc(s.doel)}</p><div><span class="chip ${s.status==='ok'?'good':s.status==='ph'?'warn':''}">${s.status==='ok'?'In prototype':s.status==='ph'?'Met voorbeeldinhoud':'Voorstel'}</span>${s.extra?` <span class="chip">${esc(s.extra.split('.')[0])}</span>`:''}</div><div class="src">${esc(s.bron)}</div></button>`).join('');
+(function(){const d=new Date();document.getElementById('clock').textContent=String(d.getHours()).padStart(2,'0')+':'+String(d.getMinutes()).padStart(2,'0');})();
+let startTab='proto';try{startTab=localStorage.getItem('kc4-tab')||'proto';if(localStorage.getItem('kc4-notes')==='0'){S.notes=false;document.getElementById('notesbtn').classList.remove('on');document.getElementById('protogrid').classList.add('nonotes');document.getElementById('notes').style.display='none';}}catch(e){}
+if(!['proto','dash','flow','screens'].includes(startTab))startTab='proto';
+render();showTab(startTab);
+</script>
+<!-- USERSNAP-START -->
+<script>
+  window.onUsersnapLoad = function(api) {
+    /* Naam uit de feedback-pop-up meesturen als custom data; er gaat verder
+       niets mee (AVG-dataminimalisatie). Daarnaast de plek in het prototype
+       (tabblad, scherm, dag, objectnummer, online of offline), zodat feedback
+       per scherm te sorteren is. Alleen uitgelezen uit de globale state van
+       het prototype (S, D, OBJ, SCREENS). */
+    var TABS = { proto: 'app', dash: 'dashboard', flow: 'procesflow', screens: 'schermen' };
+    var DASH = { overzicht: 'D1 Risk dashboard', acties: 'D2 Openstaande acties', gemeenten: 'D3 Gemeenten', gem: 'D3 Gemeentedetail', obj: 'D3 Objectkaart', rapport: 'D4 Rapport voor gemeente', maand: 'D5 Maandrapport directie', inspecteurs: 'D6 Inspecteurs', tooc: 'D7 TOOC' };
+    var OBJECT_SCHERMEN = ['object', 'stap1', 'foto', 'obs', 'opname', 'gehoord', 'vragen', 'schade', 'stap4'];
+    function context() {
+      var c = { prototype: 'kwaliteitscontrole-v4', versie: 'v4' };
+      try {
+        var tabBtn = document.querySelector('.tabs [role=tab][aria-selected="true"]');
+        var tab = tabBtn ? tabBtn.dataset.tab : '';
+        c.onderdeel = TABS[tab] || tab;
+        if (tab === 'proto') {
+          c.rol = 'inspecteur';
+          var sc = SCREENS.find(function (s) { return s.id === S.screen; });
+          c.scherm = sc ? sc.n + ' ' + sc.name : (S.screen === 'cijfers' ? 'A9b Mijn cijfers' : S.screen);
+          if (S.screen === 'dag' || S.screen === 'kaart') c.dag = (dayOf(S.day) || {}).label;
+          c.online = S.online;
+          if (OBJECT_SCHERMEN.indexOf(S.screen) >= 0 && OBJ[S.obj]) c.object = OBJ[S.obj].nr;
+        } else if (tab === 'dash') {
+          c.rol = 'leidinggevende';
+          c.scherm = DASH[D.view] || D.view;
+          if (D.gem) c.gemeente = D.gem;
+          if (D.view === 'obj' && D.obj) c.object = D.obj;
+        }
+      } catch (e) {}
+      return c;
+    }
+    function usOpties() {
+      var o = { custom: context() };
+      try {
+        var naam = (localStorage.getItem('feedbackNaam') || '').trim();
+        if (naam) o.custom.name = naam;
+      } catch (e) {}
+      return o;
+    }
+    api.init(usOpties());
+    api.on('open', function(event) {
+      try { event.api.setValue('custom', usOpties().custom); } catch (e) {}
+    });
+    window.usersnapVernieuwGegevens = function () {
+      var herstart = function () { try { api.init(usOpties()); } catch (e) {} };
+      var p = null;
+      try { p = api.destroy(); } catch (e) {}
+      if (p && typeof p.then === 'function') p.then(herstart, herstart); else herstart();
+    };
+  };
+  var script = document.createElement('script');
+  script.defer = 1;
+  script.src = 'https://widget.usersnap.com/global/load/c4f048c1-ba97-4344-8bc6-a7afcbec2233?onload=onUsersnapLoad';
+  document.getElementsByTagName('head')[0].appendChild(script);
+</script>
+<!-- USERSNAP-END -->
+<!-- FEEDBACK-ONBOARDING-START -->
+<script src="../../assets/feedback-onboarding.js"></script>
+<!-- FEEDBACK-ONBOARDING-END -->
+</body>
+</html>
