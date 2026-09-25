@@ -641,7 +641,7 @@ const order=()=>S.order||OBJ.map((_,i)=>i);
 function go(id,push=true){if(push&&S.screen!==id)S.hist.push(S.screen);S.screen=id;S.toast=null;render();document.getElementById('body').scrollTop=0;}
 function back(){const p=S.hist.pop();if(p){S.screen=p;render();}}
 function toast(m){S.toast=m;render();clearTimeout(S._t);S._t=setTimeout(()=>{S.toast=null;render();},2400);}
-function setOnline(v){S.online=v;if(v){let n=0;OBJ.forEach(o=>{const r=S.res[o.nr];if(r.status==='done'&&r.sync==='local'){r.sync='synced';n++;if(r.melding&&r.melding.status==='Wordt gemeld bij synchronisatie'){r.melding.status='Gemeld aan TOOC';}}});if(n)toast(n+' object'+(n>1?'en':'')+' gesynchroniseerd'+(S.pending.length?', '+S.pending.length+' vraag'+(S.pending.length>1?'en':'')+' over vandaag':''));}else toast('Offline. Alles wordt op de telefoon bewaard.');render();}
+function setOnline(v){S.online=v;if(v){let n=0;OBJ.forEach(o=>{const r=S.res[o.nr];if(r.status==='done'&&r.sync==='local'){r.sync='synced';n++;if(r.melding&&r.melding.status==='Wordt gemeld bij synchronisatie'){r.melding.status='Gemeld aan TOOC';}}});if(n)toast(n+' object'+(n>1?'en':'')+' gesynchroniseerd'+(S.pending.length?', '+S.pending.length+' '+(S.pending.length>1?'vragen':'vraag')+' over vandaag':''));}else toast('Offline. Alles wordt op de telefoon bewaard.');render();}
 const doneObjs=()=>OBJ.filter(o=>S.res[o.nr].status==='done');
 const doneCount=()=>doneObjs().length;
 const skipCount=()=>OBJ.filter(o=>S.res[o.nr].status==='skipped').length;
@@ -682,7 +682,7 @@ V.week=()=>({title:'Mijn week',sub:'Week 39 · Roy · regio West',tab:'week',bod
   <div class="banner info" style="margin-top:10px"><span>📋</span><div><b>Waarom deze objecten?</b><br>Langst geleden gecontroleerd, gemeenten die dit jaar nog niet gezien zijn, en alleen wat TOOC deze week heeft schoongemaakt. Bij elk object staat de reden.</div></div>`,foot:''});
 
 V.ronde=()=>{const d=doneCount(),n=OBJ.length,sk=skipCount();
-  const pend=S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} vraag${S.pending.length>1?'en':''} over vandaag</b><br>Van de objecten die je offline hebt gedaan.</div></button>`:'';
+  const pend=S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} ${S.pending.length>1?'vragen':'vraag'} over vandaag</b><br>Van de objecten die je offline hebt gedaan.</div></button>`:'';
   const off=!S.online?`<div class="banner off"><span>☁︎</span><div><b>Geen verbinding</b><br>Ronde staat op de telefoon. Alles wordt bewaard en later gesynchroniseerd.</div></div>`:'';
   return {title:'Vandaag',sub:'Route 074 AMS · Hilversum',tab:'ronde',body:`
   ${off}${pend}
@@ -792,8 +792,8 @@ V.ai=()=>{const o=cur(),r=R();
   const open=o.vragen.filter(q=>!S.answers[q.id]);
   return {title:'Dit heb ik gehoord',sub:'Controleer wat de app heeft begrepen',body:`
   <div class="trans"><small>Jouw opname · 0:14</small>${esc(o.tr)}</div>${rows}
-  ${open.length?`<div class="banner info" style="margin-top:8px"><span>❔</span><div><b>Ik heb nog ${open.length} vraag${open.length>1?'en':''}</b> over de punten die hierboven open staan.</div></div>`:''}`,
-  foot:open.length?`<button class="btn p" data-a="go" data-v="vragen">Beantwoord ${open.length} vraag${open.length>1?'en':''}</button>`:`<button class="btn p" data-a="aidone">Klopt, verder</button>`};};
+  ${open.length?`<div class="banner info" style="margin-top:8px"><span>❔</span><div><b>Ik heb nog ${open.length} ${open.length>1?'vragen':'vraag'}</b> over de punten die hierboven open staan.</div></div>`:''}`,
+  foot:open.length?`<button class="btn p" data-a="go" data-v="vragen">Beantwoord ${open.length} ${open.length>1?'vragen':'vraag'}</button>`:`<button class="btn p" data-a="aidone">Klopt, verder</button>`};};
 
 V.vragen=()=>{const o=cur();return {title:'Nog even dit',sub:o.nr+' · '+esc(o.straat),body:`
   ${o.vragen.map(q=>`<div class="q"><small>Punt ${q.punt}: ${PUNTEN[q.punt-1][0]}</small><p>${esc(q.q)}</p><div class="opts">${q.opts.map(op=>`<button class="${S.answers[q.id]===op?'on':''}" data-a="ans" data-q="${q.id}" data-v="${esc(op)}">${esc(op)}</button>`).join('')}</div></div>`).join('')}`,
@@ -824,7 +824,7 @@ V.einde=()=>{const d=doneCount(),dv=devCount(),lc=localCount(),sk=skipCount();re
   <div class="stat"><div><b>${d}</b><small>gecontroleerd</small></div><div><b>${dv}</b><small>afwijkingen</small></div><div><b>${meldCount()}</b><small>gemeld aan TOOC</small></div></div>
   ${sk?`<div class="banner off"><span>↷</span><div><b>${sk} object${sk>1?'en':''} overgeslagen.</b> ${OBJ.filter(o=>S.res[o.nr].status==='skipped').map(o=>esc(o.straat)+' ('+esc(S.res[o.nr].reden)+')').join(', ')}. Komt terug in de planning.</div></div>`:''}
   ${lc?`<div class="banner off"><span>☁︎</span><div><b>${lc} object${lc>1?'en':''} nog op de telefoon.</b> Wordt automatisch gesynchroniseerd zodra er verbinding is.</div></div>`:`<div class="banner good"><span>✓</span><div><b>Alles gesynchroniseerd.</b> Er is niets meer op kantoor in te vullen.</div></div>`}
-  ${S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} vraag${S.pending.length>1?'en':''} over vandaag</b><br>Beantwoord ze nu, dan is de dag af.</div></button>`:''}
+  ${S.online&&S.pending.length?`<button class="banner warn" data-a="go" data-v="dagvragen"><span>❔</span><div><b>${S.pending.length} ${S.pending.length>1?'vragen':'vraag'} over vandaag</b><br>Beantwoord ze nu, dan is de dag af.</div></button>`:''}
   <div class="pcard white"><h4>Afwijkingen vandaag</h4>${OBJ.filter(o=>hasDev(S.res[o.nr])).map(o=>{const r=S.res[o.nr];return `<div style="font-size:13.5px;padding:5px 0;display:flex;justify-content:space-between;gap:8px;border-top:1px solid #EEF0F2"><span><b>${esc(o.straat)}</b><br><small style="color:#6B7378">${Object.keys(r.punten).map(k=>PUNTEN[k-1][0].toLowerCase()).join(', ')}</small></span><span class="badge ${r.melding?'act':'dev'}" style="align-self:center">${r.melding?'Gemeld aan TOOC':'Global campagne'}</span></div>`}).join('')||'<small style="color:#6B7378">Geen</small>'}</div>
   <div class="pcard"><h4>Vandaag</h4><div class="kv"><div><small>Gemiddelde tijd per object</small><b>4 min 10</b></div><div><small>Foto\u2019s per object</small><b>3,4</b></div></div></div>`,
   foot:`${lc?`<button class="btn s" data-a="syncnow">Nu synchroniseren</button>`:''}<button class="btn p" data-a="go" data-v="week">Naar mijn week</button>`};};

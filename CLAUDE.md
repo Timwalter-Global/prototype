@@ -196,7 +196,7 @@ worden omgezet, gevolgd door een routeringstest per prototype.
 | `adviewer2` | Adviewer 2.0 | `…/prototypes/adviewer2/` (widget staat ook op de one-pager `…/prototypes/adviewer2/start/` en de profielpagina `…/prototypes/adviewer2/account/`; een target op de prefix `…/prototypes/adviewer2/` dekt alles) |
 | `mastmonitor` | Mast Monitor | `…/prototypes/mastmonitor/` (widget staat ook op `…/prototypes/mastmonitor/dashboard.html`) |
 | `creaties-verzamelen` | Usersnap-project met target op de prefix `…/prototypes/creaties…` | `…/prototypes/creaties-verzamelen/` (valt binnen die prefix) |
-| `kwaliteitscontrole` | Kwaliteitscontrole | `…/prototypes/kwaliteitscontrole/` (één pagina met vier tabbladen: App, Dashboard, Procesflow, Schermen; de snippet stuurt tabblad, scherm en objectnummer mee als custom data, uitgelezen uit de state van het prototype) |
+| `kwaliteitscontrole` | Kwaliteitscontrole | `…/prototypes/kwaliteitscontrole/` (één pagina met vier tabbladen: App, Dashboard, Procesflow, Schermen; de snippet stuurt tabblad, scherm en objectnummer mee als custom data, uitgelezen uit de state van het prototype. Eén bewuste afwijking van de aangeleverde referentie v3, op verzoek van Tim: de meervoudsvorm "vraagen" is op vijf plekken hersteld naar "vragen") |
 | `creaties-verzamelen-validatie` | Creaties verzamelen to-be | **Gearchiveerd** — nu bereikbaar op `…/archief/creaties-verzamelen-validatie/to-be/` (widget staat ook op `…/archief/creaties-verzamelen-validatie/`). Valt daarmee niet meer onder de prefix `…/prototypes/creaties…` van het project hierboven. |
 
 ## Prototype offline halen
